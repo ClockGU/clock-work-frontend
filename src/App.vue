@@ -1,3 +1,14 @@
 <template>
-  <h1>clock-work</h1>
+  <v-app>
+    <v-main >
+      <v-container class="pt-0 pb-0" style="height: 100%; max-width: 1400px">
+        <router-view />
+      </v-container>
+      <LoadingOverlay />
+    </v-main>
+  </v-app>
 </template>
+
+<script setup>
+import LoadingOverlay from "@/components/LoadingOverlay.vue";
+</script>

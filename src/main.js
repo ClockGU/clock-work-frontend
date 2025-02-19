@@ -1,13 +1,24 @@
-import { createApp } from 'vue';  
-import App from './App.vue';  
-//import router from './router';  
-//import store from './store';  
-import vuetify from './plugins/vuetify';  
+/**
+ * main.js
+ *
+ * Bootstraps Vuetify and other plugins then mounts the App`
+ */
 
-const app = createApp(App);  
+// Plugins
+import { registerPlugins } from "@/plugins";
+//import ApiService from "@/services/api";
+// Components
+import App from "./App.vue";
 
-//app.use(router);  
-//app.use(store);  
-app.use(vuetify);  
+// Composables
+import { createApp } from "vue";
 
-app.mount('#app');
+export const REFERENCE_FIELD_NAME = "supervised_references";
+
+/*ApiService.init(import.meta.env.VITE_API_URL);
+ApiService.mountInterceptor();*/
+const app = createApp(App);
+
+registerPlugins(app);
+
+app.mount("#app");
