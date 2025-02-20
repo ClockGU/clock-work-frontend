@@ -1,5 +1,5 @@
 <template>  
-  <v-footer v-if="showFooter"   
+  <v-footer
     color="primary-darken-2"  
     theme="dark"  
     style="padding: 16px 0 0; min-height: 72px">  
@@ -59,16 +59,10 @@
 </template>  
 
 <script setup>  
-import { computed } from 'vue'  
-import { useRoute } from 'vue-router'  
-
 const links = [  
   { text: "Datenschutz", to: "https://clock.uni-frankfurt.de/privacy" },  
   { text: "Impressum", to: "https://clock.uni-frankfurt.de/impressum" }  
 ]  
-
-const route = useRoute()  
-const showFooter = computed(() => route.path !== "/" && route.path !== "/logging-in")  
 </script>  
 
 <style scoped>  

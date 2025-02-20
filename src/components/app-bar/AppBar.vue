@@ -89,9 +89,9 @@ const userLoading = false;
 const bgColor = "#FFFFFF"; // Adjust the background color as needed  
 const imgSrc = svg; // Set your logo source here  
 const { mdAndUp } = useDisplay();
-const emits = defineEmits(["toggle"]);
+const emit = defineEmits(["toggle"]);
 const toggleNavigationdrawer = () => {  
-  emits("toggle");  
+  emit("toggle");  
 };  
 
 const firstLetter = user.first_name.charAt(0);  
