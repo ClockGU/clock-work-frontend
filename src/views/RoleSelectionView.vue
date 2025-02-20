@@ -1,4 +1,4 @@
-<template>  
+<template>
     <v-container class="d-flex flex-column justify-end align-center"> 
     <v-spacer></v-spacer> 
       <h1>You are new here!</h1>  
@@ -21,13 +21,14 @@
           />  
         </v-col>  
       </v-row>  
-    </v-container>  
+    </v-container>
   </template>  
   
   <script setup>  
-  import RoleCardButton from '@/components/roleSelection/RoleCardButton.vue';
+  import RoleCardButton from '@/components/role-selection/RoleCardButton.vue';
   import StudentImg from '@/assets/student.jpg';
   import SupervisorImg from '@/assets/supervisor.png';
+
   </script>  
   
   <style scoped>  

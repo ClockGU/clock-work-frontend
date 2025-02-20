@@ -23,7 +23,7 @@ import RoleSelectionView from "@/views/RoleSelectionView.vue";
 const routes = [
   { path: "/", component: LandingView },
   { path: "/logging-in", component: LoginView },
-  { path: "/roles", component: RoleSelectionView },
+  { path: "/roles", component: RoleSelectionView, name: "roles" },
   //{ path: "/main", component: ContentView, beforeEnter: [isAuthenticatedGuard] }
 ];
 
