@@ -8,6 +8,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import LoginView from "@/views/LoginView.vue";
 import LandingView from "@/views/LandingView.vue";
+import RoleSelectionView from "@/views/RoleSelectionView.vue";
 
 
 /*function isAuthenticatedGuard(to, from, next) {
@@ -21,7 +22,8 @@ import LandingView from "@/views/LandingView.vue";
 
 const routes = [
   { path: "/", component: LandingView },
-  { path: "/login", component: LoginView },
+  { path: "/logging-in", component: LoginView },
+  { path: "/roles", component: RoleSelectionView },
   //{ path: "/main", component: ContentView, beforeEnter: [isAuthenticatedGuard] }
 ];
 
