@@ -6,7 +6,6 @@
       <v-data-table :headers="headers" :items="petitions" item-selectable>
         <template v-slot:item="{ item }">
           <tr @click="openPetition(item)">
-            <td>{{ item.petitioneer }}</td>
             <td>{{ item.student_mail }}</td>
             <td>{{ item.start_date }}</td>
             <td>{{ item.end_date }}</td>
@@ -48,7 +47,6 @@ const props = defineProps({
 
 // Headers for the data table
 const headers = [
-  { title: "Petitioneer", key: "petitioneer" },
   { title: "Student Mail", key: "student_mail" },
   { title: "Start Date", key: "start_date" },
   { title: "End Date", key: "end_date" },
