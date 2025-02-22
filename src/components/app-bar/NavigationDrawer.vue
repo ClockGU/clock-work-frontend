@@ -111,10 +111,6 @@
       type: Boolean,
       default: false
     },
-    selectedContract: {
-      type: String,
-      default: ""
-    }
   });
   
   const isLoggedIn = ref(true);

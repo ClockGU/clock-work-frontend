@@ -9,6 +9,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import LoginView from "@/views/LoginView.vue";
 import LandingView from "@/views/LandingView.vue";
 import RoleSelectionView from "@/views/RoleSelectionView.vue";
+import RoleDashboard from "@/views/RoleDashboard.vue";
 
 
 /*function isAuthenticatedGuard(to, from, next) {
@@ -24,6 +25,7 @@ const routes = [
   { path: "/", component: LandingView },
   { path: "/logging-in", component: LoginView },
   { path: "/roles", component: RoleSelectionView, name: "roles" },
+  { path: "/dashboard", component: RoleDashboard },
   //{ path: "/main", component: ContentView, beforeEnter: [isAuthenticatedGuard] }
 ];
 

@@ -1,8 +1,8 @@
 <template>  
-  <portal-target  
+  <!--<portal-target  
     :slot-props="{ action: () => toggleNavigationdrawer() }"  
     name="app-bar"  
-  >  
+  >-->  
     <v-app-bar app flat fixed elevation="0" :color="bgColor">  
       <v-app-bar-nav-icon  
         v-if="isLoggedIn"  
@@ -64,11 +64,9 @@
         </v-menu>  
       </v-skeleton-loader>  
     </v-app-bar>  
-  </portal-target>  
 </template>  
 
 <script setup>  
-import { defineEmits } from "vue";
 import { mdiChevronDown, mdiMenu, mdiLogout } from "@mdi/js";  
 import svg from "@/assets/clock_full.svg";
 import darkSvg from "@/assets/clock_full_darkmode.svg";

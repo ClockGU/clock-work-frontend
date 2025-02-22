@@ -22,7 +22,8 @@
     "vue": "^3",
     "vue-eslint-parser": "^9.4.2",
     "vuetify": "^3.5.0",
-    "vuex": "^4.1.0"
+    "vuex": "^4.1.0",
+    "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
