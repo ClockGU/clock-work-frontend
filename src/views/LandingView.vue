@@ -25,7 +25,7 @@
               @update:model-value=""
             >
               <template #activator="{ props }">
-                <v-btn v-bind="props" variant="elevated" >
+                <v-btn v-bind="props" variant="elevated" @click="navigateToRoleSelection" >
                   Zum Login
                 </v-btn>
               </template>
@@ -40,35 +40,22 @@
   
   <script setup>
   import ClockIcon from "@/components/logo/ClockIcon.vue";
-  import { useStore } from "vuex";
-  //import ApiService from "@/services/api";
+
   import { computed, ref } from "vue";
   import { useDisplay } from "vuetify";
-  const store = useStore();
+  import { useRouter } from "vue-router"; 
+
+  const router = useRouter(); // Initialize the router
   const error = ref("");
-  
+
   const { mdAndUp } = useDisplay();
   const hasError = computed(() => error.value !== "");
-  /*async function login() {
-    await store.dispatch("setIsLoading");
-    try {
-      const response = await ApiService.get(
-        `/auth/o/authorize/?redirect_uri=${import.meta.env.VITE_PUBLIC_URL}/login`
-      );
-      const { authorization_url } = response.data;
-      window.location = authorization_url;
-  
-      setTimeout(() => store.dispatch("unsetLoading"), 5000);
-    } catch (e) {
-      await store.dispatch("unsetLoading");
-      error.value =
-        "Ein Fehler ist aufgetreten. Bitte kontaktieren Sie den Support.";
-      setTimeout(() => (error.value = ""), 5000);
-    }
-  }
-  console.log(mdAndUp);
-  const styles = computed(() => (mdAndUp.value ? { height: "100%" } : {}));
-  */
+
+  const navigateToRoleSelection = () => {
+    router.push({ name: "roles" }); 
+  };
+  ;
+
   </script>
   
   <style scoped lang="scss">

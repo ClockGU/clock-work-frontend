@@ -11,7 +11,8 @@
     </v-card>  
   </template>  
   
-  <script setup>    
+  <script setup>
+  import { useRouter } from 'vue-router';    
   const props = defineProps({  
     title: {  
       type: String,  
@@ -30,9 +31,10 @@
       required: true
     }
   });  
+
+  const router = useRouter();  
   const handleClick = () => {  
-    console.log(`Role selected: ${props.role}`);  
-    // Call your API method here to patch the role  
+    router.push({ path: `/dashboard/${props.role}` });
   };  
   </script>  
   
@@ -49,7 +51,6 @@
     transform: translateY(-5px);  
   }  
   
-  /* Add some text styling */  
   .headline {  
     font-size: 1.5rem;  
     font-weight: bold;  
