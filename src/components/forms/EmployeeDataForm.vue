@@ -141,58 +141,49 @@
           </v-col>
         </v-row>
       </v-form>
-      <!--
-    <v-card-actions class="pa-4">
-      <v-spacer />
-      <v-btn @click="closeDialog" color="grey" class="mr-2">Cancel</v-btn>
-      <v-btn color="primary" @click="save">Save</v-btn>
-    </v-card-actions>
-
-    -->
   </template>
   
   <script setup>
-import { ref, computed, onMounted } from 'vue';
-import { useStore } from 'vuex';
-
-const store = useStore();
-const emit = defineEmits(['close']);
-
-// Create a deep copy of the initial employee data
-const initialFormData = {
-  first_name: '',
-  last_name: '',
-  form_of_address: '',
-  gender: '',
-  date_of_birth: '',
-  city_of_birth: '',
-  address: '',
-  postal_code: '',
-  married: false,
-  nationality: '',
-  telephone_number: '',
-  health_insurance: '',
-  previous_employment: false,
-  prev_emp_duration: '',
-  iban: '',
-  elstam: null,
-  studienbescheinigung: null,
-  versicherungsbescheinigung: null,
-};
-
-const formData = ref({ ...initialFormData });
-
-const employeeData = computed(() => store.getters['employeeData/employeeData']);
-/*
-onMounted(() => {
-  // Deep copy the employeeData from the store to formData
-  formData.value = JSON.parse(JSON.stringify(employeeData.value));
-});
-*/
-const save = () => {
-  store.dispatch('employeeData/setEmployeeData', formData.value);
-  closeDialog();
-};
-
-const closeDialog = () => emit('close');
+  import { ref, computed, watch } from 'vue';
+  import { useStore } from 'vuex';
+  
+  const store = useStore();
+  
+  // Initial form data
+  const initialFormData = {
+    first_name: '',
+    last_name: '',
+    form_of_address: '',
+    gender: '',
+    date_of_birth: '',
+    city_of_birth: '',
+    address: '',
+    postal_code: '',
+    married: false,
+    nationality: '',
+    telephone_number: '',
+    health_insurance: '',
+    previous_employment: false,
+    prev_emp_duration: '',
+    iban: '',
+    elstam: null,
+    studienbescheinigung: null,
+    versicherungsbescheinigung: null,
+  };
+  
+  const formData = ref({ ...initialFormData });
+  
+  const employeeData = computed(() => store.getters['employeeData/employeeData']);
+  
+  watch(
+    employeeData,
+    (newEmployeeData) => {
+      if (newEmployeeData) {
+        formData.value = { ...newEmployeeData };
+      } 
+    },
+    { immediate: true } 
+  );
+  
+  defineExpose({ formData });
 </script>

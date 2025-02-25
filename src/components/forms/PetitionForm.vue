@@ -187,7 +187,7 @@ const icons = {
 
 const props = defineProps({
   petition: {
-    type: Object,
+    type: [Object,null],
     required: false,
     default: null,
   },
@@ -260,7 +260,7 @@ watch(
   () => props.petition,
   (newVal) => {
     if (props.isEditing && newVal) {
-      // Update formData with new petition data
+      // Populate formData with petition data when isEditing is true
       formData.value = {
         petitioneer: newVal.petitioneer || '',
         student_mail: newVal.student_mail || '',
@@ -279,9 +279,13 @@ watch(
         duration_exce_start: newVal.duration_exce_start || '',
         duration_exce_end: newVal.duration_exce_end || '',
       };
+    } else if (!props.isEditing) {
+      formData.value = { ...initialFormData };
     }
-  }
+  },
+  { immediate: true, deep: true } // Deep watch to detect nested changes
 );
+
 
 const isExpanded = ref(false);
 

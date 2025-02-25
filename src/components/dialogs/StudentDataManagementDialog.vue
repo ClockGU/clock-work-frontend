@@ -14,7 +14,7 @@
                         <v-card-text>
                             <h2>Personal Information</h2>
                             <p>Here you can see and edit your personal information.</p>
-                            <EmployeeDataForm class="mt-6"/>
+                            <EmployeeDataForm class="mt-6"          ref="employeeDataFormRef"/>
                         </v-card-text>
                     </v-card>          
                     </v-window-item>
@@ -57,6 +57,11 @@
                 </v-window>
                 </v-container>
       </template>
+
+      <template #actions>
+        <v-spacer></v-spacer>
+        <v-btn color="primary" @click="save">Save</v-btn>
+      </template>
   
       </CustomDialog>
 
@@ -71,12 +76,29 @@ import PetitionForm from '@/components/forms/PetitionForm.vue';
 import CustomDialog from '@/components/dialogs/CustomDialog.vue';
 import FilesUploadForm from '@/components/forms/FilesUploadForm.vue';
 
+const emit=defineEmits("close")
 const store = useStore();
 const petitionFormRef = ref(null);
+const employeeDataFormRef = ref(null)
 const tab = ref('personal');
 const selectedPetition = ref(null);
 
+
 const petitions = computed(() => store.getters['petitions/petitions']);
- 
+const employeeData = computed(() => store.getters['employeeData/employeeData']);
+
+
+const closeDialog = () => emit('close');
+const save = ()=>{
+    if (tab.value === "personal"){
+        const formData = employeeDataFormRef.value.formData;
+        store.dispatch('employeeData/setEmployeeData', formData);
+    }
+    if(tab.value === "petition"){
+        const formData = petitionFormRef.value.formData;
+        store.dispatch('petitions/updatePetition', formData);
+    }
+    closeDialog()
+}
 
 </script>
