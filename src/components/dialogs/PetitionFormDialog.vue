@@ -1,19 +1,18 @@
 <template>
   <CustomDialog
-    :title="isEditing ? 'Edit Petition' : 'Create New Petition'">
+    :title="petition ? 'Edit Petition' : 'Create New Petition'">
     <template #content>
       <PetitionForm
         ref="petitionFormRef"
         :role="role"
         :petition="petition"
         :formData="formData"
-        :isEditing="isEditing"
         @close="closeDialog"
       />
     </template>
 
     <template #actions>
-    <v-btn v-if="!isEditing" @click="submit" color="primary">Submit</v-btn>
+    <v-btn v-if="!petition" @click="submit" color="primary">Submit</v-btn>
     <v-btn v-else @click="save" color="primary">Save</v-btn>
     </template>
   </CustomDialog>
@@ -28,16 +27,13 @@ import CustomDialog from '@/components/dialogs/CustomDialog.vue';
 const props = defineProps({
   petition: {
     type: [Object, null],
-    required: true,
+    required: false,
   },
   role: {
     type: String,
     required: true,
   },
-  isEditing: {
-    type: Boolean,
-    default: false,
-  },
+
 });
 
 const emit = defineEmits(['close']);

@@ -37,29 +37,28 @@
 
       <!-- PetitionDetailsDialog -->
       <PetitionDetailsDialog
-        v-model="isDialogOpen"
+        v-model="isPetitionDetailsDialogOpen"
         :petition="selectedPetition"
         :role="role"
-        @editPetition="isEditing = true"
-        @deletePetition="deletePetition"
-        @close="isDialogOpen = false"
+        @edit="openPetitionFormDialog"
+        @close="isPetitionDetailsDialogOpen = false"
       />
       <PetitionFormDialog
-        v-model="isEditing"
+        v-model="isPetitionFormDialogOpen"  
         :petition="selectedPetition"
         :role="role"
-        :isEditing="isEditing"
-        @close="isEditing = false"
+        @close="isPetitionFormDialogOpen = false"
       />
     </v-card-text>
   </v-card>
 </template>
 
 <script setup>
-import { ref, computed, watch } from "vue";
+import { ref, computed } from "vue";
 import { useStore } from "vuex";
 import PetitionDetailsDialog from "@/components/dialogs/PetitionDetailsDialog.vue";
 import PetitionFormDialog from "@/components/dialogs/PetitionFormDialog.vue";
+
 
 const store = useStore();
 const props = defineProps({
@@ -97,23 +96,16 @@ const headers = [
   ]},*/
 ];
 
-// Dialog state
-const isDialogOpen = ref(false);
+const isPetitionDetailsDialogOpen = ref(false);
+const isPetitionFormDialogOpen=ref(false)
 const selectedPetition = ref(null);
-const isEditing = ref(false);
 
-// Get petitions directly from the store
 const petitions = computed(() => store.getters["petitions/petitions"]);
 
-// Open petition in view mode
 const openPetition = (petition) => {
   selectedPetition.value = petition;
-  isDialogOpen.value = true;
+  isPetitionDetailsDialogOpen.value = true;
 };
+const openPetitionFormDialog =()=>isPetitionFormDialogOpen.value=true
 
-// Delete a petition
-const deletePetition = () => {
-  store.dispatch("petitions/removePetition", selectedPetition.value);
-  selectedPetition.value = null;
-};
 </script>

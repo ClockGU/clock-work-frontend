@@ -48,7 +48,6 @@
                             v-if="selectedPetition"
                             ref="petitionFormRef"
                             :petition="selectedPetition"
-                            isEditing
                             />
                         </div>
                         </v-card-text>
@@ -83,10 +82,7 @@ const employeeDataFormRef = ref(null)
 const tab = ref('personal');
 const selectedPetition = ref(null);
 
-
 const petitions = computed(() => store.getters['petitions/petitions']);
-const employeeData = computed(() => store.getters['employeeData/employeeData']);
-
 
 const closeDialog = () => emit('close');
 const save = ()=>{

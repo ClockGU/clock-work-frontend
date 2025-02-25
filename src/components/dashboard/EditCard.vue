@@ -36,7 +36,6 @@ import { ref } from 'vue';
 import PetitionFormDialog from '@/components/dialogs/PetitionFormDialog.vue';
 import StudentDataManagementDialog from '../dialogs/StudentDataManagementDialog.vue';
 
-// Props for role and petition
 const props = defineProps({
   role: {
     type: String,
@@ -48,10 +47,8 @@ const props = defineProps({
   },
 });
 
-// Dialog visibility state
 const dialog = ref(false);
 
-// Function to open the dialog
 const openDialog = () => {
   dialog.value = true;
 };

@@ -2,7 +2,6 @@
 
       <v-form ref="form">
         <v-row>
-          <!-- Personal Information -->
           <v-col cols="12" md="6">
             <v-text-field
               label="First Name / Vorname"
@@ -149,7 +148,6 @@
   
   const store = useStore();
   
-  // Initial form data
   const initialFormData = {
     first_name: '',
     last_name: '',

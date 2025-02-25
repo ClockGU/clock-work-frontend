@@ -26,8 +26,9 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref, computed } from "vue";
 import CustomDialog from "./CustomDialog.vue";
+import { useStore } from "vuex";
 
 const props = defineProps({
   petition: {
@@ -41,24 +42,17 @@ const props = defineProps({
 
 });
 
-const emit = defineEmits(["editPetition", "deletePetition", "close"]);
-const petition = ref(props.petition);
-
-watch(
-  () => props.petition,
-  (newVal) => {
-    petition.value = newVal;
-  }
-);
+const emit = defineEmits(["edit","close"]);
+const store= useStore()
+const petition = computed(() => props.petition);
 
 const editPetition = () => {
-  emit("editPetition",petition.value);
+  emit("edit");
   emit("close");
 
 };
-
 const deletePetition = () => {
-  emit("deletePetition", petition.value);
+  store.dispatch("petitions/removePetition", petition.value);
   emit("close");
 };
 
@@ -83,7 +77,6 @@ const formatValue = (value) => {
 </script>
 
 <style scoped>
-/* Custom Styles */
 .v-list-item {
   transition: background-color 0.3s ease;
 }

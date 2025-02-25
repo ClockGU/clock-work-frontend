@@ -177,7 +177,7 @@
 </template>
 
 <script setup>
-import { ref ,watch} from 'vue';
+import { ref ,watchEffect} from 'vue';
 import { mdiChevronUp, mdiChevronDown } from '@mdi/js';
 
 const icons = {
@@ -196,11 +196,6 @@ const props = defineProps({
     required: true,
     default: 'student',
   },
-  isEditing: {
-    type: Boolean,
-    default: false,
-  },
-
 });
 
 
@@ -224,68 +219,15 @@ const initialFormData = {
 };
 const formData = ref({ ...initialFormData });
 
-watch(
-  () => props.isEditing,
-  (isEditing) => {
-    if (isEditing && props.petition) {
-      // Populate formData with petition data when isEditing is true
-      formData.value = {
-        petitioneer: props.petition.petitioneer || '',
-        student_mail: props.petition.student_mail || '',
-        start_date: props.petition.start_date || '',
-        end_date: props.petition.end_date || '',
-        org_unit: props.petition.org_unit || '',
-        eos_number: props.petition.eos_number || '',
-        minutes: props.petition.minutes || '',
-        ba_degree: props.petition.ba_degree || false,
-        budget_position: props.petition.budget_position || '',
-        budget_approver: props.petition.budget_approver || '',
-        time_exce_name: props.petition.time_exce_name || '',
-        time_exce_start: props.petition.time_exce_start || '',
-        time_exce_end: props.petition.time_exce_end || '',
-        duration_exce_name: props.petition.duration_exce_name || '',
-        duration_exce_start: props.petition.duration_exce_start || '',
-        duration_exce_end: props.petition.duration_exce_end || '',
-      };
-    } else if (!isEditing) {
-      // Reset formData to initialFormData only when isEditing is false
-      formData.value = { ...initialFormData };
-    }
-  },
-  { immediate: true } 
-);
 
-// Watch for changes in props.petition (only when isEditing is true)
-watch(
-  () => props.petition,
-  (newVal) => {
-    if (props.isEditing && newVal) {
-      // Populate formData with petition data when isEditing is true
-      formData.value = {
-        petitioneer: newVal.petitioneer || '',
-        student_mail: newVal.student_mail || '',
-        start_date: newVal.start_date || '',
-        end_date: newVal.end_date || '',
-        org_unit: newVal.org_unit || '',
-        eos_number: newVal.eos_number || '',
-        minutes: newVal.minutes || '',
-        ba_degree: newVal.ba_degree || false,
-        budget_position: newVal.budget_position || '',
-        budget_approver: newVal.budget_approver || '',
-        time_exce_name: newVal.time_exce_name || '',
-        time_exce_start: newVal.time_exce_start || '',
-        time_exce_end: newVal.time_exce_end || '',
-        duration_exce_name: newVal.duration_exce_name || '',
-        duration_exce_start: newVal.duration_exce_start || '',
-        duration_exce_end: newVal.duration_exce_end || '',
-      };
-    } else if (!props.isEditing) {
-      formData.value = { ...initialFormData };
-    }
-  },
-  { immediate: true, deep: true } // Deep watch to detect nested changes
-);
-
+// Populate form data when petition prop changes
+watchEffect(() => {
+  if (props.petition) {
+    formData.value = { ...initialFormData, ...props.petition };
+  } else {
+    formData.value = { ...initialFormData };
+  }
+});
 
 const isExpanded = ref(false);
 

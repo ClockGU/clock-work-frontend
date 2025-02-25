@@ -2,10 +2,10 @@
   <v-container>
     <v-row>
       <v-col cols="12" md="6">
-        <EditCard role="supervisor" />
+        <EditCard role="student" />
       </v-col>
       <v-col cols="12" md="6">
-        <OverviewCard role="supervisor" />
+        <OverviewCard role="student" />
       </v-col>
     </v-row>
   </v-container>
