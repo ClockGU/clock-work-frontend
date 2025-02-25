@@ -59,7 +59,7 @@
 
       <template #actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" @click="save">Save</v-btn>
+        <v-btn color="primary" @click="save" :disabled="!isFormValid">Save</v-btn>
       </template>
   
       </CustomDialog>
@@ -88,13 +88,29 @@ const closeDialog = () => emit('close');
 const save = ()=>{
     if (tab.value === "personal"){
         const formData = employeeDataFormRef.value.formData;
-        store.dispatch('employeeData/setEmployeeData', formData);
+        if (employeeDataFormRef.value.isFormValid){
+            store.dispatch('employeeData/setEmployeeData', formData);
+        }
     }
     if(tab.value === "petition"){
         const formData = petitionFormRef.value.formData;
-        store.dispatch('petitions/updatePetition', formData);
+        if(petitionFormRef.value.isFormValid){
+            store.dispatch('petitions/updatePetition', formData);
+        }
     }
     closeDialog()
 }
 
+const isFormValid = computed(() => {
+    switch (tab.value) {
+        case 'personal':
+            return employeeDataFormRef.value?.isFormValid ?? false;
+        case 'petition':
+            return petitionFormRef.value?.isFormValid ?? false;
+        default:
+            return true;
+    }
+});
+
 </script>
+

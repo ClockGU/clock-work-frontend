@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form">
+  <v-form ref="form" v-model="isFormValid">
     <v-row>
       <v-col cols="12" md="6">
         <v-text-field
@@ -15,18 +15,18 @@
           label="Student Mail"
           v-model="formData.student_mail"
           type="email"
+          :rules="[requiredRule, emailRule]"
           outlined
           dense
-          required
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
           label="Org Unit"
           v-model="formData.org_unit"
+          :rules="role === 'student' ? [] : [requiredRule]"
           outlined
           dense
-          required
           :disabled="role === 'student'"
         />
       </v-col>
@@ -34,9 +34,9 @@
         <v-text-field
           label="EOS Number"
           v-model="formData.eos_number"
+          :rules="role === 'student' ? [] : [requiredRule]"
           outlined
           dense
-          required
           :disabled="role === 'student'"
         />
       </v-col>
@@ -45,9 +45,9 @@
           label="Start Date"
           v-model="formData.start_date"
           type="date"
+          :rules="[requiredRule]"
           outlined
           dense
-          required
         />
       </v-col>
       <v-col cols="12" md="6">
@@ -55,9 +55,9 @@
           label="End Date"
           v-model="formData.end_date"
           type="date"
+          :rules="[requiredRule, endDateRule]"
           outlined
           dense
-          required
         />
       </v-col>
       <v-col cols="12" md="6">
@@ -65,9 +65,9 @@
           label="Minutes (h/Month)"
           v-model="formData.minutes"
           type="number"
+          :rules="[requiredRule, positiveNumberRule]"
           outlined
           dense
-          required
         />
       </v-col>
       <v-col cols="12" md="6">
@@ -80,9 +80,9 @@
         <v-text-field
           label="Budget Position"
           v-model="formData.budget_position"
+          :rules="role === 'student' ? [] : [requiredRule]"
           outlined
           dense
-          required
           :disabled="role === 'student'"
         />
       </v-col>
@@ -91,9 +91,9 @@
           label="Budget Approver Email"
           v-model="formData.budget_approver"
           type="email"
+          :rules="role === 'student' ? [] : [requiredRule, emailRule]"
           outlined
           dense
-          required
           :disabled="role === 'student'"
         />
       </v-col>
@@ -117,7 +117,6 @@
             v-model="formData.time_exce_name"
             outlined
             dense
-            required
           />
         </v-col>
         <v-col cols="12" md="6">
@@ -126,7 +125,6 @@
             v-model="formData.duration_exce_name"
             outlined
             dense
-            required
           />
         </v-col>
         <v-col cols="12" md="6">
@@ -136,10 +134,8 @@
             type="date"
             outlined
             dense
-            required
           />
         </v-col>
-
         <v-col cols="12" md="6">
           <v-text-field
             label="Duration Exception Start Date"
@@ -147,7 +143,6 @@
             type="date"
             outlined
             dense
-            required
           />
         </v-col>
         <v-col cols="12" md="6">
@@ -157,7 +152,6 @@
             type="date"
             outlined
             dense
-            required
           />
         </v-col>
         <v-col cols="12" md="6">
@@ -167,17 +161,15 @@
             type="date"
             outlined
             dense
-            required
           />
         </v-col>
       </template>
     </v-row>
   </v-form>
-
 </template>
 
 <script setup>
-import { ref ,watchEffect} from 'vue';
+import { ref, watchEffect } from 'vue';
 import { mdiChevronUp, mdiChevronDown } from '@mdi/js';
 
 const icons = {
@@ -187,7 +179,7 @@ const icons = {
 
 const props = defineProps({
   petition: {
-    type: [Object,null],
+    type: [Object, null],
     required: false,
     default: null,
   },
@@ -197,7 +189,6 @@ const props = defineProps({
     default: 'student',
   },
 });
-
 
 const initialFormData = {
   petitioneer: '',
@@ -217,8 +208,9 @@ const initialFormData = {
   duration_exce_start: '',
   duration_exce_end: '',
 };
-const formData = ref({ ...initialFormData });
 
+const formData = ref({ ...initialFormData });
+const isFormValid = ref(false);
 
 // Populate form data when petition prop changes
 watchEffect(() => {
@@ -229,8 +221,16 @@ watchEffect(() => {
   }
 });
 
+// Validation Rules
+const requiredRule = (v) => !!v || 'This field is required';
+const emailRule = (v) => /.+@.+\..+/.test(v) || 'Invalid email address';
+const positiveNumberRule = (v) => v > 0 || 'Must be a positive number';
+const endDateRule = (v) => {
+  if (!formData.value.start_date || !v) return true;
+  return new Date(v) >= new Date(formData.value.start_date) || 'End date must be after start date';
+};
+
 const isExpanded = ref(false);
 
-defineExpose({ formData });
+defineExpose({ formData, isFormValid });
 </script>
-
