@@ -1,7 +1,7 @@
 export default {
   namespaced: true,
   state: {
-    petitions: []
+    petitions: [] 
   },
   actions: {
     setPetitions({ commit }, petitions) {
@@ -24,10 +24,11 @@ export default {
     addPetition(state, petition) {
       state.petitions.push(petition);
     },
-    updatePetition(state, petition) {
-      const index = state.petitions.findIndex(p => p.eos_number === petition.eos_number);
+    //currently update if eos_number is the same
+    updatePetition(state, updatedPetition) {
+      const index = state.petitions.findIndex(p => p.eos_number === updatedPetition.eos_number);
       if (index > -1) {
-        state.petitions.splice(index, 1, { ...petition }); // Create a new object
+        state.petitions[index] = { ...state.petitions[index], ...updatedPetition };
       }
     },
     removePetition(state, petition) {
@@ -35,9 +36,9 @@ export default {
       if (index > -1) {
         state.petitions.splice(index, 1);
       }
-    }
+    },
   },
   getters: {
-    petitions: state => state.petitions
+    petitions: state => state.petitions,
   }
 };
