@@ -13,23 +13,33 @@
     </template>
 
     <v-card>
+      <!-- Title Section -->
       <v-card-title class="text-h6 font-weight-bold bg-grey-lighten-2 d-flex justify-space-between align-center">
-        <span class="text-h6 font-weight-bold">{{ title }}</span>
+        <span class="text-h6 pa-2">{{ title }}</span>
 
-        <v-btn icon @click="close">
+        <!-- Close Button -->
+        <v-btn
+          icon
+          @click="close"
+          variant="text"
+          class="text-grey-darken-2"
+          :ripple="false"
+        >
           <v-icon>{{ icons.mdiClose }}</v-icon>
         </v-btn>
       </v-card-title>
+
+      <!-- Divider -->
       <v-divider class="my-0" />
 
-      <!-- Slot for Main Content -->
+      <!-- Main Content Slot -->
       <v-card-text class="px-6">
         <slot name="content" :events="{ close }"></slot>
       </v-card-text>
 
-      <!-- Slot for Actions (e.g., buttons) -->
+      <!-- Actions Slot -->
       <v-card-actions class="pa-4">
-        <v-btn color="grey darken-1" text @click="close">CANCEL</v-btn>
+        <v-btn color="grey-darken-1" variant="text" @click="close">CANCEL</v-btn>
         <slot name="actions"></slot>
       </v-card-actions>
     </v-card>
@@ -73,19 +83,10 @@ const close = () => {
 </script>
 
 <style scoped>
-.bg-grey-lighten-2 {
-  background-color: #eeeeee; /* Light gray background for the title area */
+/* Remove ripple effect globally for the close button */
+.v-btn--icon.v-btn--density-default {
+  background-color: transparent !important;
+  box-shadow: none !important;
 }
 
-.v-card-title {
-  padding: 16px; 
-}
-
-.v-card-text {
-  padding: 24px; 
-}
-
-.v-card-actions {
-  padding: 16px; 
-}
 </style>

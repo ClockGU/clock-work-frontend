@@ -14,7 +14,7 @@
                         <v-card-text>
                             <h2>Personal Information</h2>
                             <p>Here you can see and edit your personal information.</p>
-                            <EmployeeDataForm class="mt-6"          ref="employeeDataFormRef"/>
+                            <EmployeeDataForm class="mt-8"          ref="employeeDataFormRef"/>
                         </v-card-text>
                     </v-card>          
                     </v-window-item>

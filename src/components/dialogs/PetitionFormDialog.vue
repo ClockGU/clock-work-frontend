@@ -2,6 +2,7 @@
   <CustomDialog :title="petition ? 'Edit Petition' : 'Create New Petition'">
     <template #content>
       <PetitionForm
+      class="mt-12"
         ref="petitionFormRef"
         :role="role"
         :petition="petition"
