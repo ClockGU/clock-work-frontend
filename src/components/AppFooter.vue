@@ -2,7 +2,8 @@
   <v-footer
     color="primary-darken-2"  
     theme="dark"  
-    style="padding: 16px 0 0; min-height: 72px">  
+    style="padding: 16px 0 0; 
+    min-height: 72px">  
     <v-row justify="center" no-gutters>  
       <v-col class="text-center d-flex align-center justify-center flex-column">  
         <div class="d-flex align-center justify-center my-2">  

@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="ma-0">
     <NavigationDrawer
       v-if="showAppBarAndFooter"
       class="hidden-md-and-up"
@@ -10,18 +10,20 @@
     <AppBar 
       @toggle="toggleDrawer" 
       v-if="showAppBarAndFooter"/>
+    
     <v-main :style="{ 'background-color': currentPath === '/' ? 'rgb(var(--v-theme-primary))' : '' }">
-      <v-container class="d-flex flex-column align-center justify-center pt-0 pb-0" style="height: 100vh; max-width: 1400px"  >
+      <v-container class="d-flex flex-column align-center justify-center pt-0 pb-0" style="min-height: 100vh; max-width: 1400px">
         <router-view />
       </v-container>
       <LoadingOverlay />
     </v-main>
+    
     <AppFooter v-if="showAppBarAndFooter"/>
   </v-app>
 </template>
 
 <script setup>
-import { computed,ref } from "vue";
+import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 import LoadingOverlay from "@/components/LoadingOverlay.vue";
 import AppBar from '@/components/app-bar/AppBar.vue';
@@ -29,13 +31,11 @@ import NavigationDrawer from "./components/app-bar/NavigationDrawer.vue";
 import AppFooter from '@/components/AppFooter.vue';
 
 const drawer = ref(false);
-const route= useRoute();
+const route = useRoute();
 
 const currentPath = computed(() => route.path);
 const showAppBarAndFooter = computed(() => currentPath.value !== '/' && currentPath.value !== '/logging-in')
 
 const toggleDrawer = () => drawer.value = !drawer.value
 const closeDrawer = () => drawer.value = false
-
 </script>
-
