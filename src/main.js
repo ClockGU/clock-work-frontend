@@ -13,7 +13,7 @@ import App from "./App.vue";
 import { createApp } from "vue";
 
 export const REFERENCE_FIELD_NAME = "supervised_references";
-
+export const debugLogger= true;
 const app = createApp(App);
 
 registerPlugins(app);

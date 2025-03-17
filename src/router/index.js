@@ -12,7 +12,7 @@ import RoleSelectionView from "@/views/RoleSelectionView.vue";
 import RoleDashboard from "@/views/RoleDashboard.vue";
 
 const routes = [
-  { path: "/", component: LandingView },
+  { path: "/", component: LandingView,name: "landing" },
   { path: "/logging-in", component: LoginView },
   { path: "/roles", component: RoleSelectionView, name: "roles" },
   { path: "/dashboard/:role", component: RoleDashboard },
