@@ -21,19 +21,19 @@ const loading = ref(false);
 
 const startOAuthFlow = async () => {
   loading.value = true;
-  emit("start"); // Notify parent that the flow has started
 
   try {
     // Fetch the CAS login URL from the backend (or construct it directly)
     const response = await OAuth2Service.getAuthorizationUrl();
     const { authorization_url } = response.data;
 
+    console.log("Authorization URL:", authorization_url);
+
     // Redirect to the CAS login page
     window.location.href = authorization_url;
   } catch (error) {
     // Handle errors
     loading.value = false;
-    emit("error", error); // Notify parent of the error
     console.error("OAuth2 Error:", error);
   }
 };

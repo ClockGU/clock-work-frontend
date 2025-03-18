@@ -25,7 +25,7 @@
             @update:model-value=""
           >
             <template #activator="{ props }">
-              <ButtonGoetheOAuth color="secondary" @start="onOAuthStart" @error="onOAuthError">
+              <ButtonGoetheOAuth color="secondary" >
                 Login with OAuth
               </ButtonGoetheOAuth>
             </template>
