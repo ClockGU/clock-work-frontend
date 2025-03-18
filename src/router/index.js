@@ -3,17 +3,16 @@
  *
  * Automatic routes for `./src/pages/*.vue`
  */
-
 // Composables
 import { createRouter, createWebHistory } from "vue-router";
-import LoginView from "@/views/LoginView.vue";
+import LoggingInView from  "@/views/LoggingInView.vue"
 import LandingView from "@/views/LandingView.vue";
 import RoleSelectionView from "@/views/RoleSelectionView.vue";
 import RoleDashboard from "@/views/RoleDashboard.vue";
 
 const routes = [
   { path: "/", component: LandingView,name: "landing" },
-  { path: "/logging-in", component: LoginView, name:"logging-in" },
+  { path: "/logging-in", component: LoggingInView, name:"logging-in" },
   { path: "/roles", component: RoleSelectionView, name: "roles" },
   { path: "/dashboard/:role", component: RoleDashboard },
 ];

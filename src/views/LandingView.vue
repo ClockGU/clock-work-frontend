@@ -47,34 +47,7 @@ const route = useRoute();
 const router = useRouter();
 const store = useStore();
 
-onMounted(async () => {
-  const { code } = route.query; // Extract the code from the query parameters
 
-  if (!code) {
-    // If no code is present, redirect back to the landing page
-    router.push({ name: "landing" });
-    return;
-  }
-
-  try {
-    // Use the auth module to handle the login with the CAS token
-    await store.dispatch("auth/LOGIN", { casToken: code });
-
-    // Fetch user data after successful login
-    await store.dispatch("GET_USER");
-
-    // Redirect to the /roles route after successful login
-    router.push({ name: "roles" });
-  } catch (error) {
-    console.error("Error during login:", error);
-
-    //TODO: Handle errors (e.g., show a snackbar or redirect to an error page)
-    
-
-    // Redirect back to the landing page
-    router.push({ name: "landing" });
-  }
-});
 </script>
   
   <style scoped lang="scss">
