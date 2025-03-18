@@ -41,7 +41,6 @@ const actions = {
       log("AuthVuex.loginSupervisor: resolved");
       commit("LOGIN", { access: response.data.access_token, refresh: null }); // No refresh token in new API
       ApiService.setAccessToken(response.data.access_token);
-
       const resp = await dispatch("GET_USER", null, { root: true });
       return Promise.resolve(resp);
     } catch (error) {

@@ -1,7 +1,7 @@
 import ApiService from "@/services/api";
 
 
-const REDIRECT_URI = `http://localhost:5000/logging-in`;
+const REDIRECT_URI = `https://localhost:5000/logging-in`;
 
 const OAuth2Service = {
   getAuthorizationUrl: function () {

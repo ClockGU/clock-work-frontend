@@ -13,7 +13,7 @@ import RoleDashboard from "@/views/RoleDashboard.vue";
 
 const routes = [
   { path: "/", component: LandingView,name: "landing" },
-  { path: "/logging-in", component: LoginView },
+  { path: "/logging-in", component: LoginView, name:"logging-in" },
   { path: "/roles", component: RoleSelectionView, name: "roles" },
   { path: "/dashboard/:role", component: RoleDashboard },
 ];
