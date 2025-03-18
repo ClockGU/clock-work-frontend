@@ -15,7 +15,7 @@
       >
         <v-card max-width="600">
           <v-card-text style="text-align: center">
-            <h2>Willkommen im Vorgesetz&shy;ten&shy;portal von CLOCK</h2>
+            <h2>Willkommen im Vorgesetz&shy;ten&shy;portal von CLOCK Work</h2>
           </v-card-text>
           <v-card-actions>
             <v-spacer />
@@ -25,7 +25,7 @@
               @update:model-value=""
             >
               <template #activator="{ props }">
-                <v-btn v-bind="props" variant="elevated" @click="navigateToRoleSelection" >
+                <v-btn v-bind="props" variant="elevated" @click="startOAuthFlow" >
                   Zum Login
                 </v-btn>
               </template>
@@ -44,17 +44,35 @@
   import { computed, ref } from "vue";
   import { useDisplay } from "vuetify";
   import { useRouter } from "vue-router"; 
-
+  import axios from "axios";
   const router = useRouter(); // Initialize the router
   const error = ref("");
 
   const { mdAndUp } = useDisplay();
   const hasError = computed(() => error.value !== "");
+  const startOAuthFlow = async () => {
+  try {
+    // Call the /authorize endpoint to get the authorization URL
+    const response = await axios.get("/authorize", {
+      params: {
+        redirect_uri: "http://localhost:5000/roles" // Add /callback to the redirect_uri
+      }
+    });
 
-  const navigateToRoleSelection = () => {
-    router.push({ name: "roles" }); 
-  };
-  ;
+    console.log("Response from /authorize:", response.data); // Debug the response
+
+    if (!response.data.authorization_url) {
+      throw new Error("Authorization URL is missing in the response");
+    }
+
+    // Redirect the user to the authorization URL
+    window.location.href = response.data.authorization_url;
+  } catch (err) {
+    error.value = "Failed to start login process. Please try again.";
+    console.error("Error starting OAuth flow:", err);
+  }
+
+};
 
   </script>
   
