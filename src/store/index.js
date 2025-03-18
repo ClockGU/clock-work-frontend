@@ -5,12 +5,12 @@ import petitions from "@/store/modules/petitions";
 import employeeData from "./modules/employeeData";
 import auth from "./modules/auth";
 
-//const debug = process.env.NODE_ENV !== "production";
+const debug = process.env.NODE_ENV !== "production";
 
 export default createStore({
   state: {
     loadingData: true,
-    locale: selectedLocale,
+    //locale: selectedLocale,
     user: {
       first_name: ""
     },
@@ -21,7 +21,7 @@ export default createStore({
   getters: {
     user: (state) => state.user,
     userLoading: (state) => state.userLoading,
-    locale: (state) => state.locale
+    //locale: (state) => state.locale
   },
   actions: {
     skipRoleSelection({ commit }) {
@@ -62,9 +62,9 @@ export default createStore({
     setRoleSelectionSkipped(state, value) {
       state.roleSelectionSkipped = value;
     },
-    updateLocale(state, locale) {
+    /*updateLocale(state, locale) {
       state.locale = locale;
-    },
+    },*/
     SET_USER(state, payload) {
       state.user = payload;
     },

@@ -25,9 +25,9 @@
               @update:model-value=""
             >
               <template #activator="{ props }">
-                <v-btn v-bind="props" variant="elevated" @click="startOAuthFlow" >
+                <ButtonGoetheOAuth >
                   Zum Login
-                </v-btn>
+                </ButtonGoetheOAuth>
               </template>
               <span style="color: black"> {{ error }}</span>
             </v-tooltip>
@@ -40,39 +40,17 @@
   
   <script setup>
   import ClockIcon from "@/components/logo/ClockIcon.vue";
-
+  import ButtonGoetheOAuth from "@/components/ButtonGoetheOAuth.vue";
   import { computed, ref } from "vue";
   import { useDisplay } from "vuetify";
-  import { useRouter } from "vue-router"; 
-  import axios from "axios";
-  const router = useRouter(); // Initialize the router
+  //import { useRouter } from "vue-router"; 
+  //const router = useRouter(); // Initialize the router
   const error = ref("");
 
   const { mdAndUp } = useDisplay();
-  const hasError = computed(() => error.value !== "");
-  const startOAuthFlow = async () => {
-  try {
-    // Call the /authorize endpoint to get the authorization URL
-    const response = await axios.get("/authorize", {
-      params: {
-        redirect_uri: "http://localhost:5000/roles" // Add /callback to the redirect_uri
-      }
-    });
+  const hasError = computed(() => error.value !== ""); 
 
-    console.log("Response from /authorize:", response.data); // Debug the response
 
-    if (!response.data.authorization_url) {
-      throw new Error("Authorization URL is missing in the response");
-    }
-
-    // Redirect the user to the authorization URL
-    window.location.href = response.data.authorization_url;
-  } catch (err) {
-    error.value = "Failed to start login process. Please try again.";
-    console.error("Error starting OAuth flow:", err);
-  }
-
-};
 
   </script>
   
