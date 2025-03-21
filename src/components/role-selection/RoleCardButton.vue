@@ -48,7 +48,7 @@
     background-color: #fafafa;  
     border-radius: 10px;  
     transition: transform 0.2s, box-shadow 0.2s; 
-    min-height: 400px; 
+    height: 400px; 
     width: 300px;
   }  
   
@@ -64,7 +64,6 @@
 }
   
   .description {
-    margin-top: 15px;
     color: #666;
     text-align: center;
     overflow: hidden; 
