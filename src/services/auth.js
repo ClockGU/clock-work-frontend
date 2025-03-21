@@ -5,7 +5,7 @@ const AuthService = {
    * Login using the provided CAS token.
    */
   login: (casToken) => {
-    return ApiService.post("/auth/cas/login", { cas_token: casToken });
+    return ApiService.post("/auth/cas/login", { cas_token: casToken,token_type: "access_token" });
   },
 
   /**
@@ -18,8 +18,8 @@ const AuthService = {
   /**
    * Delete the current user's account.
    */
-  deleteAccount: () => {
-    return ApiService.delete("/users/me");
+  updateUser: (userData, userId) => {
+    return ApiService.put(`/users/${userId}`, userData);
   },
 
   /**
@@ -40,8 +40,8 @@ const AuthService = {
   /**
    * Update the current user's information.
    */
-  updateUser: (userData) => {
-    return ApiService.put("/users/me", userData);
+  updateUser: (userData, userId) => {
+    return ApiService.put(`/users/${userId}`, userData);
   },
 
   /**

@@ -66,7 +66,7 @@ const ApiService = {
       },
       async (error) => {
         log("_interceptor: rejected");
-
+        log("error", error);
         const { data } = error.response;
 
         const tokenNotValid = data.code === "token_not_valid";

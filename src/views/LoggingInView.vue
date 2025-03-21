@@ -28,12 +28,9 @@ onMounted(async () => {
   // Replace the history entry to remove the auth code form the browser address bar
   window.history.replaceState({}, null, "/");
   log("LoggingInView mounted");
-  console.log("Full URL:", window.location.href); // Debug the full URL
-  console.log("Route query:", route.query); // Check ALL query parameters
 
   // Extract the CAS token from the query parameters
-  // LoggingInView.vue
-  const casToken = route.query.code || route.query.token || route.query.access_token;
+  const casToken = route.query.code 
   console.log("CAS token from query:", casToken);
 
   if (!casToken) {
@@ -51,19 +48,19 @@ onMounted(async () => {
     console.log("Login response:", response);
 
     // Step 2: Debug Vuex token commit
-    console.log("Committing token to Vuex...");
-    store.commit("auth/LOGIN", { 
-      access: response.data.access_token, 
-      refresh: null 
-    });
-    ApiService.setAccessToken(response.data.access_token);
+    // console.log("Committing token to Vuex...");
+    // store.commit("auth/LOGIN", { 
+    //   access: response.data.access_token, 
+    //   refresh: null 
+    // });
+    // ApiService.setAccessToken(response.data.access_token);
 
     // Step 3: Debug user data fetch
-    console.log("Fetching user data...");
-    await store.dispatch("GET_USER", null, { root: true });
+    // console.log("Fetching user data...");
+    // await store.dispatch("GET_USER", null, { root: true });
 
-    console.log("Redirecting to /roles...");
-    router.push({ name: "roles" });
+    // console.log("Redirecting to /roles...");
+    // router.push({ name: "roles" });
   } catch (error) {
     // Step 4: Debug the error
     console.error("Login failed. Error details:", error);

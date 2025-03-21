@@ -9,16 +9,6 @@ import LoggingInView from  "@/views/LoggingInView.vue"
 import LandingView from "@/views/LandingView.vue";
 import RoleSelectionView from "@/views/RoleSelectionView.vue";
 import RoleDashboard from "@/views/RoleDashboard.vue";
-import { useStore } from "vuex";
-
-/*function isAuthenticatedGuard(to, from, next) {
-  const store = useStore();
-  if (!store.getters["auth/loggedIn"]) {
-    next({ path: "/" });
-    return;
-  }
-  next();
-}*/
 
 const routes = [
   { path: "/", component: LandingView, name: "landing" },
