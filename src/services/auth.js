@@ -18,8 +18,8 @@ const AuthService = {
   /**
    * Delete the current user's account.
    */
-  updateUser: (userData, userId) => {
-    return ApiService.put(`/users/${userId}`, userData);
+  deleteAccount: (userId) => {
+    return ApiService.delete(`/users/${userId}`);
   },
 
   /**
