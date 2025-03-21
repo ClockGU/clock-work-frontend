@@ -51,10 +51,9 @@ const actions = {
 
   // Logout the user
   async LOGOUT({ commit }) {
+    commit("LOGOUT");
     window.location = "https://cas.rz.uni-frankfurt.de/cas/logout";
     AuthService.logout();
-
-    commit("LOGOUT");
     // We need to catch errors here. Otherwise we get the "NavigationDuplicated" error.
     // See: https://github.com/vuejs/vue-router/issues/2872#issuecomment-519073998
     return router.push({ name: "landing" }).catch((error) => {

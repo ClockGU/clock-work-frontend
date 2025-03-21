@@ -9,17 +9,32 @@ import LoggingInView from  "@/views/LoggingInView.vue"
 import LandingView from "@/views/LandingView.vue";
 import RoleSelectionView from "@/views/RoleSelectionView.vue";
 import RoleDashboard from "@/views/RoleDashboard.vue";
+import { useStore } from "vuex";
+
+/*function isAuthenticatedGuard(to, from, next) {
+  const store = useStore();
+  if (!store.getters["auth/loggedIn"]) {
+    next({ path: "/" });
+    return;
+  }
+  next();
+}*/
 
 const routes = [
-  { path: "/", component: LandingView,name: "landing" },
-  { path: "/logging-in", component: LoggingInView, name:"logging-in" },
+  { path: "/", component: LandingView, name: "landing" },
+  { path: "/logging-in", component: LoggingInView, name: "logging-in" },
   { path: "/roles", component: RoleSelectionView, name: "roles" },
   { path: "/dashboard/:role", component: RoleDashboard },
 ];
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: routes
+  mode: "history",
+  base: import.meta.env.BASE_URL,
+  history: createWebHistory(),
+  routes: routes,
+  
 });
 
+
 export default router;
+
