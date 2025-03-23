@@ -1,16 +1,25 @@
 <template>
     <div class="petition-details-table">
       <!-- Header with Close Button -->
-      <div class="petition-details-table-header">
-        <h3 class="petition-details-table-header-title">Petition Details</h3>
-        <v-btn
-          color="error"
-          text
-          @click="$emit('close')"
-          class="petition-details-table-header-close"
+      <div class="d-flex justify-space-between align-center mb-3 mr-1">
+        <h2 class="text-high-emphasis font-weight-bold">
+          Petition Details
+        </h2>
+        <div>
+          <v-btn
+          color="primary"
+          @click="$emit('edit')"
+          class="mr-3"
         >
-          <v-icon>{{ icons.mdiClose }}</v-icon>
-        </v-btn>
+          <v-icon>{{ icons.mdiPencil }}</v-icon>
+          </v-btn>
+          <v-btn
+            color="error"
+            @click="$emit('close')"
+          >
+            <v-icon>{{ icons.mdiClose }}</v-icon>
+          </v-btn>
+        </div>
       </div>
   
       <!-- Table -->
@@ -28,11 +37,27 @@
           </tr>
         </tbody>
       </v-table>
+      <div class="d-flex justify-end mt-3">
+        <v-btn
+          color="primary"
+          variant="text"
+          @click="$emit('edit')"
+          >
+          Edit Petition
+        </v-btn>
+        <v-btn
+          color="error"
+          variant="text"
+          @click="$emit('close')"
+          >
+          Close Petition
+        </v-btn>
+      </div>
     </div>
   </template>
   
   <script setup>
-  import { mdiClose } from '@mdi/js';
+  import { mdiClose, mdiPencil } from '@mdi/js';
   
   const props = defineProps({
     petition: {
@@ -41,8 +66,8 @@
     },
   });
   
-  const emit = defineEmits(['close']);
-  const icons = { mdiClose };
+  const emit = defineEmits(['close', 'edit']);
+  const icons = { mdiClose, mdiPencil };
   
   const formatKey = (key) => {
     return key
@@ -68,34 +93,24 @@
     background: #ffffff;
   }
   
-  .petition-details-table-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 16px;
-  }
-  
-  .petition-details-table-header-title {
+  .header-title {
     font-size: 1.45rem;
     font-weight: bold;
     margin: 0;
     color: #333;
   }
   
-  .petition-details-table-header-close {
-    color: #ff5252; /* Error color for the close button */
-  }
   
   .styled-table {
     width: 100%;
     border-collapse: collapse;
-    border: 1px solid #d6d3d3; /* Darker border for the table */
+    border: 1px solid #d6d3d3; 
   }
   
   .styled-table th,
   .styled-table td {
     padding: 12px 16px;
-    border-bottom: 1px solid #fafafa; /* Darker border for row separators */
+    border-bottom: 1px solid #fafafa;
   }
   
   .styled-table th {
@@ -103,12 +118,12 @@
     font-weight: 500;
     color: #333;
     text-align: left;
-    border-right: 1px solid #e0e0e0; /* Darker border for column separator */
+    border-right: 1px solid #e0e0e0;
   }
   
   .styled-table td {
     color: #555;
-    border-right: 1px solid #e0e0e0; /* Lighter border for column separator in rows */
+    border-right: 1px solid #e0e0e0;
   }
   
   .key-column {
@@ -129,7 +144,6 @@
     background-color: #ffffff;
   }
   
-  /* Hover effect for table rows */
   .styled-table tbody tr:hover {
     background-color: #f9f9f9;
   }

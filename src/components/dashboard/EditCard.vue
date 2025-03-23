@@ -20,15 +20,6 @@
           :petition="selectedPetition"
           @close="selectPetition(null)"
         />
-        <v-btn
-          color="error"
-          text
-          class="mt-3"
-          variant="text"
-          @click="selectPetition(null)"
-        >
-          Close Details
-        </v-btn>
       </div>
 
       <!-- Placeholder when no petition is selected -->
