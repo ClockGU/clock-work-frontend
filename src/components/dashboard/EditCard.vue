@@ -25,7 +25,7 @@
       </div>
 
       <!-- Placeholder when no petition is selected -->
-      <p v-else class="mt-4 ml-1 text-body-1">
+      <p v-else class="mt-4 ml-1 text-subtitle-1 text-medium-emphasis">
         You can select a petition from the overview table to view its details.
       </p>
 
@@ -80,21 +80,3 @@ watch(shouldEditPetition, (val) => {
 defineExpose({ selectPetition });
 </script>
 
-<style scoped>
-.v-card {
-  border-radius: 8px;
-}
-
-.v-card-title {
-  padding-bottom: 16px;
-}
-
-.v-btn {
-  text-transform: capitalize;
-  font-weight: 500;
-}
-
-.text-body-1 {
-  color: rgba(0, 0, 0, 0.6); /* Subtle text color for the placeholder */
-}
-</style>
