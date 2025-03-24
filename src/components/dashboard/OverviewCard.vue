@@ -3,12 +3,13 @@
     <v-card-title>Overview</v-card-title>
     <v-card-text>
       <!-- Data Table -->
-      <v-data-table :headers="headers" :items="petitions" item-selectable>
+      <v-data-table :headers="headers" :items="petitions" item-selectable hover  >
         <template v-slot:item="{ item }">
           <tr @click="selectPetition(item)">
             <td>{{ item.student_mail }}</td>
             <td>{{ item.start_date }}</td>
             <td>{{ item.end_date }}</td>
+            <td>{{ item.minutes }}</td>
           </tr>
         </template>
       </v-data-table>
@@ -32,6 +33,7 @@ const headers = [
   { title: "Student Mail", key: "student_mail" },
   { title: "Start Date", key: "start_date" },
   { title: "End Date", key: "end_date" },
+  {title:"Minutes" ,key:"minutes"}
 ];
 
 const emit = defineEmits(["select-petition"]);
