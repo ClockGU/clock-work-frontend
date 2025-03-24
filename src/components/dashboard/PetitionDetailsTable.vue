@@ -31,7 +31,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(value, key) in petition" :key="key">
+          <tr v-for="(value, key) in formatPetition(petition)"          :key="key">
             <td class="key-cell">{{ formatKey(key) }}</td>
             <td class="value-cell">{{ formatValue(value) }}</td>
           </tr>
@@ -56,40 +56,64 @@
       </div>
   </template>
   
-  <script setup>
-  import { mdiClose, mdiPencil } from '@mdi/js';
-  
-  const props = defineProps({
-    petition: {
-      type: Object,
-      required: true,
-    },
-    role: {
-      type: String,
-      default: 'student',
+<script setup>
+import { mdiClose, mdiPencil } from '@mdi/js';
+
+const props = defineProps({
+  petition: {
+    type: Object,
+    required: true,
+  },
+  role: {
+    type: String,
+    default: 'student',
+  }
+});
+
+const emit = defineEmits(['close', 'edit']);
+const icons = { mdiClose, mdiPencil };
+
+const formatKey = (key) => {
+  return key
+    .split("_")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};
+
+const formatValue = (value) => {
+  if (value === null || value === undefined || value === "") {
+    return "-";
+  }
+  if (typeof value === "string" && value.match(/^\d{4}-\d{2}-\d{2}$/)) {
+    return new Date(value).toLocaleDateString();
+  }
+  if (typeof value === 'boolean') {
+    return value ? 'Yes' : 'No';
+  }
+  return value;
+};
+
+function formatPetition(petition) {
+  const formattedPetition = {}; 
+  for (const [key, value] of Object.entries(petition)) {
+    // Always skip time_exec and duration_exec
+    if (key === 'time_exec' || key === 'duration_exec') {
+      continue;
     }
-  });
-  
-  const emit = defineEmits(['close', 'edit']);
-  const icons = { mdiClose, mdiPencil };
-  
-  const formatKey = (key) => {
-    return key
-      .split("_")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-  };
-  
-  const formatValue = (value) => {
-    if (value === null || value === undefined || value === "") {
-      return "-";
+    // Skip time exception fields only if time_exec is false
+    if ((key === 'time_exce_name' || key === 'time_exce_start' || key === 'time_exce_end') && !petition.time_exec) {
+      continue;
     }
-    if (typeof value === "string" && value.match(/^\d{4}-\d{2}-\d{2}$/)) {
-      return new Date(value).toLocaleDateString();
+    // Skip duration exception fields only if duration_exec is false
+    if ((key === 'duration_exce_name' || key === 'duration_exce_start' || key === 'duration_exce_end') && !petition.duration_exec) {
+      continue;
     }
-    return value;
-  };
-  </script>
+    // Add all other fields
+    formattedPetition[key] = value;
+  }
+  return formattedPetition;
+}
+</script>
   
   <style scoped>
   .styled-table {

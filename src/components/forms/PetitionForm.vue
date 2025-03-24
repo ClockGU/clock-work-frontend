@@ -112,14 +112,14 @@
       </v-col>
 
       <!-- Time and Duration Exception Fields -->
-
-        <v-col cols="12" >
-          <v-checkbox
-            v-model="formData.time_exec"
-            label="Time Exception"
-          />
-          <div class="mx-4">
-            <v-text-field
+      <v-col cols="12">
+        <v-checkbox
+          v-model="formData.time_exec"
+          label="Time Exception"
+          @update:modelValue="handleTimeExceptionChange"
+        />
+        <div class="mx-4">
+          <v-text-field
             v-if="formData.time_exec"
             label="Time Exception Name"
             v-model="formData.time_exce_name"
@@ -142,17 +142,17 @@
             outlined
             dense
           />
-          </div>
-          
-        </v-col>
-        
-        <v-col cols="12">
-          <v-checkbox
-            v-model="formData.duration_exec"
-            label="Duration Exception"
-          />
-          <div class="mx-4">
-            <v-text-field
+        </div>
+      </v-col>
+      
+      <v-col cols="12">
+        <v-checkbox
+          v-model="formData.duration_exec"
+          label="Duration Exception"
+          @update:modelValue="handleDurationExceptionChange"
+        />
+        <div class="mx-4">
+          <v-text-field
             v-if="formData.duration_exec"
             label="Duration Exception Name"
             v-model="formData.duration_exce_name"
@@ -175,8 +175,8 @@
             outlined
             dense
           />
-          </div>
-        </v-col>
+        </div>
+      </v-col>
     </v-row>
   </v-form>
 </template>
@@ -209,8 +209,8 @@ const props = defineProps({
   },
 });
 const degreeOptions =[
-{ text: 'I have a Bachlor Degree', value: true },
-{ text: 'I don\'t have a Bachlor Degree', value: false }
+  { text: 'I have a Bachlor Degree', value: true },
+  { text: 'I don\'t have a Bachlor Degree', value: false }
 ]
 
 const initialFormData = {
@@ -224,11 +224,11 @@ const initialFormData = {
   ba_degree: false,
   budget_position: '',
   budget_approver: '',
-  time_exce: false,
+  time_exec: false,
   time_exce_name: '',
   time_exce_start: '',
   time_exce_end: '',
-  duration_exce: false,
+  duration_exec: false,
   duration_exce_name: '',
   duration_exce_start: '',
   duration_exce_end: '',
@@ -246,6 +246,24 @@ watchEffect(() => {
   }
 });
 
+// Clear time exception fields when checkbox is unchecked
+const handleTimeExceptionChange = (value) => {
+  if (!value) {
+    formData.value.time_exce_name = '';
+    formData.value.time_exce_start = '';
+    formData.value.time_exce_end = '';
+  }
+};
+
+// Clear duration exception fields when checkbox is unchecked
+const handleDurationExceptionChange = (value) => {
+  if (!value) {
+    formData.value.duration_exce_name = '';
+    formData.value.duration_exce_start = '';
+    formData.value.duration_exce_end = '';
+  }
+};
+
 // Validation Rules
 const requiredRule = (v) => !!v || 'This field is required';
 const emailRule = (v) => /.+@.+\..+/.test(v) || 'Invalid email address';
@@ -254,8 +272,6 @@ const endDateRule = (v) => {
   if (!formData.value.start_date || !v) return true;
   return new Date(v) >= new Date(formData.value.start_date) || 'End date must be after start date';
 };
-
-const isExpanded = ref(false);
 
 defineExpose({ formData, isFormValid });
 </script>
