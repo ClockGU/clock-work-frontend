@@ -1,15 +1,21 @@
 <template>  
-    <v-card  
-      :aria-label="`Select role as ${role}`"  
-      @click="handleClick"  
-      class="d-flex flex-column align-center justify-center pa-4 card-button"  
-      style="cursor: pointer;"  
-    >  
-      <v-card-title class="headline">{{ title }}</v-card-title>  
-      <v-img :src="props.imgSrc" width="200" height="200"/>
+  <v-btn
+    :aria-label="`Select role as ${role}`"
+    @click="handleClick"
+    class="card-button d-flex flex-column align-center justify-center pa-4"
+    style="cursor: pointer;"
+  >
+    <v-card
+      class="card-button d-flex flex-column align-center justify-center"
+      style="background-color: transparent; box-shadow: none;"
+      aria-describedby="role-description"
+    >
+      <v-card-title class="headline mt-4" id="role-description">{{ title }}</v-card-title>  
+      <v-img :src="props.imgSrc" width="200" height="200" alt="role image"/>
       <v-card-text class="description">{{ description }}</v-card-text>  
     </v-card>  
-  </template>  
+  </v-btn>
+</template>  
   
   <script setup>
   import { useRouter } from 'vue-router';    
@@ -43,8 +49,8 @@
     background-color: #fafafa;  
     border-radius: 10px;  
     transition: transform 0.2s, box-shadow 0.2s; 
-    min-height: 350px; 
-    max-width: 300px;
+    height: 400px; 
+    width: 300px;
   }  
   
   .card-button:hover {  
@@ -52,14 +58,20 @@
   }  
   
   .headline {  
-    font-size: 1.5rem;  
-    font-weight: bold;  
-    color: #333;  
-  }  
+  font-size: 1.5rem;  
+  font-weight: bold;  
+  color: #333;  
+  text-align: center;
+}
   
-  .description {  
-    margin-top: 15px;  
-    color: #666;  
-    text-align: center;  
-  }  
+  .description {
+    color: #666;
+    text-align: center;
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: normal;
+    width: 300px;
+    word-wrap: break-word;
+  }
   </style>
+

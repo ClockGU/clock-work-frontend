@@ -1,12 +1,13 @@
 <template>
-  <CustomDialog :title="petition ? 'Edit Petition' : 'Create New Petition'">
+  <CustomDialog :title="petition ? 'Edit Petition' : 'Create New Petition'" aria-label="Petition Dialog">
     <template #content>
       <PetitionForm
-      class="mt-12"
+        class="mt-12"
         ref="petitionFormRef"
         :role="role"
         :petition="petition"
         @close="closeDialog"
+        aria-label="Petition Form"
       />
     </template>
 
@@ -15,14 +16,16 @@
         v-if="!petition"
         @click="submit"
         :disabled="!isFormValid"
-        color="primary">
+        color="primary"
+        aria-label="Submit Petition Form">
         Submit
       </v-btn>
       <v-btn
         v-else
         @click="save"
         :disabled="!isFormValid"
-        color="primary">
+        color="primary"
+        aria-label="Save Petition Form">
         Save
       </v-btn>
     </template>

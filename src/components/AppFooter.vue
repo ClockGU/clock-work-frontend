@@ -3,7 +3,9 @@
     color="primary-darken-2"  
     theme="dark"  
     style="padding: 16px 0 0; 
-    min-height: 72px">  
+    min-height: 72px"
+    aria-label="Footer"
+  >  
     <v-row justify="center" no-gutters>  
       <v-col class="text-center d-flex align-center justify-center flex-column">  
         <div class="d-flex align-center justify-center my-2">  
@@ -15,6 +17,7 @@
             variant="text"  
             rounded  
             class="mx-2"  
+            :aria-label="link.text"
           >  
             {{ link.text }}  
           </v-btn>  
@@ -27,6 +30,7 @@
             rel="noopener noreferrer"  
             target="_blank"  
             class="text-white" 
+            aria-label="Clock"
           >  
             Clock  
           </a>  
@@ -38,6 +42,7 @@
             <a  
               class="text-no-wrap"   
               href="https://www.uni-frankfurt.de/"  
+              aria-label="Goethe-Universität Frankfurt"
             >  
               Goethe-Universität Frankfurt  
             </a>  
@@ -48,6 +53,7 @@
             <a  
               class="text-no-wrap" 
               href="https://github.com/ClockGU"  
+              aria-label="Github"
             >  
               Github  
             </a>  
