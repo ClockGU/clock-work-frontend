@@ -7,6 +7,7 @@
         </h2>
         <div>
           <v-btn
+          v-if="role === 'supervisor'"
           color="primary"
           @click="$emit('edit')"
           class="mr-3"
@@ -39,6 +40,7 @@
       </v-table>
       <div class="d-flex justify-end mt-3">
         <v-btn
+          v-if="role === 'supervisor'"
           color="primary"
           variant="text"
           @click="$emit('edit')"
@@ -64,6 +66,10 @@
       type: Object,
       required: true,
     },
+    role: {
+      type: String,
+      default: 'student',
+    }
   });
   
   const emit = defineEmits(['close', 'edit']);

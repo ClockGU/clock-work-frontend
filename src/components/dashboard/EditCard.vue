@@ -8,7 +8,7 @@
       <v-btn
         color="primary"
         class="mb-4"
-        @click="openDialog"
+        @click="openDialog(false)"
       >
         {{ role === "supervisor" ? 'Create Petition' : 'Edit Personal Information' }}
       </v-btn>
@@ -18,7 +18,9 @@
   
         <PetitionDetailsTable
           :petition="selectedPetition"
+          :role="role"
           @close="selectPetition(null)"
+          @edit="openDialog(true)"
         />
       </div>
 
@@ -31,8 +33,7 @@
       <PetitionFormDialog
         v-if="role === 'supervisor'"
         v-model="dialog"
-        :role="role"
-        :petition="selectedPetition"
+        :petition="shouldEditPetition?selectedPetition:null"
         @close="dialog = false"
       />
       <StudentDataManagementDialog
@@ -45,7 +46,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import PetitionFormDialog from '@/components/dialogs/PetitionFormDialog.vue';
 import StudentDataManagementDialog from '../dialogs/StudentDataManagementDialog.vue';
 import PetitionDetailsTable from '@/components/dashboard/PetitionDetailsTable.vue';
@@ -63,8 +64,9 @@ const props = defineProps({
 
 const dialog = ref(false);
 const selectedPetition = ref(null);
-
-const openDialog = () => {
+const shouldEditPetition = ref(false);
+const openDialog = (shouldEdit) => {
+  shouldEditPetition.value = shouldEdit
   dialog.value = true;
 };
 
@@ -72,7 +74,9 @@ const openDialog = () => {
 const selectPetition = (petition) => {
   selectedPetition.value = petition;
 };
-
+watch(shouldEditPetition, (val) => {
+  console.log(val);
+})
 defineExpose({ selectPetition });
 </script>
 
