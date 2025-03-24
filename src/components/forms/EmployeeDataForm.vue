@@ -3,6 +3,7 @@
     <v-row>
       <v-col cols="12" md="6">
         <v-text-field
+          :prepend-icon="icons.mdiAccount"
           label="First Name / Vorname"
           v-model="formData.first_name"
           :rules="[requiredRule]"
@@ -12,6 +13,7 @@
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          :prepend-icon="icons.mdiAccount"
           label="Last Name / Nachname"
           v-model="formData.last_name"
           :rules="[requiredRule]"
@@ -21,6 +23,7 @@
       </v-col>
       <v-col cols="12" md="6">
         <v-select
+          :prepend-icon="icons.mdiAccountBox"
           label="Form of Address / Anrede"
           v-model="formData.form_of_address"
           :items="['Mr.', 'Ms.', 'Mrs.', 'Dr.']"
@@ -31,6 +34,7 @@
       </v-col>
       <v-col cols="12" md="6">
         <v-select
+          :prepend-icon="icons.mdiGenderMaleFemale"
           label="Gender / Geschlecht"
           v-model="formData.gender"
           :items="['Male', 'Female', 'Other']"
@@ -41,6 +45,7 @@
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          :prepend-icon="icons.mdiCalendar"
           label="Date of Birth / Geburtsdatum"
           v-model="formData.date_of_birth"
           type="date"
@@ -51,6 +56,7 @@
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          :prepend-icon="icons.mdiCity"
           label="City of Birth / Geburtsort"
           v-model="formData.city_of_birth"
           :rules="[requiredRule]"
@@ -60,6 +66,7 @@
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          :prepend-icon="icons.mdiHomeMapMarker"
           label="Address / Adresse"
           v-model="formData.address"
           :rules="[requiredRule]"
@@ -69,6 +76,7 @@
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          :prepend-icon="icons.mdiNumeric"
           label="Postal Code / Postleitzahl"
           v-model="formData.postal_code"
           :rules="[requiredRule, postalCodeRule]"
@@ -78,6 +86,7 @@
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          :prepend-icon="icons.mdiFlag"
           label="Nationality / Nationalität"
           v-model="formData.nationality"
           :rules="[requiredRule]"
@@ -87,6 +96,7 @@
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          :prepend-icon="icons.mdiPhone"
           label="Telephone Number / Telefonnummer"
           v-model="formData.telephone_number"
           :rules="[requiredRule, phoneRule]"
@@ -96,6 +106,7 @@
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          :prepend-icon="icons.mdiHospital"
           label="Health Insurance / Krankenversicherung"
           v-model="formData.health_insurance"
           :rules="[requiredRule]"
@@ -105,6 +116,7 @@
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          :prepend-icon="icons.mdiBank"
           label="IBAN"
           v-model="formData.iban"
           :rules="[requiredRule, ibanRule]"
@@ -126,6 +138,7 @@
       </v-col>
       <v-col cols="12" md="6" v-if="formData.previous_employment">
         <v-text-field
+          :prepend-icon="icons.mdiClock"
           label="Duration / Zeitraum"
           v-model="formData.prev_emp_duration"
           :rules="formData.previous_employment ? [requiredRule] : []"
@@ -141,6 +154,22 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
+import { mdiAccount, mdiGenderMaleFemale, mdiCity, mdiHomeMapMarker, mdiNumeric, mdiFlag, mdiPhone, mdiHospital, mdiBank,mdiCalendar,  mdiClock,mdiAccountBox } from '@mdi/js';
+
+const icons = {
+  mdiAccount,
+  mdiGenderMaleFemale,
+  mdiCity,
+  mdiHomeMapMarker,
+  mdiNumeric,
+  mdiFlag,
+  mdiPhone,
+  mdiHospital,
+  mdiBank,
+  mdiClock,
+  mdiCalendar,
+  mdiAccountBox
+};
 
 const store = useStore();
 
