@@ -47,7 +47,6 @@
 </template>
 
 <script setup>
-import { useModel } from 'vue';
 import { mdiClose } from '@mdi/js';
 
 const props = defineProps({
@@ -67,26 +66,12 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  modelValue: {
-    type: Boolean,
-    required: false,
-  },
+
 });
 
 const icons = { mdiClose };
-
-const model = useModel(props, 'modelValue');
-
+const model = defineModel();
 const close = () => {
   model.value = false;
 };
 </script>
-
-<style scoped>
-/* Remove ripple effect globally for the close button */
-.v-btn--icon.v-btn--density-default {
-  background-color: transparent !important;
-  box-shadow: none !important;
-}
-
-</style>
