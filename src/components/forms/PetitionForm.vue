@@ -3,6 +3,7 @@
     <v-row>
       <v-col cols="12" md="6">
         <v-text-field
+          :prepend-icon="icons.mdiAccount"
           label="Petitioneer"
           v-model="formData.petitioneer"
           outlined
@@ -12,6 +13,7 @@
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          :prepend-icon="icons.mdiEmail"
           label="Student Mail"
           v-model="formData.student_mail"
           type="email"
@@ -22,6 +24,7 @@
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          :prepend-icon="icons.mdiOfficeBuilding"
           label="Org Unit"
           v-model="formData.org_unit"
           :rules="role === 'student' ? [] : [requiredRule]"
@@ -32,6 +35,7 @@
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          :prepend-icon="icons.mdiNumeric"
           label="EOS Number"
           v-model="formData.eos_number"
           :rules="role === 'student' ? [] : [requiredRule]"
@@ -42,6 +46,7 @@
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          :prepend-icon="icons.mdiCalendar"
           label="Start Date"
           v-model="formData.start_date"
           type="date"
@@ -52,6 +57,7 @@
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          :prepend-icon="icons.mdiCalendar"
           label="End Date"
           v-model="formData.end_date"
           type="date"
@@ -62,6 +68,7 @@
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          :prepend-icon="icons.mdiClock"
           label="Minutes (h/Month)"
           v-model="formData.minutes"
           type="number"
@@ -71,13 +78,18 @@
         />
       </v-col>
       <v-col cols="12" md="6">
-        <v-checkbox
+        <v-select
+          :prepend-icon="icons.mdiSchool"
           label="Bachelor Degree"
           v-model="formData.ba_degree"
-        />
+          :items="degreeOptions"
+          item-title="text"
+          item-value="value"
+        ></v-select>
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          :prepend-icon="icons.mdiCurrencyUsd"
           label="Budget Position"
           v-model="formData.budget_position"
           :rules="role === 'student' ? [] : [requiredRule]"
@@ -88,6 +100,7 @@
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          :prepend-icon="icons.mdiEmail"
           label="Budget Approver Email"
           v-model="formData.budget_approver"
           type="email"
@@ -98,83 +111,89 @@
         />
       </v-col>
 
-      <v-col cols="12">
-        <v-btn
-          variant="text"
-          color="primary"
-          @click="isExpanded = !isExpanded"
-        >
-          <v-icon>{{ isExpanded ? icons.mdiChevronUp : icons.mdiChevronDown }}</v-icon>
-          {{ isExpanded ? 'Show Less' : 'Show More' }}
-        </v-btn>
-      </v-col>
-
       <!-- Time and Duration Exception Fields -->
-      <template v-if="isExpanded">
-        <v-col cols="12" md="6">
-          <v-text-field
+
+        <v-col cols="12" >
+          <v-checkbox
+            v-model="formData.time_exec"
+            label="Time Exception"
+          />
+          <div class="mx-4">
+            <v-text-field
+            v-if="formData.time_exec"
             label="Time Exception Name"
             v-model="formData.time_exce_name"
             outlined
             dense
           />
-        </v-col>
-        <v-col cols="12" md="6">
           <v-text-field
-            label="Duration Exception Name"
-            v-model="formData.duration_exce_name"
-            outlined
-            dense
-          />
-        </v-col>
-        <v-col cols="12" md="6">
-          <v-text-field
+            v-if="formData.time_exec"
             label="Time Exception Start Date"
             v-model="formData.time_exce_start"
             type="date"
             outlined
             dense
           />
-        </v-col>
-        <v-col cols="12" md="6">
           <v-text-field
-            label="Duration Exception Start Date"
-            v-model="formData.duration_exce_start"
-            type="date"
-            outlined
-            dense
-          />
-        </v-col>
-        <v-col cols="12" md="6">
-          <v-text-field
+            v-if="formData.time_exec"
             label="Time Exception End Date"
             v-model="formData.time_exce_end"
             type="date"
             outlined
             dense
           />
+          </div>
+          
         </v-col>
-        <v-col cols="12" md="6">
+        
+        <v-col cols="12">
+          <v-checkbox
+            v-model="formData.duration_exec"
+            label="Duration Exception"
+          />
+          <div class="mx-4">
+            <v-text-field
+            v-if="formData.duration_exec"
+            label="Duration Exception Name"
+            v-model="formData.duration_exce_name"
+            outlined
+            dense
+          />
           <v-text-field
+            v-if="formData.duration_exec"
+            label="Duration Exception Start Date"
+            v-model="formData.duration_exce_start"
+            type="date"
+            outlined
+            dense
+          />
+          <v-text-field
+            v-if="formData.duration_exec"
             label="Duration Exception End Date"
             v-model="formData.duration_exce_end"
             type="date"
             outlined
             dense
           />
+          </div>
         </v-col>
-      </template>
     </v-row>
   </v-form>
 </template>
 
 <script setup>
 import { ref, watchEffect } from 'vue';
-import { mdiChevronUp, mdiChevronDown } from '@mdi/js';
+import { mdiAccount, mdiEmail, mdiOfficeBuilding, mdiNumeric, mdiSchool,mdiCalendar, mdiClock, mdiCurrencyUsd } from '@mdi/js';
 
 const icons = {
-  mdiChevronUp,
-  mdiChevronDown,
+  mdiAccount,
+  mdiEmail,
+  mdiOfficeBuilding,
+  mdiNumeric,
+  mdiCalendar,
+  mdiClock,
+  mdiCurrencyUsd,
+  mdiSchool
 };
 
 const props = defineProps({
@@ -189,6 +208,10 @@ const props = defineProps({
     default: 'student',
   },
 });
+const degreeOptions =[
+{ text: 'I have a Bachlor Degree', value: true },
+{ text: 'I don\'t have a Bachlor Degree', value: false }
+]
 
 const initialFormData = {
   petitioneer: '',
@@ -201,9 +224,11 @@ const initialFormData = {
   ba_degree: false,
   budget_position: '',
   budget_approver: '',
+  time_exce: false,
   time_exce_name: '',
   time_exce_start: '',
   time_exce_end: '',
+  duration_exce: false,
   duration_exce_name: '',
   duration_exce_start: '',
   duration_exce_end: '',
