@@ -9,6 +9,7 @@
           :rules="[requiredRule]"
           outlined
           dense
+          aria-labelledby="first-name"
         />
       </v-col>
       <v-col cols="12" md="6">
@@ -19,6 +20,7 @@
           :rules="[requiredRule]"
           outlined
           dense
+          aria-labelledby="last-name"
         />
       </v-col>
       <v-col cols="12" md="6">
@@ -30,6 +32,7 @@
           :rules="[requiredRule]"
           outlined
           dense
+          aria-labelledby="form-of-address"
         />
       </v-col>
       <v-col cols="12" md="6">
@@ -41,6 +44,7 @@
           :rules="[requiredRule]"
           outlined
           dense
+          aria-labelledby="gender"
         />
       </v-col>
       <v-col cols="12" md="6">
@@ -52,6 +56,7 @@
           :rules="[requiredRule]"
           outlined
           dense
+          aria-labelledby="date-of-birth"
         />
       </v-col>
       <v-col cols="12" md="6">
@@ -62,6 +67,7 @@
           :rules="[requiredRule]"
           outlined
           dense
+          aria-labelledby="city-of-birth"
         />
       </v-col>
       <v-col cols="12" md="6">
@@ -72,6 +78,7 @@
           :rules="[requiredRule]"
           outlined
           dense
+          aria-labelledby="address"
         />
       </v-col>
       <v-col cols="12" md="6">
@@ -82,6 +89,7 @@
           :rules="[requiredRule, postalCodeRule]"
           outlined
           dense
+          aria-labelledby="postal-code"
         />
       </v-col>
       <v-col cols="12" md="6">
@@ -92,6 +100,7 @@
           :rules="[requiredRule]"
           outlined
           dense
+          aria-labelledby="nationality"
         />
       </v-col>
       <v-col cols="12" md="6">
@@ -102,6 +111,7 @@
           :rules="[requiredRule, phoneRule]"
           outlined
           dense
+          aria-labelledby="telephone-number"
         />
       </v-col>
       <v-col cols="12" md="6">
@@ -112,6 +122,7 @@
           :rules="[requiredRule]"
           outlined
           dense
+          aria-labelledby="health-insurance"
         />
       </v-col>
       <v-col cols="12" md="6">
@@ -122,18 +133,21 @@
           :rules="[requiredRule, ibanRule]"
           outlined
           dense
+          aria-labelledby="iban"
         />
       </v-col>
       <v-col cols="12">
         <v-checkbox
           label="Married / Verheiratet"
           v-model="formData.married"
+          aria-labelledby="married"
         />
       </v-col>
       <v-col cols="12">
         <v-checkbox
           label="Previous Employment at Universities / Vorherige Anstellung an Universitäten"
           v-model="formData.previous_employment"
+          aria-labelledby="previous-employment"
         />
       </v-col>
       <v-col cols="12" md="6" v-if="formData.previous_employment">
@@ -145,6 +159,7 @@
           outlined
           dense
           placeholder="DD.MM.YYYY – DD.MM.YYYY"
+          aria-labelledby="duration"
         />
       </v-col>
     </v-row>

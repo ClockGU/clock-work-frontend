@@ -1,26 +1,33 @@
 <template>  
-  <!--<portal-target  
-    :slot-props="{ action: () => toggleNavigationdrawer() }"  
-    name="app-bar"  
-  >-->  
-    <v-app-bar app flat fixed elevation="0" :color="bgColor">  
+    <v-app-bar app flat fixed elevation="0" :color="bgColor" aria-label="Application navigation">  
       <v-app-bar-nav-icon  
         v-if="isLoggedIn"  
         class="hidden-md-and-up"  
         @click="toggleNavigationdrawer"  
+        aria-label="Toggle navigation drawer"  
       >  
         <v-icon>{{ icons.mdiMenu }}</v-icon>  
       </v-app-bar-nav-icon>  
 
       <v-toolbar-title>  
-        <router-link v-slot="{ navigate }" :to="{ name: 'roles' }" custom>  
+        <router-link  
+          v-slot="{ navigate }"  
+          :to="{ name: 'roles' }"  
+          custom  
+          aria-label="Go to roles page"  
+        >  
           <span  
             role="link"  
             style="cursor: pointer"  
             @click="navigate"  
             @keypress.enter="navigate"  
           >  
-            <v-img width="96px" height="32px" :src="imgSrc" />  
+            <v-img  
+              width="96px"  
+              height="32px"  
+              :src="imgSrc"  
+              alt="Clock logo"  
+            />  
           </span>  
         </router-link>  
       </v-toolbar-title>  
@@ -34,11 +41,12 @@
         v-if="isLoggedIn && mdAndUp"  
         :loading="userLoading"  
         type="avatar"  
+        aria-label="User avatar"  
       >  
-        <v-menu class="py-3">  
+        <v-menu class="py-3" aria-label="User menu">  
           <template #activator="{ props }">  
-            <v-btn :color="bgColor" variant="flat">  
-              <div class="d-flex align-center" v-bind="props">  
+            <v-btn :color="bgColor" variant="flat" v-bind="props">  
+              <div class="d-flex align-center">  
                 <v-avatar  
                   size="30px"  
                   color="blue-lighten-2"  
@@ -52,11 +60,12 @@
               <v-icon :icon="icons.mdiChevronDown"></v-icon>  
             </v-btn>  
           </template>  
-          <v-list>  
+          <v-list aria-label="User menu options">  
             <v-list-item  
               :prepend-icon="icons.mdiLogout"  
               data-cy="menu-logout"  
               @click="logout"  
+              aria-label="Logout"  
             >  
               Logout  
             </v-list-item>  
@@ -98,3 +107,4 @@ const logout = () => {
   // Handle logout logic here  
   };  
 </script>  
+

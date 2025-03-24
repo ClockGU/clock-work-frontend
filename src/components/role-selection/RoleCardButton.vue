@@ -8,9 +8,10 @@
     <v-card
       class="card-button d-flex flex-column align-center justify-center"
       style="background-color: transparent; box-shadow: none;"
+      aria-describedby="role-description"
     >
-      <v-card-title class="headline mt-4">{{ title }}</v-card-title>  
-      <v-img :src="props.imgSrc" width="200" height="200"/>
+      <v-card-title class="headline mt-4" id="role-description">{{ title }}</v-card-title>  
+      <v-img :src="props.imgSrc" width="200" height="200" alt="role image"/>
       <v-card-text class="description">{{ description }}</v-card-text>  
     </v-card>  
   </v-btn>

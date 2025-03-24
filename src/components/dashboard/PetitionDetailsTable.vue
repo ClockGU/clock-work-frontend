@@ -10,12 +10,14 @@
           color="primary"
           @click="$emit('edit')"
           class="mr-3"
+          aria-label="Edit Petition"
         >
           <v-icon>{{ icons.mdiPencil }}</v-icon>
           </v-btn>
           <v-btn
             color="error"
             @click="$emit('close')"
+            aria-label="Close Petition"
           >
             <v-icon>{{ icons.mdiClose }}</v-icon>
           </v-btn>
@@ -23,17 +25,45 @@
       </div>
   
       <!-- Table -->
-      <v-table class="styled-table" density="comfortable" hover>
+      <v-table
+        class="styled-table"
+        density="comfortable"
+        hover
+        role="table"
+        aria-label="Petition Details Table"
+      >
         <thead>
-          <tr>
-            <th class="key-column">Petition Field</th>
-            <th class="value-column">Value</th>
+          <tr role="row">
+            <th
+              class="key-column"
+              scope="col"
+              role="columnheader"
+              aria-label="Petition Field"
+            >
+              Petition Field
+            </th>
+            <th
+              class="value-column"
+              scope="col"
+              role="columnheader"
+              aria-label="Value"
+            >
+              Value
+            </th>
           </tr>
         </thead>
-        <tbody>
-          <tr v-for="(value, key) in formatPetition(petition)"          :key="key">
-            <td class="key-cell">{{ formatKey(key) }}</td>
-            <td class="value-cell">{{ formatValue(value) }}</td>
+        <tbody role="rowgroup">
+          <tr
+            v-for="(value, key) in formatPetition(petition)"
+            :key="key"
+            role="row"
+          >
+            <td class="key-cell" role="cell">
+              {{ formatKey(key) }}
+            </td>
+            <td class="value-cell" role="cell">
+              {{ formatValue(value) }}
+            </td>
           </tr>
         </tbody>
       </v-table>
@@ -43,6 +73,7 @@
           color="primary"
           variant="text"
           @click="$emit('edit')"
+          aria-label="Edit Petition"
           >
           Edit Petition
         </v-btn>
@@ -50,6 +81,7 @@
           color="error"
           variant="text"
           @click="$emit('close')"
+          aria-label="Close Petition"
           >
           Close Petition
         </v-btn>
@@ -157,3 +189,4 @@ function formatPetition(petition) {
     background-color: #ffffff;
   }
   </style>
+

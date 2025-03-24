@@ -9,6 +9,7 @@
           outlined
           dense
           disabled
+          aria-label="Petitioneer Name"
         />
       </v-col>
       <v-col cols="12" md="6">
@@ -20,6 +21,7 @@
           :rules="[requiredRule, emailRule]"
           outlined
           dense
+          aria-label="Student Email"
         />
       </v-col>
       <v-col cols="12" md="6">
@@ -31,6 +33,7 @@
           outlined
           dense
           :disabled="role === 'student'"
+          aria-label="Organizational Unit"
         />
       </v-col>
       <v-col cols="12" md="6">
@@ -42,6 +45,7 @@
           outlined
           dense
           :disabled="role === 'student'"
+          aria-label="EOS Number"
         />
       </v-col>
       <v-col cols="12" md="6">
@@ -53,6 +57,7 @@
           :rules="[requiredRule]"
           outlined
           dense
+          aria-label="Start Date"
         />
       </v-col>
       <v-col cols="12" md="6">
@@ -64,6 +69,7 @@
           :rules="[requiredRule, endDateRule]"
           outlined
           dense
+          aria-label="End Date"
         />
       </v-col>
       <v-col cols="12" md="6">
@@ -75,6 +81,7 @@
           :rules="[requiredRule, positiveNumberRule]"
           outlined
           dense
+          aria-label="Minutes per Month"
         />
       </v-col>
       <v-col cols="12" md="6">
@@ -85,7 +92,8 @@
           :items="degreeOptions"
           item-title="text"
           item-value="value"
-        ></v-select>
+          aria-label="Bachelor Degree"
+        />
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
@@ -96,6 +104,7 @@
           outlined
           dense
           :disabled="role === 'student'"
+          aria-label="Budget Position"
         />
       </v-col>
       <v-col cols="12" md="6">
@@ -108,6 +117,7 @@
           outlined
           dense
           :disabled="role === 'student'"
+          aria-label="Budget Approver Email"
         />
       </v-col>
 
@@ -117,6 +127,7 @@
           v-model="formData.time_exec"
           label="Time Exception"
           @update:modelValue="handleTimeExceptionChange"
+          aria-label="Time Exception"
         />
         <div class="mx-4">
           <v-text-field
@@ -124,8 +135,9 @@
             label="Time Exception Name"
             v-model="formData.time_exce_name"
             outlined
-            dense            
+            dense
             :rules="formData.time_exec? [requiredRule] : []"
+            aria-label="Time Exception Name"
           />
           <v-text-field
             v-if="formData.time_exec"
@@ -135,6 +147,7 @@
             outlined
             dense
             :rules="formData.time_exec? [requiredRule] : []"
+            aria-label="Time Exception Start Date"
           />
           <v-text-field
             v-if="formData.time_exec"
@@ -144,6 +157,7 @@
             outlined
             dense
             :rules="formData.time_exec? [requiredRule] : []"
+            aria-label="Time Exception End Date"
           />
         </div>
       </v-col>
@@ -153,6 +167,7 @@
           v-model="formData.duration_exec"
           label="Duration Exception"
           @update:modelValue="handleDurationExceptionChange"
+          aria-label="Duration Exception"
         />
         <div class="mx-4">
           <v-text-field
@@ -162,6 +177,7 @@
             outlined
             dense
             :rules="formData.duration_exec? [requiredRule] : []"
+            aria-label="Duration Exception Name"
           />
           <v-text-field
             v-if="formData.duration_exec"
@@ -171,7 +187,7 @@
             outlined
             dense
             :rules="formData.duration_exec? [requiredRule] : []"
-
+            aria-label="Duration Exception Start Date"
           />
           <v-text-field
             v-if="formData.duration_exec"
@@ -181,6 +197,7 @@
             outlined
             dense
             :rules="formData.duration_exec? [requiredRule] : []"
+            aria-label="Duration Exception End Date"
           />
         </div>
       </v-col>
