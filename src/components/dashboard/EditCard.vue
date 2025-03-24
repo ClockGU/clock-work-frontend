@@ -74,9 +74,6 @@ const openDialog = (shouldEdit) => {
 const selectPetition = (petition) => {
   selectedPetition.value = petition;
 };
-watch(shouldEditPetition, (val) => {
-  console.log(val);
-})
 defineExpose({ selectPetition });
 </script>
 
