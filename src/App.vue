@@ -18,7 +18,7 @@
       <LoadingOverlay />
     </v-main>
     
-    <AppFooter v-if="showAppBarAndFooter"/>
+    <AppFooter v-if="showAppBarAndFooter" class="mt-8"/>
   </v-app>
 </template>
 
