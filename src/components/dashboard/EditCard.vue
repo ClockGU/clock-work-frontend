@@ -29,7 +29,7 @@
         You can select a petition from the overview table to view its details.
       </p>
 
-      <!-- PetitionFormDialog -->
+      <!-- open adequate dialog based on role -->
       <PetitionFormDialog
         v-if="role === 'supervisor'"
         v-model="dialog"
@@ -46,7 +46,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import PetitionFormDialog from '@/components/dialogs/PetitionFormDialog.vue';
 import StudentDataManagementDialog from '../dialogs/StudentDataManagementDialog.vue';
 import PetitionDetailsTable from '@/components/dashboard/PetitionDetailsTable.vue';
