@@ -1,10 +1,11 @@
 <template>
-    <v-row v-if="!mdAndUp" align="center" >
-      <v-col class="d-flex" cols="12" style="justify-content: center">
-        <ClockIcon size="400"></ClockIcon>
+  <div class="h-100">
+    <v-row v-if="!mdAndUp"  >
+      <v-col class="d-flex mb-6" cols="12" style="justify-content: center">
+        <ClockIcon :size="mdAndUp?400:300"></ClockIcon>
       </v-col>
     </v-row>
-    <v-row align="center" :style="styles">
+    <v-row align="center" >
       <v-col v-if="mdAndUp" class="d-flex" cols="6" style="justify-content: end">
         <ClockIcon size="600"></ClockIcon>
       </v-col>
@@ -15,7 +16,7 @@
       >
         <v-card max-width="600">
           <v-card-text style="text-align: center">
-            <h2>Willkommen im Vorgesetz&shy;ten&shy;portal von CLOCK</h2>
+            <h2>Willkommen im Vorgesetz&shy;ten&shy;portal von CLOCK Work</h2>
           </v-card-text>
           <v-card-actions>
             <v-spacer />
@@ -36,6 +37,7 @@
         </v-card>
       </v-col>
     </v-row>
+  </div>
   </template>
   
   <script setup>
