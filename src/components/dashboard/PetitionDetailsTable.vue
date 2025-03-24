@@ -1,5 +1,4 @@
 <template>
-    <div class="petition-details-table">
       <!-- Header with Close Button -->
       <div class="d-flex justify-space-between align-center mb-3 mr-1">
         <h2 class="text-high-emphasis font-weight-bold">
@@ -24,7 +23,7 @@
       </div>
   
       <!-- Table -->
-      <v-table class="styled-table">
+      <v-table class="styled-table" density="comfortable" hover>
         <thead>
           <tr>
             <th class="key-column">Petition Field</th>
@@ -55,7 +54,6 @@
           Close Petition
         </v-btn>
       </div>
-    </div>
   </template>
   
   <script setup>
@@ -94,28 +92,13 @@
   </script>
   
   <style scoped>
-  .petition-details-table {
-    width: 100%;
-    background: #ffffff;
-  }
-  
-  .header-title {
-    font-size: 1.45rem;
-    font-weight: bold;
-    margin: 0;
-    color: #333;
-  }
-  
-  
   .styled-table {
-    width: 100%;
     border-collapse: collapse;
     border: 1px solid #d6d3d3; 
   }
   
   .styled-table th,
   .styled-table td {
-    padding: 12px 16px;
     border-bottom: 1px solid #fafafa;
   }
   
@@ -148,9 +131,5 @@
   
   .value-cell {
     background-color: #ffffff;
-  }
-  
-  .styled-table tbody tr:hover {
-    background-color: #f9f9f9;
   }
   </style>
