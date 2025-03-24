@@ -124,7 +124,8 @@
             label="Time Exception Name"
             v-model="formData.time_exce_name"
             outlined
-            dense
+            dense            
+            :rules="formData.time_exec? [requiredRule] : []"
           />
           <v-text-field
             v-if="formData.time_exec"
@@ -133,6 +134,7 @@
             type="date"
             outlined
             dense
+            :rules="formData.time_exec? [requiredRule] : []"
           />
           <v-text-field
             v-if="formData.time_exec"
@@ -141,6 +143,7 @@
             type="date"
             outlined
             dense
+            :rules="formData.time_exec? [requiredRule] : []"
           />
         </div>
       </v-col>
@@ -158,6 +161,7 @@
             v-model="formData.duration_exce_name"
             outlined
             dense
+            :rules="formData.duration_exec? [requiredRule] : []"
           />
           <v-text-field
             v-if="formData.duration_exec"
@@ -166,6 +170,8 @@
             type="date"
             outlined
             dense
+            :rules="formData.duration_exec? [requiredRule] : []"
+
           />
           <v-text-field
             v-if="formData.duration_exec"
@@ -174,6 +180,7 @@
             type="date"
             outlined
             dense
+            :rules="formData.duration_exec? [requiredRule] : []"
           />
         </div>
       </v-col>
