@@ -17,7 +17,7 @@
       </v-container>
       <LoadingOverlay />
     </v-main>
-    
+    <SnackBar />
     <AppFooter v-if="showAppBarAndFooter"/>
   </v-app>
 </template>
@@ -29,7 +29,7 @@ import LoadingOverlay from "@/components/LoadingOverlay.vue";
 import AppBar from '@/components/app-bar/AppBar.vue';
 import NavigationDrawer from "./components/app-bar/NavigationDrawer.vue";
 import AppFooter from '@/components/AppFooter.vue';
-
+import SnackBar from '@/components/SnackBar'
 const drawer = ref(false);
 const route = useRoute();
 
