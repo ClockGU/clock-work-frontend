@@ -208,7 +208,9 @@
 <script setup>
 import { ref, watchEffect } from 'vue';
 import { mdiAccount, mdiEmail, mdiOfficeBuilding, mdiNumeric, mdiSchool,mdiCalendar, mdiClock, mdiCurrencyUsd } from '@mdi/js';
+import { useI18n } from 'vue-i18n';
 
+const {t}= useI18n();
 const icons = {
   mdiAccount,
   mdiEmail,
@@ -287,4 +289,13 @@ const handleDurationExceptionChange = (value) => {
     formData.value.duration_exce_end = '';
   }
 };
+//validation rules 
+const requiredRule = (v) => !!v || t('validationRule.required');
+const emailRule = (v) => /.+@.+\..+/.test(v) || t('validationRule.invalidEmail');
+const positiveNumberRule = (v) => v > 0 || t('validationRule.positiveNumber');
+const endDateRule = (v) => {
+  if (!formData.value.start_date || !v) return true;
+  return new Date(v) >= new Date(formData.value.start_date) || t('validationRule.endDateAfterStart');
+};
+defineExpose({ formData, isFormValid });
 </script>
