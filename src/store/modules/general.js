@@ -1,4 +1,3 @@
-import ApiService from "@/services/api";
 import i18n, { switchDateFnsLocale } from "@/plugins/i18n";
 
 
@@ -25,4 +24,12 @@ const actions = {
     switchDateFnsLocale(locale);
     i18n.global.locale.value = locale;
   },
+};
+
+export default {
+  namespaced: true,
+  state,
+  getters,
+  actions,
+  mutations,
 };

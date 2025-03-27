@@ -62,6 +62,6 @@
     } catch (error) {
       console.error("Error changing locale:", error);
     }*/
-    store.dispatch("changeLocale", newLocale);
+    store.dispatch("general/changeLocale", newLocale);
   };
   </script>
