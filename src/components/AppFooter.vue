@@ -32,7 +32,7 @@
             class="text-white" 
             aria-label="clock"
           >  
-            {{ $t('appFooter.links.clock') }}  
+            CLOCK-Work 
           </a>  
         </div>  
 
@@ -40,16 +40,15 @@
           <p class="mb-4">  
             {{ $t('appFooter.text') }}  
           </p>  
-          <p>  
             {{ $t('appFooter.code') }}  
             <a  
               class="text-no-wrap"   
               href="https://github.com/ClockGU"  
               aria-label="Github"
             >  
-              {{ $t('appFooter.links.github') }}  
+              Github 
             </a>  
-          </p>  
+        
         </div>  
       </v-col>  
     </v-row>  
