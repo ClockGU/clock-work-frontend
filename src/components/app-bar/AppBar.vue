@@ -37,6 +37,8 @@
       <!-- <ThemeToggle />   
       -->  
 
+      <LanguageSwitcher />
+
       <v-skeleton-loader  
         v-if="isLoggedIn && mdAndUp"  
         :loading="userLoading"  
@@ -80,6 +82,7 @@ import { mdiChevronDown, mdiMenu, mdiLogout } from "@mdi/js";
 import svg from "@/assets/clock_full.svg";
 import darkSvg from "@/assets/clock_full_darkmode.svg";
 import { useDisplay } from "vuetify";
+import LanguageSwitcher from "@/components/app-bar/LanguageSwitcher.vue";
 const icons = {  
   mdiMenu,  
   mdiChevronDown,  
