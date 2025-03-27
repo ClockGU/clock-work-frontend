@@ -120,6 +120,12 @@
     "durationExceStart": "Startdatum der Dauerabweichung",
     "durationExceEnd": "Enddatum der Dauerabweichung"
   },
+  "validationRule": {
+    "required": "Dieses Feld ist erforderlich",
+    "invalidEmail": "Ungültige E-Mail-Adresse",
+    "positiveNumber": "Muss eine positive Zahl sein",
+    "endDateAfterStart": "Enddatum muss nach dem Startdatum liegen"
+  },
   "appFooter": {
     "links": {
       "Datenschutz": "Datenschutz",

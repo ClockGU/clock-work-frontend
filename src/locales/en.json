@@ -120,6 +120,12 @@
     "durationExceStart": "Duration Exception Start Date",
     "durationExceEnd": "Duration Exception End Date"
   },
+  "validationRule": {
+    "required": "This field is required",
+    "invalidEmail": "Invalid email address",
+    "positiveNumber": "Must be a positive number",
+    "endDateAfterStart": "End date must be after start date"
+  },
   "appFooter": {
     "links": {
       "Datenschutz": "Privacy",
