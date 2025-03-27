@@ -59,7 +59,7 @@
             role="row"
           >
             <td class="key-cell" role="cell">
-              {{ formatKey(key) }}
+              {{ $t(`petition.${formatKey(key)}`) }}
             </td>
             <td class="value-cell" role="cell">
               {{ formatValue(value) }}
@@ -108,8 +108,8 @@ const icons = { mdiClose, mdiPencil };
 const formatKey = (key) => {
   return key
     .split("_")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
+    .map((word, index) => (index ? word.charAt(0).toUpperCase() + word.slice(1) : word))
+    .join("");
 };
 
 const formatValue = (value) => {
