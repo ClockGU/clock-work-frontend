@@ -10,15 +10,15 @@
       style="background-color: transparent; box-shadow: none;"
       aria-describedby="role-description"
     >
-      <v-card-title class="headline mt-4" id="role-description">{{ title }}</v-card-title>  
-      <v-img :src="props.imgSrc" width="200" height="200" alt="role image"/>
-      <v-card-text class="description">{{ description }}</v-card-text>  
+      <v-card-title class="text-h5 text-high-emphasis mt-4" id="role-description">{{ title }}</v-card-title>  
+      <v-img :src="props.imgSrc" width="200" height="200" :alt="`role image as ${props.role}`"/>
+      <v-card-text class="description text-body-1 text-medium-emphasis">{{ description }}</v-card-text>  
     </v-card>  
   </v-btn>
 </template>  
   
   <script setup>
-  import { useRouter } from 'vue-router';    
+  import { useRouter } from 'vue-router';   
   const props = defineProps({  
     title: {  
       type: String,  
@@ -39,7 +39,7 @@
   });  
 
   const router = useRouter();  
-  const handleClick = () => {  
+  const handleClick = () => { 
     router.push({ path: `/dashboard/${props.role}` });
   };  
   </script>  
@@ -52,20 +52,10 @@
     height: 400px; 
     width: 300px;
   }  
-  
   .card-button:hover {  
     transform: translateY(-5px);  
   }  
-  
-  .headline {  
-  font-size: 1.5rem;  
-  font-weight: bold;  
-  color: #333;  
-  text-align: center;
-}
-  
   .description {
-    color: #666;
     text-align: center;
     overflow: hidden; 
     text-overflow: ellipsis; 

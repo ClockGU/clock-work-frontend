@@ -1,8 +1,8 @@
 <template>
     <v-container class="d-flex flex-column justify-end align-center"> 
     <v-spacer></v-spacer> 
-      <h1>You are new here!</h1>  
-      <h3 class="text-center">Tell us what role you are going to play here:</h3>  
+      <p class="text-h2 font-weight-medium ">You are new here!</p>  
+      <p class="text-h5 text-center mb-8">Tell us what role you are going to play here:</p>  
       <v-row>  
         <v-col>  
           <RoleCardButton  
@@ -30,9 +30,3 @@
   import SupervisorImg from '@/assets/supervisor.png';
 
   </script>  
-  
-  <style scoped>  
-  h1, h3 {  
-    margin-bottom: 20px;  
-  }  
-  </style>
