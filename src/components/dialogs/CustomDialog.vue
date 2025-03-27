@@ -6,7 +6,7 @@
     :max-width="maxWidth"
     transition="slide-y-reverse-transition"
     @click:outside="close"
-    aria-labelledby="dialog-title"
+    :aria-labelledby="$t('customDialog.title')"
     role="dialog"
   >
     <!-- Activator Slot -->
@@ -16,8 +16,9 @@
 
     <v-card>
       <!-- Title Section -->
-      <v-card-title id="dialog-title" class="text-h6 font-weight-bold bg-grey-lighten-2 d-flex justify-space-between align-center">
-        <span class="text-h6 pa-2">{{ title }}</span>
+      
+        <v-card-title id="dialog-title" class="text-h6 font-weight-bold bg-grey-lighten-2 d-flex justify-space-between align-center">
+          <span class="text-h6 pa-2">{{ title }}</span>
 
         <!-- Close Button -->
         <v-btn
@@ -26,7 +27,7 @@
           variant="text"
           class="text-grey-darken-2"
           :ripple="false"
-          aria-label="Close dialog"
+          :aria-label="$t('customDialog.ariaLabel.close')"
         >
           <v-icon>{{ icons.mdiClose }}</v-icon>
         </v-btn>
@@ -42,7 +43,14 @@
 
       <!-- Actions Slot -->
       <v-card-actions class="pa-4">
-        <v-btn color="grey-darken-1" variant="text" @click="close" aria-label="Cancel dialog">CANCEL</v-btn>
+        <v-btn
+          color="grey-darken-1"
+          variant="text"
+          @click="close"
+          :aria-label="$t('actions.cancel')"
+        >
+          {{ $t('actions.cancel') }}
+        </v-btn>
         <slot name="actions"></slot>
       </v-card-actions>
     </v-card>
@@ -77,4 +85,3 @@ const close = () => {
   model.value = false;
 };
 </script>
-

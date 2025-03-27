@@ -17,9 +17,9 @@
             variant="text"  
             rounded  
             class="mx-2"  
-            :aria-label="link.text"
+            :aria-label="$t(`appFooter.links.${link.text}`)"
           >  
-            {{ link.text }}  
+            {{ $t(`appFooter.links.${link.text}`) }}  
           </v-btn>  
         </div>  
 
@@ -30,35 +30,25 @@
             rel="noopener noreferrer"  
             target="_blank"  
             class="text-white" 
-            aria-label="Clock"
+            aria-label="clock"
           >  
-            Clock  
+            CLOCK-Work 
           </a>  
         </div>  
 
         <div class="my-2 pb-10">  
           <p class="mb-4">  
-            Dieses Projekt wurde mit finanzieller Unterstützung der  
+            {{ $t('appFooter.text') }}  
+          </p>  
+            {{ $t('appFooter.code') }}  
             <a  
               class="text-no-wrap"   
-              href="https://www.uni-frankfurt.de/"  
-              aria-label="Goethe-Universität Frankfurt"
-            >  
-              Goethe-Universität Frankfurt  
-            </a>  
-            entwickelt.  
-          </p>  
-          <p>  
-            Code auf  
-            <a  
-              class="text-no-wrap" 
               href="https://github.com/ClockGU"  
               aria-label="Github"
             >  
-              Github  
+              Github 
             </a>  
-            ansehen.  
-          </p>  
+        
         </div>  
       </v-col>  
     </v-row>  
@@ -81,4 +71,3 @@ a {
   color: white;  
 }  
 </style>
-

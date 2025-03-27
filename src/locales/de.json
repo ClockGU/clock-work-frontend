@@ -1,0 +1,131 @@
+{
+  "welcome": "Willkommen im Supervisor-Portal von CLOCK Work",
+  "login": "Anmelden",
+  "logout": "Abmelden",
+  "app": {
+    "loggingin": "Anmeldung..."
+  },
+  "actions": {
+    "cancel": "Abbrechen",
+    "submit": "Absenden",
+    "save": "Speichern"
+  },
+  "roleSelectionView": {
+    "welcome": "Sie sind neu hier!",
+    "roleSelection": "Sagen Sie uns, welche Rolle Sie hier spielen werden:",
+    "supervisorTitle": "Betreuer",
+    "supervisorDescription": "Als Betreuer stellen Sie studentische Hilfskräfte ein und betreuen sie",
+    "studentTitle": "Student",
+    "studentDescription": "Als Student können Sie Einstellungsanträge verwalten und für die Universität arbeiten"
+  },
+  "editCard": {
+    "ariaLabel": "Karte bearbeiten",
+    "supervisorTitle": "Antrag erstellen",
+    "studentTitle": "Persönliche Informationen verwalten",
+    "openFormDialog": "Formulardialog öffnen",
+    "petitionDetailsTable": "Antragsdetails-Tabelle",
+    "noPetitionSelected": "Sie können einen Antrag aus der Übersichtstabelle auswählen, um dessen Details anzuzeigen.",
+    "petitionFormDialog": "Antragsformular-Dialog",
+    "studentDataManagementDialog": "Dialog zur Verwaltung von Studentendaten"
+  },
+  "overviewCard": {
+    "overviewTitle": "Übersicht"
+  },
+  "petitionDetailsTable": {
+    "title": "Antragsdetails",
+    "ariaLabels": {
+      "editPetition": "Antrag bearbeiten",
+      "closePetition": "Antrag schließen",
+      "petitionDetailsTable": "Antragsdetails-Tabelle"
+    },
+    "headers": {
+      "petitionField": "Antragsfeld",
+      "value": "Wert"
+    },
+    "buttons": {
+      "editPetition": "Antrag bearbeiten",
+      "closePetition": "Antrag schließen"
+    }
+  },
+  "customDialog": {
+    "ariaLabel": {
+      "close": "Dialog schließen"
+    },
+    "title": "Dialogtitel"
+  },
+  "petitionFormDialog": {
+    "title": "Neuen Antrag erstellen",
+    "ariaLabel": {
+      "dialog": "Antragsdialog",
+      "petitionForm": "Antragsformular",
+      "submit": "Antragsformular absenden",
+      "save": "Antragsformular speichern"
+    }
+  },
+  "studentDataManagementDialog": {
+    "title": "Studentendaten verwalten",
+    "ariaLabel": {
+      "tabs": "Registerkarten zur Verwaltung von Studentendaten",
+      "personal": "Registerkarte für persönliche Informationen",
+      "files": "Registerkarte für hochgeladene Dateien"
+    },
+    "tabs": {
+      "personal": "Persönliche Informationen",
+      "files": "Hochgeladene Dateien"
+    },
+    "content": {
+      "personal": "Hier können Sie Ihre persönlichen Informationen anzeigen und bearbeiten.",
+      "files": "Hier können Sie die von Ihnen hochgeladenen Dateien anzeigen."
+    }
+  },
+  "employeeDataForm": {
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "formOfAddress": "Anrede",
+    "gender": "Geschlecht",
+    "dateOfBirth": "Geburtsdatum",
+    "cityOfBirth": "Geburtsort",
+    "address": "Adresse",
+    "postalCode": "Postleitzahl",
+    "nationality": "Staatsangehörigkeit",
+    "telephoneNumber": "Telefonnummer",
+    "healthInsurance": "Krankenversicherung",
+    "iban": "IBAN",
+    "married": "Verheiratet",
+    "previousEmployment": "Frühere Beschäftigung an Universitäten",
+    "duration": "Dauer"
+  },
+  "filesUploadForm": {
+    "elstam": "Elstam",
+    "studienbescheinigung": "Studienbescheinigung",
+    "versicherungsbescheinigung": "Versicherungsbescheinigung"
+  },
+  "petition": {
+    "petitioneer": "Antragsteller",
+    "studentMail": "Studenten-Mail",
+    "orgUnit": "Organisationseinheit",
+    "eosNumber": "EOS-Nummer",
+    "startDate": "Startdatum",
+    "endDate": "Enddatum",
+    "minutes": "Minuten (h/Monat)",
+    "baDegree": "Bachelor-Abschluss",
+    "budgetPosition": "Haushaltsstelle",
+    "budgetApprover": "E-Mail des Budgetgenehmigers",
+    "timeException": "Zeitabweichung",
+    "timeExceName": "Name der Zeitabweichung",
+    "timeExceStart": "Startdatum der Zeitabweichung",
+    "timeExceEnd": "Enddatum der Zeitabweichung",
+    "durationException": "Dauerabweichung",
+    "durationExceName": "Name der Dauerabweichung",
+    "durationExceStart": "Startdatum der Dauerabweichung",
+    "durationExceEnd": "Enddatum der Dauerabweichung"
+  },
+  "appFooter": {
+    "links": {
+      "Datenschutz": "Datenschutz",
+      "Impressum": "Impressum"
+    },
+    "text": "Dieses Projekt wurde finanziell von der Goethe-Universität Frankfurt unterstützt.",
+    "code": "Code auf "
+  }
+}
