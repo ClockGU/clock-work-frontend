@@ -26,7 +26,7 @@
               width="96px"  
               height="32px"  
               :src="imgSrc"  
-              :alt="'clockLogo'"  
+              alt="Clock logo"  
             />  
           </span>  
         </router-link>  
@@ -36,8 +36,6 @@
 
       <!-- <ThemeToggle />   
       -->  
-
-      <LanguageSwitcher />
 
       <v-skeleton-loader  
         v-if="isLoggedIn && mdAndUp"  
@@ -67,9 +65,9 @@
               :prepend-icon="icons.mdiLogout"  
               data-cy="menu-logout"  
               @click="logout"  
-              :aria-label="$t('logout')"  
+              aria-label="Logout"  
             >  
-              {{ $t('logout') }}  
+              Logout  
             </v-list-item>  
           </v-list>  
         </v-menu>  
@@ -82,11 +80,6 @@ import { mdiChevronDown, mdiMenu, mdiLogout } from "@mdi/js";
 import svg from "@/assets/clock_full.svg";
 import darkSvg from "@/assets/clock_full_darkmode.svg";
 import { useDisplay } from "vuetify";
-import LanguageSwitcher from "@/components/app-bar/LanguageSwitcher.vue";
-import { useI18n } from 'vue-i18n';
-
-const { t } = useI18n();
-
 const icons = {  
   mdiMenu,  
   mdiChevronDown,  
@@ -112,7 +105,6 @@ const firstLetter = user.first_name.charAt(0);
 
 const logout = () => {  
   // Handle logout logic here  
-};  
-</script>
-
+  };  
+</script>  
 

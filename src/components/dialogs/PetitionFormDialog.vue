@@ -1,8 +1,5 @@
 <template>
-  <CustomDialog
-    :title="$t('petitionFormDialog.title', { petition: petition ? 'Edit' : 'Create New' })"
-    aria-label="petitionFormDialog.ariaLabel.dialog"
-  >
+  <CustomDialog :title="petition ? 'Edit Petition' : 'Create New Petition'" aria-label="Petition Dialog">
     <template #content>
       <PetitionForm
         class="mt-12"
@@ -10,7 +7,7 @@
         :role="role"
         :petition="petition"
         @close="closeDialog"
-        aria-label="petitionFormDialog.ariaLabel.petitionForm"
+        aria-label="Petition Form"
       />
     </template>
 
@@ -20,18 +17,16 @@
         @click="submit"
         :disabled="!isFormValid"
         color="primary"
-        :aria-label="$t('petitionFormDialog.ariaLabel.submit')"
-      >
-        {{ $t('actions.submit') }}
+        aria-label="Submit Petition Form">
+        Submit
       </v-btn>
       <v-btn
         v-else
         @click="save"
         :disabled="!isFormValid"
         color="primary"
-        :aria-label="$t('petitionFormDialog.ariaLabel.save')"
-      >
-        {{ $t('actions.save') }}
+        aria-label="Save Petition Form">
+        Save
       </v-btn>
     </template>
   </CustomDialog>
@@ -78,4 +73,3 @@ const save = () => {
   }
 };
 </script>
-

@@ -2,7 +2,7 @@
       <!-- Header with Close Button -->
       <div class="d-flex justify-space-between align-center mb-3 mr-1">
         <h2 class="text-high-emphasis font-weight-bold">
-          {{ $t('petitionDetailsTable.title') }}
+          Petition Details
         </h2>
         <div>
           <v-btn
@@ -10,14 +10,14 @@
           color="primary"
           @click="$emit('edit')"
           class="mr-3"
-          :aria-label="$t('petitionDetailsTable.ariaLabels.editPetition')"
+          aria-label="Edit Petition"
         >
           <v-icon>{{ icons.mdiPencil }}</v-icon>
           </v-btn>
           <v-btn
             color="error"
             @click="$emit('close')"
-            :aria-label="$t('petitionDetailsTable.ariaLabels.closePetition')"
+            aria-label="Close Petition"
           >
             <v-icon>{{ icons.mdiClose }}</v-icon>
           </v-btn>
@@ -30,7 +30,7 @@
         density="comfortable"
         hover
         role="table"
-        :aria-label="$t('petitionDetailsTable.ariaLabels.petitionDetailsTable')"
+        aria-label="Petition Details Table"
       >
         <thead>
           <tr role="row">
@@ -38,17 +38,17 @@
               class="key-column"
               scope="col"
               role="columnheader"
-              :aria-label="$t('petitionDetailsTable.ariaLabels.petitionField')"
+              aria-label="Petition Field"
             >
-              {{ $t('petitionDetailsTable.headers.petitionField') }}
+              Petition Field
             </th>
             <th
               class="value-column"
               scope="col"
               role="columnheader"
-              :aria-label="$t('petitionDetailsTable.ariaLabels.value')"
+              aria-label="Value"
             >
-              {{ $t('petitionDetailsTable.headers.value') }}
+              Value
             </th>
           </tr>
         </thead>
@@ -59,7 +59,7 @@
             role="row"
           >
             <td class="key-cell" role="cell">
-              {{ $t(`petition.${formatKey(key)}`) }}
+              {{ formatKey(key) }}
             </td>
             <td class="value-cell" role="cell">
               {{ formatValue(value) }}
@@ -73,17 +73,17 @@
           color="primary"
           variant="text"
           @click="$emit('edit')"
-          :aria-label="$t('petitionDetailsTable.ariaLabels.editPetition')"
+          aria-label="Edit Petition"
           >
-          {{ $t('petitionDetailsTable.buttons.editPetition') }}
+          Edit Petition
         </v-btn>
         <v-btn
           color="error"
           variant="text"
           @click="$emit('close')"
-          :aria-label="$t('petitionDetailsTable.ariaLabels.closePetition')"
+          aria-label="Close Petition"
           >
-          {{ $t('petitionDetailsTable.buttons.closePetition') }}
+          Close Petition
         </v-btn>
       </div>
   </template>
@@ -108,8 +108,8 @@ const icons = { mdiClose, mdiPencil };
 const formatKey = (key) => {
   return key
     .split("_")
-    .map((word, index) => (index ? word.charAt(0).toUpperCase() + word.slice(1) : word))
-    .join("");
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 };
 
 const formatValue = (value) => {

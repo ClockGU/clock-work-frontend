@@ -1,21 +1,21 @@
 <template>
     <v-container class="d-flex flex-column justify-end align-center"> 
     <v-spacer></v-spacer> 
-      <p class="text-h2 font-weight-medium ">{{ $t('roleSelectionView.welcome') }}</p>  
-      <p class="text-h5 text-center mb-8">{{ $t('roleSelectionView.roleSelection') }}</p>  
+      <p class="text-h2 font-weight-medium ">You are new here!</p>  
+      <p class="text-h5 text-center mb-8">Tell us what role you are going to play here:</p>  
       <v-row>  
         <v-col>  
           <RoleCardButton  
-            :title="$t('roleSelectionView.supervisorTitle')"  
-            :description="$t('roleSelectionView.supervisorDescription')"  
+            title="Supervisor"  
+            description="As a supervisor you hire and supervise student assistants"  
             role="supervisor" 
             :imgSrc="SupervisorImg" 
           />  
         </v-col>  
         <v-col>  
           <RoleCardButton  
-            :title="$t('roleSelectionView.studentTitle')"  
-            :description="$t('roleSelectionView.studentDescription')"  
+            title="Student"  
+            description="As a student you can manage hire petitions and work for the university"  
             role="student" 
             :imgSrc="StudentImg"  
           />  

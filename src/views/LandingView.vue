@@ -16,7 +16,7 @@
       >
         <v-card max-width="600" role="region" aria-label="Login Card">
           <v-card-text style="text-align: center">
-            <h2>{{ $t("welcome") }}</h2>
+            <h2>Willkommen im Vorgesetz&shy;ten&shy;portal von CLOCK Work</h2>
           </v-card-text>
           <v-card-actions>
             <v-spacer />
@@ -33,7 +33,7 @@
                   @click="navigateToRoleSelection"
                   aria-label="Login"
                 >
-                  {{ $t("login") }}
+                  Zum Login
                 </v-btn>
               </template>
               <span style="color: black">{{ error }}</span>

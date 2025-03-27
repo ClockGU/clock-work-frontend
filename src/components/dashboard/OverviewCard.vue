@@ -1,9 +1,9 @@
 <template>
   <v-card>
-    <v-card-title>{{ $t('overviewCard.overviewTitle') }}</v-card-title>
+    <v-card-title>Overview</v-card-title>
     <v-card-text>
       <!-- Data Table -->
-      <v-data-table :headers="headers" :items="petitions" item-selectable hover>
+      <v-data-table :headers="headers" :items="petitions" item-selectable hover  >
         <template v-slot:item="{ item }">
           <tr @click="selectPetition(item)">
             <td>{{ item.student_mail }}</td>
@@ -18,12 +18,10 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
-import { useI18n } from "vue-i18n";
+import {computed } from "vue";
 import { useStore } from "vuex";
 
 const store = useStore();
-const { t } = useI18n();
 const props = defineProps({
   role: {
     type: String,
@@ -31,12 +29,12 @@ const props = defineProps({
   },
 });
 
-const headers = computed(() => [
-  { title: t('petition.studentMail'), key: "student_mail" },
-  { title: t('petition.startDate'), key: "start_date" },
-  { title: t('petition.endDate'), key: "end_date" },
-  { title: t('petition.minutes'), key: "minutes" }
-]);
+const headers = [
+  { title: "Student Mail", key: "student_mail" },
+  { title: "Start Date", key: "start_date" },
+  { title: "End Date", key: "end_date" },
+  {title:"Minutes" ,key:"minutes"}
+];
 
 const emit = defineEmits(["select-petition"]);
 

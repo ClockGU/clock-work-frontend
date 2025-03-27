@@ -1,7 +1,7 @@
 <template>
-  <v-card class="pa-4" role="region" :aria-label="$t('editCard.ariaLabel')">
+  <v-card class="pa-4" role="region" aria-label="Edit Card">
     <v-card-title v-if="!selectedPetition" class="text-h5 font-weight-bold">
-      {{ role === "supervisor" ? $t("editCard.supervisorTitle") : $t("editCard.studentTitle") }}
+      {{ role === "supervisor" ? 'Create Petition' : 'Manage Personal Information' }}
     </v-card-title>
     <v-card-text>
       <!-- Button to open the form dialog -->
@@ -9,25 +9,25 @@
         color="primary"
         class="mb-4"
         @click="openDialog(false)"
-        :aria-label="$t('editCard.openFormDialog')"
+        aria-label="Open Form Dialog"
       >
-      {{ role === "supervisor" ? $t("editCard.supervisorTitle") : $t("editCard.studentTitle") }}
+        {{ role === "supervisor" ? 'Create Petition' : 'Edit Personal Information' }}
       </v-btn>
 
       <!-- Petition Details Table -->
-      <div v-if="selectedPetition" class="mt-4" role="table" :aria-label="$t('editCard.petitionDetailsTable')">
+      <div v-if="selectedPetition" class="mt-4" role="table" aria-label="Petition Details Table">
         <PetitionDetailsTable
           :petition="selectedPetition"
           :role="role"
           @close="selectPetition(null)"
           @edit="openDialog(true)"
-          :aria-label="$t('editCard.petitionDetailsTable')"
+          aria-label="Petition Details Table"
         />
       </div>
 
       <!-- Placeholder when no petition is selected -->
       <p v-else class="mt-4 ml-1 text-subtitle-1 text-medium-emphasis" role="status" aria-live="polite">
-        {{ $t('editCard.noPetitionSelected') }}
+        You can select a petition from the overview table to view its details.
       </p>
 
       <!-- open adequate dialog based on role -->
@@ -36,13 +36,13 @@
         v-model="dialog"
         :petition="shouldEditPetition?selectedPetition:null"
         @close="dialog = false"
-        :aria-label="$t('editCard.petitionFormDialog')"
+        aria-label="Petition Form Dialog"
       />
       <StudentDataManagementDialog
         v-else
         v-model="dialog"
         @close="dialog = false"
-        :aria-label="$t('editCard.studentDataManagementDialog')"
+        aria-label="Student Data Management Dialog"
       />
     </v-card-text>
   </v-card>
@@ -79,3 +79,4 @@ const selectPetition = (petition) => {
 };
 defineExpose({ selectPetition });
 </script>
+
