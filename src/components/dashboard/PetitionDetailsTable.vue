@@ -38,7 +38,7 @@
               class="key-column"
               scope="col"
               role="columnheader"
-              :aria-label="$t('petitionDetailsTable.ariaLabels.petitionField')"
+              :aria-label="$t('petitionDetailsTable.headers.petitionField')"
             >
               {{ $t('petitionDetailsTable.headers.petitionField') }}
             </th>
@@ -46,7 +46,7 @@
               class="value-column"
               scope="col"
               role="columnheader"
-              :aria-label="$t('petitionDetailsTable.ariaLabels.value')"
+              :aria-label="$t('petitionDetailsTable.headers.value')"
             >
               {{ $t('petitionDetailsTable.headers.value') }}
             </th>

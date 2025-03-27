@@ -34,6 +34,7 @@
       <PetitionFormDialog
         v-if="role === 'supervisor'"
         v-model="dialog"
+        :role="role"
         :petition="shouldEditPetition?selectedPetition:null"
         @close="dialog = false"
         :aria-label="$t('editCard.petitionFormDialog')"

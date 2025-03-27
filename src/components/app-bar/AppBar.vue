@@ -14,7 +14,6 @@
           v-slot="{ navigate }"  
           :to="{ name: 'roles' }"  
           custom  
-          aria-label="Go to roles page"  
         >  
           <span  
             role="link"  
