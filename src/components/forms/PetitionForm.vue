@@ -4,120 +4,120 @@
       <v-col cols="12" md="6">
         <v-text-field
           :prepend-icon="icons.mdiAccount"
-          label="Petitioneer"
+          :label="$t('petition.petitioneer')"
           v-model="formData.petitioneer"
           outlined
           dense
           disabled
-          aria-label="Petitioneer Name"
+          :aria-label="$t('petition.petitioneer')"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
           :prepend-icon="icons.mdiEmail"
-          label="Student Mail"
+          :label="$t('petition.studentMail')"
           v-model="formData.student_mail"
           type="email"
           :rules="[requiredRule, emailRule]"
           outlined
           dense
-          aria-label="Student Email"
+          :aria-label="$t('petition.studentMail')"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
           :prepend-icon="icons.mdiOfficeBuilding"
-          label="Org Unit"
+          :label="$t('petition.orgUnit')"
           v-model="formData.org_unit"
           :rules="role === 'student' ? [] : [requiredRule]"
           outlined
           dense
           :disabled="role === 'student'"
-          aria-label="Organizational Unit"
+          :aria-label="$t('petition.orgUnit')"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
           :prepend-icon="icons.mdiNumeric"
-          label="EOS Number"
+          :label="$t('petition.eosNumber')"
           v-model="formData.eos_number"
           :rules="role === 'student' ? [] : [requiredRule]"
           outlined
           dense
           :disabled="role === 'student'"
-          aria-label="EOS Number"
+          :aria-label="$t('petition.eosNumber')"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
           :prepend-icon="icons.mdiCalendar"
-          label="Start Date"
+          :label="$t('petition.startDate')"
           v-model="formData.start_date"
           type="date"
           :rules="[requiredRule]"
           outlined
           dense
-          aria-label="Start Date"
+          :aria-label="$t('petition.startDate')"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
           :prepend-icon="icons.mdiCalendar"
-          label="End Date"
+          :label="$t('petition.endDate')"
           v-model="formData.end_date"
           type="date"
           :rules="[requiredRule, endDateRule]"
           outlined
           dense
-          aria-label="End Date"
+          :aria-label="$t('petition.endDate')"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
           :prepend-icon="icons.mdiClock"
-          label="Minutes (h/Month)"
+          :label="$t('petition.minutes')"
           v-model="formData.minutes"
           type="number"
           :rules="[requiredRule, positiveNumberRule]"
           outlined
           dense
-          aria-label="Minutes per Month"
+          :aria-label="$t('petition.minutes')"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-select
           :prepend-icon="icons.mdiSchool"
-          label="Bachelor Degree"
+          :label="$t('petition.baDegree')"
           v-model="formData.ba_degree"
           :items="degreeOptions"
           item-title="text"
           item-value="value"
-          aria-label="Bachelor Degree"
+          :aria-label="$t('petition.baDegree')"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
           :prepend-icon="icons.mdiCurrencyUsd"
-          label="Budget Position"
+          :label="$t('petition.budgetPosition')"
           v-model="formData.budget_position"
           :rules="role === 'student' ? [] : [requiredRule]"
           outlined
           dense
           :disabled="role === 'student'"
-          aria-label="Budget Position"
+          :aria-label="$t('petition.budgetPosition')"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
           :prepend-icon="icons.mdiEmail"
-          label="Budget Approver Email"
+          :label="$t('petition.budgetApprover')"
           v-model="formData.budget_approver"
           type="email"
           :rules="role === 'student' ? [] : [requiredRule, emailRule]"
           outlined
           dense
           :disabled="role === 'student'"
-          aria-label="Budget Approver Email"
+          :aria-label="$t('petition.budgetApprover')"
         />
       </v-col>
 
@@ -125,39 +125,39 @@
       <v-col cols="12">
         <v-checkbox
           v-model="formData.time_exec"
-          label="Time Exception"
+          :label="$t('petition.timeException')"
           @update:modelValue="handleTimeExceptionChange"
-          aria-label="Time Exception"
+          :aria-label="$t('petition.timeException')"
         />
         <div class="mx-4">
           <v-text-field
             v-if="formData.time_exec"
-            label="Time Exception Name"
+            :label="$t('petition.timeExceName')"
             v-model="formData.time_exce_name"
             outlined
             dense
             :rules="formData.time_exec? [requiredRule] : []"
-            aria-label="Time Exception Name"
+            :aria-label="$t('petition.timeExceName')"
           />
           <v-text-field
             v-if="formData.time_exec"
-            label="Time Exception Start Date"
+            :label="$t('petition.timeExceStart')"
             v-model="formData.time_exce_start"
             type="date"
             outlined
             dense
             :rules="formData.time_exec? [requiredRule] : []"
-            aria-label="Time Exception Start Date"
+            :aria-label="$t('petition.timeExceStart')"
           />
           <v-text-field
             v-if="formData.time_exec"
-            label="Time Exception End Date"
+            :label="$t('petition.timeExceEnd')"
             v-model="formData.time_exce_end"
             type="date"
             outlined
             dense
             :rules="formData.time_exec? [requiredRule] : []"
-            aria-label="Time Exception End Date"
+            :aria-label="$t('petition.timeExceEnd')"
           />
         </div>
       </v-col>
@@ -165,39 +165,39 @@
       <v-col cols="12">
         <v-checkbox
           v-model="formData.duration_exec"
-          label="Duration Exception"
+          :label="$t('petition.durationException')"
           @update:modelValue="handleDurationExceptionChange"
-          aria-label="Duration Exception"
+          :aria-label="$t('petition.durationException')"
         />
         <div class="mx-4">
           <v-text-field
             v-if="formData.duration_exec"
-            label="Duration Exception Name"
+            :label="$t('petition.durationExceName')"
             v-model="formData.duration_exce_name"
             outlined
             dense
             :rules="formData.duration_exec? [requiredRule] : []"
-            aria-label="Duration Exception Name"
+            :aria-label="$t('petition.durationExceName')"
           />
           <v-text-field
             v-if="formData.duration_exec"
-            label="Duration Exception Start Date"
+            :label="$t('petition.durationExceStart')"
             v-model="formData.duration_exce_start"
             type="date"
             outlined
             dense
             :rules="formData.duration_exec? [requiredRule] : []"
-            aria-label="Duration Exception Start Date"
+            :aria-label="$t('petition.durationExceStart')"
           />
           <v-text-field
             v-if="formData.duration_exec"
-            label="Duration Exception End Date"
+            :label="$t('petition.durationExceEnd')"
             v-model="formData.duration_exce_end"
             type="date"
             outlined
             dense
             :rules="formData.duration_exec? [requiredRule] : []"
-            aria-label="Duration Exception End Date"
+            :aria-label="$t('petition.durationExceEnd')"
           />
         </div>
       </v-col>
@@ -233,8 +233,8 @@ const props = defineProps({
   },
 });
 const degreeOptions =[
-  { text: 'I have a Bachlor Degree', value: true },
-  { text: 'I don\'t have a Bachlor Degree', value: false }
+  { text: 'I have a Bachelor Degree', value: true },
+  { text: 'I don\'t have a Bachelor Degree', value: false }
 ]
 
 const initialFormData = {
@@ -287,15 +287,4 @@ const handleDurationExceptionChange = (value) => {
     formData.value.duration_exce_end = '';
   }
 };
-
-// Validation Rules
-const requiredRule = (v) => !!v || 'This field is required';
-const emailRule = (v) => /.+@.+\..+/.test(v) || 'Invalid email address';
-const positiveNumberRule = (v) => v > 0 || 'Must be a positive number';
-const endDateRule = (v) => {
-  if (!formData.value.start_date || !v) return true;
-  return new Date(v) >= new Date(formData.value.start_date) || 'End date must be after start date';
-};
-
-defineExpose({ formData, isFormValid });
 </script>

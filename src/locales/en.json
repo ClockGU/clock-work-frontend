@@ -1,3 +1,131 @@
 {
-    "locale": "en"
+  "welcome": "Welcome to the supervisor portal of CLOCK Work",
+  "login": "Login",
+  "logout": "Logout",
+  "app": {
+    "loggingin": "Logging in..."
+  },
+  "actions": {
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "save": "Save"
+  },
+  "roleSelectionView": {
+    "welcome": "You are new here!",
+    "roleSelection": "Tell us what role you are going to play here:",
+    "supervisorTitle": "Supervisor",
+    "supervisorDescription": "As a supervisor you hire and supervise student assistants",
+    "studentTitle": "Student",
+    "studentDescription": "As a student you can manage hire petitions and work for the university"
+  },
+  "editCard": {
+    "ariaLabel": "Edit Card",
+    "supervisorTitle": "Create Petition",
+    "studentTitle": "Manage Personal Information",
+    "openFormDialog": "Open Form Dialog",
+    "petitionDetailsTable": "Petition Details Table",
+    "noPetitionSelected": "You can select a petition from the overview table to view its details.",
+    "petitionFormDialog": "Petition Form Dialog",
+    "studentDataManagementDialog": "Student Data Management Dialog"
+  },
+  "overviewCard": {
+    "overviewTitle": "Overview"
+  },
+  "petitionDetailsTable": {
+    "title": "Petition Details",
+    "ariaLabels": {
+      "editPetition": "Edit Petition",
+      "closePetition": "Close Petition",
+      "petitionDetailsTable": "Petition Details Table"
+    },
+    "headers": {
+      "petitionField": "Petition Field",
+      "value": "Value"
+    },
+    "buttons": {
+      "editPetition": "Edit Petition",
+      "closePetition": "Close Petition"
+    }
+  },
+  "customDialog": {
+    "ariaLabel": {
+      "close": "Close dialog"
+    },
+    "title": "Dialog title"
+  },
+  "petitionFormDialog": {
+    "title": "Create New Petition",
+    "ariaLabel": {
+      "dialog": "Petition Dialog",
+      "petitionForm": "Petition Form",
+      "submit": "Submit Petition Form",
+      "save": "Save Petition Form"
+    }
+  },
+  "studentDataManagementDialog": {
+    "title": "Manage Student Data",
+    "ariaLabel": {
+      "tabs": "Tabs for student data management",
+      "personal": "Tab for personal information",
+      "files": "Tab for uploaded files"
+    },
+    "tabs": {
+      "personal": "Personal Information",
+      "files": "Uploaded Files"
+    },
+    "content": {
+      "personal": "Here you can view and edit your personal information.",
+      "files": "Here you can view the files you've uploaded."
+    }
+  }, 
+  "employeeDataForm": {
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "formOfAddress": "Form of Address",
+    "gender": "Gender",
+    "dateOfBirth": "Date of Birth",
+    "cityOfBirth": "City of Birth",
+    "address": "Address",
+    "postalCode": "Postal Code",
+    "nationality": "Nationality",
+    "telephoneNumber": "Telephone Number",
+    "healthInsurance": "Health Insurance",
+    "iban": "IBAN",
+    "married": "Married",
+    "previousEmployment": "Previous Employment at Universities",
+    "duration": "Duration"
+  },
+  "filesUploadForm": {
+    "elstam": "Elstam",
+    "studienbescheinigung": "Studienbescheinigung",
+    "versicherungsbescheinigung": "Versicherungsbescheinigung"
+  },
+  "petition": {
+    "petitioneer": "Petitioneer",
+    "studentMail": "Student Mail",
+    "orgUnit": "Org Unit",
+    "eosNumber": "EOS Number",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "minutes": "Minutes (h/Month)",
+    "baDegree": "Bachelor Degree",
+    "budgetPosition": "Budget Position",
+    "budgetApprover": "Budget Approver Email",
+    "timeException": "Time Exception",
+    "timeExceName": "Time Exception Name",
+    "timeExceStart": "Time Exception Start Date",
+    "timeExceEnd": "Time Exception End Date",
+    "durationException": "Duration Exception",
+    "durationExceName": "Duration Exception Name",
+    "durationExceStart": "Duration Exception Start Date",
+    "durationExceEnd": "Duration Exception End Date"
+  },
+  "appFooter": {
+    "links": {
+      "Datenschutz": "Privacy",
+      "Impressum": "Imprint"
+    },
+    "text": "This project was financially supported by the Goethe-Universität Frankfurt.",
+    "code": "Code on Github:"
+  }
 }

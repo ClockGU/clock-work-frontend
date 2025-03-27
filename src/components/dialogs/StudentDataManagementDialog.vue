@@ -1,22 +1,22 @@
 <template>
-  <CustomDialog title="Student Data Management" aria-labelledby="student-data-management-dialog">
+  <CustomDialog :title="$t('studentDataManagementDialog.title')" aria-labelledby="student-data-management-dialog">
     <template #content>
       <v-container>
-        <v-tabs v-model="tab" grow aria-label="Student Data Management tabs">
-          <v-tab value="personal" aria-label="Personal Information">Personal Information</v-tab>
-          <v-tab value="files" aria-label="Uploaded Files">Uploaded Files</v-tab>
+        <v-tabs v-model="tab" grow :aria-label="$t('studentDataManagementDialog.ariaLabel.tabs')">
+          <v-tab value="personal" :aria-label="$t('studentDataManagementDialog.ariaLabel.personal')">{{ $t('studentDataManagementDialog.tabs.personal') }}</v-tab>
+          <v-tab value="files" :aria-label="$t('studentDataManagementDialog.ariaLabel.files')">{{ $t('studentDataManagementDialog.tabs.files') }}</v-tab>
         </v-tabs>
 
         <v-window v-model="tab">
           <v-window-item value="personal">
             <v-card flat>
               <v-card-text>
-                <h2 id="personal-information" class="sr-only">Personal Information</h2>
-                <p>Here you can see and edit your personal information.</p>
+                <h2 id="personal-information" class="sr-only">{{ $t('studentDataManagementDialog.tabs.personal') }}</h2>
+                <p>{{ $t('studentDataManagementDialog.content.personal') }}</p>
                 <EmployeeDataForm
                   class="mt-8"
                   ref="employeeDataFormRef"
-                  aria-labelledby="personal-information"
+                  :aria-labelledby="$t('studentDataManagementDialog.ariaLabel.personal')"
                 />
               </v-card-text>
             </v-card>
@@ -25,11 +25,11 @@
           <v-window-item value="files">
             <v-card flat>
               <v-card-text>
-                <h2 id="uploaded-files" class="sr-only">Uploaded Files</h2>
-                <p>Here you can see the files you've uploaded.</p>
+                <h2 id="uploaded-files" class="sr-only">{{ $t('studentDataManagementDialog.tabs.files') }}</h2>
+                <p>{{ $t('studentDataManagementDialog.content.files') }}</p>
                 <FilesUploadForm
                   class="mt-6"
-                  aria-labelledby="uploaded-files"
+                  :aria-labelledby="$t('studentDataManagementDialog.ariaLabel.files')"
                 />
               </v-card-text>
             </v-card>
@@ -44,9 +44,9 @@
         color="primary"
         @click="save"
         :disabled="!isFormValid"
-        aria-label="Save student data"
+        :aria-label="$t('studentDataManagementDialog.ariaLabel.save')"
       >
-        Save
+        {{ $t('actions.save') }}
       </v-btn>
     </template>
   </CustomDialog>
@@ -84,4 +84,3 @@ const isFormValid = computed(() => {
   }
 });
 </script>
-
