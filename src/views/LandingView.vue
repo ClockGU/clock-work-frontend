@@ -23,18 +23,12 @@
             <v-tooltip
               location="bottom"
               :model-value="hasError"
-              @update:model-value=""
               role="tooltip"
             >
               <template #activator="{ props }">
-                <v-btn
-                  v-bind="props"
-                  variant="elevated"
-                  @click="navigateToRoleSelection"
-                  aria-label="Login"
-                >
+                <ButtonGoetheOAuth color="secondary" v-bind="props">
                   {{ $t("login") }}
-                </v-btn>
+                </ButtonGoetheOAuth>
               </template>
               <span style="color: black">{{ error }}</span>
             </v-tooltip>
@@ -48,20 +42,13 @@
 
 <script setup>
 import ClockIcon from "@/components/logo/ClockIcon.vue";
-
+import ButtonGoetheOAuth from "@/components/ButtonGoetheOAuth.vue";
 import { computed, ref } from "vue";
 import { useDisplay } from "vuetify";
-import { useRouter } from "vue-router";
 
-const router = useRouter(); // Initialize the router
 const error = ref("");
-
 const { mdAndUp } = useDisplay();
 const hasError = computed(() => error.value !== "");
-
-const navigateToRoleSelection = () => {
-  router.push({ name: "roles" });
-};
 
 </script>
 
@@ -70,3 +57,4 @@ const navigateToRoleSelection = () => {
   background-color: rgb(var(--v-theme-error));
 }
 </style>
+
