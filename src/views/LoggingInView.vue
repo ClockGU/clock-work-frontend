@@ -20,6 +20,7 @@ import { onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
 import AuthService from "@/services/auth";
+import ApiService from "@/services/api";
 import { log } from "@/utils/log";
 const route = useRoute();
 const router = useRouter();
@@ -30,6 +31,7 @@ onMounted(async () => {
   window.history.replaceState({}, null, "/");
   log("LoggingInView mounted");
 
+  try{
   // Extract the CAS token from the query parameters
   const casToken = route.query.code 
   console.log("CAS token from query:", casToken);
@@ -40,7 +42,6 @@ onMounted(async () => {
     return;
   }
 
-  try {
     console.log("Exchanging CAS token for JWT token...");
 
     // Step 1: Debug the AuthService request
@@ -49,24 +50,18 @@ onMounted(async () => {
     console.log("Login response:", response);
 
     // Step 2: Debug Vuex token commit
-    // console.log("Committing token to Vuex...");
-    // store.commit("auth/LOGIN", { 
-    //   access: response.data.access_token, 
-    //   refresh: null 
-    // });
-    // ApiService.setAccessToken(response.data.access_token);
-
-    // Step 3: Debug user data fetch
-    // console.log("Fetching user data...");
-    // await store.dispatch("GET_USER", null, { root: true });
-
-    // console.log("Redirecting to /roles...");
-    // router.push({ name: "roles" });
-  } catch (error) {
-    // Step 4: Debug the error
-    console.error("Login failed. Error details:", error);
-    console.log("Error response data:", error.response?.data);
-    router.push({ name: "landing" });
-  }
+    console.log("Committing token to Vuex...");
+    store.commit("auth/LOGIN", { 
+      access: response.data.access_token, 
+      refresh: null 
+    });
+    console.log("Redirecting to /roles...");
+    router.push({ name: "roles" });
+   } catch (error) {
+     // Step 4: Debug the error
+     console.error("Login failed. Error details:", error);
+     console.log("Error response data:", error.response?.data);
+     router.push({ name: "landing" });
+   }
 });
 </script>

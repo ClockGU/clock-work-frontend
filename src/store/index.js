@@ -6,6 +6,7 @@ import petitions from "@/store/modules/petitions";
 import employeeData from "./modules/employeeData";
 import auth from "./modules/auth";
 import snackbar from "./modules/snackbar";
+import { computed } from "vue";
 const debug = process.env.NODE_ENV !== "production";
 
 export default createStore({
@@ -41,17 +42,17 @@ export default createStore({
       commit("toggleBackend");
     },
     GET_USER({ commit, dispatch, state }) {
-      state.userLoading = true;
+      commit("setUserLoading", true);
       return AuthService.getUser()
         .then((response) => {
           commit("SET_USER", response.data);
           //dispatch("changeLocale", response.data.language);
-
           return Promise.resolve(response);
         })
         .finally(() => {
-          state.userLoading = false;
+          commit("setUserLoading", false);
         });
+        
     },
     startLoading({ commit }) {
       commit("startLoading");
@@ -64,6 +65,9 @@ export default createStore({
     }
   },
   mutations: {
+    setUserLoading(state, value) {
+      state.userLoading = value;
+    },
     setRoleSelectionSkipped(state, value) {
       state.roleSelectionSkipped = value;
     },

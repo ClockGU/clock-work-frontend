@@ -5,14 +5,13 @@ const AuthService = {
    * Login using the provided CAS token.
    */
   login: (casToken) => {
-    return ApiService.post("/auth/cas/login", { cas_token: casToken,token_type: "access_token" });
+    return ApiService.get("/auth/cas/callback", { params: { code: casToken } });
   },
-
   /**
    * Login as a supervisor using the provided CAS token.
    */
   loginSupervisor: (casToken) => {
-    return ApiService.post("/auth/cas/login-Supervisor", { cas_token: casToken });
+    return ApiService.post("/auth/cas/logging-in",{params:{code:casToken}});
   },
 
   /**
@@ -26,8 +25,7 @@ const AuthService = {
    * Retrieve data about the currently authenticated user.
    */
   getUser: async function () {
-    const url = "/auth/me";
-    return ApiService.get(url);
+    return ApiService.get("/auth/me");
   },
 
   /**
