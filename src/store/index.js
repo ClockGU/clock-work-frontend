@@ -6,12 +6,11 @@ import petitions from "@/store/modules/petitions";
 import employeeData from "./modules/employeeData";
 import auth from "./modules/auth";
 import snackbar from "./modules/snackbar";
-import { computed } from "vue";
+
 const debug = process.env.NODE_ENV !== "production";
 
 export default createStore({
   state: {
-    loadingData: true,
     locale:
     localStorage.getItem("locale") === null
       ? "de"
@@ -19,9 +18,7 @@ export default createStore({
     user: {
       first_name: ""
     },
-    backendOffline: false,
     userLoading: false,
-    roleSelectionSkipped: false
   },
   getters: {
     user: (state) => state.user,
@@ -29,36 +26,23 @@ export default createStore({
     locale: (state) => state.locale
   },
   actions: {
-    skipRoleSelection({ commit }) {
-      commit("setRoleSelectionSkipped", true);
-    },
     changeLocale({ commit }, locale) {
       i18n.global.locale.value = locale;
       switchDateFnsLocale(locale);
       commit("updateLocale", locale);
       localStorage.setItem("locale", locale);
     },
-    toggleBackend({ commit }) {
-      commit("toggleBackend");
-    },
     GET_USER({ commit, dispatch, state }) {
       commit("setUserLoading", true);
       return AuthService.getUser()
         .then((response) => {
-          commit("SET_USER", response.data);
+          commit("setUser", response.data);
           //dispatch("changeLocale", response.data.language);
           return Promise.resolve(response);
         })
         .finally(() => {
           commit("setUserLoading", false);
         });
-        
-    },
-    startLoading({ commit }) {
-      commit("startLoading");
-    },
-    stopLoading({ commit }) {
-      commit("stopLoading");
     },
     setUser({ commit }, payload) {
       commit("setUser", payload);
@@ -73,18 +57,6 @@ export default createStore({
     },
     updateLocale(state, locale) {
       state.locale = locale;
-    },
-    SET_USER(state, payload) {
-      state.user = payload;
-    },
-    toggleBackend(state) {
-      state.backendOffline = !state.backendOffline;
-    },
-    startLoading(state) {
-      state.loadingData = true;
-    },
-    stopLoading(state) {
-      state.loadingData = false;
     },
     setUser(state, payload) {
       state.user = { ...payload };
