@@ -54,23 +54,19 @@ const actions = {
   },
   setUser: ({ commit }, payload) => commit("setUser", payload),
   setError: ({ commit }, error) => commit("setError", error),
-
   clearError: ({ commit }) => commit("clearError"),
-  /*async refreshTokens({ commit, dispatch, getters }) {
+  async refreshTokens({dispatch, getters }) {
     try {
-      const response = await ApiService.post("/auth/jwt/refresh", {
-        refresh: getters.refreshToken
-      });
+      const response = await AuthService.refreshToken(getters.refreshToken);    
       await dispatch("login", {
         access_token: response.data.access,
         refresh_token: response.data.refresh
       });
-
       return Promise.resolve(response);
     } catch (error) {
       return Promise.reject(error);
     }
-  },*/
+  },
   changeLocale({ commit }, locale) {
     i18n.global.locale.value = locale;
     commit("setLocale", locale);
