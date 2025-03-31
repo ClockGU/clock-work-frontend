@@ -66,7 +66,8 @@
   
           <v-list-item  
               :prepend-icon="icons.mdiLogout"  
-              data-cy="menu-logout"  
+              data-cy="menu-logout" 
+              @click="logout"   
             >  
               Logout  
             </v-list-item> 
@@ -91,8 +92,8 @@
   <script setup>
   import { ref, computed } from "vue";
   import { mdiAccountCog, mdiCalendar, mdiHome, mdiFileDocument, mdiLock, mdiFormatListNumbered, mdiFileChart, mdiHelp, mdiLogout } from "@mdi/js";
+  import {useStore} from "vuex";
   import svg from "@/assets/clock_full.svg";
-  import darkSvg from "@/assets/clock_full_darkmode.svg";
 
   const icons = {
     mdiAccountCog,
@@ -112,14 +113,11 @@
       default: false
     },
   });
-  
-  const isLoggedIn = ref(true);
-  const userLoading = ref(false);
-  const user = {  
-  first_name: "John Doe",  
-  email: "john@example.com"  
-};  
-  const firstLetter = computed(() => user.first_name.charAt(0));
+  const store = useStore();
+  const isLoggedIn = computed(()=>store.getters['auth/isLoggedIn']);  const user = computed(()=>store.getters['auth/user']);
+  const userLoading = computed(()=>store.getters['auth/isLoading']);
+
+  const firstLetter = computed(() => user.value?.first_name?.charAt(0) || '');
   const menuItems = ref([
     /*{
       text: "Settings",
@@ -154,5 +152,11 @@
       emit("closeDrawer");
     }
   };
+  const logout = () => {  
+  store.dispatch('auth/setIsLoading');
+  window.location ="https://cas.rz.uni-frankfurt.de/cas/logout";
+  store.dispatch('auth/logout');
+  store.dispatch('auth/unsetLoading');
+};  
   
   </script>

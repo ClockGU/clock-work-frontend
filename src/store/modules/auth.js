@@ -1,122 +1,87 @@
-import AuthService from "@/services/auth";
 import ApiService from "@/services/api";
-import router from "@/router";
-import { log } from "@/utils/log";
-
-const state = {
-  accessToken: null,
-  refreshToken: null,
-  refreshTokenPromise: null,
-  checkoutUser: ""
-};
+import AuthService from "@/services/auth";
+import i18n, { switchDateFnsLocale } from "@/plugins/i18n";
+const state = () => ({
+  locale:
+  localStorage.getItem("locale") === null
+    ? "de"
+    : localStorage.getItem("locale"),
+  loading: false,
+  accessToken: undefined,
+  refreshToken: undefined,
+  user: undefined,
+  isLoggedIn: undefined,
+  loginError: ""
+});
 
 const getters = {
-  loggedIn: (state) => state.accessToken !== null,
+  locale: (state) => state.locale,
+  isLoading: (state) => state.loading,
   accessToken: (state) => state.accessToken,
   refreshToken: (state) => state.refreshToken,
-  checkoutUser: (state) => state.checkoutUser
-};
-
-const actions = {
-  // Login using CAS token
-  async LOGIN({ commit, dispatch }, { casToken }) {
-    try {
-      const response = await AuthService.login(casToken);
-      log("AuthVuex.login: resolved");
-      commit("LOGIN", { access: response.data.access_token, refresh: null }); // No refresh token in new API
-      ApiService.setAccessToken(response.data.access_token);
-
-      const resp = await dispatch("GET_USER", null, { root: true });
-      return Promise.resolve(resp);
-    } catch (error) {
-      log("AuthVuex.login: error", error);
-      return Promise.reject(error);
-    }
-  },
-
-  // Login as a supervisor using CAS token
-  async LOGIN_SUPERVISOR({ commit, dispatch }, { casToken }) {
-    try {
-      const response = await AuthService.loginSupervisor(casToken);
-      log("AuthVuex.loginSupervisor: resolved");
-      commit("LOGIN", { access: response.data.access_token, refresh: null }); // No refresh token in new API
-      ApiService.setAccessToken(response.data.access_token);
-      const resp = await dispatch("GET_USER", null, { root: true });
-      return Promise.resolve(resp);
-    } catch (error) {
-      log("AuthVuex.loginSupervisor: error", error);
-      return Promise.reject(error);
-    }
-  },
-
-  // Logout the user
-  async LOGOUT({ commit }) {
-    commit("LOGOUT");
-    window.location = "https://cas.rz.uni-frankfurt.de/cas/logout";
-    AuthService.logout();
-    // We need to catch errors here. Otherwise we get the "NavigationDuplicated" error.
-    // See: https://github.com/vuejs/vue-router/issues/2872#issuecomment-519073998
-    return router.push({ name: "landing" }).catch((error) => {
-      log("Experienced error while logging out: ", error);
-      return Promise.reject(error);
-    });
-  },
-
-  // Refresh the access token
-  async REFRESH_TOKEN({ commit, state }) {
-    // If this is the first time the refreshToken has been called, make a request
-    // otherwise return the same promise to the caller
-    if (state.refreshTokenPromise !== null) {
-      log("Returning pending token promise");
-      return state.refreshTokenPromise;
-    }
-
-    try {
-      const promise = AuthService.refreshToken(state.accessToken); // Use access token for refresh
-      commit("SET_REFRESH_TOKEN_PROMISE", promise);
-
-      const response = await promise;
-      commit("LOGIN", { access: response.data.access_token, refresh: null }); // No refresh token in new API
-      ApiService.setAccessToken(response.data.access_token);
-
-      commit("SET_REFRESH_TOKEN_PROMISE", null);
-      return Promise.resolve(response);
-    } catch (error) {
-      commit("SET_REFRESH_TOKEN_PROMISE", null);
-      return Promise.reject(error);
-    }
-  }
+  user: (state) => state.user,
+  isLoggedIn: (state) => state.user !== undefined,
+  loginError: (state) => state.loginError
 };
 
 const mutations = {
-  LOGIN(state, { access: accessToken, refresh: refreshToken }) {
-    state.accessToken = accessToken;
+  setLoading: (state, value) => (state.loading = value),
+  setAccessToken: (state, value) => (state.accessToken = value),
+  setRefreshToken: (state, value) => (state.refreshToken = value),
+  unsetTokens: (state) => {
+    state.accessToken = undefined;
+    state.refreshToken = undefined;
+  },
+  setUser: (state, value) => {
+    state.user = value;
+  },
+  setError: (state, value) => state.loginError = value,
+  clearError: (state) => (state.loginError = ""),
+  setLocale: (state, value) => (state.locale = value)
+};
 
-    // eslint-disable-next-line no-extra-boolean-cast
-    if (!!refreshToken) {
-      // Set the refreshToken if it is provided in the response;
-      state.refreshToken = refreshToken;
+const actions = {
+  setIsLoading: ({ commit }) => commit("setLoading", true),
+  unsetLoading: ({ commit }) => commit("setLoading", false),
+  login: ({ commit }, payload) => {
+    commit("setAccessToken", payload.access_token);
+    commit("setRefreshToken", payload.refresh_token);
+    ApiService.setAccessToken(payload.access_token);
+  },
+  logout: ({ commit }) => {
+    AuthService.logout();
+    commit("unsetTokens")
+  },
+  setUser: ({ commit }, payload) => commit("setUser", payload),
+  setError: ({ commit }, error) => commit("setError", error),
+
+  clearError: ({ commit }) => commit("clearError"),
+  /*async refreshTokens({ commit, dispatch, getters }) {
+    try {
+      const response = await ApiService.post("/auth/jwt/refresh", {
+        refresh: getters.refreshToken
+      });
+      await dispatch("login", {
+        access_token: response.data.access,
+        refresh_token: response.data.refresh
+      });
+
+      return Promise.resolve(response);
+    } catch (error) {
+      return Promise.reject(error);
     }
+  },*/
+  changeLocale({ commit }, locale) {
+    i18n.global.locale.value = locale;
+    commit("setLocale", locale);
+    switchDateFnsLocale(locale);
   },
-  LOGOUT(state) {
-    state.accessToken = null;
-    state.refreshToken = null;
-  },
-  SET_REFRESH_TOKEN_PROMISE(state, payload) {
-    state.refreshTokenPromise = payload;
-  },
-  SET_CHECKOUT_USER(state, payload) {
-    state.checkoutUser = payload;
-  },
-  CLEAR_CHECKOUT_USER(state) {
-    state.checkoutUser = "";
-  }
 };
 
 export default {
   namespaced: true,
   state,
-  getters,
   actions,
+  getters,
   mutations
 };

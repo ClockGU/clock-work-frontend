@@ -24,7 +24,7 @@ const AuthService = {
   /**
    * Retrieve data about the currently authenticated user.
    */
-  getUser: async function () {
+  getUser:  ()=> {
     return ApiService.get("/auth/me");
   },
 

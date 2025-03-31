@@ -20,48 +20,66 @@ import { onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
 import AuthService from "@/services/auth";
-import ApiService from "@/services/api";
-import { log } from "@/utils/log";
+
 const route = useRoute();
 const router = useRouter();
 const store = useStore();
+const handleError = (error) => {
+  store.dispatch("auth/unsetLoading");
+  store.dispatch("auth/setError",error)
+  store.dispatch("auth/logout");
+  router.push({ name: "landing" });
+  return ;
+};
 
 onMounted(async () => {
-  // Replace the history entry to remove the auth code form the browser address bar
+  // Clean the browser address bar by removing auth code from URL
   window.history.replaceState({}, null, "/");
-  log("LoggingInView mounted");
+  console.log("LoggingInView component mounted");
+  store.dispatch("auth/setIsLoading");
+  try {
+    const casToken = route.query.code;
+    console.log("Extracted CAS token from URL:", casToken);
+    if (!casToken) return handleError("No CAS token found in URL parameters");
 
-  try{
-  // Extract the CAS token from the query parameters
-  const casToken = route.query.code 
-  console.log("CAS token from query:", casToken);
+    // Step 1: Authenticate with CAS token
+    console.log("Initiating authentication with CAS token...");
+    const loginResponse = await AuthService.login(casToken);
+    console.log("Received authentication response:", loginResponse);
 
-  if (!casToken) {
-    console.error("No CAS token found in query parameters");
-    router.push({ name: "landing" });
-    return;
+    if (!loginResponse.data?.access_token) {
+      return handleError("No access token in authentication response");
+    }
+
+    // Step 2: Store authentication tokens in Vuex
+    try {
+      console.log("Storing authentication tokens in Vuex store...");
+      await store.dispatch("auth/login", {
+        access_token: loginResponse.data.access_token,
+        refresh_token: null
+      });
+      console.log("Authentication tokens successfully stored");
+    } catch (error) {
+      return handleError(`Failed to store authentication tokens: ${error.message}`);
+    }
+
+    // Step 3: Fetch user profile data
+    try {
+      console.log("Fetching user profile data...");
+      const userResponse = await AuthService.getUser();
+      console.log("Received user profile:", userResponse.data);
+
+      await store.dispatch("auth/setUser", userResponse.data);
+      console.log("User profile successfully stored in Vuex");
+      store.dispatch("auth/unsetLoading");
+      // Authentication flow complete - redirect to roles selection
+      router.push({ name: "roles" });
+    } catch (error) {
+      return handleError(`Failed to fetch user profile: ${error.message}`);
+    }
+
+  } catch (error) {
+    return handleError(error.message);
   }
-
-    console.log("Exchanging CAS token for JWT token...");
-
-    // Step 1: Debug the AuthService request
-    console.log("Calling AuthService.login with token:", casToken);
-    const response = await AuthService.login(casToken);
-    console.log("Login response:", response);
-
-    // Step 2: Debug Vuex token commit
-    console.log("Committing token to Vuex...");
-    store.commit("auth/LOGIN", { 
-      access: response.data.access_token, 
-      refresh: null 
-    });
-    console.log("Redirecting to /roles...");
-    router.push({ name: "roles" });
-   } catch (error) {
-     // Step 4: Debug the error
-     console.error("Login failed. Error details:", error);
-     console.log("Error response data:", error.response?.data);
-     router.push({ name: "landing" });
-   }
 });
 </script>

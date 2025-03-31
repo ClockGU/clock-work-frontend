@@ -77,27 +77,26 @@
 </template>  
 
 <script setup>  
-import { mdiChevronDown, mdiMenu, mdiLogout } from "@mdi/js";  
 import svg from "@/assets/clock_full.svg";
-import darkSvg from "@/assets/clock_full_darkmode.svg";
+import { mdiChevronDown, mdiMenu, mdiLogout } from "@mdi/js";  
 import { useDisplay } from "vuetify";
-import LanguageSwitcher from "@/components/app-bar/LanguageSwitcher.vue";
 import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
+import {computed} from 'vue';
+import LanguageSwitcher from "@/components/app-bar/LanguageSwitcher.vue";
+
 
 const { t } = useI18n();
-
+const store = useStore();
 const icons = {  
   mdiMenu,  
   mdiChevronDown,  
   mdiLogout  
 };  
 
-const isLoggedIn = true;  
-const user = {  
-  first_name: "John Doe",  
-  email: "john@example.com"  
-};  
-const userLoading = false;  
+const isLoggedIn = computed(()=>store.getters['auth/isLoggedIn']);  
+const user = computed(()=>store.getters['auth/user']);
+const userLoading = computed(()=>store.getters['auth/isLoading']);  
 
 const bgColor = "#FFFFFF"; // Adjust the background color as needed  
 const imgSrc = svg; // Set your logo source here  
@@ -107,10 +106,13 @@ const toggleNavigationdrawer = () => {
   emit("toggle");  
 };  
 
-const firstLetter = user.first_name.charAt(0);  
+const firstLetter = computed(() => user.value?.first_name?.charAt(0) || '');
 
 const logout = () => {  
-  // Handle logout logic here  
+  store.dispatch('auth/setIsLoading');
+  window.location ="https://cas.rz.uni-frankfurt.de/cas/logout";
+  store.dispatch('auth/logout');
+  store.dispatch('auth/unsetLoading');
 };  
 </script>
 
