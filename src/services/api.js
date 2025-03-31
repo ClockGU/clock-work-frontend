@@ -20,7 +20,7 @@ const ApiService = {
   },
 
   setAccessToken(accessToken) {
-    this.setHeader("Authorization", `Bearer ${accessToken}`);
+    this.setHeader("Authorization", `${accessToken}`);
   },
 
   removeHeader() {
