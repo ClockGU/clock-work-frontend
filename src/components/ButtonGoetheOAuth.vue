@@ -5,9 +5,10 @@
 </template>
 
 <script setup>
-import { ref ,computed} from "vue";
 import OAuth2Service from "@/services/oauth2";
+import {computed} from "vue";
 import { useStore } from "vuex";
+
 const props = defineProps({
   color: {
     type: String,
@@ -15,7 +16,6 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["start", "error"]);
 const store = useStore();
 const loading = computed(() => store.getters["auth/isLoading"]);
 
@@ -27,13 +27,9 @@ const startOAuthFlow = async () => {
     // Fetch the authorization URL from the backend
     const response = await OAuth2Service.getAuthorizationUrl();
     const { authorization_url } = response.data;
-
-    console.log("Authorization URL:", authorization_url);
-    
     // Redirect to the CAS login page
     window.location.href = authorization_url;
   } catch (error) {
-    store.dispatch("auth/unsetLoading");
     store.dispatch("auth/setError","Error while connecting to the Goethe University Single Sign On. Please try again later.")
     store.dispatch("auth/logout");
     router.push({ name: "landing" });
@@ -42,6 +38,5 @@ const startOAuthFlow = async () => {
   finally {
     store.dispatch("auth/unsetLoading")
   }
-
 };
 </script>

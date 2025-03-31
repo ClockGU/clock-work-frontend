@@ -4,7 +4,6 @@ const REDIRECT_URI = `${import.meta.env.VITE_PUBLIC_URL}/logging-in`;
 
 const OAuth2Service = {
   getAuthorizationUrl: function () {
-    console.log(REDIRECT_URI);
     return ApiService.get("/authorize", {
       params: {
         redirect_uri: REDIRECT_URI

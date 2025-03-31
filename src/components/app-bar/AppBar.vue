@@ -80,34 +80,30 @@
 import svg from "@/assets/clock_full.svg";
 import { mdiChevronDown, mdiMenu, mdiLogout } from "@mdi/js";  
 import { useDisplay } from "vuetify";
-import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import {computed} from 'vue';
 import LanguageSwitcher from "@/components/app-bar/LanguageSwitcher.vue";
 
-
-const { t } = useI18n();
-const store = useStore();
 const icons = {  
   mdiMenu,  
   mdiChevronDown,  
   mdiLogout  
 };  
+const bgColor = "#FFFFFF"; 
+const imgSrc = svg;  
+const { mdAndUp } = useDisplay();
+const store = useStore();
+
+const emit = defineEmits(["toggle"]);
 
 const isLoggedIn = computed(()=>store.getters['auth/isLoggedIn']);  
 const user = computed(()=>store.getters['auth/user']);
 const userLoading = computed(()=>store.getters['auth/isLoading']);  
+const firstLetter = computed(() => user.value?.first_name?.charAt(0) || '');
 
-const bgColor = "#FFFFFF"; // Adjust the background color as needed  
-const imgSrc = svg; // Set your logo source here  
-const { mdAndUp } = useDisplay();
-const emit = defineEmits(["toggle"]);
 const toggleNavigationdrawer = () => {  
   emit("toggle");  
 };  
-
-const firstLetter = computed(() => user.value?.first_name?.charAt(0) || '');
-
 const logout = () => {  
   store.dispatch('auth/setIsLoading');
   window.location ="https://cas.rz.uni-frankfurt.de/cas/logout";
