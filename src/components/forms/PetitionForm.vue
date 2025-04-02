@@ -235,8 +235,8 @@ const props = defineProps({
   },
 });
 const degreeOptions =[
-  { text: 'I have a Bachelor Degree', value: true },
-  { text: 'I don\'t have a Bachelor Degree', value: false }
+  { text: 'Student have a Bachelor Degree', value: true },
+  { text: 'Student don\'t have a Bachelor Degree', value: false }
 ]
 
 const initialFormData = {

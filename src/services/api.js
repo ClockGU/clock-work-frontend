@@ -20,7 +20,7 @@ const ApiService = {
   },
 
   setAccessToken(accessToken) {
-    this.setHeader("Authorization", `${accessToken}`);
+    this.setHeader("Authorization", `Bearer ${accessToken}`);
   },
 
   removeHeader() {
@@ -41,6 +41,10 @@ const ApiService = {
     return axios.post(resource, data, config);
   },
 
+  put(resource, data, config = {}) { 
+    log("ApiService.put called", resource);
+    return axios.put(resource, data, config);
+  },
   patch(resource, data, config = {}) {
     log("ApiService.patch called", resource);
     return axios.patch(resource, data, config);

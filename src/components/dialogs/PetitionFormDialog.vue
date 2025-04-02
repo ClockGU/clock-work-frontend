@@ -42,6 +42,8 @@ import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import PetitionForm from '@/components/forms/PetitionForm.vue';
 import CustomDialog from '@/components/dialogs/CustomDialog.vue';
+import ApiService from "@/services/api";
+
 
 const props = defineProps({
   petition: {
@@ -62,19 +64,44 @@ const isFormValid = computed(() => petitionFormRef.value?.isFormValid || false);
 
 const closeDialog = () => emit('close');
 
-const submit = () => {
+const submit = async () => {
   if (isFormValid.value) {
-    const formData = petitionFormRef.value.formData;
-    store.dispatch('petitions/addPetition', formData);
-    closeDialog();
+    const formData = petitionFormRef.value.formData; // Get form data from the form component
+    console.log('Form Data:', formData);
+
+    const filteredFormData = Object.fromEntries(
+      Object.entries(formData).filter(([key, value]) => value !== '' && value !== null)
+    );
+
+    try {
+      // Call the backend API to create a new petition
+      await ApiService.post('/petitions/', filteredFormData);
+      closeDialog(); // Close the dialog on success
+    } catch (error) {
+      console.error('Failed to submit petition:', error);
+      // Optionally, show an error message to the user
+    }
   }
 };
 
-const save = () => {
+const save = async () => {
   if (isFormValid.value) {
-    const formData = petitionFormRef.value.formData;
-    store.dispatch('petitions/updatePetition', formData);
-    closeDialog();
+    const formData = petitionFormRef.value.formData; // Get form data from the form component
+    console.log('I am in save');
+    console.log('Form Data:', formData);
+
+    const filteredFormData = Object.fromEntries(
+      Object.entries(formData).filter(([key, value]) => value !== '' && value !== null)
+    );
+
+    try {
+      // Call the backend API to update the petition
+      await ApiService.put(`/petitions/${props.petition.id}`, filteredFormData); // Use PUT or PATCH
+      closeDialog(); // Close the dialog on success
+    } catch (error) {
+      console.error('Failed to update petition:', error);
+      // Optionally, show an error message to the user
+    }
   }
 };
 </script>
