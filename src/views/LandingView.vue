@@ -46,7 +46,7 @@
 <script setup>
 import ClockIcon from "@/components/logo/ClockIcon.vue";
 import ButtonGoetheOAuth from "@/components/ButtonGoetheOAuth.vue";
-import { computed } from "vue";
+import { computed,onMounted } from "vue";
 import { useDisplay } from "vuetify";
 import {useStore} from "vuex"
 
@@ -54,12 +54,10 @@ const store= useStore()
 const error = computed(()=>store.getters["auth/loginError"]);
 const { mdAndUp } = useDisplay();
 const hasError = computed(() => error.value!=="");
+onMounted(() => {
+  store.dispatch("auth/clearError");
+})
 
 </script>
 
-<style scoped lang="scss">
-.v-tooltip :deep(.v-overlay__content) {
-  background-color: rgb(var(--v-theme-errors));
-}
-</style>
 
