@@ -4,7 +4,12 @@
         <v-card-text>
             <v-row >
                 <v-col cols="12" md="6" class="d-flex flex-column">
-                    <FreeFormData class="flex-grow-1" style="overflow-y: auto;"/>
+                    <FreeFormData 
+                    class="flex-grow-1" 
+                    style="overflow-y: auto;"
+                    :petition=petition
+                    @close="emit('close')"
+                    />
                 </v-col>
                 <v-col cols="12" md="6" class="d-flex flex-column">
                     <UploadedFiles class="flex-grow-1"/>
@@ -25,4 +30,16 @@
 <script setup>
 import FreeFormData from './FreeFormData.vue';
 import UploadedFiles from './UploadedFiles.vue';
+const props =defineProps({
+    petitions:{
+        type: Array,
+        required: false
+    },
+    petition:{
+        type: [Object,null],
+        required:false
+    }
+})
+const emit= defineEmits(["close"])
+
 </script>

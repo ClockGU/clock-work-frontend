@@ -2,22 +2,17 @@
   <v-card>
     <v-card-title>{{ $t('overviewCard.overviewTitle') }}</v-card-title>
     <v-card-text>
-      <!-- Data Table -->
-      <v-data-table :headers="headers" :items="petitions" item-selectable hover>
-        <template v-slot:item="{ item }">
-          <tr @click="selectPetition(item)">
-            <td>{{ item.student_mail }}</td>
-            <td>{{ item.start_date }}</td>
-            <td>{{ item.end_date }}</td>
-            <td>{{ item.minutes }}</td>
-          </tr>
-        </template>
-      </v-data-table>
+      <PetitionsTable
+        :headers="headers" 
+        :items="petitions" 
+        @row-click="selectPetition"
+      />
     </v-card-text>
   </v-card>
 </template>
 
 <script setup>
+import PetitionsTable from "@/components/tables/PetitionsTable.vue";
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { useStore } from "vuex";
@@ -41,7 +36,6 @@ const headers = computed(() => [
 const emit = defineEmits(["select-petition"]);
 
 const petitions = computed(() => store.getters["petitions/petitions"]);
-
 const selectPetition = (petition) => {
   emit("select-petition", petition);
 };
