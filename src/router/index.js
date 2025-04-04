@@ -9,12 +9,14 @@ import LoggingInView from  "@/views/LoggingInView.vue"
 import LandingView from "@/views/LandingView.vue";
 import RoleSelectionView from "@/views/RoleSelectionView.vue";
 import RoleDashboard from "@/views/RoleDashboard.vue";
+import ClerkView from "@/views/ClerkView.vue";
 
 const routes = [
   { path: "/", component: LandingView, name: "landing" },
   { path: "/logging-in", component: LoggingInView, name: "logging-in" },
   { path: "/roles", component: RoleSelectionView, name: "roles" },
   { path: "/dashboard/:role", component: RoleDashboard },
+  {path: "/clerk",component:ClerkView,name:"clerk"}
 ];
 
 const router = createRouter({

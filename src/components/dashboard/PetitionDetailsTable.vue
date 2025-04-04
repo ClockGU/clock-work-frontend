@@ -1,9 +1,9 @@
 <template>
       <!-- Header with Close Button -->
-      <div class="d-flex justify-space-between align-center mb-3 mr-1">
-        <h2 class="text-high-emphasis font-weight-bold">
+      <div class="d-flex justify-end align-center mb-3 mr-1">
+        <!-- <h2 class="text-high-emphasis font-weight-bold">
           {{ $t('petitionDetailsTable.title') }}
-        </h2>
+        </h2> -->
         <div>
           <v-btn
           v-if="role === 'supervisor'"
