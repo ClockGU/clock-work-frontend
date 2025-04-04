@@ -1,25 +1,26 @@
 <template>
-    <v-row>
-        <v-col cols="12">
-            <PetitionDataDisplay class="mt-4"
-            :petition="selectedPetition"
-            @close="selectPetition(null)"
-            />
-        </v-col>
-        <v-col cols="12">
-            <v-card>
-                <v-card-title>{{ $t('overviewCard.overviewTitle') }}</v-card-title>
-                <v-card-text>
-                    <!-- Custom Data Table -->
-                    <PetitionsTable 
-                        :headers="headers" 
-                        :items="petitions" 
-                        @row-click="selectPetition"
-                    />
-                </v-card-text>
-            </v-card>
-        </v-col>
-    </v-row>
+    <v-container fluid>
+        <v-row>
+            <v-col cols="12">
+                <PetitionDataDisplay 
+                    :petition="selectedPetition"
+                    @close="selectPetition(null)"
+                />
+            </v-col>
+            <v-col cols="12">
+                <v-card>
+                    <v-card-title>{{ $t('overviewCard.overviewTitle') }}</v-card-title>
+                    <v-card-text>
+                        <PetitionsTable 
+                            :headers="headers" 
+                            :items="petitions" 
+                            @row-click="selectPetition"
+                        />
+                    </v-card-text>
+                </v-card>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 <script setup>
 import { computed, ref } from "vue";
