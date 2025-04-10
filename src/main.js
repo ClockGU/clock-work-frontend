@@ -3,7 +3,6 @@
  *
  * Bootstraps Vuetify and other plugins then mounts the App`
  */
-import ApiService from "@/services/api";
 import { log } from "@/utils/log";
 // Plugins
 import { registerPlugins } from "@/plugins";
@@ -15,7 +14,10 @@ import { createApp } from "vue";
 //store
 import store from "./store";
 
+const app = createApp(App);
 export const debugLogger= true;
+
+import ApiService from "@/services/api";
 
 ApiService.init(import.meta.env.VITE_API_URL);
 ApiService.mountInterceptor();
@@ -26,7 +28,6 @@ if (isLoggedIn) {
   ApiService.setAccessToken(accessToken);
 }
 
-const app = createApp(App);
 
 registerPlugins(app);
 log("App initialized");

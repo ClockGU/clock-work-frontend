@@ -11,36 +11,33 @@ const ApiService = {
     axios.defaults.baseURL = baseURL;
     axios.defaults.headers.common["Accept-Language"] ="de";
   },
-
   setHeader(header, value) {
     return new Promise((resolve) => {
       axios.defaults.headers.common[header] = value;
       resolve();
     });
   },
-
   setAccessToken(accessToken) {
     this.setHeader("Authorization", `Bearer ${accessToken}`);
   },
-
   removeHeader() {
     axios.defaults.headers.common = {};
   },
-
   removeSingleHeader(header) {
     delete axios.defaults.headers.common[header];
   },
-
   get(resource, config = {}) {
     log("ApiService.get called", resource);
     return axios.get(resource, config);
   },
-
   post(resource, data, config = {}) {
     log("ApiService.post called", resource);
     return axios.post(resource, data, config);
   },
-
+  put(resource, data, config = {}) { 
+    log("ApiService.put called", resource);
+    return axios.put(resource, data, config);
+  },
   patch(resource, data, config = {}) {
     log("ApiService.patch called", resource);
     return axios.patch(resource, data, config);
@@ -50,7 +47,6 @@ const ApiService = {
     log("ApiService.delete called", resource);
     return axios.delete(resource, config);
   },
-
   customRequest(data, config = {}) {
     log("ApiService.customRequest called");
     return axios(data, config);

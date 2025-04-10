@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import PetitionDetailsTable from '../dashboard/PetitionDetailsTable.vue';
+import PetitionDetailsTable from '@/components/tables/PetitionDetailsTable.vue';
 const props=defineProps({
     petition:{
         type: [Object,null],

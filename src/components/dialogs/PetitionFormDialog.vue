@@ -1,35 +1,35 @@
 <template>
   <CustomDialog
     :title="$t('petitionFormDialog.title', { petition: petition ? 'Edit' : 'Create New' })"
-    aria-label="petitionFormDialog.ariaLabel.dialog"
+    :aria-label="$t('petitionFormDialog.ariaLabel.dialog')"
   >
     <template #content>
       <PetitionForm
-        class="mt-12"
         ref="petitionFormRef"
+        class="mt-12"
         :role="role"
         :petition="petition"
+        :aria-label="$t('petitionFormDialog.ariaLabel.petitionForm')"
         @close="closeDialog"
-        aria-label="petitionFormDialog.ariaLabel.petitionForm"
       />
     </template>
 
     <template #actions>
       <v-btn
         v-if="!petition"
-        @click="submit"
-        :disabled="!isFormValid"
         color="primary"
+        :disabled="!isFormValid"
         :aria-label="$t('petitionFormDialog.ariaLabel.submit')"
+        @click="submit"
       >
         {{ $t('actions.submit') }}
       </v-btn>
       <v-btn
         v-else
-        @click="save"
-        :disabled="!isFormValid"
         color="primary"
+        :disabled="!isFormValid"
         :aria-label="$t('petitionFormDialog.ariaLabel.save')"
+        @click="save"
       >
         {{ $t('actions.save') }}
       </v-btn>
@@ -42,11 +42,13 @@ import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import PetitionForm from '@/components/forms/PetitionForm.vue';
 import CustomDialog from '@/components/dialogs/CustomDialog.vue';
+import ApiService from "@/services/api";
 
 const props = defineProps({
   petition: {
     type: [Object, null],
     required: false,
+    default: null,
   },
   role: {
     type: String,
@@ -61,20 +63,46 @@ const petitionFormRef = ref(null);
 const isFormValid = computed(() => petitionFormRef.value?.isFormValid || false);
 
 const closeDialog = () => emit('close');
-
-const submit = () => {
+const submit = async () => {
   if (isFormValid.value) {
-    const formData = petitionFormRef.value.formData;
-    store.dispatch('petitions/addPetition', formData);
-    closeDialog();
+    const formData = petitionFormRef.value.formData; // Get form data from the form petition form
+    console.log('Form Data:', formData);
+    const filteredFormData = Object.fromEntries(
+      Object.entries(formData).filter(([key, value]) => value !== '' && value !== null)
+    );
+    try {
+      // Call the backend API to create a new petition
+      await ApiService.post('supervisor/petitions/', filteredFormData);
+    } catch (error) {
+      console.error('Failed to submit petition:', error);
+      store.dispatch('snackbar/setErrorSnacks', {
+        message: 'Failed to submit petition. Please try again.',
+      });
+    }
+    finally {
+      closeDialog();
+    }
   }
 };
-
-const save = () => {
+const save = async () => {
   if (isFormValid.value) {
     const formData = petitionFormRef.value.formData;
-    store.dispatch('petitions/updatePetition', formData);
-    closeDialog();
+    console.log('I am in save');
+    console.log('Form Data:', formData);
+    const filteredFormData = Object.fromEntries(
+      Object.entries(formData).filter(([key, value]) => value !== '' && value !== null)
+    );
+    try {
+      await ApiService.patch(`supervisor/petitions/${props.petition.id}`, filteredFormData);
+    } catch (error) {
+      console.error('Failed to update petition:', error);
+      store.dispatch('snackbar/setErrorSnacks', {
+        message: 'Failed to update petition. Please try again.',
+      });
+    }
+    finally {
+      closeDialog();
+    }
   }
 };
 </script>

@@ -8,8 +8,8 @@
       <v-btn
         color="primary"
         class="mb-4"
-        @click="openDialog(false)"
         :aria-label="$t('editCard.openFormDialog')"
+        @click="openDialog(false)"
       >
       {{ role === "supervisor" ? $t("editCard.supervisorTitle") : $t("editCard.studentTitle") }}
       </v-btn>
@@ -19,9 +19,9 @@
         <PetitionDetailsTable
           :petition="selectedPetition"
           :role="role"
+          :aria-label="$t('editCard.petitionDetailsTable')"
           @close="selectPetition(null)"
           @edit="openDialog(true)"
-          :aria-label="$t('editCard.petitionDetailsTable')"
         />
       </div>
 
@@ -36,14 +36,14 @@
         v-model="dialog"
         :role="role"
         :petition="shouldEditPetition?selectedPetition:null"
-        @close="dialog = false"
         :aria-label="$t('editCard.petitionFormDialog')"
+        @close="dialog = false"
       />
       <StudentDataManagementDialog
         v-else
         v-model="dialog"
-        @close="dialog = false"
         :aria-label="$t('editCard.studentDataManagementDialog')"
+        @close="dialog = false"
       />
     </v-card-text>
   </v-card>
@@ -53,7 +53,7 @@
 import { ref } from 'vue';
 import PetitionFormDialog from '@/components/dialogs/PetitionFormDialog.vue';
 import StudentDataManagementDialog from '../dialogs/StudentDataManagementDialog.vue';
-import PetitionDetailsTable from '@/components/dashboard/PetitionDetailsTable.vue';
+import PetitionDetailsTable from '@/components/tables/PetitionDetailsTable.vue';
 
 const props = defineProps({
   role: {
@@ -63,6 +63,7 @@ const props = defineProps({
   petition: {
     type: [Object, null],
     required: false,
+    default: null,
   },
 });
 
