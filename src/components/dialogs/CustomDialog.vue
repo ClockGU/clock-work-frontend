@@ -80,8 +80,12 @@ const props = defineProps({
 });
 
 const icons = { mdiClose };
-const model = defineModel();
+const model = defineModel({
+  type: Boolean,
+  default: false,
+});
 const close = () => {
   model.value = false;
 };
+
 </script>

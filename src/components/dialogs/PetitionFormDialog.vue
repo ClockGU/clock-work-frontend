@@ -56,7 +56,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close','refresh']);
 const store = useStore();
 const petitionFormRef = ref(null);
 
@@ -73,6 +73,7 @@ const submit = async () => {
     try {
       // Call the backend API to create a new petition
       await ApiService.post('supervisor/petitions/', filteredFormData);
+      emit('refresh');
     } catch (error) {
       console.error('Failed to submit petition:', error);
       store.dispatch('snackbar/setErrorSnacks', {
@@ -94,6 +95,7 @@ const save = async () => {
     );
     try {
       await ApiService.patch(`supervisor/petitions/${props.petition.id}`, filteredFormData);
+      emit('refresh'); 
     } catch (error) {
       console.error('Failed to update petition:', error);
       store.dispatch('snackbar/setErrorSnacks', {

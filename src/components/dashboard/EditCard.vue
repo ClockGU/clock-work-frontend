@@ -38,6 +38,7 @@
         :petition="shouldEditPetition?selectedPetition:null"
         :aria-label="$t('editCard.petitionFormDialog')"
         @close="dialog = false"
+        @refresh="refresh"
       />
       <StudentDataManagementDialog
         v-else
@@ -66,13 +67,16 @@ const props = defineProps({
     default: null,
   },
 });
-
+const emit = defineEmits(['refresh']);
 const dialog = ref(false);
 const selectedPetition = ref(null);
 const shouldEditPetition = ref(false);
 const openDialog = (shouldEdit) => {
   shouldEditPetition.value = shouldEdit
   dialog.value = true;
+};
+const refresh = () => {
+  emit('refresh');
 };
 
 // Listen for the select-petition event from OverviewCard
