@@ -25,13 +25,13 @@ import { computed} from "vue";
 import { useI18n } from "vue-i18n";
 
 const props = defineProps({
-  role: {
-    type: String,
-    required: true,
-  },
   petitions: {
     type: Array,
     default: () => [],
+  },
+  isLoading: {
+    type: Boolean,
+    default: false,
   },
 });
 const emit = defineEmits(["select-petition"]);
