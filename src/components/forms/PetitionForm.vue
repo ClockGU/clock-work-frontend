@@ -3,121 +3,117 @@
     <v-row>
       <v-col cols="12" md="6">
         <v-text-field
-          :prepend-icon="icons.mdiAccount"
-          :label="$t('petition.petitioneer')"
           v-model="formData.petitioneer"
           outlined
           dense
-          disabled
+          readonly
+          :prepend-icon="icons.mdiAccount"
+          :label="$t('petition.petitioneer')"
           :aria-label="$t('petition.petitioneer')"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
-          :prepend-icon="icons.mdiEmail"
-          :label="$t('petition.studentMail')"
           v-model="formData.student_mail"
           type="email"
-          :rules="[requiredRule, emailRule]"
           outlined
           dense
+          :prepend-icon="icons.mdiEmail"
+          :label="$t('petition.studentMail')"
           :aria-label="$t('petition.studentMail')"
+          :rules="[requiredRule, emailRule]"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          v-model="formData.org_unit"
+          outlined
+          dense
           :prepend-icon="icons.mdiOfficeBuilding"
           :label="$t('petition.orgUnit')"
-          v-model="formData.org_unit"
-          :rules="role === 'student' ? [] : [requiredRule]"
-          outlined
-          dense
-          :disabled="role === 'student'"
           :aria-label="$t('petition.orgUnit')"
+          :rules="[requiredRule]"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          v-model="formData.eos_number"
+          outlined
+          dense
           :prepend-icon="icons.mdiNumeric"
           :label="$t('petition.eosNumber')"
-          v-model="formData.eos_number"
-          :rules="role === 'student' ? [] : [requiredRule]"
-          outlined
-          dense
-          :disabled="role === 'student'"
           :aria-label="$t('petition.eosNumber')"
+          :rules="[requiredRule]"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
-          :prepend-icon="icons.mdiCalendar"
-          :label="$t('petition.startDate')"
           v-model="formData.start_date"
           type="date"
-          :rules="[requiredRule]"
           outlined
           dense
+          :prepend-icon="icons.mdiCalendar"
+          :label="$t('petition.startDate')"
           :aria-label="$t('petition.startDate')"
+          :rules="[requiredRule]"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
-          :prepend-icon="icons.mdiCalendar"
-          :label="$t('petition.endDate')"
           v-model="formData.end_date"
           type="date"
-          :rules="[requiredRule, endDateRule]"
           outlined
           dense
+          :prepend-icon="icons.mdiCalendar"
+          :label="$t('petition.endDate')"
           :aria-label="$t('petition.endDate')"
+          :rules="[requiredRule, endDateRule]"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
-          :prepend-icon="icons.mdiClock"
-          :label="$t('petition.minutes')"
           v-model="formData.minutes"
           type="number"
-          :rules="[requiredRule, positiveNumberRule]"
           outlined
           dense
+          :prepend-icon="icons.mdiClock"
+          :label="$t('petition.minutes')"
           :aria-label="$t('petition.minutes')"
+          :rules="[requiredRule, positiveNumberRule]"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-select
-          :prepend-icon="icons.mdiSchool"
-          :label="$t('petition.baDegree')"
           v-model="formData.ba_degree"
-          :items="degreeOptions"
           item-title="text"
           item-value="value"
+          :items="degreeOptions"
+          :prepend-icon="icons.mdiSchool"
+          :label="$t('petition.baDegree')"
           :aria-label="$t('petition.baDegree')"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
-          :prepend-icon="icons.mdiCurrencyUsd"
-          :label="$t('petition.budgetPosition')"
           v-model="formData.budget_position"
-          :rules="role === 'student' ? [] : [requiredRule]"
           outlined
           dense
-          :disabled="role === 'student'"
+          :prepend-icon="icons.mdiCurrencyUsd"
+          :label="$t('petition.budgetPosition')"
           :aria-label="$t('petition.budgetPosition')"
+          :rules="[requiredRule]"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
-          :prepend-icon="icons.mdiEmail"
-          :label="$t('petition.budgetApprover')"
           v-model="formData.budget_approver"
           type="email"
-          :rules="role === 'student' ? [] : [requiredRule, emailRule]"
           outlined
           dense
-          :disabled="role === 'student'"
+          :prepend-icon="icons.mdiEmail"
+          :label="$t('petition.budgetApprover')"
           :aria-label="$t('petition.budgetApprover')"
+          :rules="[requiredRule, emailRule]"
         />
       </v-col>
 
@@ -126,37 +122,37 @@
         <v-checkbox
           v-model="formData.time_exec"
           :label="$t('petition.timeException')"
-          @update:modelValue="handleTimeExceptionChange"
           :aria-label="$t('petition.timeException')"
+          @update:model-value="handleTimeExceptionChange"
         />
         <div class="mx-4">
           <v-text-field
             v-if="formData.time_exec"
-            :label="$t('petition.timeExceName')"
             v-model="formData.time_exce_name"
             outlined
             dense
-            :rules="formData.time_exec? [requiredRule] : []"
+            :label="$t('petition.timeExceName')"
             :aria-label="$t('petition.timeExceName')"
+            :rules="formData.time_exec? [requiredRule] : []"
           />
           <v-text-field
             v-if="formData.time_exec"
-            :label="$t('petition.timeExceStart')"
             v-model="formData.time_exce_start"
             type="date"
             outlined
             dense
             :rules="formData.time_exec? [requiredRule] : []"
+            :label="$t('petition.timeExceStart')"
             :aria-label="$t('petition.timeExceStart')"
           />
           <v-text-field
             v-if="formData.time_exec"
-            :label="$t('petition.timeExceEnd')"
             v-model="formData.time_exce_end"
             type="date"
             outlined
             dense
             :rules="formData.time_exec? [requiredRule] : []"
+            :label="$t('petition.timeExceEnd')"
             :aria-label="$t('petition.timeExceEnd')"
           />
         </div>
@@ -166,37 +162,38 @@
         <v-checkbox
           v-model="formData.duration_exec"
           :label="$t('petition.durationException')"
-          @update:modelValue="handleDurationExceptionChange"
           :aria-label="$t('petition.durationException')"
+          @update:model-value="handleDurationExceptionChange"
+
         />
         <div class="mx-4">
           <v-text-field
             v-if="formData.duration_exec"
-            :label="$t('petition.durationExceName')"
             v-model="formData.duration_exce_name"
             outlined
             dense
             :rules="formData.duration_exec? [requiredRule] : []"
+            :label="$t('petition.durationExceName')"
             :aria-label="$t('petition.durationExceName')"
           />
           <v-text-field
             v-if="formData.duration_exec"
-            :label="$t('petition.durationExceStart')"
             v-model="formData.duration_exce_start"
             type="date"
             outlined
             dense
             :rules="formData.duration_exec? [requiredRule] : []"
+            :label="$t('petition.durationExceStart')"
             :aria-label="$t('petition.durationExceStart')"
           />
           <v-text-field
             v-if="formData.duration_exec"
-            :label="$t('petition.durationExceEnd')"
             v-model="formData.duration_exce_end"
             type="date"
             outlined
             dense
             :rules="formData.duration_exec? [requiredRule] : []"
+            :label="$t('petition.durationExceEnd')"
             :aria-label="$t('petition.durationExceEnd')"
           />
         </div>

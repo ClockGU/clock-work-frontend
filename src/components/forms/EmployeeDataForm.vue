@@ -3,163 +3,165 @@
     <v-row>
       <v-col cols="12" md="6">
         <v-text-field
+          v-model="formData.first_name"
+          outlined
+          dense
           :prepend-icon="icons.mdiAccount"
           :label="$t('employeeDataForm.firstName')"
-          v-model="formData.first_name"
-          :rules="[requiredRule]"
-          outlined
-          dense
           :aria-label="$t('employeeDataForm.firstName')"
+          :rules="[requiredRule]"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          v-model="formData.last_name"
+          outlined
+          dense
           :prepend-icon="icons.mdiAccount"
           :label="$t('employeeDataForm.lastName')"
-          v-model="formData.last_name"
-          :rules="[requiredRule]"
-          outlined
-          dense
           :aria-label="$t('employeeDataForm.lastName')"
+          :rules="[requiredRule]"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-select
+          v-model="formData.form_of_address"
+          outlined
+          dense
           :prepend-icon="icons.mdiAccountBox"
           :label="$t('employeeDataForm.formOfAddress')"
-          v-model="formData.form_of_address"
+          :aria-label="$t('employeeDataForm.formOfAddress')"
           :items="['Mr.', 'Ms.', 'Mrs.', 'Dr.']"
           :rules="[requiredRule]"
-          outlined
-          dense
-          :aria-label="$t('employeeDataForm.formOfAddress')"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-select
+          v-model="formData.gender"
+          outlined
+          dense
           :prepend-icon="icons.mdiGenderMaleFemale"
           :label="$t('employeeDataForm.gender')"
-          v-model="formData.gender"
+          :aria-label="$t('employeeDataForm.gender')"
           :items="['Male', 'Female', 'Other']"
           :rules="[requiredRule]"
-          outlined
-          dense
-          :aria-label="$t('employeeDataForm.gender')"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
-          :prepend-icon="icons.mdiCalendar"
-          :label="$t('employeeDataForm.dateOfBirth')"
           v-model="formData.date_of_birth"
           type="date"
-          :rules="[requiredRule]"
           outlined
           dense
+          :prepend-icon="icons.mdiCalendar"
+          :label="$t('employeeDataForm.dateOfBirth')"
           :aria-label="$t('employeeDataForm.dateOfBirth')"
+          :rules="[requiredRule]"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          v-model="formData.city_of_birth"
+          outlined
+          dense
           :prepend-icon="icons.mdiCity"
           :label="$t('employeeDataForm.cityOfBirth')"
-          v-model="formData.city_of_birth"
-          :rules="[requiredRule]"
-          outlined
-          dense
           :aria-label="$t('employeeDataForm.cityOfBirth')"
+          :rules="[requiredRule]"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          v-model="formData.address"
+          outlined
+          dense
           :prepend-icon="icons.mdiHomeMapMarker"
           :label="$t('employeeDataForm.address')"
-          v-model="formData.address"
-          :rules="[requiredRule]"
-          outlined
-          dense
           :aria-label="$t('employeeDataForm.address')"
+          :rules="[requiredRule]"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
-          :prepend-icon="icons.mdiNumeric"
-          :label="$t('employeeDataForm.postalCode')"
           v-model="formData.postal_code"
-          :rules="[requiredRule, postalCodeRule]"
           outlined
           dense
+          :prepend-icon="icons.mdiNumeric"
+          :label="$t('employeeDataForm.postalCode')"
+          :rules="[requiredRule, postalCodeRule]"
           :aria-label="$t('employeeDataForm.postalCode')"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          v-model="formData.nationality"
+          outlined
+          dense
           :prepend-icon="icons.mdiFlag"
           :label="$t('employeeDataForm.nationality')"
-          v-model="formData.nationality"
-          :rules="[requiredRule]"
-          outlined
-          dense
           :aria-label="$t('employeeDataForm.nationality')"
+          :rules="[requiredRule]"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          v-model="formData.telephone_number"
+          outlined
+          dense
           :prepend-icon="icons.mdiPhone"
           :label="$t('employeeDataForm.telephoneNumber')"
-          v-model="formData.telephone_number"
-          :rules="[requiredRule, phoneRule]"
-          outlined
-          dense
           :aria-label="$t('employeeDataForm.telephoneNumber')"
+          :rules="[requiredRule, phoneRule]"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          v-model="formData.health_insurance"
           :prepend-icon="icons.mdiHospital"
           :label="$t('employeeDataForm.healthInsurance')"
-          v-model="formData.health_insurance"
+          :aria-label="$t('employeeDataForm.healthInsurance')"
           :rules="[requiredRule]"
           outlined
           dense
-          :aria-label="$t('employeeDataForm.healthInsurance')"
         />
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
-          :prepend-icon="icons.mdiBank"
-          :label="$t('employeeDataForm.iban')"
           v-model="formData.iban"
-          :rules="[requiredRule, ibanRule]"
           outlined
           dense
+          :prepend-icon="icons.mdiBank"
+          :label="$t('employeeDataForm.iban')"
           :aria-label="$t('employeeDataForm.iban')"
+          :rules="[requiredRule, ibanRule]"
         />
       </v-col>
       <v-col cols="12">
         <v-checkbox
-          :label="$t('employeeDataForm.married')"
           v-model="formData.married"
+          :label="$t('employeeDataForm.married')"
           :aria-label="$t('employeeDataForm.married')"
         />
       </v-col>
       <v-col cols="12">
         <v-checkbox
-          :label="$t('employeeDataForm.previousEmployment')"
           v-model="formData.previous_employment"
+          :label="$t('employeeDataForm.previousEmployment')"
           :aria-label="$t('employeeDataForm.previousEmployment')"
         />
       </v-col>
-      <v-col cols="12" md="6" v-if="formData.previous_employment">
+      <v-col 
+      v-if="formData.previous_employment" 
+      cols="12" md="6" >
         <v-text-field
-          :prepend-icon="icons.mdiClock"
-          :label="$t('employeeDataForm.duration')"
           v-model="formData.prev_emp_duration"
-          :rules="formData.previous_employment ? [requiredRule] : []"
           outlined
           dense
           placeholder="DD.MM.YYYY – DD.MM.YYYY"
+          :prepend-icon="icons.mdiClock"
+          :label="$t('employeeDataForm.duration')"
           :aria-label="$t('employeeDataForm.duration')"
+          :rules="formData.previous_employment ? [requiredRule] : []"
         />
       </v-col>
     </v-row>
@@ -232,4 +234,5 @@ const ibanRule = (v) => /^[A-Z]{2}\d{2}[A-Z0-9]{11,30}$/.test(v) || 'Invalid IBA
 
 defineExpose({ formData, isFormValid });
 </script>
+
 
