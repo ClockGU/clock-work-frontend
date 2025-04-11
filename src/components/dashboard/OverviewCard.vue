@@ -59,10 +59,14 @@ onMounted(async () => {
    const response = await ApiService.get(`${props.role==="student"?"/students":"/supervisor"}/petitions`); 
    petitions.value = response.data;
  } catch (err) {
+  //404 is supposed to be when there are no petitions
+  // so we don't want to show an error in that case
+  if(err.response?.status !== 404){
   store.dispatch("snackbar/setErrorSnacks", {
       message: "Error fetching petitions",
    });
    console.error("Error fetching petitions:", err);
+  }
  } finally {
    isLoading.value = false;
  }

@@ -124,7 +124,8 @@
     "required": "Dieses Feld ist erforderlich",
     "invalidEmail": "Ungültige E-Mail-Adresse",
     "positiveNumber": "Muss eine positive Zahl sein",
-    "endDateAfterStart": "Enddatum muss nach dem Startdatum liegen"
+    "endDateAfterStart": "Enddatum muss nach dem Startdatum liegen",
+    "eosNumber": "Muss eine 5-stellige Zahl sein"
   },
   "appFooter": {
     "links": {

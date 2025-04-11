@@ -5,9 +5,9 @@
     :fullscreen="fullscreen"
     :max-width="maxWidth"
     transition="slide-y-reverse-transition"
-    @click:outside="close"
     :aria-labelledby="$t('customDialog.title')"
     role="dialog"
+    @click:outside="close"
   >
     <!-- Activator Slot -->
     <template #activator="props">
@@ -23,11 +23,11 @@
         <!-- Close Button -->
         <v-btn
           icon
-          @click="close"
           variant="text"
           class="text-grey-darken-2"
           :ripple="false"
           :aria-label="$t('customDialog.ariaLabel.close')"
+          @click="close"
         >
           <v-icon>{{ icons.mdiClose }}</v-icon>
         </v-btn>
@@ -46,8 +46,8 @@
         <v-btn
           color="grey-darken-1"
           variant="text"
-          @click="close"
           :aria-label="$t('actions.cancel')"
+          @click="close"
         >
           {{ $t('actions.cancel') }}
         </v-btn>

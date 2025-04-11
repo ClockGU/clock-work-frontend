@@ -124,7 +124,8 @@
     "required": "This field is required",
     "invalidEmail": "Invalid email address",
     "positiveNumber": "Must be a positive number",
-    "endDateAfterStart": "End date must be after start date"
+    "endDateAfterStart": "End date must be after start date",
+    "eosNumber": "Must be a 5 digit number "
   },
   "appFooter": {
     "links": {

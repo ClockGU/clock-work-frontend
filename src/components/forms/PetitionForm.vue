@@ -43,7 +43,7 @@
           :prepend-icon="icons.mdiNumeric"
           :label="$t('petition.eosNumber')"
           :aria-label="$t('petition.eosNumber')"
-          :rules="[requiredRule]"
+          :rules="[requiredRule,eosRule]"
         />
       </v-col>
       <v-col cols="12" md="6">
@@ -294,5 +294,7 @@ const endDateRule = (v) => {
   if (!formData.value.start_date || !v) return true;
   return new Date(v) >= new Date(formData.value.start_date) || t('validationRule.endDateAfterStart');
 };
+const eosRule = (v) => /^\d{5}$/.test(v) || t('validationRule.eosNumber');
+
 defineExpose({ formData, isFormValid });
 </script>

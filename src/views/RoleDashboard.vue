@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="12" md="6">
         <!-- EditCard with a ref to allow communication -->
-        <EditCard :role="role" ref="editCardRef" />
+        <EditCard ref="editCardRef" :role="role"  />
       </v-col>
       <v-col cols="12" md="6">
         <!-- OverviewCard with event listener for select-petition -->
