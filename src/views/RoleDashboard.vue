@@ -23,7 +23,7 @@
 import ApiService from "@/services/api"; 
 import EditCard from "@/components/dashboard/EditCard.vue";
 import OverviewCard from "@/components/dashboard/OverviewCard.vue";
-import { ref, onMounted } from 'vue';
+import { ref,computed, onMounted } from 'vue';
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 
@@ -36,6 +36,8 @@ const isLoading = ref(true);
 // Create a ref for the EditCard component
 const editCardRef = ref(null);
 
+const token = computed(() => store.getters["auth/accessToken"]);
+
 const handleSelectPetition = (petition) => {
   // Pass the selected petition to the EditCard component to handle the selection
   if (editCardRef.value) {
@@ -43,9 +45,12 @@ const handleSelectPetition = (petition) => {
   }
 };
 const fetchPetitions =async () => {
-  console.log(token.value);
  isLoading.value = true;
  try {
+  // Ensure token is set in API headers
+  if (token.value) {
+    ApiService.setAccessToken(token.value);
+  }
    const response = await ApiService.get(`${role==="student"?"/students":"/supervisor"}/petitions`); 
    petitions.value = response.data;
  } catch (err) {

@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import {computed, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
 import AuthService from "@/services/auth";
@@ -24,6 +24,7 @@ import AuthService from "@/services/auth";
 const route = useRoute();
 const router = useRouter();
 const store = useStore();
+const hasRole = computed(() => store.getters["auth/hasRole"]);
 const handleError = (error) => {
   store.dispatch("auth/unsetLoading");
   store.dispatch("auth/setError",error)
@@ -62,7 +63,14 @@ onMounted(async () => {
       await store.dispatch("auth/setUser", userResponse.data);
       store.dispatch("auth/unsetLoading");
       // Authentication flow complete - redirect to roles selection
-      router.push({ name: "roles" });
+      const userRole= userResponse.data.user_role;
+      if (userRole === 1){
+        router.push({path:"/dashboard/supervisor"});
+      }else if(hasRole.value && userRole === 0){
+        router.push({path:"/dashboard/student"});
+      }else{
+        router.push({ name: "roles" });
+      }
     } catch (error) {
       return handleError(`Failed to fetch user profile: ${error.message}`);
     }
