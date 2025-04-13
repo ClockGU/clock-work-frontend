@@ -1,28 +1,22 @@
 <template>
-  <!-- Header with Close Button -->
   <div class="d-flex justify-end align-center mb-3 mr-1">
-    <!-- <h2 class="text-high-emphasis font-weight-bold">
-      {{ $t('petitionDetailsTable.title') }}
-    </h2> -->
-    <div>
-      <v-btn
-      v-if="role === 'supervisor'"
-      color="primary"
-      class="mr-3"
-      :aria-label="$t('petitionDetailsTable.ariaLabels.editPetition')"
-      @click="$emit('edit')"
+    <v-btn
+    v-if="role === 'supervisor'"
+    color="primary"
+    class="mr-3"
+    :aria-label="$t('petitionDetailsTable.ariaLabels.editPetition')"
+    @click="$emit('edit')"
 
+  >
+    <v-icon>{{ icons.mdiPencil }}</v-icon>
+    </v-btn>
+    <v-btn
+      color="error"
+      :aria-label="$t('petitionDetailsTable.ariaLabels.closePetition')"
+      @click="$emit('close')"
     >
-      <v-icon>{{ icons.mdiPencil }}</v-icon>
-      </v-btn>
-      <v-btn
-        color="error"
-        :aria-label="$t('petitionDetailsTable.ariaLabels.closePetition')"
-        @click="$emit('close')"
-      >
-        <v-icon>{{ icons.mdiClose }}</v-icon>
-      </v-btn>
-    </div>
+      <v-icon>{{ icons.mdiClose }}</v-icon>
+    </v-btn>
   </div>
 
   <!-- Table -->
@@ -90,6 +84,7 @@
 </template>
   
 <script setup>
+import { onMounted } from 'vue';
 import { mdiClose, mdiPencil } from '@mdi/js';
 
 const props = defineProps({
@@ -129,16 +124,17 @@ const formatValue = (value) => {
 function formatPetition(petition) {
   const formattedPetition = {}; 
   for (const [key, value] of Object.entries(petition)) {
-    // Always skip time_exec and duration_exec
-    if (key === 'time_exec' || key === 'duration_exec') {
+    const skippedKeys = ['time_exce_course', 'time_exce_student','duration_exce_course',"user_account" ];
+    // Always skip time_exec_course and duration_exec_course
+    if (skippedKeys.includes(key)) {
       continue;
     }
-    // Skip time exception fields only if time_exec is false
-    if ((key === 'time_exce_name' || key === 'time_exce_start' || key === 'time_exce_end') && !petition.time_exec) {
+    // Skip time exception fields only if time_exec_course is false
+    if ((key === 'time_exce_name' || key === 'time_exce_start' || key === 'time_exce_end') && !petition.time_exec_course) {
       continue;
     }
-    // Skip duration exception fields only if duration_exec is false
-    if ((key === 'duration_exce_name' || key === 'duration_exce_start' || key === 'duration_exce_end') && !petition.duration_exec) {
+    // Skip duration exception fields only if duration_exec_course is false
+    if ((key === 'duration_exce_name' || key === 'duration_exce_start' || key === 'duration_exce_end') && !petition.duration_exec_course) {
       continue;
     }
     // Add all other fields
@@ -146,6 +142,10 @@ function formatPetition(petition) {
   }
   return formattedPetition;
 }
+onMounted(()=>{
+  console.log("petition is", props.petition);
+  
+})
 </script>
   
 <style scoped>

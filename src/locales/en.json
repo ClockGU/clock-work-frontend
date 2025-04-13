@@ -101,6 +101,8 @@
     "versicherungsbescheinigung": "Versicherungsbescheinigung"
   },
   "petition": {
+    "id": "Petition ID",
+    "status": "Status",
     "petitioneer": "Petitioneer",
     "studentMail": "Student Mail",
     "orgUnit": "Org Unit",

@@ -120,38 +120,38 @@
       <!-- Time and Duration Exception Fields -->
       <v-col cols="12">
         <v-checkbox
-          v-model="formData.time_exec"
+          v-model="formData.time_exec_course"
           :label="$t('petition.timeException')"
           :aria-label="$t('petition.timeException')"
           @update:model-value="handleTimeExceptionChange"
         />
         <div class="mx-4">
           <v-text-field
-            v-if="formData.time_exec"
+            v-if="formData.time_exec_course"
             v-model="formData.time_exce_name"
             outlined
             dense
             :label="$t('petition.timeExceName')"
             :aria-label="$t('petition.timeExceName')"
-            :rules="formData.time_exec? [requiredRule] : []"
+            :rules="formData.time_exec_course? [requiredRule] : []"
           />
           <v-text-field
-            v-if="formData.time_exec"
+            v-if="formData.time_exec_course"
             v-model="formData.time_exce_start"
             type="date"
             outlined
             dense
-            :rules="formData.time_exec? [requiredRule] : []"
+            :rules="formData.time_exec_course? [requiredRule] : []"
             :label="$t('petition.timeExceStart')"
             :aria-label="$t('petition.timeExceStart')"
           />
           <v-text-field
-            v-if="formData.time_exec"
+            v-if="formData.time_exec_course"
             v-model="formData.time_exce_end"
             type="date"
             outlined
             dense
-            :rules="formData.time_exec? [requiredRule] : []"
+            :rules="formData.time_exec_course? [requiredRule] : []"
             :label="$t('petition.timeExceEnd')"
             :aria-label="$t('petition.timeExceEnd')"
           />
@@ -160,7 +160,7 @@
       
       <v-col cols="12">
         <v-checkbox
-          v-model="formData.duration_exec"
+          v-model="formData.duration_exec_course"
           :label="$t('petition.durationException')"
           :aria-label="$t('petition.durationException')"
           @update:model-value="handleDurationExceptionChange"
@@ -168,31 +168,31 @@
         />
         <div class="mx-4">
           <v-text-field
-            v-if="formData.duration_exec"
+            v-if="formData.duration_exec_course"
             v-model="formData.duration_exce_name"
             outlined
             dense
-            :rules="formData.duration_exec? [requiredRule] : []"
+            :rules="formData.duration_exec_course? [requiredRule] : []"
             :label="$t('petition.durationExceName')"
             :aria-label="$t('petition.durationExceName')"
           />
           <v-text-field
-            v-if="formData.duration_exec"
+            v-if="formData.duration_exec_course"
             v-model="formData.duration_exce_start"
             type="date"
             outlined
             dense
-            :rules="formData.duration_exec? [requiredRule] : []"
+            :rules="formData.duration_exec_course? [requiredRule] : []"
             :label="$t('petition.durationExceStart')"
             :aria-label="$t('petition.durationExceStart')"
           />
           <v-text-field
-            v-if="formData.duration_exec"
+            v-if="formData.duration_exec_course"
             v-model="formData.duration_exce_end"
             type="date"
             outlined
             dense
-            :rules="formData.duration_exec? [requiredRule] : []"
+            :rules="formData.duration_exec_course? [requiredRule] : []"
             :label="$t('petition.durationExceEnd')"
             :aria-label="$t('petition.durationExceEnd')"
           />
@@ -247,11 +247,11 @@ const initialFormData = {
   ba_degree: false,
   budget_position: '',
   budget_approver: '',
-  time_exec: false,
+  time_exec_course: false,
   time_exce_name: '',
   time_exce_start: '',
   time_exce_end: '',
-  duration_exec: false,
+  duration_exec_course: false,
   duration_exce_name: '',
   duration_exce_start: '',
   duration_exce_end: '',
