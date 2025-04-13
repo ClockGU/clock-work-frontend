@@ -4,14 +4,14 @@
       {{ role === "supervisor" ? $t("editCard.supervisorTitle") : $t("editCard.studentTitle") }}
     </v-card-title>
     <v-card-text>
-      <!-- Button to open the form dialog -->
+      <!-- Main button - behavior differs by role -->
       <v-btn
         color="primary"
         class="mb-4"
         :aria-label="$t('editCard.openFormDialog')"
-        @click="openDialog(false)"
+        @click="role === 'supervisor' ? openNewPetitionDialog() : openStudentDialog()"
       >
-      {{ role === "supervisor" ? $t("editCard.supervisorTitle") : $t("editCard.studentTitle") }}
+        {{ role === "supervisor" ? $t("editCard.supervisorTitle") : $t("editCard.studentTitle") }}
       </v-btn>
 
       <!-- Petition Details Table -->
@@ -21,7 +21,7 @@
           :role="role"
           :aria-label="$t('editCard.petitionDetailsTable')"
           @close="selectPetition(null)"
-          @edit="openDialog(true)"
+          @edit="openEditDialog"
         />
       </div>
 
@@ -30,21 +30,18 @@
         {{ $t('editCard.noPetitionSelected') }}
       </p>
 
-      <!-- open adequate dialog based on role -->
+      <!-- Dialogs -->
       <PetitionFormDialog
-        v-if="role === 'supervisor'"
-        v-model="dialog"
+        v-model="showPetitionForm"
         :role="role"
-        :petition="shouldEditPetition?selectedPetition:null"
-        :aria-label="$t('editCard.petitionFormDialog')"
-        @close="dialog = false"
+        :petition="currentPetition"
+        @close="showPetitionForm = false"
         @refresh="refresh"
       />
       <StudentDataManagementDialog
-        v-else
-        v-model="dialog"
-        :aria-label="$t('editCard.studentDataManagementDialog')"
-        @close="dialog = false"
+        v-if="role === 'student'"
+        v-model="showStudentDialog"
+        @close="showStudentDialog = false"
       />
     </v-card-text>
   </v-card>
@@ -61,27 +58,41 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  petition: {
-    type: [Object, null],
-    required: false,
-    default: null,
-  },
 });
+
 const emit = defineEmits(['refresh']);
-const dialog = ref(false);
+
+// Dialog visibility
+const showPetitionForm = ref(false);
+const showStudentDialog = ref(false);
+
+// Petition state
 const selectedPetition = ref(null);
-const shouldEditPetition = ref(false);
-const openDialog = (shouldEdit) => {
-  shouldEditPetition.value = shouldEdit
-  dialog.value = true;
+const currentPetition = ref(null); // null = empty petition form, object = editing because petitionForm autopopulates a petition
+
+// Dialog handlers
+const openNewPetitionDialog = () => {
+  currentPetition.value = null; // Ensures empty form
+  showPetitionForm.value = true;
 };
+
+const openEditDialog = () => {
+  currentPetition.value = selectedPetition.value; // Pass petition to edit
+  showPetitionForm.value = true;
+};
+
+const openStudentDialog = () => {
+  showStudentDialog.value = true;
+};
+
 const refresh = () => {
+  selectedPetition.value = null; 
   emit('refresh');
 };
 
-// Listen for the select-petition event from OverviewCard
 const selectPetition = (petition) => {
   selectedPetition.value = petition;
 };
+
 defineExpose({ selectPetition });
 </script>

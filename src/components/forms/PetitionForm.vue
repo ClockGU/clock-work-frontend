@@ -6,7 +6,7 @@
           v-model="formData.petitioneer"
           outlined
           dense
-          readonly
+          disabled
           :prepend-icon="icons.mdiAccount"
           :label="$t('petition.petitioneer')"
           :aria-label="$t('petition.petitioneer')"
@@ -18,6 +18,7 @@
           type="email"
           outlined
           dense
+          :readonly="role === 'student'"
           :prepend-icon="icons.mdiEmail"
           :label="$t('petition.studentMail')"
           :aria-label="$t('petition.studentMail')"
@@ -26,6 +27,7 @@
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          v-if="role !== 'student'"
           v-model="formData.org_unit"
           outlined
           dense
@@ -37,6 +39,7 @@
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          v-if="role !== 'student'"
           v-model="formData.eos_number"
           outlined
           dense
@@ -95,6 +98,7 @@
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          v-if="role !== 'student'"
           v-model="formData.budget_position"
           outlined
           dense
@@ -106,6 +110,7 @@
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          v-if="role !== 'student'"
           v-model="formData.budget_approver"
           type="email"
           outlined
@@ -113,7 +118,7 @@
           :prepend-icon="icons.mdiEmail"
           :label="$t('petition.budgetApprover')"
           :aria-label="$t('petition.budgetApprover')"
-          :rules="[requiredRule, emailRule]"
+          :rules="role[requiredRule, emailRule]"
         />
       </v-col>
 

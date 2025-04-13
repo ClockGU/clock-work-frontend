@@ -124,8 +124,8 @@ const formatValue = (value) => {
 function formatPetition(petition) {
   const formattedPetition = {}; 
   for (const [key, value] of Object.entries(petition)) {
-    const skippedKeys = ['time_exce_course', 'time_exce_student','duration_exce_course',"user_account" ];
-    // Always skip time_exec_course and duration_exec_course
+    const skippedKeys = ['time_exce_course', 'time_exce_student','duration_exce_course',"duration_exce_student","user_account" ];
+    // Always skip these
     if (skippedKeys.includes(key)) {
       continue;
     }
