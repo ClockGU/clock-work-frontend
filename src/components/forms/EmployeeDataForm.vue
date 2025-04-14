@@ -169,9 +169,11 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { mdiAccount, mdiGenderMaleFemale, mdiCity, mdiHomeMapMarker, mdiNumeric, mdiFlag, mdiPhone, mdiHospital, mdiBank, mdiCalendar, mdiClock, mdiAccountBox } from '@mdi/js';
+import ApiService from '@/services/api';
+import { id } from 'date-fns/locale';
 
 const icons = {
   mdiAccount,
@@ -191,6 +193,7 @@ const icons = {
 const store = useStore();
 
 const initialFormData = {
+  id: '',
   first_name: '',
   last_name: '',
   form_of_address: '',
@@ -206,25 +209,26 @@ const initialFormData = {
   previous_employment: false,
   prev_emp_duration: '',
   iban: '',
-  elstam: null,
-  studienbescheinigung: null,
-  versicherungsbescheinigung: null,
 };
 
 const formData = ref({ ...initialFormData });
 const isFormValid = ref(false);
-
-const employeeData = computed(() => store.getters['employeeData/employeeData']);
-
-watch(
-  employeeData,
-  (newEmployeeData) => {
-    if (newEmployeeData) {
-      formData.value = { ...newEmployeeData };
+const fetchEmployeeData = async () => {
+  try{
+    const response = await ApiService.get('/employee');
+    if (response.data) {
+      formData.value = { ...initialFormData, ...response.data };
+      }
+    } catch (error) {
+      console.error('Error fetching employee data:', error);
+      store.dispatch('snackbar/setErrorSnacks', {
+        message: 'Error fetching employee data',
+      });
     }
-  },
-  { immediate: true }
-);
+}
+onMounted(() => {
+  fetchEmployeeData();
+});
 
 // Validation Rules
 const requiredRule = (v) => !!v || 'This field is required';

@@ -54,22 +54,28 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import { useStore } from 'vuex';
 import EmployeeDataForm from '@/components/forms/EmployeeDataForm.vue';
 import CustomDialog from '@/components/dialogs/CustomDialog.vue';
 import FilesUploadForm from '@/components/forms/FilesUploadForm.vue';
+import ApiService from '@/services/api';
 
 const emit = defineEmits('close');
-const store = useStore();
 const employeeDataFormRef = ref(null);
 const tab = ref('personal');
 
 const closeDialog = () => emit('close');
-const save = () => {
+const save = async() => {
   if (tab.value === 'personal') {
     const formData = employeeDataFormRef.value.formData;
     if (employeeDataFormRef.value.isFormValid) {
-      store.dispatch('employeeData/setEmployeeData', formData);
+      try {
+        await ApiService.patch('/employee', formData);
+      } catch (error) {
+        console.error('Error saving employee data:', error);
+        store.dispatch('snackbar/setErrorSnacks', {
+          message: 'Error saving employee data',
+        });
+      }
     }
   }
   closeDialog();
