@@ -42,9 +42,9 @@
       <v-spacer></v-spacer>
       <v-btn
         color="primary"
-        @click="save"
         :disabled="!isFormValid"
-        :aria-label="$t('studentDataManagementDialog.ariaLabel.save')"
+        :aria-label="$t('actions.save')"
+        @click="save"
       >
         {{ $t('actions.save') }}
       </v-btn>
@@ -69,7 +69,7 @@ const save = async() => {
     const formData = employeeDataFormRef.value.formData;
     if (employeeDataFormRef.value.isFormValid) {
       try {
-        await ApiService.patch('/employee', formData);
+        await ApiService.patch('/employees', formData);
       } catch (error) {
         console.error('Error saving employee data:', error);
         store.dispatch('snackbar/setErrorSnacks', {
