@@ -169,7 +169,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref,onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { mdiAccount, mdiGenderMaleFemale, mdiCity, mdiHomeMapMarker, mdiNumeric, mdiFlag, mdiPhone, mdiHospital, mdiBank, mdiCalendar, mdiClock, mdiAccountBox } from '@mdi/js';
 import ApiService from '@/services/api';
@@ -236,8 +236,8 @@ const requiredRule = (v) => !!v || 'This field is required';
 const postalCodeRule = (v) => /^\d{5}$/.test(v) || 'Postal code must be 5 digits';
 const phoneRule = (v) => /^\d{10,15}$/.test(v) || 'Invalid phone number';
 const ibanRule = (v) => /^[A-Z]{2}\d{2}[A-Z0-9]{11,30}$/.test(v) || 'Invalid IBAN';
-
-defineExpose({ formData, isFormValid });
+// Validation Rules
+defineExpose({ formData,isFormValid });
 </script>
 
 
