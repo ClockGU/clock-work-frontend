@@ -64,7 +64,9 @@ onMounted(async () => {
       store.dispatch("auth/unsetLoading");
       // Authentication flow complete - redirect to roles selection
       const userRole= userResponse.data.user_role;
-      if (userRole === 1){
+      if (userRole === 2){
+        router.push({path:"/clerk"});
+      }else if (userRole === 1){
         router.push({path:"/dashboard/supervisor"});
       }else if(hasRole.value && userRole === 0){
         router.push({path:"/dashboard/student"});
