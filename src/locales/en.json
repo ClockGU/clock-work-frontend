@@ -6,9 +6,11 @@
     "loggingin": "Logging in..."
   },
   "actions": {
-    "cancel": "Cancel",
-    "submit": "Submit",
-    "save": "Save"
+    "cancel": "cancel",
+    "submit": "submit",
+    "save": "save",
+    "edit": "edit",
+    "close": "close"
   },
   "roleSelectionView": {
     "welcome": "You are new here!",

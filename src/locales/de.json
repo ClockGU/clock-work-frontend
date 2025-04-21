@@ -6,9 +6,11 @@
     "loggingin": "Anmeldung..."
   },
   "actions": {
-    "cancel": "Abbrechen",
-    "submit": "Absenden",
-    "save": "Speichern"
+    "cancel": "abbrechen",
+    "submit": "absenden",
+    "save": "speichern",
+    "edit": "bearbeiten",
+    "close": "schließen"
   },
   "roleSelectionView": {
     "welcome": "Sie sind neu hier!",

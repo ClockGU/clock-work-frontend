@@ -1,14 +1,18 @@
 <template>
   <div class="d-flex justify-end align-center mb-3 mr-1">
     <v-btn
-    v-if="role === 'supervisor'"
-    color="primary"
-    class="mr-3"
-    :aria-label="$t('petitionDetailsTable.ariaLabels.editPetition')"
-    @click="$emit('edit')"
-
-  >
-    <v-icon>{{ icons.mdiPencil }}</v-icon>
+      v-if="role === 'supervisor'"
+      color="primary"
+      class="mr-3"
+      :aria-label="$t('petitionDetailsTable.ariaLabels.editPetition')"
+      @click="$emit('edit')"
+    >   
+      <v-icon>{{ icons.mdiPencil }}</v-icon>
+      <v-tooltip 
+        activator="parent"
+        location="top"
+        :text="$t('actions.edit')"
+      ></v-tooltip>
     </v-btn>
     <v-btn
       color="error"
@@ -16,6 +20,11 @@
       @click="$emit('close')"
     >
       <v-icon>{{ icons.mdiClose }}</v-icon>
+      <v-tooltip 
+        activator="parent"
+        location="top"
+        :text="$t('actions.close')"
+      ></v-tooltip>
     </v-btn>
   </div>
 
