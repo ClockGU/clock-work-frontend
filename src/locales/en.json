@@ -11,7 +11,8 @@
     "save": "save",
     "edit": "edit",
     "close": "close",
-    "delete": "löschen"
+    "delete": "delete",
+    "confirm": "confirm"
   },
   "roleSelectionView": {
     "welcome": "You are new here!",
@@ -35,20 +36,12 @@
     "overviewTitle": "Overview"
   },
   "petitionDetailsTable": {
-    "title": "Petition Details",
-    "ariaLabels": {
-      "editPetition": "Edit Petition",
-      "closePetition": "Close Petition",
-      "petitionDetailsTable": "Petition Details Table"
-    },
+    "title": "Petition Details Table",
     "headers": {
       "petitionField": "Petition Field",
       "value": "Value"
     },
-    "buttons": {
-      "editPetition": "Edit Petition",
-      "closePetition": "Close Petition"
-    }
+    "deletionConfirmationMessage": "Are you sure you want to delete this petition? This action cannot be undone."
   },
   "customDialog": {
     "ariaLabel": {

@@ -1,11 +1,27 @@
 <template>
+   <!--  AlertDialog to confirm petition deletion-->
+   <AlertDialog v-model="showDeleteConfirmation">
+    <template #content>
+      <p>{{ $t('petitionDetailsTable.deletionConfirmationMessage') }}</p>
+    </template>
+    <template #actions>
+      <v-btn
+        color="primary"
+        variant="elevated"
+        class="mx-4 mt-2" 
+        @click="deletePetition"
+      >
+        {{$t('actions.confirm')}} 
+      </v-btn>
+    </template>
+  </AlertDialog>
+
   <div class="d-flex justify-space-between align-center mb-3 ">
     <v-btn
       v-if="role === 'supervisor'"
       color="error"
       :aria-label="$t('actions.delete')"
-      @click="deletePetition"
-    >   
+      @click="showDeleteConfirmation = true">
       <v-icon>{{ icons.mdiTrashCan }}</v-icon>
       <v-tooltip 
         activator="parent"
@@ -49,7 +65,7 @@
     density="comfortable"
     hover
     role="table"
-    :aria-label="$t('petitionDetailsTable.ariaLabels.petitionDetailsTable')"
+    :aria-label="$t('petitionDetailsTable.title')"
   >
     <thead>
       <tr role="row">
@@ -86,7 +102,7 @@
       </tr>
     </tbody>
   </v-table>
-  <div class="d-flex justify-end mt-3">
+  <div class="d-flex justify-space-between mt-3">
     <v-btn
       v-if="role === 'supervisor'"
       color="primary"
@@ -108,6 +124,7 @@
 </template>
   
 <script setup>
+import {ref} from 'vue'
 import { mdiClose, mdiPencil ,mdiTrashCan} from '@mdi/js';
 import ApiService from '@/services/api.js'
 import {useStore} from "vuex"
@@ -126,6 +143,7 @@ const emit = defineEmits(['close', 'edit','refresh']);
 const icons = { mdiClose, mdiPencil,mdiTrashCan };
 
 const store=useStore()
+const showDeleteConfirmation = ref(false);
 
 const formatKey = (key) => {
   return key
@@ -177,6 +195,8 @@ const deletePetition = async () => {
     store.dispatch("snackbar/setErrorSnacks", {
         message: "Error deleting the petition",
       });
+  }finally {
+    showDeleteConfirmation.value = false;
   }
 };
 </script>

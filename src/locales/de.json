@@ -11,7 +11,8 @@
     "save": "speichern",
     "edit": "bearbeiten",
     "close": "schließen",
-    "delete": "löschen"
+    "delete": "löschen",
+    "confirm": "bestätigen"
   },
   "roleSelectionView": {
     "welcome": "Sie sind neu hier!",
@@ -35,20 +36,12 @@
     "overviewTitle": "Übersicht"
   },
   "petitionDetailsTable": {
-    "title": "Antragsdetails",
-    "ariaLabels": {
-      "editPetition": "Antrag bearbeiten",
-      "closePetition": "Antrag schließen",
-      "petitionDetailsTable": "Antragsdetails-Tabelle"
-    },
+    "title": "Antragsdetails-Tabelle",
     "headers": {
       "petitionField": "Antragsfeld",
       "value": "Wert"
     },
-    "buttons": {
-      "editPetition": "Antrag bearbeiten",
-      "closePetition": "Antrag schließen"
-    }
+    "deletionConfirmationMessage": "Sind Sie sicher, dass Sie diese Petition löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden."
   },
   "customDialog": {
     "ariaLabel": {
