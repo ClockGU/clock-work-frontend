@@ -24,7 +24,7 @@ import AuthService from "@/services/auth";
 const route = useRoute();
 const router = useRouter();
 const store = useStore();
-const hasRole = computed(() => store.getters["auth/hasRole"]);
+const isRoleSelected = computed(() => store.getters["auth/isRoleSelected"]);
 const handleError = (error) => {
   store.dispatch("auth/unsetLoading");
   store.dispatch("auth/setError",error)
@@ -68,7 +68,7 @@ onMounted(async () => {
         router.push({path:"/clerk"});
       }else if (userRole === 1){
         router.push({path:"/dashboard/supervisor"});
-      }else if(hasRole.value && userRole === 0){
+      }else if(isRoleSelected.value && userRole === 0){
         router.push({path:"/dashboard/student"});
       }else{
         router.push({ name: "roles" });

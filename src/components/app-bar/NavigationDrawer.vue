@@ -8,7 +8,7 @@
       @update:model-value="closeDrawer"
     >
       <v-row class="mt-4 mb-4" justify="center">
-        <router-link v-slot="{ navigate }" :to="{ name: 'roles' }" custom>
+        <router-link v-slot="{ navigate }" :to="redirectTo" custom>
           <span
             role="link"
             style="cursor: pointer"
@@ -95,6 +95,15 @@
   import {useStore} from "vuex";
   import svg from "@/assets/clock_full.svg";
 
+  const props = defineProps({
+    drawer: {
+      type: Boolean,
+      default: false
+    },
+  });
+  const emit = defineEmits(["closeDrawer"]);
+
+  const imgSrc =  svg;
   const icons = {
     mdiAccountCog,
     mdiCalendar,
@@ -106,18 +115,8 @@
     mdiHelp,
     mdiLogout
   };
-  
-  const props = defineProps({
-    drawer: {
-      type: Boolean,
-      default: false
-    },
-  });
-  const store = useStore();
-  const isLoggedIn = computed(()=>store.getters['auth/isLoggedIn']);  const user = computed(()=>store.getters['auth/user']);
-  const userLoading = computed(()=>store.getters['auth/isLoading']);
 
-  const firstLetter = computed(() => user.value?.first_name?.charAt(0) || '');
+  const store = useStore();
   const menuItems = ref([
     /*{
       text: "Settings",
@@ -144,19 +143,32 @@
     },*/
 
   ]);
-  const imgSrc =  svg;
-  const emit = defineEmits(["closeDrawer"]);
-  
+
+  const isLoggedIn = computed(()=>store.getters['auth/isLoggedIn']);  
+  const user = computed(()=>store.getters['auth/user']);
+  const userLoading = computed(()=>store.getters['auth/isLoading']);  
+  const isRoleSelected = computed(()=>store.getters["auth/isRoleSelected"])
+  const firstLetter = computed(() => user.value?.first_name?.charAt(0) || '');
+
+  const redirectTo = computed(() => {
+    if (!isLoggedIn.value) return "/";
+    
+    const userRole = user.value?.user_role;
+    if (userRole === 2) return "/clerk";
+    if (userRole === 1) return "/dashboard/supervisor";
+    if (userRole === 0 && isRoleSelected.value) return "/dashboard/student";
+    return "/roles";
+  });
+
   const closeDrawer = (value) => {
     if (!value) {
       emit("closeDrawer");
     }
   };
   const logout = () => {  
-  store.dispatch('auth/setIsLoading');
-  window.location ="https://cas.rz.uni-frankfurt.de/cas/logout";
-  store.dispatch('auth/logout');
-  store.dispatch('auth/unsetLoading');
-};  
-  
+    store.dispatch('auth/setIsLoading');
+    window.location ="https://cas.rz.uni-frankfurt.de/cas/logout";
+    store.dispatch('auth/logout');
+    store.dispatch('auth/unsetLoading');
+  };  
   </script>

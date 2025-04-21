@@ -12,7 +12,7 @@
       <v-toolbar-title>  
         <router-link  
           v-slot="{ navigate }"  
-          :to="{ name: 'roles' }"  
+          :to="redirectTo"  
           custom  
         >  
           <span  
@@ -99,7 +99,18 @@ const emit = defineEmits(["toggle"]);
 const isLoggedIn = computed(()=>store.getters['auth/isLoggedIn']);  
 const user = computed(()=>store.getters['auth/user']);
 const userLoading = computed(()=>store.getters['auth/isLoading']);  
+const isRoleSelected = computed(()=>store.getters["auth/isRoleSelected"])
 const firstLetter = computed(() => user.value?.first_name?.charAt(0) || '');
+
+const redirectTo = computed(() => {
+  if (!isLoggedIn.value) return "/";
+  
+  const userRole = user.value?.user_role;
+  if (userRole === 2) return "/clerk";
+  if (userRole === 1) return "/dashboard/supervisor";
+  if (userRole === 0 && isRoleSelected.value) return "/dashboard/student";
+  return "/roles";
+});
 
 const toggleNavigationdrawer = () => {  
   emit("toggle");  

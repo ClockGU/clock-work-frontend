@@ -55,7 +55,7 @@ import { useStore } from 'vuex';
     if(props.role === "supervisor"){
       await ApiService.put(`users/${user.value.id}`,{user_role: 1});
     }
-    store.dispatch('auth/setHasRole', true);
+    store.dispatch('auth/setIsRoleSelected', true);
     router.push({ path: `/dashboard/${props.role}` });
   };  
   </script>  
