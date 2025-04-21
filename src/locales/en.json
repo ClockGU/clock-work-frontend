@@ -10,7 +10,8 @@
     "submit": "submit",
     "save": "save",
     "edit": "edit",
-    "close": "close"
+    "close": "close",
+    "delete": "löschen"
   },
   "roleSelectionView": {
     "welcome": "You are new here!",

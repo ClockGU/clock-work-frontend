@@ -11,6 +11,7 @@
       <v-col cols="12" md="6">
         <!-- OverviewCard with event listener for select-petition -->
         <OverviewCard 
+        :key="petitions.length" 
         :petitions="petitions"
         :isLoading ="isLoading"
         @select-petition="handleSelectPetition" />
@@ -44,27 +45,25 @@ const handleSelectPetition = (petition) => {
     editCardRef.value.selectPetition(petition);
   }
 };
-const fetchPetitions =async () => {
- isLoading.value = true;
- try {
-  // Ensure token is set in API headers
-  if (token.value) {
-    ApiService.setAccessToken(token.value);
+const fetchPetitions = async () => {
+  isLoading.value = true;
+  try {
+    if (token.value) {
+      ApiService.setAccessToken(token.value);
+    }
+    const response = await ApiService.get(`${role==="student"?"/students":"/supervisor"}/petitions`); 
+    petitions.value = response.data || []; // Ensure it's always an array
+  } catch (err) {
+    if(err.response?.status !== 404){
+      console.error("Error fetching petitions:", err);
+      store.dispatch("snackbar/setErrorSnacks", {
+        message: "Error fetching petitions",
+      });
+    }
+    petitions.value = []; // Reset to empty array on error
+  } finally {
+    isLoading.value = false;
   }
-   const response = await ApiService.get(`${role==="student"?"/students":"/supervisor"}/petitions`); 
-   petitions.value = response.data;
- } catch (err) {
-  //404 is supposed to be when there are no petitions
-  // so we don't want to show an error in that case
-  if(err.response?.status !== 404){
-  store.dispatch("snackbar/setErrorSnacks", {
-      message: "Error fetching petitions",
-   });
-   console.error("Error fetching petitions:", err);
-  }
- } finally {
-   isLoading.value = false;
- }
 }
 onMounted(() => {
   fetchPetitions();

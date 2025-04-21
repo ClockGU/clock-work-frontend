@@ -22,6 +22,7 @@
           :aria-label="$t('editCard.petitionDetailsTable')"
           @close="selectPetition(null)"
           @edit="openEditDialog"
+          @refresh="refresh"
         />
       </div>
 
@@ -75,21 +76,20 @@ const openNewPetitionDialog = () => {
   currentPetition.value = null; // Ensures empty form
   showPetitionForm.value = true;
 };
-
 const openEditDialog = () => {
   currentPetition.value = selectedPetition.value; // Pass petition to edit
   showPetitionForm.value = true;
 };
-
 const openStudentDialog = () => {
   showStudentDialog.value = true;
 };
 
-const refresh = () => {
-  selectedPetition.value = null; 
+const refresh = (deletedId) => {
+  if (selectedPetition.value?.id === deletedId) {
+    selectedPetition.value = null;
+  }
   emit('refresh');
 };
-
 const selectPetition = (petition) => {
   selectedPetition.value = petition;
 };

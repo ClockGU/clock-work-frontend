@@ -1,10 +1,24 @@
 <template>
-  <div class="d-flex justify-end align-center mb-3 mr-1">
+  <div class="d-flex justify-space-between align-center mb-3 ">
     <v-btn
+      v-if="role === 'supervisor'"
+      color="error"
+      :aria-label="$t('actions.delete')"
+      @click="deletePetition"
+    >   
+      <v-icon>{{ icons.mdiTrashCan }}</v-icon>
+      <v-tooltip 
+        activator="parent"
+        location="right"
+        :text="$t('actions.delete')"
+      ></v-tooltip>
+    </v-btn>
+    <div class="d-flex align-center ml-1">
+      <v-btn
       v-if="role === 'supervisor'"
       color="primary"
       class="mr-3"
-      :aria-label="$t('petitionDetailsTable.ariaLabels.editPetition')"
+      :aria-label="$t('actions.delete')"
       @click="$emit('edit')"
     >   
       <v-icon>{{ icons.mdiPencil }}</v-icon>
@@ -13,19 +27,20 @@
         location="top"
         :text="$t('actions.edit')"
       ></v-tooltip>
-    </v-btn>
-    <v-btn
-      color="error"
-      :aria-label="$t('petitionDetailsTable.ariaLabels.closePetition')"
-      @click="$emit('close')"
-    >
-      <v-icon>{{ icons.mdiClose }}</v-icon>
-      <v-tooltip 
-        activator="parent"
-        location="top"
-        :text="$t('actions.close')"
-      ></v-tooltip>
-    </v-btn>
+      </v-btn>
+      <v-btn
+        color="error"
+        :aria-label="$t('actions.close')"
+        @click="$emit('close')"
+      >
+        <v-icon>{{ icons.mdiClose }}</v-icon>
+        <v-tooltip 
+          activator="parent"
+          location="top"
+          :text="$t('actions.close')"
+        ></v-tooltip>
+      </v-btn>
+    </div>  
   </div>
 
   <!-- Table -->
@@ -76,26 +91,26 @@
       v-if="role === 'supervisor'"
       color="primary"
       variant="text"
-      :aria-label="$t('petitionDetailsTable.ariaLabels.editPetition')"
+      :aria-label="$t('actions.edit')"
       @click="$emit('edit')"
       >
-      {{ $t('petitionDetailsTable.buttons.editPetition') }}
+      {{ $t('actions.edit') }}
     </v-btn>
     <v-btn
       color="error"
       variant="text"
-      :aria-label="$t('petitionDetailsTable.ariaLabels.closePetition')"
+      :aria-label="$t('actions.close')"
       @click="$emit('close')"
       >
-      {{ $t('petitionDetailsTable.buttons.closePetition') }}
+      {{ $t('actions.close') }}
     </v-btn>
   </div>
 </template>
   
 <script setup>
-import { onMounted } from 'vue';
-import { mdiClose, mdiPencil } from '@mdi/js';
-
+import { mdiClose, mdiPencil ,mdiTrashCan} from '@mdi/js';
+import ApiService from '@/services/api.js'
+import {useStore} from "vuex"
 const props = defineProps({
   petition: {
     type: Object,
@@ -107,8 +122,10 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(['close', 'edit']);
-const icons = { mdiClose, mdiPencil };
+const emit = defineEmits(['close', 'edit','refresh']);
+const icons = { mdiClose, mdiPencil,mdiTrashCan };
+
+const store=useStore()
 
 const formatKey = (key) => {
   return key
@@ -151,10 +168,17 @@ function formatPetition(petition) {
   }
   return formattedPetition;
 }
-onMounted(()=>{
-  console.log("petition is", props.petition);
-  
-})
+const deletePetition = async () => {
+  try {
+    await ApiService.delete(`supervisor/petitions/${props.petition.id}`);
+    emit('refresh', props.petition.id); // Pass the deleted ID
+  } catch (error) {
+    console.error("Error deleting petition:", error);
+    store.dispatch("snackbar/setErrorSnacks", {
+        message: "Error deleting the petition",
+      });
+  }
+};
 </script>
   
 <style scoped>
