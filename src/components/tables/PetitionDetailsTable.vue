@@ -1,18 +1,12 @@
 <template>
    <!--  AlertDialog to confirm petition deletion-->
-   <AlertDialog v-model="showDeleteConfirmation">
+   <AlertDialog 
+    v-model="showDeleteConfirmation"
+    :action-text="$t('actions.confirm')"
+    :action="deletePetition"
+    >
     <template #content>
       <p>{{ $t('petitionDetailsTable.deletionConfirmationMessage') }}</p>
-    </template>
-    <template #actions>
-      <v-btn
-        color="primary"
-        variant="elevated"
-        class="mx-4 mt-2" 
-        @click="deletePetition"
-      >
-        {{$t('actions.confirm')}} 
-      </v-btn>
     </template>
   </AlertDialog>
 

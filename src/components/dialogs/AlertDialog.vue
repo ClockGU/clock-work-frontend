@@ -37,7 +37,14 @@
           >
             {{ $t('actions.cancel') }}
           </v-btn>
-          <slot name="actions"></slot>
+          <v-btn
+            color="primary"
+            variant="elevated"
+            class="mx-2 mt-2"
+            @click="handleAction"
+          >
+            {{ actionText }}
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -56,6 +63,14 @@
       type: Boolean,
       default: false
     },
+    actionText: {
+    type: String,
+    required: true
+    },
+    action: {
+      type: Function,
+      default: () => {}
+    }
   });
   
   const model = defineModel({
@@ -63,7 +78,7 @@
     default: false
   });
   
-  const close = () => {
-    model.value = false;
-  };
+  const close = () => model.value = false;
+  const handleAction = () => props.action();
+
   </script>
