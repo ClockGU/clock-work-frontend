@@ -1,4 +1,4 @@
-<template>  
+<template>
   <v-btn
     :aria-label="`Select role as ${role}`"
     class="card-button d-flex flex-column align-center justify-center pa-4"
@@ -7,15 +7,16 @@
       class="card-button d-flex flex-column align-center justify-center"
       style="background-color: transparent; box-shadow: none;"
     >
-      <v-card-title 
-      class="text-h5 text-high-emphasis mt-4" >{{ title }}</v-card-title>  
+      <v-card-title
+      class="text-h5 text-high-emphasis mt-4" >{{ title }}</v-card-title>
       <v-img :src="props.imgSrc" width="200" height="200" :alt="`role image as ${props.role}`"/>
-      <v-card-text class="description text-body-1 text-medium-emphasis">{{ description }}</v-card-text>  
-    </v-card>  
+      <v-card-text class="description text-body-1 text-medium-emphasis">{{ description }}</v-card-text>
+    </v-card>
   </v-btn>
-</template>  
-  
+</template>
+
   <script setup>
+<<<<<<< HEAD
 
   const props = defineProps({  
     title: {  
@@ -30,10 +31,30 @@
       type: String,  
       required: true,  
     }, 
+=======
+import ContentApiService from "@/services/contentApiService";
+import { computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+  const props = defineProps({
+    title: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    role: {
+      type: String,
+      required: true,
+    },
+>>>>>>> 19d89f6 (Use new api services in components.)
     imgSrc: {
       type: String,
       required: true
     }
+<<<<<<< HEAD
   });  
   </script>  
   
@@ -43,16 +64,45 @@
     border-radius: 10px;  
     transition: transform 0.2s, box-shadow 0.2s; 
     height: 400px; 
+=======
+  });
+
+  const router = useRouter();
+  const store = useStore();
+  const user =computed(() => store.getters["auth/user"]);
+  const token = computed(() => store.getters["auth/accessToken"]);
+  console.log("user", user.value);
+  console.log("token", token.value);
+
+  const handleClick = async() => {
+    if (token.value) {
+    ContentApiService.setAccessToken(token.value);
+  }
+    if(props.role === "supervisor"){
+      await ContentApiService.put(`users/${user.value.id}`,{user_role: 1});
+    }
+    store.dispatch('auth/setHasRole', true);
+    router.push({ path: `/dashboard/${props.role}` });
+  };
+  </script>
+
+  <style scoped>
+  .card-button {
+    background-color: #fafafa;
+    border-radius: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    height: 400px;
+>>>>>>> 19d89f6 (Use new api services in components.)
     width: 300px;
     cursor: pointer
-  }  
-  .card-button:hover {  
-    transform: translateY(-5px);  
-  }  
+  }
+  .card-button:hover {
+    transform: translateY(-5px);
+  }
   .description {
     text-align: center;
-    overflow: hidden; 
-    text-overflow: ellipsis; 
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: normal;
     width: 300px;
     word-wrap: break-word;

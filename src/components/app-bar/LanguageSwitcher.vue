@@ -15,7 +15,7 @@
           <v-icon class="hidden-sm-and-down" :icon="icons.mdiChevronDown" end />
         </v-btn>
       </template>
-  
+
       <v-list density="compact" nav>
         <v-list-item
           v-for="item in locales"
@@ -27,36 +27,37 @@
       </v-list>
     </v-menu>
   </template>
-  
+
   <script setup>
   import { ref, computed } from "vue";
   import { mdiChevronDown, mdiTranslate } from "@mdi/js";
   import { useStore } from "vuex";
   import { useDisplay } from "vuetify";
   import i18n from "@/plugins/i18n";
-  
+
   const { smAndUp } = useDisplay();
   const store = useStore();
-  
+
   const icons = { mdiChevronDown, mdiTranslate };
   const locales = ref([
     { name: "Deutsch", locale: "de" },
     { name: "English", locale: "en" }
   ]);
-  
+
   const selectedLocale = computed(() => {
     const currentLocale = i18n.global.locale.value;
     const match = locales.value.find((item) => item.locale === currentLocale);
     return match ? match.name : locales.value[0].name;
   });
-  
+
   const switchLocale = async (newLocale) => {
     if (i18n.global.locale.value === newLocale) return;
     //TODO make api call to change language
-    /*await ApiService.setHeader("Accept-Language", newLocale);
+    /*await AuthApiService.setHeader("Accept-Language", newLocale);
+    await ContentApiServoce.setHeader("Accept-Language", newLocale);
     localStorage.setItem("locale", newLocale);
     try {
-      await ApiService.patch("/auth/users/me/", {
+      await AuthApiSerivce.patch("/auth/users/me/", {
         language: newLocale
       });
     } catch (error) {
