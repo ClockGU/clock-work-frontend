@@ -3,8 +3,8 @@
     <v-row>
       <v-col cols="12" md="6">
         <!-- EditCard with a ref to allow communication -->
-        <EditCard 
-        ref="editCardRef" 
+        <EditCard
+        ref="editCardRef"
         :role="role"
         @refresh="fetchPetitions"  />
       </v-col>
@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import ApiService from "@/services/api"; 
+import ContentApiService from "@/services/contentApiService";
 import EditCard from "@/components/dashboard/EditCard.vue";
 import OverviewCard from "@/components/dashboard/OverviewCard.vue";
 import { ref,computed, onMounted } from 'vue';
@@ -45,25 +45,26 @@ const handleSelectPetition = (petition) => {
     editCardRef.value.selectPetition(petition);
   }
 };
-const fetchPetitions = async () => {
-  isLoading.value = true;
-  try {
-    if (token.value) {
-      ApiService.setAccessToken(token.value);
-    }
-    const response = await ApiService.get(`${role==="student"?"/students":"/supervisor"}/petitions`); 
-    petitions.value = response.data || []; // Ensure it's always an array
-  } catch (err) {
-    if(err.response?.status !== 404){
-      console.error("Error fetching petitions:", err);
-      store.dispatch("snackbar/setErrorSnacks", {
-        message: "Error fetching petitions",
-      });
-    }
-    petitions.value = []; // Reset to empty array on error
-  } finally {
-    isLoading.value = false;
+const fetchPetitions =async () => {
+ isLoading.value = true;
+ try {
+  if (token.value) {
+    ContentApiService.setAccessToken(token.value);
   }
+   const response = await ContentApiService.get(`${role==="student"?"/students":"/supervisor"}/petitions`);
+   petitions.value = response.data;
+ } catch (err) {
+  //404 is supposed to be when there are no petitions
+  // so we don't want to show an error in that case
+  if(err.response?.status !== 404){
+  console.error("Error fetching petitions:", err);
+  store.dispatch("snackbar/setErrorSnacks", {
+      message: "Error fetching petitions",
+   });
+  }
+ } finally {
+   isLoading.value = false;
+ }
 }
 onMounted(() => {
   fetchPetitions();

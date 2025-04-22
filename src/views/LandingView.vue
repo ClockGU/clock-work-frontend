@@ -54,9 +54,9 @@ const store= useStore()
 const error = computed(()=>store.getters["auth/loginError"]);
 const { mdAndUp } = useDisplay();
 const hasError = computed(() => error.value!=="");
-onMounted(() => {
-  store.dispatch("auth/clearError");
-})
+// onMounted(() => {
+//   store.dispatch("auth/clearError");
+// })
 
 </script>
 
