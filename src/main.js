@@ -17,15 +17,18 @@ import store from "./store";
 const app = createApp(App);
 export const debugLogger= true;
 
-import ApiService from "@/services/api";
+import AuthApiService from "@/services/authApiService";
+import ContentApiService from "@/services/contentApiService";
+import { attachAuthInterceptor } from "@/interceptors/common";
 
-ApiService.init(import.meta.env.VITE_API_URL);
-ApiService.mountInterceptor();
+const unmountAuthInterceptor = attachAuthInterceptor(AuthApiService.getAxiosInstance());
+const unmountContentInterceptor = attachAuthInterceptor(ContentApiService.getAxiosInstance());
 
 const isLoggedIn = store.getters["auth/loggedIn"];
 if (isLoggedIn) {
   const accessToken = store.getters["auth/accessToken"];
-  ApiService.setAccessToken(accessToken);
+  ContentApiService.setAccessToken(accessToken);
+  AuthApiService.setAccessToken(accessToken);
 }
 
 
