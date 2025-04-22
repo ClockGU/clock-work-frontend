@@ -16,7 +16,6 @@
 </template>
 
   <script setup>
-<<<<<<< HEAD
 
   const props = defineProps({  
     title: {  
@@ -31,30 +30,10 @@
       type: String,  
       required: true,  
     }, 
-=======
-import ContentApiService from "@/services/contentApiService";
-import { computed } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
-  const props = defineProps({
-    title: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-    role: {
-      type: String,
-      required: true,
-    },
->>>>>>> 19d89f6 (Use new api services in components.)
     imgSrc: {
       type: String,
       required: true
     }
-<<<<<<< HEAD
   });  
   </script>  
   
@@ -64,35 +43,6 @@ import { useStore } from 'vuex';
     border-radius: 10px;  
     transition: transform 0.2s, box-shadow 0.2s; 
     height: 400px; 
-=======
-  });
-
-  const router = useRouter();
-  const store = useStore();
-  const user =computed(() => store.getters["auth/user"]);
-  const token = computed(() => store.getters["auth/accessToken"]);
-  console.log("user", user.value);
-  console.log("token", token.value);
-
-  const handleClick = async() => {
-    if (token.value) {
-    ContentApiService.setAccessToken(token.value);
-  }
-    if(props.role === "supervisor"){
-      await ContentApiService.put(`users/${user.value.id}`,{user_role: 1});
-    }
-    store.dispatch('auth/setHasRole', true);
-    router.push({ path: `/dashboard/${props.role}` });
-  };
-  </script>
-
-  <style scoped>
-  .card-button {
-    background-color: #fafafa;
-    border-radius: 10px;
-    transition: transform 0.2s, box-shadow 0.2s;
-    height: 400px;
->>>>>>> 19d89f6 (Use new api services in components.)
     width: 300px;
     cursor: pointer
   }

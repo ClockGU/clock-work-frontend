@@ -172,7 +172,7 @@
 import { ref,onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { mdiAccount, mdiGenderMaleFemale, mdiCity, mdiHomeMapMarker, mdiNumeric, mdiFlag, mdiPhone, mdiHospital, mdiBank, mdiCalendar, mdiClock, mdiAccountBox } from '@mdi/js';
-import ApiService from '@/services/api';
+import ContentApiService from '@/services/contentApiService';
 
 const icons = {
   mdiAccount,
@@ -214,7 +214,7 @@ const formData = ref({ ...initialFormData });
 const isFormValid = ref(false);
 const fetchEmployeeData = async () => {
   try{
-    const response = await ApiService.get('/employees');
+    const response = await ContentApiService.get('/employees');
     if (response.data) {
       formData.value = { ...initialFormData, ...response.data };
       }

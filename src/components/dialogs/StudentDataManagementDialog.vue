@@ -54,7 +54,7 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import ApiService from '@/services/api';
+import ContentApiService from '@/services/contentApiService';
 import { useStore } from 'vuex';
 
 const emit = defineEmits(['close']);
@@ -68,7 +68,7 @@ const save = async () => {
     const formData = employeeDataFormRef.value.formData;
     if (employeeDataFormRef.value.isFormValid) {
       try {
-        await ApiService.patch('/employees', formData);
+        await ContentApiService.patch('/employees', formData);
       } catch (error) {
         console.error('Error saving employee data:', error);
         store.dispatch('snackbar/setErrorSnacks', {
@@ -92,7 +92,7 @@ const saveDocuments = async () => {
     if (files.studienbescheinigung.length) formData.append('studienbescheinigung', files.studienbescheinigung[0]);
     if (files.versicherungsbescheinigung.length) formData.append('versicherungsbescheinigung', files.versicherungsbescheinigung[0]);
 
-    await ApiService.patch('/documents', formData);
+    await ContentApiService.patch('/documents', formData);
     await filesUploadFormRef.value.fetchDocuments();
   } catch (error) {
     console.error('Error saving files:', error);

@@ -40,7 +40,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import ApiService from '@/services/api';
+import ContentApiService from '@/services/contentApiService';
 import { useStore } from 'vuex';
 
 const store = useStore();
@@ -75,7 +75,7 @@ const fileUrl = (field) => {
 
 const fetchDocuments = async () => {
   try{
-    const response = await ApiService.get('/documents');
+    const response = await ContentApiService.get('/documents');
     existingDocuments.value = response.data;
   } catch (error) {
     if (error.response?.status !== 404) {
