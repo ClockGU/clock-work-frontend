@@ -1,5 +1,5 @@
-import ApiService from "@/services/api";
-import AuthService from "@/services/auth";
+import AuthApiService from "@/services/authApiService";
+import ContentApiService from "@/services/contentApiService";
 import i18n, { switchDateFnsLocale } from "@/plugins/i18n";
 const state = () => ({
   locale:
@@ -50,10 +50,11 @@ const actions = {
   login: ({ commit }, payload) => {
     commit("setAccessToken", payload.access_token);
     commit("setRefreshToken", payload.refresh_token);
-    ApiService.setAccessToken(payload.access_token);
+    ContentApiService.setAccessToken(payload.access_token);
+    AuthApiService.setAccessToken(payload.access_token);
   },
   logout: ({ commit }) => {
-    AuthService.logout();
+    AuthApiService.logout();
     commit("unsetTokens")
   },
   setUser: ({ commit }, payload) => commit("setUser", payload),
@@ -61,7 +62,7 @@ const actions = {
   clearError: ({ commit }) => commit("clearError"),
   async refreshTokens({dispatch, getters }) {
     try {
-      const response = await AuthService.refreshToken(getters.refreshToken);    
+      const response = await AuthApiService.refreshToken(getters.refreshToken);
       await dispatch("login", {
         access_token: response.data.access,
         refresh_token: response.data.refresh
