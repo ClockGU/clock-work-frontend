@@ -2,6 +2,8 @@
   "welcome": "Welcome to the supervisor portal of CLOCK Work",
   "login": "Login",
   "logout": "Logout",
+  "search": "Search",
+  "searchBy": "Search by",
   "app": {
     "loggingin": "Logging in..."
   },

@@ -2,6 +2,8 @@
   "welcome": "Willkommen im Supervisor-Portal von CLOCK Work",
   "login": "Anmelden",
   "logout": "Abmelden",
+  "search": "Suchen",
+  "searchBy": "Suche nach",
   "app": {
     "loggingin": "Anmeldung..."
   },
