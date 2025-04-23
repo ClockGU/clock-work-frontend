@@ -30,7 +30,7 @@
   import { computed } from 'vue';
   import { useRouter } from 'vue-router';  
   import { useStore } from 'vuex'; 
-  import ApiService from '@/services/api';
+  import ContentApiService from '@/services/contentApiService';
   import RoleCardButton from '@/components/role-selection/RoleCardButton.vue';
   import StudentImg from '@/assets/student.jpg';
   import SupervisorImg from '@/assets/supervisor.png';
@@ -43,11 +43,11 @@
   const redirectToDashboard = async (role) => {
   try {
     if (token.value) {
-      ApiService.setAccessToken(token.value);
+      ContentApiService.setAccessToken(token.value);
     }
 
     const roleValue = role === "supervisor" ? 1 : 0;
-    await ApiService.put(`users/${user.value.id}`, { user_role: roleValue });
+    await ContentApiService.put(`users/${user.value.id}`, { user_role: roleValue });
 
     const updatedUser = { 
       ...user.value, 

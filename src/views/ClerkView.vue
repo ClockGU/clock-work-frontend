@@ -27,7 +27,7 @@
 <script setup>
 import { computed, onMounted, ref } from "vue";
 import { useStore } from "vuex";
-import ApiService from "@/services/api";
+import ContentApiService from "@/services/contentApiService";
 import PetitionDataDisplay from '@/components/clerk/PetitionDataDisplay.vue';
 import ClerkPetitionTable from "@/components/tables/ClerkPetitionTable.vue";
 
@@ -40,7 +40,7 @@ const petitions = ref([]);
 const token = computed(() => store.getters["auth/accessToken"]);
 const fetchPetitions = async () => {
     try {
-        const response = await ApiService.get("clerk/petitions/pending");
+        const response = await ContentApiService.get("clerk/petitions/pending");
         petitions.value = response.data;
     } catch (error) {
         console.error("Error fetching petitions:", error);
@@ -56,7 +56,7 @@ const selectPetition = (petition) => {
 
 const handleDecline = async (petitionId) => {
     try {
-        await ApiService.patch(`/clerk/petitions/${petitionId}`, { status: "rejected" });
+        await ContentApiService.patch(`/clerk/petitions/${petitionId}`, { status: "rejected" });
         selectedPetition.value = null;
         store.dispatch("snackbar/setSnack", {
             message: "Petition rejected successfully"
@@ -72,7 +72,7 @@ const handleDecline = async (petitionId) => {
 
 const handleAccept = async (petitionId) => {
     try {
-        await ApiService.patch(`/clerk/petitions/${petitionId}`, { status: "approved" });
+        await ContentApiService.patch(`/clerk/petitions/${petitionId}`, { status: "approved" });
         selectedPetition.value = null;
         store.dispatch("snackbar/setSnack", {
             message: "Petition approved successfully"
@@ -88,7 +88,7 @@ const handleAccept = async (petitionId) => {
 
 onMounted(() => {
     if (token.value) {
-        ApiService.setAccessToken(token.value);
+        ContentApiService.setAccessToken(token.value);
     }
     fetchPetitions();
 });

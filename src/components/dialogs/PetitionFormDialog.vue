@@ -42,7 +42,7 @@ import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import PetitionForm from '@/components/forms/PetitionForm.vue';
 import CustomDialog from '@/components/dialogs/CustomDialog.vue';
-import ApiService from "@/services/api";
+import ContentApiService from "@/services/contentApiService";
 
 const props = defineProps({
   petition: {
@@ -72,7 +72,7 @@ const submit = async () => {
     );
     try {
       // Call the backend API to create a new petition
-      await ApiService.post('supervisor/petitions/', filteredFormData);
+      await ContentApiService.post('supervisor/petitions/', filteredFormData);
       emit('refresh');
     } catch (error) {
       console.error('Failed to submit petition:', error);
@@ -94,8 +94,8 @@ const save = async () => {
       Object.entries(formData).filter(([key, value]) => value !== '' && value !== null)
     );
     try {
-      await ApiService.patch(`supervisor/petitions/${props.petition.id}`, filteredFormData);
-      emit('refresh'); 
+      await ContentApiService.patch(`supervisor/petitions/${props.petition.id}`, filteredFormData);
+      emit('refresh');
     } catch (error) {
       console.error('Failed to update petition:', error);
       store.dispatch('snackbar/setErrorSnacks', {

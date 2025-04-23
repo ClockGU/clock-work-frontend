@@ -120,7 +120,7 @@
 <script setup>
 import {ref} from 'vue'
 import { mdiClose, mdiPencil ,mdiTrashCan} from '@mdi/js';
-import ApiService from '@/services/api.js'
+import ContentApiService from '@/services/contentApiService.js'
 import {useStore} from "vuex"
 const props = defineProps({
   petition: {
@@ -182,7 +182,7 @@ function formatPetition(petition) {
 }
 const deletePetition = async () => {
   try {
-    await ApiService.delete(`supervisor/petitions/${props.petition.id}`);
+    await ContentApiService.delete(`supervisor/petitions/${props.petition.id}`);
     emit('refresh', props.petition.id); // Pass the deleted ID
   } catch (error) {
     console.error("Error deleting petition:", error);

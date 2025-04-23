@@ -1,4 +1,4 @@
-<template>  
+<template>
   <v-btn
     :aria-label="`Select role as ${role}`"
     class="card-button d-flex flex-column align-center justify-center pa-4"
@@ -7,14 +7,14 @@
       class="card-button d-flex flex-column align-center justify-center"
       style="background-color: transparent; box-shadow: none;"
     >
-      <v-card-title 
-      class="text-h5 text-high-emphasis mt-4" >{{ title }}</v-card-title>  
+      <v-card-title
+      class="text-h5 text-high-emphasis mt-4" >{{ title }}</v-card-title>
       <v-img :src="props.imgSrc" width="200" height="200" :alt="`role image as ${props.role}`"/>
-      <v-card-text class="description text-body-1 text-medium-emphasis">{{ description }}</v-card-text>  
-    </v-card>  
+      <v-card-text class="description text-body-1 text-medium-emphasis">{{ description }}</v-card-text>
+    </v-card>
   </v-btn>
-</template>  
-  
+</template>
+
   <script setup>
 
   const props = defineProps({  
@@ -45,14 +45,14 @@
     height: 400px; 
     width: 300px;
     cursor: pointer
-  }  
-  .card-button:hover {  
-    transform: translateY(-5px);  
-  }  
+  }
+  .card-button:hover {
+    transform: translateY(-5px);
+  }
   .description {
     text-align: center;
-    overflow: hidden; 
-    text-overflow: ellipsis; 
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: normal;
     width: 300px;
     word-wrap: break-word;

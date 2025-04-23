@@ -19,7 +19,7 @@
 import {computed, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
-import AuthService from "@/services/auth";
+import AuthApiService from "@/services/authApiService";
 
 const route = useRoute();
 const router = useRouter();
@@ -42,7 +42,7 @@ onMounted(async () => {
     if (!casToken) return handleError("No CAS token found in URL parameters");
 
     // Step 1: Authenticate with CAS token
-    const loginResponse = await AuthService.login(casToken);
+    const loginResponse = await AuthApiService.login(casToken);
 
     if (!loginResponse.data?.access_token) {
       return handleError("No access token in authentication response");
@@ -59,7 +59,7 @@ onMounted(async () => {
     }
     // Step 3: Fetch user profile data
     try {
-      const userResponse = await AuthService.getUser();
+      const userResponse = await AuthApiService.getUser();
       await store.dispatch("auth/setUser", userResponse.data);
       store.dispatch("auth/unsetLoading");
       // Authentication flow complete - redirect to roles selection
@@ -77,6 +77,7 @@ onMounted(async () => {
       return handleError(`Failed to fetch user profile: ${error.message}`);
     }
   } catch (error) {
+    console.log(JSON.stringify(error));
     return handleError(error.message);
   }
 });
