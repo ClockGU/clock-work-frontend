@@ -2,8 +2,6 @@
   <v-btn
     :aria-label="`Select role as ${role}`"
     class="card-button d-flex flex-column align-center justify-center pa-4"
-    @click="handleClick"
-
   >
     <v-card
       class="card-button d-flex flex-column align-center justify-center"
@@ -18,10 +16,7 @@
 </template>  
   
   <script setup>
-import ApiService from '@/services/api';
-import { computed } from 'vue';
-import { useRouter } from 'vue-router';  
-import { useStore } from 'vuex'; 
+
   const props = defineProps({  
     title: {  
       type: String,  
@@ -40,24 +35,6 @@ import { useStore } from 'vuex';
       required: true
     }
   });  
-
-  const router = useRouter(); 
-  const store = useStore(); 
-  const user =computed(() => store.getters["auth/user"]);
-  const token = computed(() => store.getters["auth/accessToken"]);
-  console.log("user", user.value);
-  console.log("token", token.value);
-
-  const handleClick = async() => { 
-    if (token.value) {
-    ApiService.setAccessToken(token.value);
-  }
-    if(props.role === "supervisor"){
-      await ApiService.put(`users/${user.value.id}`,{user_role: 1});
-    }
-    store.dispatch('auth/setIsRoleSelected', true);
-    router.push({ path: `/dashboard/${props.role}` });
-  };  
   </script>  
   
   <style scoped>  
