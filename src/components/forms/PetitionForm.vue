@@ -126,8 +126,8 @@
       <v-col cols="12">
         <v-checkbox
           v-model="formData.time_exce_course"
-          :label="$t('petition.timeException')"
-          :aria-label="$t('petition.timeException')"
+          :label="$t('petition.timeExceCourse')"
+          :aria-label="$t('petition.timeExceCourse')"
           @update:model-value="handleTimeExceptionChange"
         />
         <div class="mx-4">

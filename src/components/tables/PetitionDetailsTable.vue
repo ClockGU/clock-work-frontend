@@ -10,6 +10,7 @@
     </template>
   </AlertDialog>
 
+  <!-- Tooltips for petitions actions like edit,delete...-->
   <div class="d-flex justify-space-between align-center mb-3 ">
     <v-btn
       v-if="role === 'supervisor'"
@@ -53,7 +54,7 @@
     </div>  
   </div>
 
-  <!-- Table -->
+  <!-- Main Table -->
   <v-table
     class="styled-table"
     density="comfortable"
@@ -83,19 +84,21 @@
     </thead>
     <tbody role="rowgroup">
       <tr
-        v-for="(value, key) in formatPetition(petition)"
+        v-for="key in getOrderedFields(petition)"
         :key="key"
         role="row"
       >
         <td class="key-cell" role="cell">
-          {{ $t(`petition.${formatKey(key)}`) }}
+          {{ $t(`petition.${formatKey(key)}`) || key }}
         </td>
         <td class="value-cell" role="cell">
-          {{ formatValue(value) }}
+          {{ formatValue(petition[key]) }}
         </td>
       </tr>
-    </tbody>
+   </tbody>
   </v-table>
+
+  <!-- Action Buttons -->
   <div class="d-flex justify-space-between mt-3">
     <v-btn
       v-if="role === 'supervisor'"
@@ -161,24 +164,48 @@ const formatValue = (value) => {
 
 function formatPetition(petition) {
   const formattedPetition = {}; 
+  const skippedKeys = [
+    'id',
+    'status',
+    'time_exce_student', 
+    'duration_exce_course', 
+    'time_exce_course', 
+    'user_account',
+  ];
+
   for (const [key, value] of Object.entries(petition)) {
-    const skippedKeys = ['time_exce_student','duration_exce_course',"duration_exce_course","user_account" ];
-    // Always skip these
-    if (skippedKeys.includes(key)) {
-      continue;
-    }
-    // Skip time exception fields only if time_exce_course is false
-    if ((key === 'time_exce_name' || key === 'time_exce_start' || key === 'time_exce_end') && !petition.time_exce_course) {
-      continue;
-    }
-    // Skip duration exception fields only if duration_exce_course is false
-    if ((key === 'duration_exce_name' || key === 'duration_exce_start' || key === 'duration_exce_end') && !petition.duration_exce_course) {
-      continue;
-    }
-    // Add all other fields
+    // Skip skipped keys and time/duration exception fields if exception is not enabled
+    if (skippedKeys.includes(key)) continue;
+    if ((key.startsWith('time_exce_')) && !petition.time_exce_course) continue;
+    if ((key.startsWith('duration_exce_')) && !petition.duration_exce_course) continue; 
     formattedPetition[key] = value;
   }
   return formattedPetition;
+}
+const FIELD_ORDER = [
+  'supervisor_mail',
+  'student_mail',
+  'start_date',
+  'end_date',
+  'minutes',
+  'org_unit',
+  'eos_number',
+  'ba_degree',
+  'budget_position',
+  'budget_approver',
+  'time_exce_name',
+  'time_exce_start',
+  'time_exce_end',
+  'duration_exce_name',
+  'duration_exce_start',
+  'duration_exce_end',
+];
+
+function getOrderedFields(petition) {
+  const fields = formatPetition(petition);
+  return FIELD_ORDER.filter(key => {
+    return fields.hasOwnProperty(key);
+  });
 }
 const deletePetition = async () => {
   try {
