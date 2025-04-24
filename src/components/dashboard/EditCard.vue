@@ -27,15 +27,19 @@
       </div>
 
       <!-- Placeholder when no petition is selected -->
-      <p v-else class="mt-4 ml-1 text-subtitle-1 text-medium-emphasis" role="status" aria-live="polite">
+      <v-alert v-else 
+        type="info"
+        variant="tonal"
+        density="comfortable"
+      >
         {{ $t('editCard.noPetitionSelected') }}
-      </p>
+      </v-alert>
 
       <!-- Dialogs -->
       <PetitionFormDialog
         v-model="showPetitionForm"
         :role="role"
-        :petition="currentPetition"
+        :petition="selectedPetition"
         @close="showPetitionForm = false"
         @refresh="refresh"
       />
@@ -63,49 +67,37 @@ const props = defineProps({
 
 const emit = defineEmits(['refresh']);
 
-// Dialog visibility
 const showPetitionForm = ref(false);
 const showStudentDialog = ref(false);
-
-// Petition state
-const selectedPetition = ref(null);
-const currentPetition = ref(null); // null = empty petition form, object = editing because petitionForm autopopulates a petition
+const selectedPetition = ref(null);// null = empty petition-form, object = editing form because petitionForm autopopulates a petition
 
 // Dialog handlers
 const openNewPetitionDialog = () => {
-  currentPetition.value = null; // Ensures empty form
+  selectedPetition.value = null;
   showPetitionForm.value = true;
 };
-const openEditDialog = () => {
-  currentPetition.value = selectedPetition.value; // Pass petition to edit
-  showPetitionForm.value = true;
-};
-const openStudentDialog = () => {
-  showStudentDialog.value = true;
-};
+const openEditDialog = () => showPetitionForm.value = true;
+const openStudentDialog = () => showStudentDialog.value = true;
 
+const selectPetition = (petition) => {
+  selectedPetition.value = petition;
+};
 const refresh = (payload) => {
   if (payload) {
     switch(payload.type) {
       case 'update':
-        // Update selected petition if IDs match
         if (selectedPetition.value?.id === payload.data.id) {
           selectedPetition.value = payload.data;
         }
         break;
       case 'delete':
-        // Clear selection if deleted item was selected
         if (selectedPetition.value?.id === payload.data) {
           selectedPetition.value = null;
         }
         break;
     }
   }
-  // Always emit to parent to refresh the list
   emit('refresh');
-};
-const selectPetition = (petition) => {
-  selectedPetition.value = petition;
 };
 
 defineExpose({ selectPetition });
