@@ -30,6 +30,7 @@ import { useStore } from "vuex";
 import ContentApiService from "@/services/contentApiService";
 import PetitionDataDisplay from '@/components/clerk/PetitionDataDisplay.vue';
 import ClerkPetitionTable from "@/components/tables/ClerkPetitionTable.vue";
+import AuthApiService from "@/services/authApiService";
 
 const store = useStore();
 
@@ -85,10 +86,10 @@ const handleAccept = async (petitionId) => {
         });
     }
 };
-
 onMounted(() => {
     if (token.value) {
         ContentApiService.setAccessToken(token.value);
+        AuthApiService.setAccessToken(token.value);
     }
     fetchPetitions();
 });

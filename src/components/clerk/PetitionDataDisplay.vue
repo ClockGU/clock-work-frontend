@@ -12,7 +12,10 @@
                     />
                 </v-col>
                 <v-col cols="12" md="6" class="d-flex flex-column">
-                    <UploadedFiles class="flex-grow-1"/>
+                    <UploadedFiles 
+                    class="flex-grow-1"
+                    :petition="petition"
+                    />
                 </v-col>
             </v-row>
             <div class="d-flex flex-columns justify-space-around mt-6">

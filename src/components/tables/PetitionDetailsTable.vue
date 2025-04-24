@@ -121,7 +121,7 @@
 </template>
   
 <script setup>
-import {ref,watch,onMounted} from 'vue'
+import {ref} from 'vue'
 import { mdiClose, mdiPencil ,mdiTrashCan} from '@mdi/js';
 import ContentApiService from '@/services/contentApiService.js'
 import {useStore} from "vuex"
@@ -223,18 +223,6 @@ const deletePetition = async () => {
     showDeleteConfirmation.value = false;
   }
 };
-watch(
-  () => props.petition,
-  (newPetition) => {
-    if (newPetition) {
-      console.log("New petition received:", newPetition);
-    }
-  },
-  { immediate: true }
-);
-onMounted(() => {
-  console.log("petition is ",props.petition);
-});
 </script>
   
 <style scoped>
