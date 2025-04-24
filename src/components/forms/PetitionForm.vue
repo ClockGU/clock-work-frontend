@@ -128,7 +128,7 @@
           v-model="formData.time_exce_course"
           :label="$t('petition.timeException')"
           :aria-label="$t('petition.timeException')"
-          @change="handleTimeExceptionChange"
+          @update:model-value="handleTimeExceptionChange"
         />
         <div class="mx-4">
           <v-text-field
@@ -169,7 +169,7 @@
           v-model="formData.duration_exce_course"
           :label="$t('petition.durationException')"
           :aria-label="$t('petition.durationException')"
-          @change="handleDurationExceptionChange"
+          @update:model-value="handleDurationExceptionChange"
         />
         <div class="mx-4">
           <v-text-field
@@ -295,21 +295,27 @@ watch(() => props.petition, (newPetition) => {
 }, { immediate: true });
 
 // Clear time exception fields when checkbox is unchecked
-const handleTimeExceptionChange = async () => {
-  await nextTick(); // Wait for v-model to update
-  if (!formData.value.time_exce_course) {
+const handleTimeExceptionChange = (value) => {
+  if (!value) {
+    formData.value.time_exce_course = false;
     formData.value.time_exce_name = '';
     formData.value.time_exce_start = '';
     formData.value.time_exce_end = '';
   }
+  else{
+    formData.value.time_exce_course = true;
+  }
 };
 
-const handleDurationExceptionChange = async () => {
-  await nextTick(); // Wait for v-model to update
-  if (!formData.value.duration_exce_course) {
+const handleDurationExceptionChange = (value) => {
+  if (!value) {
+    formData.value.duration_exce_course = false;
     formData.value.duration_exce_name = '';
     formData.value.duration_exce_start = '';
     formData.value.duration_exce_end = '';
+  }
+  else{
+    formData.value.duration_exce_course = true;
   }
 };
 //validation rules 
