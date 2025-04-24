@@ -14,6 +14,7 @@
         :key="petitions.length" 
         :petitions="petitions"
         :isLoading ="isLoading"
+        :role="role"
         @select-petition="handleSelectPetition" />
       </v-col>
     </v-row>
