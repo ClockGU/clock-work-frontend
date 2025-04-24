@@ -94,8 +94,11 @@ const save = async () => {
       Object.entries(formData).filter(([key, value]) => value !== '' && value !== null)
     );
     try {
-      await ContentApiService.patch(`supervisor/petitions/${props.petition.id}`, filteredFormData);
-      emit('refresh');
+      const response = await ContentApiService.patch(`supervisor/petitions/${props.petition.id}`, filteredFormData);
+      emit('refresh', {
+        type: 'update',
+        data: response.data
+      });
     } catch (error) {
       console.error('Failed to update petition:', error);
       store.dispatch('snackbar/setErrorSnacks', {

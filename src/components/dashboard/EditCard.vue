@@ -84,10 +84,24 @@ const openStudentDialog = () => {
   showStudentDialog.value = true;
 };
 
-const refresh = (deletedId) => {
-  if (selectedPetition.value?.id === deletedId) {
-    selectedPetition.value = null;
+const refresh = (payload) => {
+  if (payload) {
+    switch(payload.type) {
+      case 'update':
+        // Update selected petition if IDs match
+        if (selectedPetition.value?.id === payload.data.id) {
+          selectedPetition.value = payload.data;
+        }
+        break;
+      case 'delete':
+        // Clear selection if deleted item was selected
+        if (selectedPetition.value?.id === payload.data) {
+          selectedPetition.value = null;
+        }
+        break;
+    }
   }
+  // Always emit to parent to refresh the list
   emit('refresh');
 };
 const selectPetition = (petition) => {

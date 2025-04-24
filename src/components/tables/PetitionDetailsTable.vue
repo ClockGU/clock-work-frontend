@@ -118,7 +118,7 @@
 </template>
   
 <script setup>
-import {ref} from 'vue'
+import {ref,watch,onMounted} from 'vue'
 import { mdiClose, mdiPencil ,mdiTrashCan} from '@mdi/js';
 import ContentApiService from '@/services/contentApiService.js'
 import {useStore} from "vuex"
@@ -162,17 +162,17 @@ const formatValue = (value) => {
 function formatPetition(petition) {
   const formattedPetition = {}; 
   for (const [key, value] of Object.entries(petition)) {
-    const skippedKeys = ['time_exce_course', 'time_exce_student','duration_exce_course',"duration_exce_student","user_account" ];
+    const skippedKeys = ['time_exce_student','duration_exce_course',"duration_exce_course","user_account" ];
     // Always skip these
     if (skippedKeys.includes(key)) {
       continue;
     }
-    // Skip time exception fields only if time_exec_course is false
-    if ((key === 'time_exce_name' || key === 'time_exce_start' || key === 'time_exce_end') && !petition.time_exec_course) {
+    // Skip time exception fields only if time_exce_course is false
+    if ((key === 'time_exce_name' || key === 'time_exce_start' || key === 'time_exce_end') && !petition.time_exce_course) {
       continue;
     }
-    // Skip duration exception fields only if duration_exec_course is false
-    if ((key === 'duration_exce_name' || key === 'duration_exce_start' || key === 'duration_exce_end') && !petition.duration_exec_course) {
+    // Skip duration exception fields only if duration_exce_course is false
+    if ((key === 'duration_exce_name' || key === 'duration_exce_start' || key === 'duration_exce_end') && !petition.duration_exce_course) {
       continue;
     }
     // Add all other fields
@@ -183,7 +183,10 @@ function formatPetition(petition) {
 const deletePetition = async () => {
   try {
     await ContentApiService.delete(`supervisor/petitions/${props.petition.id}`);
-    emit('refresh', props.petition.id); // Pass the deleted ID
+    emit('refresh', {
+      type: 'delete',
+      data: props.petition.id
+    });
   } catch (error) {
     console.error("Error deleting petition:", error);
     store.dispatch("snackbar/setErrorSnacks", {
@@ -193,6 +196,18 @@ const deletePetition = async () => {
     showDeleteConfirmation.value = false;
   }
 };
+watch(
+  () => props.petition,
+  (newPetition) => {
+    if (newPetition) {
+      console.log("New petition received:", newPetition);
+    }
+  },
+  { immediate: true }
+);
+onMounted(() => {
+  console.log("petition is ",props.petition);
+});
 </script>
   
 <style scoped>

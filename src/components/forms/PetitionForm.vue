@@ -122,82 +122,82 @@
         />
       </v-col>
 
-      <!-- Time and Duration Exception Fields -->
+       <!-- Time Exception Fields -->
       <v-col cols="12">
         <v-checkbox
-          v-model="formData.time_exec_course"
+          v-model="formData.time_exce_course"
           :label="$t('petition.timeException')"
           :aria-label="$t('petition.timeException')"
           @update:model-value="handleTimeExceptionChange"
         />
         <div class="mx-4">
           <v-text-field
-            v-if="formData.time_exec_course"
+            v-if="formData.time_exce_course"
             v-model="formData.time_exce_name"
             outlined
             dense
             :label="$t('petition.timeExceName')"
             :aria-label="$t('petition.timeExceName')"
-            :rules="formData.time_exec_course? [requiredRule] : []"
+            :rules="formData.time_exce_course ? [requiredRule] : []"
           />
           <v-text-field
-            v-if="formData.time_exec_course"
+            v-if="formData.time_exce_course"
             v-model="formData.time_exce_start"
             type="date"
             outlined
             dense
-            :rules="formData.time_exec_course? [requiredRule] : []"
+            :rules="formData.time_exce_course ? [requiredRule] : []"
             :label="$t('petition.timeExceStart')"
             :aria-label="$t('petition.timeExceStart')"
           />
           <v-text-field
-            v-if="formData.time_exec_course"
+            v-if="formData.time_exce_course"
             v-model="formData.time_exce_end"
             type="date"
             outlined
             dense
-            :rules="formData.time_exec_course? [requiredRule] : []"
+            :rules="formData.time_exce_course ? [requiredRule] : []"
             :label="$t('petition.timeExceEnd')"
             :aria-label="$t('petition.timeExceEnd')"
           />
         </div>
       </v-col>
       
+      <!-- Duration Exception Fields -->
       <v-col cols="12">
         <v-checkbox
-          v-model="formData.duration_exec_course"
+          v-model="formData.duration_exce_course"
           :label="$t('petition.durationException')"
           :aria-label="$t('petition.durationException')"
           @update:model-value="handleDurationExceptionChange"
-
         />
         <div class="mx-4">
           <v-text-field
-            v-if="formData.duration_exec_course"
+            v-if="formData.duration_exce_course"
             v-model="formData.duration_exce_name"
             outlined
             dense
-            :rules="formData.duration_exec_course? [requiredRule] : []"
+            :rules="formData.duration_exce_course ? [requiredRule] : []"
             :label="$t('petition.durationExceName')"
             :aria-label="$t('petition.durationExceName')"
           />
           <v-text-field
-            v-if="formData.duration_exec_course"
+            v-if="formData.duration_exce_course"
             v-model="formData.duration_exce_start"
             type="date"
             outlined
             dense
-            :rules="formData.duration_exec_course? [requiredRule] : []"
+            :rules="formData.duration_exce_course ? [requiredRule] : []"
             :label="$t('petition.durationExceStart')"
             :aria-label="$t('petition.durationExceStart')"
           />
           <v-text-field
-            v-if="formData.duration_exec_course"
+            v-if="formData.duration_exce_course"
             v-model="formData.duration_exce_end"
             type="date"
             outlined
             dense
-            :rules="formData.duration_exec_course? [requiredRule] : []"
+            :rules="formData.duration_exce_course ? [requiredRule] : []"
             :label="$t('petition.durationExceEnd')"
             :aria-label="$t('petition.durationExceEnd')"
           />
@@ -208,7 +208,7 @@
 </template>
 
 <script setup>
-import { ref, watchEffect } from 'vue';
+import { ref, watch} from 'vue';
 import { mdiAccount, mdiEmail, mdiOfficeBuilding, mdiNumeric, mdiSchool,mdiCalendar, mdiClock, mdiCurrencyUsd } from '@mdi/js';
 import { useI18n } from 'vue-i18n';
 
@@ -252,11 +252,12 @@ const initialFormData = {
   ba_degree: false,
   budget_position: '',
   budget_approver: '',
-  time_exec_course: false,
+  time_exce_student: false,
+  time_exce_course: false,
   time_exce_name: '',
   time_exce_start: '',
   time_exce_end: '',
-  duration_exec_course: false,
+  duration_exce_course: false,
   duration_exce_name: '',
   duration_exce_start: '',
   duration_exce_end: '',
@@ -266,29 +267,55 @@ const formData = ref({ ...initialFormData });
 const isFormValid = ref(false);
 
 // Populate form data when petition prop changes
-watchEffect(() => {
-  if (props.petition) {
-    formData.value = { ...initialFormData, ...props.petition };
+watch(() => props.petition, (newPetition) => {
+  if (newPetition) {
+    const cleanData = {
+      ...initialFormData,
+      ...newPetition,
+      time_exce_course: newPetition.time_exce_course ?? false,
+      duration_exce_course: newPetition.duration_exce_course ?? false,
+    };
+    
+    // Only clear exception fields if their checkboxes are false
+    if (!cleanData.time_exce_course) {
+      cleanData.time_exce_name = '';
+      cleanData.time_exce_start = '';
+      cleanData.time_exce_end = '';
+    }
+    if (!cleanData.duration_exce_course) {
+      cleanData.duration_exce_name = '';
+      cleanData.duration_exce_start = '';
+      cleanData.duration_exce_end = '';
+    }
+    
+    formData.value = cleanData;
   } else {
     formData.value = { ...initialFormData };
   }
-});
+}, { immediate: true });
 
 // Clear time exception fields when checkbox is unchecked
 const handleTimeExceptionChange = (value) => {
   if (!value) {
+    formData.value.time_exce_course = false;
     formData.value.time_exce_name = '';
     formData.value.time_exce_start = '';
     formData.value.time_exce_end = '';
   }
+  else{
+    formData.value.time_exce_course = true;
+  }
 };
 
-// Clear duration exception fields when checkbox is unchecked
 const handleDurationExceptionChange = (value) => {
   if (!value) {
+    formData.value.duration_exce_course = false;
     formData.value.duration_exce_name = '';
     formData.value.duration_exce_start = '';
     formData.value.duration_exce_end = '';
+  }
+  else{
+    formData.value.duration_exce_course = true;
   }
 };
 //validation rules 
