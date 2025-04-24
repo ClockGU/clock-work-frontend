@@ -27,13 +27,13 @@
   </template>  
   
   <script setup>  
-  import { computed } from 'vue';
+  import { computed, onMounted } from 'vue';
   import { useRouter } from 'vue-router';  
   import { useStore } from 'vuex'; 
-  import ContentApiService from '@/services/contentApiService';
   import RoleCardButton from '@/components/role-selection/RoleCardButton.vue';
   import StudentImg from '@/assets/student.jpg';
   import SupervisorImg from '@/assets/supervisor.png';
+  import AuthApiService from '@/services/authApiService';
 
   const router = useRouter();  
   const store = useStore();  
@@ -42,13 +42,8 @@
 
   const redirectToDashboard = async (role) => {
   try {
-    if (token.value) {
-      ContentApiService.setAccessToken(token.value);
-    }
-
     const roleValue = role === "supervisor" ? 1 : 0;
-    await ContentApiService.put(`users/${user.value.id}`, { user_role: roleValue });
-
+    await AuthApiService.updateUser({ user_role: roleValue },user.value.id)
     const updatedUser = { 
       ...user.value, 
       user_role: roleValue 
@@ -63,4 +58,8 @@
     router.push({ name: "landing" }); 
   }
 };
+onMounted(() => {
+  if (token.value) {
+    AuthApiService.setAccessToken(token.value);
+    }})
   </script>  
