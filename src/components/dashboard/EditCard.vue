@@ -69,9 +69,10 @@ const emit = defineEmits(['refresh']);
 
 const showPetitionForm = ref(false);
 const showStudentDialog = ref(false);
-const selectedPetition = ref(null);// null = empty petition-form, object = editing form because petitionForm autopopulates a petition
+const selectedPetition = ref(null);
 
-// Dialog handlers
+// selectedPetition =null => open an empty form for petition creation
+// selectedPetition =object => open form with all data prefilled for editing because petitionForm autopopulates a petition
 const openNewPetitionDialog = () => {
   selectedPetition.value = null;
   showPetitionForm.value = true;
