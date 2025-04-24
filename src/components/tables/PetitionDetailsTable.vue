@@ -183,7 +183,10 @@ function formatPetition(petition) {
 const deletePetition = async () => {
   try {
     await ContentApiService.delete(`supervisor/petitions/${props.petition.id}`);
-    emit('refresh', props.petition.id); // Pass the deleted ID
+    emit('refresh', {
+      type: 'delete',
+      data: props.petition.id
+    });
   } catch (error) {
     console.error("Error deleting petition:", error);
     store.dispatch("snackbar/setErrorSnacks", {
