@@ -53,32 +53,42 @@
     try {
       loading.value[type] = true
       
-      const response = await ContentApiService.get('download-file/', {
-        params: {
-          file_url: filePath
-        },
+      // Create the download URL as shown in your API documentation
+      const downloadUrl = `/download-file/?file_url=${encodeURIComponent(filePath)}`
+      
+      // Make the API request with responseType 'blob'
+      const response = await ContentApiService.get(downloadUrl, {
         responseType: 'blob'
       })
       
-      // Create download link from blob response
-      const url = window.URL.createObjectURL(new Blob([response.data]))
+      // Create a blob URL from the response
+      const blobUrl = window.URL.createObjectURL(new Blob([response.data]))
+      
+      // Create a temporary anchor element to trigger the download
       const link = document.createElement('a')
-      link.href = url
+      link.href = blobUrl
       
-      // Extract filename from content-disposition header or use default
+      // Try to get filename from content-disposition header or use the path
+      let filename = filePath.split('/').pop() || 'document'
       const contentDisposition = response.headers['content-disposition']
-      const fileNameMatch = contentDisposition.match(/filename="(.+)"/)
-      const fileName = fileNameMatch ? fileNameMatch[1] : 'document'
+      if (contentDisposition) {
+        const filenameMatch = contentDisposition.match(/filename="?(.+)"?/)
+        if (filenameMatch && filenameMatch[1]) {
+          filename = filenameMatch[1]
+        }
+      }
       
-      link.setAttribute('download', fileName)
+      link.setAttribute('download', filename)
       document.body.appendChild(link)
       link.click()
-      link.remove()
-      window.URL.revokeObjectURL(url)
+      document.body.removeChild(link)
+      
+      // Clean up the blob URL
+      window.URL.revokeObjectURL(blobUrl)
       
     } catch (err) {
       console.error('Download error:', err)
-      alert('Failed to download file')
+      alert('Failed to download file. Please try again.')
     } finally {
       loading.value[type] = false
     }
