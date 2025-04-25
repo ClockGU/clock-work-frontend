@@ -1,37 +1,48 @@
 <template>
-<v-card class="h-100"> 
- <v-card-title class="text-h6">
-     Uploaded Files
- </v-card-title>
- <v-card-text class="pa-4">
-     <v-alert v-if="!hasDocuments"
-      type="info" 
-      variant="tonal" 
-      color="warning">
-         No files have been uploaded yet.
-     </v-alert>
+  <v-card class="h-100"> 
+    <v-card-title class="text-h6">
+      {{ $t('uploadedFiles.title') }}
+    </v-card-title>
+    <v-card-text class="pa-4">
+      <v-alert v-if="!hasDocuments"
+        type="error"
+        variant="tonal" 
+        color="error">
+        {{ $t('uploadedFiles.noFiles') }}
+      </v-alert>
 
-     <div v-if="documents.elstam_url" class="document-item">
-        <span>ELSTAM: </span>
-        <a @click.prevent="downloadFile(documents.elstam_url, 'elstam')">Download</a>
-        <span v-if="loading.elstam" class="loading">Loading...</span>
+      <div v-if="documents.elstam_url" class="document-item">
+        <span>{{ $t('uploadedFiles.elstam') }}: </span>
+        <a @click.prevent="downloadFile(documents.elstam_url, 'elstam')">
+          {{ $t('download') }}
+        </a>
+        <span v-if="loading.elstam" class="loading">
+          {{ $t('app.loading') }}
+        </span>
       </div>
 
       <div v-if="documents.studienbescheinigung_url" class="document-item">
-        <span>Studienbescheinigung: </span>
-        <a @click.prevent="downloadFile(documents.studienbescheinigung_url, 'studienbescheinigung')">Download</a>
-        <span v-if="loading.studienbescheinigung" class="loading">Loading...</span>
+        <span>{{ $t('uploadedFiles.studienbescheinigung') }}: </span>
+        <a @click.prevent="downloadFile(documents.studienbescheinigung_url, 'studienbescheinigung')">
+          {{ $t('download') }}
+        </a>
+        <span v-if="loading.studienbescheinigung" class="loading">
+          {{ $t('app.loading') }}
+        </span>
       </div>
       
       <div v-if="documents.versicherungsbescheinigung_url" class="document-item">
-        <span>Versicherung: </span>
-        <a @click.prevent="downloadFile(documents.versicherungsbescheinigung_url, 'versicherung')">Download</a>
-        <span v-if="loading.versicherung" class="loading">Loading...</span>
+        <span>{{ $t('uploadedFiles.versicherung') }}: </span>
+        <a @click.prevent="downloadFile(documents.versicherungsbescheinigung_url, 'versicherung')">
+          {{ $t('download') }}
+        </a>
+        <span v-if="loading.versicherung" class="loading">
+          {{ $t('app.loading') }}
+        </span>
       </div>
- </v-card-text>
-</v-card>
-
-  </template>
+    </v-card-text>
+  </v-card>
+</template>
   
   <script setup>
   import { ref, watch, computed } from 'vue'

@@ -1,7 +1,7 @@
 <template>
     <v-card class="px-4 h-100"> 
         <v-card-title class="text-h6 px-4">
-            Free Form Data
+            {{ $t('freeFormData.title') }}
         </v-card-title>
         <v-card-text>
             <PetitionDetailsTable 

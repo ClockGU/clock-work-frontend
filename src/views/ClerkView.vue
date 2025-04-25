@@ -5,8 +5,8 @@
                 <PetitionDataDisplay 
                     :petition="selectedPetition"
                     @close="selectPetition(null)"
-                    @decline="handleDecline"
-                    @accept="handleAccept"
+                    @reject="handleRejection"
+                    @approve="handleApproval"
                 />
             </v-col>
             <v-col cols="12">
@@ -35,12 +35,10 @@ import ClerkPetitionTable from "@/components/tables/ClerkPetitionTable.vue";
 import AuthApiService from "@/services/authApiService";
 
 const store = useStore();
-
-
 const selectedPetition = ref(null);
 const petitions = ref([]);
-
 const token = computed(() => store.getters["auth/accessToken"]);
+
 const fetchPetitions = async () => {
     try {
         const response = await ContentApiService.get("clerk/petitions/pending");
@@ -57,7 +55,7 @@ const selectPetition = (petition) => {
     selectedPetition.value = petition;
 };
 
-const handleDecline = async (petitionId) => {
+const handleRejection = async (petitionId) => {
     try {
         await ContentApiService.patch(`/clerk/petitions/${petitionId}`, { status: "rejected" });
         selectedPetition.value = null;
@@ -73,7 +71,7 @@ const handleDecline = async (petitionId) => {
     }
 };
 
-const handleAccept = async (petitionId) => {
+const handleApproval = async (petitionId) => {
     try {
         await ContentApiService.patch(`/clerk/petitions/${petitionId}`, { status: "approved" });
         selectedPetition.value = null;

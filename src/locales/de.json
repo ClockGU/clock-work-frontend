@@ -5,8 +5,10 @@
   "overview": "Übersicht",
   "search": "Suchen",
   "searchBy": "Suche nach",
+  "download": "Herunterladen",
   "app": {
-    "loggingin": "Anmeldung..."
+    "loggingin": "Anmeldung...",
+    "loading": "Wird geladen..."
   },
   "actions": {
     "cancel": "abbrechen",
@@ -118,6 +120,23 @@
     "durationExceName": "Name der Dauerabweichung",
     "durationExceStart": "Startdatum der Dauerabweichung",
     "durationExceEnd": "Enddatum der Dauerabweichung"
+  },
+  "petitionDataDisplay": {
+    "title": "Petitionsdaten Anzeige",
+    "btn": {
+      "approve": "Genehmigen",
+      "reject": "Ablehnen"
+    }
+  },
+  "uploadedFiles": {
+    "title": "Hochgeladene Dateien",
+    "noFiles": "Es wurden noch keine Dateien hochgeladen",
+    "elstam": "ELSTAM",
+    "studienbescheinigung": "Studienbescheinigung",
+    "versicherung": "Versicherung"
+  },
+  "freeFormData":{
+    "title":"Freiform Daten"
   },
   "validationRule": {
     "required": "Dieses Feld ist erforderlich",

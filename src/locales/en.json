@@ -5,8 +5,10 @@
   "search": "Search",
   "searchBy": "Search by",
   "overview": "Übersicht",
+  "download": "Download",
   "app": {
-    "loggingin": "Logging in..."
+    "loggingin": "Logging in...",
+    "loading": "Loading..."
   },
   "actions": {
     "cancel": "cancel",
@@ -118,6 +120,23 @@
     "durationExceName": "Duration Exception Name",
     "durationExceStart": "Duration Exception Start Date",
     "durationExceEnd": "Duration Exception End Date"
+  },
+  "petitionDataDisplay":{
+    "title": "Petition Data Display",
+    "btn":{
+      "approve":"Approve",
+      "reject":"Reject"
+    }
+  },
+  "uploadedFiles": {
+    "title": "Uploaded Files",
+    "noFiles": "No files have been uploaded yet",
+    "elstam": "ELSTAM",
+    "studienbescheinigung": "Study Certificate",
+    "versicherung": "Insurance"
+  },
+  "freeFormData":{
+    "title":"Free Form Data"
   },
   "validationRule": {
     "required": "This field is required",
