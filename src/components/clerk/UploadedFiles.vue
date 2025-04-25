@@ -1,16 +1,22 @@
 <template>
-    <div>
-      <h3>Uploaded Files</h3>
-      <div v-if="!hasDocuments">
-        No documents found
-      </div>
-      
-      <div v-if="documents.elstam_url" class="document-item">
+<v-card class="h-100"> 
+ <v-card-title class="text-h6">
+     Uploaded Files
+ </v-card-title>
+ <v-card-text class="pa-4">
+     <v-alert v-if="!hasDocuments"
+      type="info" 
+      variant="tonal" 
+      color="warning">
+         No files have been uploaded yet.
+     </v-alert>
+
+     <div v-if="documents.elstam_url" class="document-item">
         <span>ELSTAM: </span>
         <a @click.prevent="downloadFile(documents.elstam_url, 'elstam')">Download</a>
         <span v-if="loading.elstam" class="loading">Loading...</span>
       </div>
-      
+
       <div v-if="documents.studienbescheinigung_url" class="document-item">
         <span>Studienbescheinigung: </span>
         <a @click.prevent="downloadFile(documents.studienbescheinigung_url, 'studienbescheinigung')">Download</a>
@@ -22,11 +28,14 @@
         <a @click.prevent="downloadFile(documents.versicherungsbescheinigung_url, 'versicherung')">Download</a>
         <span v-if="loading.versicherung" class="loading">Loading...</span>
       </div>
-    </div>
+ </v-card-text>
+</v-card>
+
   </template>
   
   <script setup>
   import { ref, watch, computed } from 'vue'
+  import { useStore } from 'vuex'
   import ContentApiService from '@/services/contentApiService'
   
   const props = defineProps({
@@ -35,7 +44,7 @@
       default: null
     }
   })
-  
+  const store = useStore()
   const documents = ref({})
   const loading = ref({
     elstam: false,
@@ -51,48 +60,34 @@
   
   const downloadFile = async (filePath, type) => {
     try {
-      loading.value[type] = true
+      loading.value[type] = true; 
+      // 1. Request the file from your API
+      const response = await ContentApiService.get('download-file/', {
+        params: { file_url: filePath },
+        responseType: 'blob' 
+      });
+      // 2. Create a temporary download link
+      const url = window.URL.createObjectURL(response.data);
+      const link = document.createElement('a');
+      // 3. Set up the download with a filename
+      link.href = url;
+      link.download = filePath.split('/').pop() || 'document'; 
+      // 4. Trigger the download
+      document.body.appendChild(link);
+      link.click();
+      // 5. Clean up
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
       
-      // Create the download URL as shown in your API documentation
-      const downloadUrl = `/download-file/?file_url=${encodeURIComponent(filePath)}`
-      
-      // Make the API request with responseType 'blob'
-      const response = await ContentApiService.get(downloadUrl, {
-        responseType: 'blob'
-      })
-      
-      // Create a blob URL from the response
-      const blobUrl = window.URL.createObjectURL(new Blob([response.data]))
-      
-      // Create a temporary anchor element to trigger the download
-      const link = document.createElement('a')
-      link.href = blobUrl
-      
-      // Try to get filename from content-disposition header or use the path
-      let filename = filePath.split('/').pop() || 'document'
-      const contentDisposition = response.headers['content-disposition']
-      if (contentDisposition) {
-        const filenameMatch = contentDisposition.match(/filename="?(.+)"?/)
-        if (filenameMatch && filenameMatch[1]) {
-          filename = filenameMatch[1]
-        }
-      }
-      
-      link.setAttribute('download', filename)
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-      
-      // Clean up the blob URL
-      window.URL.revokeObjectURL(blobUrl)
-      
-    } catch (err) {
-      console.error('Download error:', err)
-      alert('Failed to download file. Please try again.')
+    } catch (error) {
+      console.error('Download failed:', error);
+      store.dispatch('snackbar/setErrorSnacks', {
+        message: 'Download failed. Please try again later.',
+      });
     } finally {
-      loading.value[type] = false
+      loading.value[type] = false; 
     }
-  }
+  };
   
   const fetchDocuments = async () => {
     if (!props.petition?.student_mail) {
