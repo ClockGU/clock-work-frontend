@@ -2,6 +2,7 @@
   "welcome": "Willkommen im Supervisor-Portal von CLOCK Work",
   "login": "Anmelden",
   "logout": "Abmelden",
+  "overview": "Übersicht",
   "search": "Suchen",
   "searchBy": "Suche nach",
   "app": {
@@ -33,9 +34,6 @@
     "noPetitionSelected": "Sie können einen Antrag aus der Übersichtstabelle auswählen, um dessen Details anzuzeigen.",
     "petitionFormDialog": "Antragsformular-Dialog",
     "studentDataManagementDialog": "Dialog zur Verwaltung von Studentendaten"
-  },
-  "overviewCard": {
-    "overviewTitle": "Übersicht"
   },
   "petitionDetailsTable": {
     "title": "Antragsdetails-Tabelle",

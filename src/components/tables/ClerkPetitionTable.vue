@@ -1,5 +1,5 @@
 <template>
-    <v-card flat class="mb-4">
+    <v-card flat class="my-4">
         <v-card-title class="d-flex align-center justify-center ga-6 py-0">
             <v-select
                 v-model="searchField"

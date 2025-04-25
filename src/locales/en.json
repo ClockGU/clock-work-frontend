@@ -4,6 +4,7 @@
   "logout": "Logout",
   "search": "Search",
   "searchBy": "Search by",
+  "overview": "Übersicht",
   "app": {
     "loggingin": "Logging in..."
   },
@@ -33,9 +34,6 @@
     "noPetitionSelected": "You can select a petition from the overview table to view its details.",
     "petitionFormDialog": "Petition Form Dialog",
     "studentDataManagementDialog": "Student Data Management Dialog"
-  },
-  "overviewCard": {
-    "overviewTitle": "Overview"
   },
   "petitionDetailsTable": {
     "title": "Petition Details Table",

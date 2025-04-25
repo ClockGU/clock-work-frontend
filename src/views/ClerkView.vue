@@ -11,7 +11,9 @@
             </v-col>
             <v-col cols="12">
                 <v-card>
-                    <v-card-title>{{ $t('overviewCard.overviewTitle') }}</v-card-title>
+                    <v-card-title class="ml-4 mt-2">
+                        {{ $t('overview') }}
+                    </v-card-title>
                     <v-card-text>
                         <ClerkPetitionTable
                             :items="petitions" 

@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title>{{ $t('overviewCard.overviewTitle') }}</v-card-title>
+    <v-card-title>{{ $t('overview') }}</v-card-title>
     <v-card-text>
       <!-- Loading Spinner -->
       <v-progress-circular
