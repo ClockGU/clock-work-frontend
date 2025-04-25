@@ -46,10 +46,10 @@ const emit = defineEmits(['row-click']);
 const { t } = useI18n();
 
 const searchTerm = ref('');
-const searchField = ref('petitioneer');
+const searchField = ref('supervisor_mail');
 
 const headers = computed(() => [
-    { title: t('petition.petitioneer'), key: "petitioneer" },
+    { title: t('petition.supervisorMail'), key: "supervisor_mail" },
     { title: t('petition.studentMail'), key: "student_mail" },
     { title: t('petition.startDate'), key: "start_date" },
     { title: t('petition.endDate'), key: "end_date" },
@@ -62,7 +62,7 @@ const headers = computed(() => [
 ]);
 const searchableFields = computed(() => {
   return headers.value.filter((header) =>
-    ['petitioneer', 'student_mail', 'org_unit'].includes(header.key)
+    ['supervisor_mail', 'student_mail', 'org_unit'].includes(header.key)
   );
 });
 
