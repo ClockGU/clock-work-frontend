@@ -62,7 +62,7 @@ onMounted(async () => {
       const userResponse = await AuthApiService.getUser();
       await store.dispatch("auth/setUser", userResponse.data);
       store.dispatch("auth/unsetLoading");
-      // Authentication flow complete - redirect to roles selection
+      // Authentication flow complete - redirect based on user_role
       const userRole= userResponse.data.user_role;
       if (userRole === 2){
         router.push({path:"/clerk"});
@@ -77,7 +77,7 @@ onMounted(async () => {
       return handleError(`Failed to fetch user profile: ${error.message}`);
     }
   } catch (error) {
-    console.log(JSON.stringify(error));
+    console.error(JSON.stringify(error));
     return handleError(error.message);
   }
 });

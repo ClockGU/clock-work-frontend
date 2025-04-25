@@ -66,7 +66,6 @@ const closeDialog = () => emit('close');
 const submit = async () => {
   if (isFormValid.value) {
     const formData = petitionFormRef.value.formData; // Get form data from the form petition form
-    console.log('Form Data:', formData);
     const filteredFormData = Object.fromEntries(
       Object.entries(formData).filter(([key, value]) => value !== '' && value !== null)
     );
@@ -88,8 +87,6 @@ const submit = async () => {
 const save = async () => {
   if (isFormValid.value) {
     const formData = petitionFormRef.value.formData;
-    console.log('I am in save');
-    console.log('Form Data:', formData);
     const filteredFormData = Object.fromEntries(
       Object.entries(formData).filter(([key, value]) => value !== '' && value !== null)
     );

@@ -32,7 +32,7 @@ const startOAuthFlow = async () => {
     // Redirect to the CAS login page
     window.location.href = authorization_url;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     store.dispatch("auth/setError","Error while connecting to the Goethe University Single Sign On. Please try again later.")
     store.dispatch("auth/logout");
     router.push({ name: "landing" });
