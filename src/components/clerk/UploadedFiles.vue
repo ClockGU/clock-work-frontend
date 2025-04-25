@@ -101,7 +101,7 @@
   };
   
   const fetchDocuments = async () => {
-    if (!props.petition?.student_mail) {
+    if (!props.petition || !props.petition?.student_mail) {
       documents.value = {}
       return
     }
@@ -112,7 +112,11 @@
       })
       documents.value = response.data
     } catch (err) {
+      documents.value = {}
       console.error("Error fetching documents:", err)
+      store.dispatch('snackbar/setErrorSnacks', {
+        message:'Error fetching documents',
+      });
     }
   }
   
