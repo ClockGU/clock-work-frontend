@@ -24,6 +24,7 @@
     "vue": "^3",
     "vue-eslint-parser": "^9.4.2",
     "vue-i18n": "^11.1.2",
+    "vue-pdf-embed": "^2.1.2",
     "vuetify": "^3.5.0",
     "vuex": "^4.1.0",
     "vuex-persistedstate": "^4.1.0"

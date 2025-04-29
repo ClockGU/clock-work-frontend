@@ -133,7 +133,13 @@
     "noFiles": "Es wurden noch keine Dateien hochgeladen",
     "elstam": "ELSTAM",
     "studienbescheinigung": "Studienbescheinigung",
-    "versicherung": "Versicherung"
+    "versicherung": "Versicherung",
+    "pageCounter": "Page {current} of {total}",
+    "pdfLoadError": "Failed to load PDF. You can try downloading it instead.",
+    "downloadError": "Download failed. Please try again later.",
+    "fetchError": "Error fetching documents",
+    "defaultFilename": "document",
+    "retry": "Wiederholen"
   },
   "freeFormData":{
     "title":"Freiform Daten"

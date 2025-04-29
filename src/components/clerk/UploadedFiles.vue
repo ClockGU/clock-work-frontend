@@ -1,150 +1,192 @@
 <template>
-  <v-card class="h-100"> 
+  <v-card class="h-100">
     <v-card-title class="text-h6">
       {{ $t('uploadedFiles.title') }}
     </v-card-title>
     <v-card-text class="pa-4">
       <v-alert v-if="!hasDocuments"
-        type="error"
-        variant="tonal" 
-        color="error">
+               type="error"
+               variant="tonal"
+               color="error">
         {{ $t('uploadedFiles.noFiles') }}
       </v-alert>
 
-      <div v-if="documents.elstam_url" class="document-item">
-        <span>{{ $t('uploadedFiles.elstam') }}: </span>
-        <a @click.prevent="downloadFile(documents.elstam_url, 'elstam')">
-          {{ $t('download') }}
-        </a>
-        <span v-if="loading.elstam" class="loading">
-          {{ $t('app.loading') }}
-        </span>
-      </div>
+        <v-carousel v-if="hasDocuments"
+          v-model="currentSlide"
+          show-arrows="hover"
+          hide-delimiters
+        >
+          <v-carousel-item 
+            v-for="(item, index) in pdfItems"
+            :key="index">
+            <div class="d-flex flex-column align-center">
+              <p class="text-subtitle-1 font-weight-bold">{{ item.title }}</p>
+              
+              <!-- Loading State -->
+              <div v-if="loadingStates[item.type]" >
+                <v-progress-circular indeterminate color="primary"></v-progress-circular>
+                <span>{{ $t('app.loading') }}</span>
+              </div>
 
-      <div v-if="documents.studienbescheinigung_url" class="document-item">
-        <span>{{ $t('uploadedFiles.studienbescheinigung') }}: </span>
-        <a @click.prevent="downloadFile(documents.studienbescheinigung_url, 'studienbescheinigung')">
-          {{ $t('download') }}
-        </a>
-        <span v-if="loading.studienbescheinigung" class="loading">
-          {{ $t('app.loading') }}
-        </span>
-      </div>
-      
-      <div v-if="documents.versicherungsbescheinigung_url" class="document-item">
-        <span>{{ $t('uploadedFiles.versicherung') }}: </span>
-        <a @click.prevent="downloadFile(documents.versicherungsbescheinigung_url, 'versicherung')">
-          {{ $t('download') }}
-        </a>
-        <span v-if="loading.versicherung" class="loading">
-          {{ $t('app.loading') }}
-        </span>
-      </div>
+              <!-- Error State -->
+              <div v-else-if="pdfErrors[item.type]" >
+                {{ $t('uploadedFiles.pdfLoadError') }}
+                <v-btn @click="retryLoad(item.type)" class="mt-2">
+                  {{ $t('uploadedFiles.retry') }}
+                </v-btn>
+              </div>
+
+              <!-- PDF Display -->
+              <vue-pdf-embed v-else
+                :source="item.blobUrl"
+                height=800
+                width=600
+                :page="1"
+                @error="(err) => handlePdfError(err, item.type)"
+                />
+            </div>
+          </v-carousel-item>
+        </v-carousel>
     </v-card-text>
   </v-card>
 </template>
-  
-  <script setup>
-  import { ref, watch, computed } from 'vue'
-  import { useStore } from 'vuex'
-  import ContentApiService from '@/services/contentApiService'
-  
-  const props = defineProps({
-    petition: {
-      type: Object,
-      default: null
-    }
-  })
-  const store = useStore()
-  const documents = ref({})
-  const loading = ref({
-    elstam: false,
-    studienbescheinigung: false,
-    versicherung: false
-  })
-  
-  const hasDocuments = computed(() => {
-    return documents.value.elstam_url || 
-           documents.value.studienbescheinigung_url || 
-           documents.value.versicherungsbescheinigung_url
-  })
-  
-  const downloadFile = async (filePath, type) => {
-    try {
-      loading.value[type] = true; 
-      // 1. Request the file from your API
-      const response = await ContentApiService.get('download-file/', {
-        params: { file_url: filePath },
-        responseType: 'blob' 
-      });
-      // 2. Create a temporary download link
-      const url = window.URL.createObjectURL(response.data);
-      const link = document.createElement('a');
-      // 3. Set up the download with a filename
-      link.href = url;
-      link.download = filePath.split('/').pop() || 'document'; 
-      // 4. Trigger the download
-      document.body.appendChild(link);
-      link.click();
-      // 5. Clean up
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-      
-    } catch (error) {
-      console.error('Download failed:', error);
-      store.dispatch('snackbar/setErrorSnacks', {
-        message: 'Download failed. Please try again later.',
-      });
-    } finally {
-      loading.value[type] = false; 
-    }
-  };
-  
-  const fetchDocuments = async () => {
-    if (!props.petition || !props.petition?.student_mail) {
-      documents.value = {}
-      return
-    }
-    
-    try {
-      const response = await ContentApiService.get("clerk/documents-by-email/", {
-        params: { email: props.petition.student_mail }
+
+<script setup>
+import { ref, watch, computed, onBeforeUnmount } from 'vue'
+import { useStore } from 'vuex'
+import { useI18n } from 'vue-i18n'
+import ContentApiService from '@/services/contentApiService'
+import VuePdfEmbed from 'vue-pdf-embed'
+
+const props = defineProps({
+  petition: {
+    type: Object,
+    required: true
+  }
+})
+
+const { t } = useI18n()
+const store = useStore()
+
+const documents = ref({})
+const currentSlide = ref(0)
+const blobUrls = ref([])
+const loadingStates = ref({
+  elstam: false,
+  studienbescheinigung: false,
+  versicherung: false
+})
+const pdfErrors = ref({
+  elstam: false,
+  studienbescheinigung: false,
+  versicherung: false
+})
+
+// PDF items calculation
+const pdfItems = computed(() => {
+  const items = []
+  const types = {
+    elstam: 'elstam_url',
+    studienbescheinigung: 'studienbescheinigung_url',
+    versicherung: 'versicherungsbescheinigung_url'
+  }
+
+  for (const [type, urlProp] of Object.entries(types)) {
+    if (documents.value[urlProp]) {
+      items.push({
+        type,
+        title: t(`uploadedFiles.${type}`),
+        url: documents.value[urlProp],
+        blobUrl: documents.value[`${type}_blobUrl`]
       })
-      documents.value = response.data
-    } catch (err) {
-      documents.value = {}
-      console.error("Error fetching documents:", err)
-      store.dispatch('snackbar/setErrorSnacks', {
-        message:'Error fetching documents',
-      });
     }
   }
-  
-  watch(() => props.petition, fetchDocuments, { immediate: true })
-  </script>
-  
-  <style scoped>
-  .document-item {
-    margin: 10px 0;
-    padding: 8px;
-    border-bottom: 1px solid #eee;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  return items
+})
+
+const hasDocuments = computed(() => pdfItems.value.length > 0)
+const loadPdfDocument = async (type, url) => {
+  try {
+    loadingStates.value[type] = true
+    pdfErrors.value[type] = false
+
+    const response = await ContentApiService.get('download-file/', {
+      params: { file_url: url },
+      responseType: 'arraybuffer',
+      validateStatus: (status) => status === 200
+    })
+    const blob = new Blob([response.data], { type: 'application/pdf' })
+    const blobUrl = URL.createObjectURL(blob)
+    blobUrls.value.push(blobUrl)
+    documents.value[`${type}_blobUrl`] = blobUrl
+  } catch (error) {
+    console.error(`PDF load failed (${type}):`, error)
+    documents.value = {}
+    pdfErrors.value[type] = true
+    store.dispatch('snackbar/setErrorSnacks', {
+      message: "Error loading documents"
+    })
+  } finally {
+    loadingStates.value[type] = false
   }
-  
-  a {
-    color: blue;
-    text-decoration: underline;
-    cursor: pointer;
+}
+
+// Retry failed loads
+const retryLoad = (type) => {
+  const url = documents.value[`${type}_url`]
+  if (url) loadPdfDocument(type, url)
+}
+const handlePdfError = (error, type) => {
+  console.error('PDF render error:', error)
+  store.dispatch('snackbar/setErrorSnacks', {
+      message: "Error rendering PDF document"
+    })
+  documents.value = {}
+  pdfErrors.value[type] = true
+}
+
+// Document fetching
+const fetchDocuments = async () => {
+  if (!props.petition?.student_mail) {
+    documents.value = {}
+    return
   }
-  
-  a:hover {
-    color: darkblue;
+  try {
+    // Fetch document URLs
+    const response = await ContentApiService.get("clerk/documents-by-email/", {
+      params: { email: props.petition.student_mail }
+    })
+    documents.value = response.data
+
+    // Load PDFs in parallel
+    const loadTasks = []
+    const types = {
+      elstam: 'elstam_url',
+      studienbescheinigung: 'studienbescheinigung_url',
+      versicherung: 'versicherungsbescheinigung_url'
+    }
+
+    for (const [type, urlProp] of Object.entries(types)) {
+      if (documents.value[urlProp]) {
+        loadTasks.push(loadPdfDocument(type, documents.value[urlProp]))
+      }
+    }
+
+    await Promise.all(loadTasks)
+  } catch (error) {
+    console.error("Document fetch failed:", error)
+    documents.value = {}
+    store.dispatch('snackbar/setErrorSnacks', {
+      message: "Error fetching documents"
+    })
   }
-  
-  .loading {
-    color: #666;
-    font-style: italic;
-  }
-  </style>
+} 
+// Cleanup
+onBeforeUnmount(() => {
+  blobUrls.value.forEach(url => URL.revokeObjectURL(url))
+})
+
+// Watchers
+watch(() => props.petition, fetchDocuments, { immediate: true, deep: true })
+</script>
+

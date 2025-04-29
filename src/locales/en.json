@@ -4,7 +4,7 @@
   "logout": "Logout",
   "search": "Search",
   "searchBy": "Search by",
-  "overview": "Übersicht",
+  "overview": "Overview",
   "download": "Download",
   "app": {
     "loggingin": "Logging in...",
@@ -133,7 +133,11 @@
     "noFiles": "No files have been uploaded yet",
     "elstam": "ELSTAM",
     "studienbescheinigung": "Study Certificate",
-    "versicherung": "Insurance"
+    "versicherung": "Insurance",
+    "pageCounter": "Page {current} of {total}",
+    "pdfLoadError": "Failed to load PDF. You can try downloading it instead.",
+    "defaultFilename": "document",
+    "retry": "Retry"
   },
   "freeFormData":{
     "title":"Free Form Data"
