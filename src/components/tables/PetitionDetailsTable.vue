@@ -10,36 +10,16 @@
     </template>
   </AlertDialog>
 
+  <!--Dialog to report an issue wuith a petition -->
+  <PetitionIssueDialog
+    v-if="userRole==0||userRole==2"
+    :petition="petition"
+
+  ></PetitionIssueDialog>
+
   <!-- Tooltips for petitions actions like edit,delete...-->
   <div class="d-flex justify-space-between align-center mb-3 ">
     <v-btn
-      v-if="role === 'supervisor'"
-      color="error"
-      :aria-label="$t('actions.delete')"
-      @click="showDeleteConfirmation = true">
-      <v-icon>{{ icons.mdiTrashCan }}</v-icon>
-      <v-tooltip 
-        activator="parent"
-        location="right"
-        :text="$t('actions.delete')"
-      ></v-tooltip>
-    </v-btn>
-    <div class="d-flex align-center ml-1">
-      <v-btn
-      v-if="role === 'supervisor'"
-      color="primary"
-      class="mr-3"
-      :aria-label="$t('actions.delete')"
-      @click="$emit('edit')"
-    >   
-      <v-icon>{{ icons.mdiPencil }}</v-icon>
-      <v-tooltip 
-        activator="parent"
-        location="top"
-        :text="$t('actions.edit')"
-      ></v-tooltip>
-      </v-btn>
-      <v-btn
         color="error"
         :aria-label="$t('actions.close')"
         @click="$emit('close')"
@@ -51,12 +31,51 @@
           :text="$t('actions.close')"
         ></v-tooltip>
       </v-btn>
+
+    <div class="d-flex align-center ga-3 ml-1" >
+      <v-btn
+        v-if="userRole==0||userRole==2"
+        color="warning"
+        :aria-label="$t('actions.report')"
+        >   
+        <v-icon>{{ icons.mdiAlertCircleOutline }}</v-icon>
+        <v-tooltip 
+          activator="parent"
+          location="top"
+          :text="$t('actions.report')"
+        ></v-tooltip>
+      </v-btn>
+      <v-btn
+        v-if="userRole>0"
+        color="primary"
+        :aria-label="$t('actions.edit')"
+        @click="$emit('edit')"
+        >   
+        <v-icon>{{ icons.mdiPencil }}</v-icon>
+        <v-tooltip 
+          activator="parent"
+          location="top"
+          :text="$t('actions.edit')"
+        ></v-tooltip>
+        </v-btn>
+      <v-btn
+        v-if="userRole>0"
+        color="error"
+        :aria-label="$t('actions.delete')"
+        @click="showDeleteConfirmation = true">
+        <v-icon>{{ icons.mdiTrashCan }}</v-icon>
+        <v-tooltip 
+          activator="parent"
+          location="top"
+          :text="$t('actions.delete')"
+        ></v-tooltip>
+      </v-btn>
     </div>  
   </div>
 
   <!-- Main Table -->
   <v-table
-    class="styled-table"
+    class="styled-table mb-4"
     density="comfortable"
     hover
     role="table"
@@ -100,26 +119,25 @@
 </template>
   
 <script setup>
-import {ref} from 'vue'
-import { mdiClose, mdiPencil ,mdiTrashCan} from '@mdi/js';
+import {ref,computed} from 'vue'
+import { mdiClose, mdiPencil ,mdiTrashCan,mdiAlertCircleOutline} from '@mdi/js';
 import ContentApiService from '@/services/contentApiService.js'
 import {useStore} from "vuex"
+
 const props = defineProps({
   petition: {
     type: Object,
     required: true,
-  },
-  role: {
-    type: String,
-    default: 'student',
   }
 });
 
 const emit = defineEmits(['close', 'edit','refresh']);
-const icons = { mdiClose, mdiPencil,mdiTrashCan };
+const icons = { mdiClose, mdiPencil,mdiTrashCan ,mdiAlertCircleOutline};
 
 const store=useStore()
 const showDeleteConfirmation = ref(false);
+const user= computed(()=>store.getters['auth/user'])
+const userRole = computed(()=>user.value.user_role)
 
 const formatKey = (key) => {
   return key
@@ -202,6 +220,7 @@ const deletePetition = async () => {
     showDeleteConfirmation.value = false;
   }
 };
+
 </script>
   
 <style scoped>
