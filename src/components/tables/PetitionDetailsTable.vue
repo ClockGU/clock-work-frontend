@@ -97,27 +97,6 @@
       </tr>
    </tbody>
   </v-table>
-
-  <!-- Action Buttons -->
-  <div class="d-flex justify-space-between mt-3">
-    <v-btn
-      v-if="role === 'supervisor'"
-      color="primary"
-      variant="text"
-      :aria-label="$t('actions.edit')"
-      @click="$emit('edit')"
-      >
-      {{ $t('actions.edit') }}
-    </v-btn>
-    <v-btn
-      color="error"
-      variant="text"
-      :aria-label="$t('actions.close')"
-      @click="$emit('close')"
-      >
-      {{ $t('actions.close') }}
-    </v-btn>
-  </div>
 </template>
   
 <script setup>
