@@ -65,22 +65,23 @@ const tab = ref('personal');
 
 const save = async () => {
   if (tab.value === 'personal') {
-    const formData = employeeDataFormRef.value.formData;
-    if (employeeDataFormRef.value.isFormValid) {
-      try {
-        await ContentApiService.patch('/employees', formData);
-      } catch (error) {
-        console.error('Error saving employee data:', error);
-        store.dispatch('snackbar/setErrorSnacks', {
-          message: 'Error saving employee data',
-        });
-      }
-    }
+    await saveEmployeeData();
   }
   if (tab.value === 'files') {
     await saveDocuments();
   }
   emit('close');
+};
+const saveEmployeeData = async () => {
+  try {
+    const formData = employeeDataFormRef.value.formData;
+    await ContentApiService.patch('/employees', formData);
+  } catch (error) {
+    console.error('Error saving employee data:', error);
+    store.dispatch('snackbar/setErrorSnacks', {
+      message: 'Error saving employee data',
+    });
+  }
 };
 
 const saveDocuments = async () => {  
