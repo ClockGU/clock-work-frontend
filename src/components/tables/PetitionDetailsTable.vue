@@ -1,4 +1,13 @@
 <template>
+    <!-- Dialogs -->
+    <!--- Dialog to edit a petition-->
+    <PetitionFormDialog
+    v-model="showPetitionFormDialog"
+    :role="userRole>0? 'supervisor' : 'student'"
+    :petition="petition"
+    @close="showPetitionFormDialog = false"
+    @refresh="$emit('refresh')"
+  />
    <!--  AlertDialog to confirm petition deletion-->
    <AlertDialog 
     v-model="showDeleteConfirmationDialog"
@@ -51,7 +60,7 @@
         v-if="userRole>0"
         color="primary"
         :aria-label="$t('actions.edit')"
-        @click="$emit('edit')"
+        @click="showPetitionFormDialog = true"
         >   
         <v-icon>{{ icons.mdiPencil }}</v-icon>
         <v-tooltip 
@@ -133,12 +142,13 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(['close', 'edit','refresh']);
+const emit = defineEmits(['close','refresh']);
 const icons = { mdiClose, mdiPencil,mdiTrashCan ,mdiAlertCircleOutline};
 
 const store=useStore()
 const showDeleteConfirmationDialog = ref(false);
 const showPetitionIssueDialog = ref(false);
+const showPetitionFormDialog = ref(false);
 const userRole = computed(()=>store.getters['auth/user'].user_role);
 
 const formatKey = (key) => {
