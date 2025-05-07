@@ -37,7 +37,7 @@
 import { ref,computed} from 'vue';
 import { useI18n } from 'vue-i18n';
 import {useStore } from 'vuex';
-import { ContentApiService } from '@/services/contentApiService';
+import ContentApiService from '@/services/contentApiService.js';
 
 const props = defineProps({
     petition: {
@@ -70,7 +70,7 @@ const reportIssue = async() => {
             message: 'Email sent successfully',
         });
     }
-    catch{
+    catch(error){
         console.error('Error sending email',error);
         store.dispatch('snackbar/setErrorSnacks', {
             message:'Error sending email',

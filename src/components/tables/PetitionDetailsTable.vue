@@ -1,7 +1,7 @@
 <template>
    <!--  AlertDialog to confirm petition deletion-->
    <AlertDialog 
-    v-model="showDeleteConfirmation"
+    v-model="showDeleteConfirmationDialog"
     :action-text="$t('actions.confirm')"
     :action="deletePetition"
     >
@@ -13,8 +13,9 @@
   <!--Dialog to report an issue wuith a petition -->
   <PetitionIssueDialog
     v-if="userRole==0||userRole==2"
+    v-model="showPetitionIssueDialog"
     :petition="petition"
-
+    @close="showPetitionIssueDialog = false"
   ></PetitionIssueDialog>
 
   <!-- Tooltips for petitions actions like edit,delete...-->
@@ -37,6 +38,7 @@
         v-if="userRole==0||userRole==2"
         color="warning"
         :aria-label="$t('actions.report')"
+        @click="showPetitionIssueDialog = true"
         >   
         <v-icon>{{ icons.mdiAlertCircleOutline }}</v-icon>
         <v-tooltip 
@@ -62,7 +64,7 @@
         v-if="userRole>0"
         color="error"
         :aria-label="$t('actions.delete')"
-        @click="showDeleteConfirmation = true">
+        @click="showDeleteConfirmationDialog = true">
         <v-icon>{{ icons.mdiTrashCan }}</v-icon>
         <v-tooltip 
           activator="parent"
@@ -135,9 +137,9 @@ const emit = defineEmits(['close', 'edit','refresh']);
 const icons = { mdiClose, mdiPencil,mdiTrashCan ,mdiAlertCircleOutline};
 
 const store=useStore()
-const showDeleteConfirmation = ref(false);
-const user= computed(()=>store.getters['auth/user'])
-const userRole = computed(()=>user.value.user_role)
+const showDeleteConfirmationDialog = ref(false);
+const showPetitionIssueDialog = ref(false);
+const userRole = computed(()=>store.getters['auth/user'].user_role);
 
 const formatKey = (key) => {
   return key
@@ -217,10 +219,9 @@ const deletePetition = async () => {
         message: "Error deleting the petition",
       });
   }finally {
-    showDeleteConfirmation.value = false;
+    showDeleteConfirmationDialog.value = false;
   }
-};
-
+}
 </script>
   
 <style scoped>
