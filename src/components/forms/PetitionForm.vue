@@ -18,7 +18,6 @@
           type="email"
           outlined
           dense
-          :readonly="role === 'student'"
           :prepend-icon="icons.mdiEmail"
           :label="$t('petition.studentMail')"
           :aria-label="$t('petition.studentMail')"
@@ -27,7 +26,6 @@
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
-          v-if="role !== 'student'"
           v-model="formData.org_unit"
           outlined
           dense
@@ -39,7 +37,6 @@
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
-          v-if="role !== 'student'"
           v-model="formData.eos_number"
           outlined
           dense
@@ -98,7 +95,6 @@
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
-          v-if="role !== 'student'"
           v-model="formData.budget_position"
           outlined
           dense
@@ -110,7 +106,6 @@
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
-          v-if="role !== 'student'"
           v-model="formData.budget_approver"
           type="email"
           outlined
@@ -118,7 +113,7 @@
           :prepend-icon="icons.mdiEmail"
           :label="$t('petition.budgetApprover')"
           :aria-label="$t('petition.budgetApprover')"
-          :rules="role[requiredRule, emailRule]"
+          :rules="[requiredRule, emailRule]"
         />
       </v-col>
 
@@ -229,11 +224,6 @@ const props = defineProps({
     type: [Object, null],
     required: false,
     default: null,
-  },
-  role: {
-    type: String,
-    required: true,
-    default: 'student',
   },
 });
 const degreeOptions =[

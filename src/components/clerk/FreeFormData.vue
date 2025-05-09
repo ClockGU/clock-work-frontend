@@ -6,9 +6,9 @@
         <v-card-text>
             <PetitionDetailsTable 
             v-if="petition"
-            :role="'clerk'" 
             :petition="petition"
-            @close="emit('close')"/>
+            @close="emit('close')"
+            @refresh="handleRefresh"            />
             <p v-else class="mt-4 ml-1 text-subtitle-1 text-medium-emphasis" role="status" aria-live="polite">
             {{ $t('editCard.noPetitionSelected') }}
             </p>
@@ -24,5 +24,8 @@ const props=defineProps({
         required: true
     }
 })
-const emit=defineEmits(["close"])
+const emit=defineEmits(["close","refresh"])
+const handleRefresh = (payload) => {
+    emit('refresh', payload);
+};
 </script>

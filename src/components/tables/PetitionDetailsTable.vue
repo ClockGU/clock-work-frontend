@@ -3,10 +3,9 @@
     <!--- Dialog to edit a petition-->
     <PetitionFormDialog
     v-model="showPetitionFormDialog"
-    :role="userRole>0? 'supervisor' : 'student'"
     :petition="petition"
     @close="showPetitionFormDialog = false"
-    @refresh="$emit('refresh')"
+    @refresh="handleRefresh"
   />
    <!--  AlertDialog to confirm petition deletion-->
    <AlertDialog 
@@ -151,6 +150,7 @@ const showPetitionIssueDialog = ref(false);
 const showPetitionFormDialog = ref(false);
 const userRole = computed(()=>store.getters['auth/user'].user_role);
 
+
 const formatKey = (key) => {
   return key
     .split("_")
@@ -218,7 +218,8 @@ function getOrderedFields(petition) {
 }
 const deletePetition = async () => {
   try {
-    await ContentApiService.delete(`supervisor/petitions/${props.petition.id}`);
+    const role = userRole.value===2 ? 'clerk': 'supervisor';
+    await ContentApiService.delete(`${role}/petitions/${props.petition.id}`);
     emit('refresh', {
       type: 'delete',
       data: props.petition.id
@@ -232,6 +233,9 @@ const deletePetition = async () => {
     showDeleteConfirmationDialog.value = false;
   }
 }
+const handleRefresh = (payload) => {
+    emit('refresh', payload);
+};
 </script>
   
 <style scoped>

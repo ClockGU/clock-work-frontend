@@ -7,7 +7,6 @@
       <PetitionForm
         ref="petitionFormRef"
         class="mt-12"
-        :role="role"
         :petition="petition"
         :aria-label="$t('petitionFormDialog.ariaLabel.petitionForm')"
         @close="closeDialog"
@@ -50,16 +49,14 @@ const props = defineProps({
     required: false,
     default: null,
   },
-  role: {
-    type: String,
-    required: true,
-  },
+
 });
 
 const emit = defineEmits(['close','refresh']);
 const store = useStore();
 const petitionFormRef = ref(null);
 
+const userRole = computed(() => store.getters['auth/user'].user_role);
 const isFormValid = computed(() => petitionFormRef.value?.isFormValid || false);
 
 const closeDialog = () => emit('close');
@@ -70,7 +67,7 @@ const submit = async () => {
       Object.entries(formData).filter(([key, value]) => value !== '' && value !== null)
     );
     try {
-      // Call the backend API to create a new petition
+      // Call the backend API to create a new petition (only suppervisor can create a petition)
       await ContentApiService.post('supervisor/petitions/', filteredFormData);
       emit('refresh');
     } catch (error) {
@@ -91,7 +88,8 @@ const save = async () => {
       Object.entries(formData).filter(([key, value]) => value !== '' && value !== null)
     );
     try {
-      const response = await ContentApiService.patch(`supervisor/petitions/${props.petition.id}`, filteredFormData);
+      const role = userRole.value===2 ? 'clerk': 'supervisor';
+      const response = await ContentApiService.patch(`${role}/petitions/${props.petition.id}`, filteredFormData);
       emit('refresh', {
         type: 'update',
         data: response.data
