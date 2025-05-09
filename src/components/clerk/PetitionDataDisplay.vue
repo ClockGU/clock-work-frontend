@@ -11,6 +11,7 @@
                         style="overflow-y: auto;"
                         :petition="petition"
                         @close="emit('close')"
+                        @refresh="handleRefresh"
                     />
                 </v-col>
                 <v-col cols="12" md="6" class="d-flex flex-column">
@@ -43,12 +44,15 @@ const props = defineProps({
     }
 });
 
-const emit = defineEmits(["close", "reject", "approve"]);
+const emit = defineEmits(["close","refresh", "reject", "approve"]);
 
 const reject = () => {
     if (props.petition?.id) emit("reject", props.petition.id);
 };
-const accept = () => {
+const approve = () => {
     if (props.petition?.id) emit("approve", props.petition.id);
+};
+const handleRefresh = (payload) => {
+    emit('refresh', payload);
 };
 </script>

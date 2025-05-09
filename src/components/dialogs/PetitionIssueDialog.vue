@@ -1,0 +1,103 @@
+<template>
+    <CustomDialog
+      :title="$t('reportIssue.title')"
+      >
+      <template #content>
+        <v-card-text>
+          <v-form ref="form" v-model="isValid">
+            <span class="text-subtitle-1 ml-10">{{ $t('reportIssue.subjectLabel') }}</span>
+            <v-text-field
+              v-model="reportSubject"
+              :rules="[requiredRule]"
+              :placeholder="$t('reportIssue.subjectPlaceholder')"
+              :hint="$t('reportIssue.subjectHint')"
+              class="mb-4"
+              clearable
+              :prepend-icon="icons.mdiEmailOutline"
+            ></v-text-field>
+
+            <span class="text-subtitle-1 ml-10">{{ $t('reportIssue.messageLabel') }}</span>
+          <v-textarea
+            v-model="reportText"
+            :rules="[requiredRule]"
+            :placeholder="$t('reportIssue.messagePlaceholder')"
+            :hint="$t('reportIssue.messageHint')"
+            rows="6"
+            auto-grow
+            clearable
+            :prepend-icon="icons.mdiMessageTextOutline"
+            counter
+            :maxlength="500"
+          ></v-textarea>
+          </v-form>
+        </v-card-text>
+        </template>
+        <template #actions>
+          <v-btn
+            :disabled="!isValid"
+            color="primary"
+            @click="reportIssue"
+          >
+            {{ $t('actions.send') }}
+        </v-btn>
+    </template>
+    </CustomDialog>
+</template>
+<script setup>
+import { ref,computed} from 'vue';
+import { useI18n } from 'vue-i18n';
+import {useStore } from 'vuex';
+import ContentApiService from '@/services/contentApiService.js';
+import {mdiEmailOutline,mdiMessageTextOutline} from '@mdi/js';
+
+
+const props = defineProps({
+    petition: {
+        type: Object,
+        required: true,
+    }
+});
+const emit = defineEmits(['close']);
+
+const icons = {
+  mdiEmailOutline,
+  mdiMessageTextOutline,
+};
+
+const { t } = useI18n();
+const store = useStore();
+
+const isValid = ref(false);
+const reportSubject = ref('');
+const reportText = ref('');
+
+const user = computed(() => store.getters['auth/user']);
+const recipientMail = computed(() => {
+    return user.value.user_role === 2 ? props.petition.student_mail : props.petition.supervisor_mail;
+});
+const requiredRule = (v) => !!v || t('validationRule.required');
+
+const reportIssue = async() => {
+    try{
+        await ContentApiService.post('/send-email', {
+            recipient: recipientMail.value,
+            subject: reportSubject.value,
+            body: reportText.value,
+        })
+        store.dispatch('snackbar/setSnack', {
+            message: 'Email sent successfully',
+        });
+    }
+    catch(error){
+        console.error('Error sending email',error);
+        store.dispatch('snackbar/setErrorSnacks', {
+            message:'Error sending email',
+        });
+    } 
+    finally{
+        reportSubject.value = '';
+        reportText.value = '';
+        emit('close');
+    }  
+};
+</script>

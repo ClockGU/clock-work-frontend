@@ -5,9 +5,7 @@
     :fullscreen="fullscreen"
     :max-width="maxWidth"
     transition="slide-y-reverse-transition"
-    :aria-labelledby="$t('customDialog.title')"
     role="dialog"
-    @click:outside="close"
   >
     <!-- Activator Slot -->
     <template #activator="props">
@@ -17,7 +15,7 @@
     <v-card>
       <!-- Title Section -->
       
-        <v-card-title id="dialog-title" class="text-h6 font-weight-bold bg-grey-lighten-2 d-flex justify-space-between align-center">
+        <v-card-title  class="text-h6 font-weight-bold bg-grey-lighten-2 d-flex justify-space-between align-center">
           <span class="text-h6 pa-2">{{ title }}</span>
 
         <!-- Close Button -->
@@ -26,7 +24,7 @@
           variant="text"
           class="text-grey-darken-2"
           :ripple="false"
-          :aria-label="$t('customDialog.ariaLabel.close')"
+          :aria-label="$t('actions.close')"
           @click="close"
         >
           <v-icon>{{ icons.mdiClose }}</v-icon>

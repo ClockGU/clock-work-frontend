@@ -1,7 +1,15 @@
 <template>
+    <!-- Dialogs -->
+    <!--- Dialog to edit a petition-->
+    <PetitionFormDialog
+    v-model="showPetitionFormDialog"
+    :petition="petition"
+    @close="showPetitionFormDialog = false"
+    @refresh="handleRefresh"
+  />
    <!--  AlertDialog to confirm petition deletion-->
    <AlertDialog 
-    v-model="showDeleteConfirmation"
+    v-model="showDeleteConfirmationDialog"
     :action-text="$t('actions.confirm')"
     :action="deletePetition"
     >
@@ -10,36 +18,17 @@
     </template>
   </AlertDialog>
 
+  <!--Dialog to report an issue wuith a petition -->
+  <PetitionIssueDialog
+    v-if="userRole==0||userRole==2"
+    v-model="showPetitionIssueDialog"
+    :petition="petition"
+    @close="showPetitionIssueDialog = false"
+  ></PetitionIssueDialog>
+
   <!-- Tooltips for petitions actions like edit,delete...-->
   <div class="d-flex justify-space-between align-center mb-3 ">
     <v-btn
-      v-if="role === 'supervisor'"
-      color="error"
-      :aria-label="$t('actions.delete')"
-      @click="showDeleteConfirmation = true">
-      <v-icon>{{ icons.mdiTrashCan }}</v-icon>
-      <v-tooltip 
-        activator="parent"
-        location="right"
-        :text="$t('actions.delete')"
-      ></v-tooltip>
-    </v-btn>
-    <div class="d-flex align-center ml-1">
-      <v-btn
-      v-if="role === 'supervisor'"
-      color="primary"
-      class="mr-3"
-      :aria-label="$t('actions.delete')"
-      @click="$emit('edit')"
-    >   
-      <v-icon>{{ icons.mdiPencil }}</v-icon>
-      <v-tooltip 
-        activator="parent"
-        location="top"
-        :text="$t('actions.edit')"
-      ></v-tooltip>
-      </v-btn>
-      <v-btn
         color="error"
         :aria-label="$t('actions.close')"
         @click="$emit('close')"
@@ -51,12 +40,52 @@
           :text="$t('actions.close')"
         ></v-tooltip>
       </v-btn>
+
+    <div class="d-flex align-center ga-3 ml-1" >
+      <v-btn
+        v-if="userRole==0||userRole==2"
+        color="warning"
+        :aria-label="$t('actions.report')"
+        @click="showPetitionIssueDialog = true"
+        >   
+        <v-icon>{{ icons.mdiAlertCircleOutline }}</v-icon>
+        <v-tooltip 
+          activator="parent"
+          location="top"
+          :text="$t('actions.report')"
+        ></v-tooltip>
+      </v-btn>
+      <v-btn
+        v-if="userRole>0"
+        color="primary"
+        :aria-label="$t('actions.edit')"
+        @click="showPetitionFormDialog = true"
+        >   
+        <v-icon>{{ icons.mdiPencil }}</v-icon>
+        <v-tooltip 
+          activator="parent"
+          location="top"
+          :text="$t('actions.edit')"
+        ></v-tooltip>
+        </v-btn>
+      <v-btn
+        v-if="userRole>0"
+        color="error"
+        :aria-label="$t('actions.delete')"
+        @click="showDeleteConfirmationDialog = true">
+        <v-icon>{{ icons.mdiTrashCan }}</v-icon>
+        <v-tooltip 
+          activator="parent"
+          location="top"
+          :text="$t('actions.delete')"
+        ></v-tooltip>
+      </v-btn>
     </div>  
   </div>
 
   <!-- Main Table -->
   <v-table
-    class="styled-table"
+    class="styled-table mb-4"
     density="comfortable"
     hover
     role="table"
@@ -100,26 +129,27 @@
 </template>
   
 <script setup>
-import {ref} from 'vue'
-import { mdiClose, mdiPencil ,mdiTrashCan} from '@mdi/js';
+import {ref,computed} from 'vue'
+import { mdiClose, mdiPencil ,mdiTrashCan,mdiAlertCircleOutline} from '@mdi/js';
 import ContentApiService from '@/services/contentApiService.js'
 import {useStore} from "vuex"
+
 const props = defineProps({
   petition: {
     type: Object,
     required: true,
-  },
-  role: {
-    type: String,
-    default: 'student',
   }
 });
 
-const emit = defineEmits(['close', 'edit','refresh']);
-const icons = { mdiClose, mdiPencil,mdiTrashCan };
+const emit = defineEmits(['close','refresh']);
+const icons = { mdiClose, mdiPencil,mdiTrashCan ,mdiAlertCircleOutline};
 
 const store=useStore()
-const showDeleteConfirmation = ref(false);
+const showDeleteConfirmationDialog = ref(false);
+const showPetitionIssueDialog = ref(false);
+const showPetitionFormDialog = ref(false);
+const userRole = computed(()=>store.getters['auth/user'].user_role);
+
 
 const formatKey = (key) => {
   return key
@@ -188,7 +218,8 @@ function getOrderedFields(petition) {
 }
 const deletePetition = async () => {
   try {
-    await ContentApiService.delete(`supervisor/petitions/${props.petition.id}`);
+    const role = userRole.value===2 ? 'clerk': 'supervisor';
+    await ContentApiService.delete(`${role}/petitions/${props.petition.id}`);
     emit('refresh', {
       type: 'delete',
       data: props.petition.id
@@ -199,8 +230,11 @@ const deletePetition = async () => {
         message: "Error deleting the petition",
       });
   }finally {
-    showDeleteConfirmation.value = false;
+    showDeleteConfirmationDialog.value = false;
   }
+}
+const handleRefresh = (payload) => {
+    emit('refresh', payload);
 };
 </script>
   

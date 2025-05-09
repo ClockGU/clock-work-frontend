@@ -17,7 +17,9 @@
     "edit": "edit",
     "close": "close",
     "delete": "delete",
-    "confirm": "confirm"
+    "confirm": "confirm",
+    "report": "report an issue",
+    "send": "send"
   },
   "roleSelectionView": {
     "welcome": "You are new here!",
@@ -44,12 +46,6 @@
       "value": "Value"
     },
     "deletionConfirmationMessage": "Are you sure you want to delete this petition? This action cannot be undone."
-  },
-  "customDialog": {
-    "ariaLabel": {
-      "close": "Close dialog"
-    },
-    "title": "Dialog title"
   },
   "petitionFormDialog": {
     "title": "Create New Petition",
@@ -156,5 +152,14 @@
     },
     "text": "This project was financially supported by the Goethe-Universität Frankfurt.",
     "code": "Code on "
+  },
+  "reportIssue": {
+    "title": "Report an Issue",
+    "subjectLabel": "Subject",
+    "subjectPlaceholder": "Enter subject line",
+    "subjectHint": "Briefly describe the nature of your report",
+    "messageLabel": "Detailed Message",
+    "messagePlaceholder": "Describe the issue in detail",
+    "messageHint": "Please include all relevant information"
   }
 }

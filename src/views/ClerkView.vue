@@ -5,6 +5,7 @@
                 <PetitionDataDisplay 
                     :petition="selectedPetition"
                     @close="selectPetition(null)"
+                    @refresh="refresh"
                     @reject="handleRejection"
                     @approve="handleApproval"
                 />
@@ -86,6 +87,24 @@ const handleApproval = async (petitionId) => {
         });
     }
 };
+const refresh = (payload) => {
+  if (payload) {
+    switch(payload.type) {
+      case 'update':
+        if (selectedPetition.value?.id === payload.data.id) {
+          selectedPetition.value = payload.data;
+        }
+        break;
+      case 'delete':
+        if (selectedPetition.value?.id === payload.data) {
+          selectedPetition.value = null;
+        }
+        break;
+    }
+  }
+  fetchPetitions();
+};
+
 onMounted(() => {
     if (token.value) {
         ContentApiService.setAccessToken(token.value);

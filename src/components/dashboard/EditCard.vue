@@ -77,7 +77,7 @@ const openNewPetitionDialog = () => {
   selectedPetition.value = null;
   showPetitionForm.value = true;
 };
-const openEditDialog = () => showPetitionForm.value = true;
+//const openEditDialog = () => showPetitionForm.value = true;
 const openStudentDialog = () => showStudentDialog.value = true;
 
 const selectPetition = (petition) => {
