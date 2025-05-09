@@ -42,7 +42,7 @@
 
   const redirectToDashboard = async (role) => {
   try {
-    const roleValue = role === "supervisor" ? 2 : 0;
+    const roleValue = role === "supervisor" ? 1 : 0;
     await AuthApiService.updateUser({ user_role: roleValue },user.value.id)
     const updatedUser = { 
       ...user.value, 
