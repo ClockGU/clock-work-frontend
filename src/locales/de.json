@@ -154,5 +154,14 @@
     },
     "text": "Dieses Projekt wurde finanziell von der Goethe-Universität Frankfurt unterstützt.",
     "code": "Code auf "
+  },
+  "reportIssue": {
+    "title": "Problem melden",
+    "subjectLabel": "Betreff",
+    "subjectPlaceholder": "Betreff eingeben",
+    "subjectHint": "Kurze Beschreibung des Problems",
+    "messageLabel": "Detaillierte Nachricht",
+    "messagePlaceholder": "Beschreiben Sie das Problem im Detail",
+    "messageHint": "Bitte geben Sie alle relevanten Informationen an"
   }
 }

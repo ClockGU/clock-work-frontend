@@ -1,24 +1,34 @@
 <template>
     <CustomDialog
-      :title="$t('actions.report')"
+      :title="$t('reportIssue.title')"
       >
       <template #content>
         <v-card-text>
           <v-form ref="form" v-model="isValid">
+            <span class="text-subtitle-1 ml-10">{{ $t('reportIssue.subjectLabel') }}</span>
             <v-text-field
               v-model="reportSubject"
               :rules="[requiredRule]"
-              :label="$t('actions.report')"
-            ></v-text-field>
-            <v-textarea
-              v-model="reportText"
-              rows="4"
-              auto-grow
+              :placeholder="$t('reportIssue.subjectPlaceholder')"
+              :hint="$t('reportIssue.subjectHint')"
+              class="mb-4"
               clearable
-              :rules="[requiredRule]"
-              :label="$t('actions.report')"
-              >
-            </v-textarea>
+              :prepend-icon="icons.mdiEmailOutline"
+            ></v-text-field>
+
+            <span class="text-subtitle-1 ml-10">{{ $t('reportIssue.messageLabel') }}</span>
+          <v-textarea
+            v-model="reportText"
+            :rules="[requiredRule]"
+            :placeholder="$t('reportIssue.messagePlaceholder')"
+            :hint="$t('reportIssue.messageHint')"
+            rows="6"
+            auto-grow
+            clearable
+            :prepend-icon="icons.mdiMessageTextOutline"
+            counter
+            :maxlength="500"
+          ></v-textarea>
           </v-form>
         </v-card-text>
         </template>
@@ -38,6 +48,8 @@ import { ref,computed} from 'vue';
 import { useI18n } from 'vue-i18n';
 import {useStore } from 'vuex';
 import ContentApiService from '@/services/contentApiService.js';
+import {mdiEmailOutline,mdiMessageTextOutline} from '@mdi/js';
+
 
 const props = defineProps({
     petition: {
@@ -46,6 +58,12 @@ const props = defineProps({
     }
 });
 const emit = defineEmits(['close']);
+
+const icons = {
+  mdiEmailOutline,
+  mdiMessageTextOutline,
+};
+
 const { t } = useI18n();
 const store = useStore();
 
@@ -62,9 +80,9 @@ const requiredRule = (v) => !!v || t('validationRule.required');
 const reportIssue = async() => {
     try{
         await ContentApiService.post('/send-email', {
-            recipient: recipientMail,
-            subject: reportSubject,
-            body: reportText,
+            recipient: recipientMail.value,
+            subject: reportSubject.value,
+            body: reportText.value,
         })
         store.dispatch('snackbar/setSnack', {
             message: 'Email sent successfully',

@@ -152,5 +152,14 @@
     },
     "text": "This project was financially supported by the Goethe-Universität Frankfurt.",
     "code": "Code on "
+  },
+  "reportIssue": {
+    "title": "Report an Issue",
+    "subjectLabel": "Subject",
+    "subjectPlaceholder": "Enter subject line",
+    "subjectHint": "Briefly describe the nature of your report",
+    "messageLabel": "Detailed Message",
+    "messagePlaceholder": "Describe the issue in detail",
+    "messageHint": "Please include all relevant information"
   }
 }
