@@ -63,12 +63,12 @@ const employeeDataFormRef = ref(null);
 const filesUploadFormRef = ref(null);
 const tab = ref('personal');
 
-const save = async () => {
+const save = () => {
   if (tab.value === 'personal') {
-    await saveEmployeeData();
+     saveEmployeeData();
   }
   if (tab.value === 'files') {
-    await saveDocuments();
+     saveDocuments();
   }
   emit('close');
 };
