@@ -27,7 +27,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 import { useStore } from "vuex";
 import ContentApiService from "@/services/contentApiService";
 import PetitionDataDisplay from '@/components/clerk/PetitionDataDisplay.vue';
@@ -87,10 +87,60 @@ const handleApproval = async (petitionId) => {
     }
 };
 onMounted(() => {
-    if (token.value) {
-        ContentApiService.setAccessToken(token.value);
-        AuthApiService.setAccessToken(token.value);
-    }
-    fetchPetitions();
+    const initialize = async () => {
+        if (token.value) {
+            ContentApiService.setAccessToken(token.value);
+            AuthApiService.setAccessToken(token.value);
+        }
+        try {
+            //const res = await ContentApiService.get('get-me');
+            //const ID = res.data;
+            //console.log("User ID:", ID);
+            let userID = "1234"; // Replace with actual user ID
+
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+        }
+        fetchPetitions(); 
+
+        let userID = "1234"; // Replace with actual user ID
+        const socket = new WebSocket(`ws://localhost:8030/ws/${userID}`);
+        console.log("WebSocket connection established");
+
+        
+        socket.onmessage = (event) => {
+            try {
+                const message = JSON.parse(event.data); 
+                console.log("WebSocket message received:", message);
+
+                if (message.type === "new_petition" && Array.isArray(message.data)) {
+                    petitions.value = message.data;
+                } else {
+                    console.warn("Unexpected WebSocket message format:", message);
+                    petitions.value = []; 
+                }
+            } catch (error) {
+                console.error("Error parsing WebSocket message:", error);
+                petitions.value = []; 
+            }
+        };
+
+        // Handle WebSocket errors
+        socket.onerror = (error) => {
+            console.error("WebSocket error:", error);
+            store.dispatch("snackbar/setErrorSnacks", {
+                message: "WebSocket connection error"
+            });
+        };
+
+        // Clean up WebSocket connection when the component is unmounted
+        onUnmounted(() => {
+            if (socket) {
+                socket.close();
+            }
+        });
+    };
+
+    initialize(); 
 });
 </script>
