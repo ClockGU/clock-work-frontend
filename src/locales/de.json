@@ -156,12 +156,22 @@
     "code": "Code auf "
   },
   "reportIssue": {
+     "studentSubjects": {
+      "changeDates": "Antrag auf Änderung des Start-/Enddatums",
+      "changeHours": "Antrag auf Änderung der Arbeitszeiten",
+      "exceptionHours": "Antrag auf Ausnahme von den Arbeitszeiten",
+      "others": "Anderes"
+    },
+    "clerkSubjects": {
+      "missingDocuments": "Aufforderung zur Nachreichung fehlender Dokumente",
+      "incorrectDocuments": "Antrag auf Änderung falscher Dokumente",
+      "incorrectData": "Antrag auf Korrektur persönlicher Daten",
+      "others": "Sonstiges"
+    },
     "title": "Problem melden",
     "subjectLabel": "Betreff",
     "subjectPlaceholder": "Betreff eingeben",
-    "subjectHint": "Kurze Beschreibung des Problems",
     "messageLabel": "Detaillierte Nachricht",
-    "messagePlaceholder": "Beschreiben Sie das Problem im Detail",
-    "messageHint": "Bitte geben Sie alle relevanten Informationen an"
+    "messagePlaceholder": "Beschreiben Sie das Problem im Detail"
   }
 }

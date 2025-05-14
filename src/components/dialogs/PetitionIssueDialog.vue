@@ -6,22 +6,21 @@
         <v-card-text>
           <v-form ref="form" v-model="isValid">
             <span class="text-subtitle-1 ml-10">{{ $t('reportIssue.subjectLabel') }}</span>
-            <v-text-field
+            <v-select
               v-model="reportSubject"
               :rules="[requiredRule]"
-              :placeholder="$t('reportIssue.subjectPlaceholder')"
-              :hint="$t('reportIssue.subjectHint')"
+              :items="user.user_role === 0 ? studentSubjects : clerkSubjects"
+              :label="$t('reportIssue.subjectPlaceholder')"
               class="mb-4"
               clearable
               :prepend-icon="icons.mdiEmailOutline"
-            ></v-text-field>
+            ></v-select>
 
             <span class="text-subtitle-1 ml-10">{{ $t('reportIssue.messageLabel') }}</span>
           <v-textarea
             v-model="reportText"
             :rules="[requiredRule]"
             :placeholder="$t('reportIssue.messagePlaceholder')"
-            :hint="$t('reportIssue.messageHint')"
             rows="6"
             auto-grow
             clearable
@@ -76,7 +75,18 @@ const recipientMail = computed(() => {
     return user.value.user_role === 2 ? props.petition.student_mail : props.petition.supervisor_mail;
 });
 const requiredRule = (v) => !!v || t('validationRule.required');
-
+const studentSubjects=[
+   t('reportIssue.studentSubjects.changeDates'),
+   t('reportIssue.studentSubjects.changeHours'),   
+   t('reportIssue.studentSubjects.exceptionHours'),   
+   t('reportIssue.studentSubjects.others')
+]
+const clerkSubjects=[
+   t('reportIssue.clerkSubjects.missingDocuments'),
+   t('reportIssue.clerkSubjects.incorrectDocuments'),
+   t('reportIssue.clerkSubjects.incorrectData'),
+   t('reportIssue.clerkSubjects.others')
+]
 const reportIssue = async() => {
     try{
         await ContentApiService.post('/send-email', {

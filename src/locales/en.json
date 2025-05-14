@@ -154,12 +154,22 @@
     "code": "Code on "
   },
   "reportIssue": {
+    "studentSubjects": {
+      "changeDates": "Request changing start/end date",
+      "changeHours": "Request changing working hours",
+      "exceptionHours": "Request an exception to the working hours",
+      "others": "Others"
+    },
+    "clerkSubjects": {
+      "missingDocuments": "Request uploading missing documents",
+      "incorrectDocuments": "Request changing incorrect documents",
+      "incorrectData": "Request correcting personal data",
+      "others": "Others"
+    },
     "title": "Report an Issue",
     "subjectLabel": "Subject",
     "subjectPlaceholder": "Enter subject line",
-    "subjectHint": "Briefly describe the nature of your report",
     "messageLabel": "Detailed Message",
-    "messagePlaceholder": "Describe the issue in detail",
-    "messageHint": "Please include all relevant information"
+    "messagePlaceholder": "Describe the issue in detail"
   }
 }
