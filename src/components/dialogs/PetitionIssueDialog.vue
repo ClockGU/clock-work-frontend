@@ -9,7 +9,7 @@
             <v-select
               v-model="reportSubject"
               :rules="[requiredRule]"
-              :items="user.user_role === 0 ? studentSubjects : clerkSubjects"
+              :items="subjects"
               :label="$t('reportIssue.subjectPlaceholder')"
               class="mb-4"
               clearable
@@ -49,7 +49,6 @@ import {useStore } from 'vuex';
 import ContentApiService from '@/services/contentApiService.js';
 import {mdiEmailOutline,mdiMessageTextOutline} from '@mdi/js';
 
-
 const props = defineProps({
     petition: {
         type: Object,
@@ -57,24 +56,13 @@ const props = defineProps({
     }
 });
 const emit = defineEmits(['close']);
+const { t } = useI18n();
+const store = useStore();
 
 const icons = {
   mdiEmailOutline,
   mdiMessageTextOutline,
 };
-
-const { t } = useI18n();
-const store = useStore();
-
-const isValid = ref(false);
-const reportSubject = ref('');
-const reportText = ref('');
-
-const user = computed(() => store.getters['auth/user']);
-const recipientMail = computed(() => {
-    return user.value.user_role === 2 ? props.petition.student_mail : props.petition.supervisor_mail;
-});
-const requiredRule = (v) => !!v || t('validationRule.required');
 const studentSubjects=[
    t('reportIssue.studentSubjects.changeDates'),
    t('reportIssue.studentSubjects.changeHours'),   
@@ -87,6 +75,24 @@ const clerkSubjects=[
    t('reportIssue.clerkSubjects.incorrectData'),
    t('reportIssue.clerkSubjects.others')
 ]
+const requiredRule = (v) => !!v || t('validationRule.required');
+
+const isValid = ref(false);
+const reportSubject = ref('');
+const reportText = ref('');
+
+const userRole = computed(() => store.getters['auth/userRole']);
+const recipientMail = computed(() => {
+    return userRole.value === 2 ? props.petition.student_mail : props.petition.supervisor_mail;
+});
+const subjects = computed(()=> {
+    if (userRole.value === 0) {
+        return studentSubjects;
+    } else if (userRole.value === 2) {
+        return clerkSubjects;
+    }
+});
+
 const reportIssue = async() => {
     try{
         await ContentApiService.post('/send-email', {

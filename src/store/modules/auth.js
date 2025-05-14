@@ -21,6 +21,7 @@ const getters = {
   accessToken: (state) => state.accessToken,
   refreshToken: (state) => state.refreshToken,
   user: (state) => state.user,
+  userRole: (state) => state.user.user_role,
   isLoggedIn: (state) => state.user !== undefined,
   loginError: (state) => state.loginError,
   isRoleSelected:(state) => state.isRoleSelected

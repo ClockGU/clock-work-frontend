@@ -148,8 +148,7 @@ const store=useStore()
 const showDeleteConfirmationDialog = ref(false);
 const showPetitionIssueDialog = ref(false);
 const showPetitionFormDialog = ref(false);
-const userRole = computed(()=>store.getters['auth/user'].user_role);
-
+const userRole = computed(()=>store.getters['auth/userRole']);
 
 const formatKey = (key) => {
   return key
