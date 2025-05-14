@@ -171,6 +171,7 @@
 <script setup>
 import { ref,onMounted } from 'vue';
 import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
 import { mdiAccount, mdiGenderMaleFemale, mdiCity, mdiHomeMapMarker, mdiNumeric, mdiFlag, mdiPhone, mdiHospital, mdiBank, mdiCalendar, mdiClock, mdiAccountBox } from '@mdi/js';
 import ContentApiService from '@/services/contentApiService';
 
@@ -190,7 +191,7 @@ const icons = {
 };
 
 const store = useStore();
-
+const { t } = useI18n();
 const initialFormData = {
   id: '',
   first_name: '',
@@ -222,7 +223,7 @@ const fetchEmployeeData = async () => {
       if (error.response?.status !== 404) {
         console.error('Error fetching employee data:', error);
         store.dispatch('snackbar/setErrorSnacks', {
-          message: 'Error fetching employee data',
+          message: t("errors.studentData.fetchingData"),
         });
       }
     }

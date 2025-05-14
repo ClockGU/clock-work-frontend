@@ -42,8 +42,10 @@
 import { ref, computed, onMounted } from 'vue';
 import ContentApiService from '@/services/contentApiService';
 import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
 
 const store = useStore();
+const {t} = useI18n
 const files = ref({
   elstam: [],
   studienbescheinigung: [],
@@ -80,7 +82,9 @@ const fetchDocuments = async () => {
   } catch (error) {
     if (error.response?.status !== 404) {
       console.error('Error fetching documents:', error);
-      store.dispatch('snackbar/setErrorSnacks', { message: 'Error fetching documents' });
+      store.dispatch('snackbar/setErrorSnacks', { 
+        message: t("errors.studentData.fetchingDocs"),
+      });
     }
   }  
 };

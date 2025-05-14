@@ -101,13 +101,13 @@ const reportIssue = async() => {
             body: reportText.value,
         })
         store.dispatch('snackbar/setSnack', {
-            message: 'Email sent successfully',
+            message: t("reportIssue.success"),
         });
     }
     catch(error){
         console.error('Error sending email',error);
         store.dispatch('snackbar/setErrorSnacks', {
-            message:'Error sending email',
+            message:t("errors.petitionIssueDialog.sendingEmail"),
         });
     } 
     finally{

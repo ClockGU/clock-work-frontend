@@ -170,6 +170,33 @@
     "subjectLabel": "Subject",
     "subjectPlaceholder": "Enter subject line",
     "messageLabel": "Detailed Message",
-    "messagePlaceholder": "Describe the issue in detail"
+    "messagePlaceholder": "Describe the issue in detail",
+    "success":"Email sent successfully"
+  },
+  "errors":{
+    "uploadedFilesClerk":{
+      "loadingDocs":"Error loading documents",
+      "fetchingDocs":"Error fetching documents",
+      "pdfRender":"Error rendering PDF"
+    },
+    "petitionFormDialog":{
+      "submission":"Error submitting petition.Please try again ",
+      "saving":"Error saving petition.Please try again "
+    },
+    "petitionIssueDialog":{
+      "sendingEmail": "Error sending email"
+    },
+    "studentData":{
+      "savingData":"Error saving employee data",
+      "savingFiles":"Error saving files",
+      "fetchingData":"Error fetching employee data",
+      "fetchingDocs":  "Error fetching documents"
+    },
+    "petition":{
+      "deletion": "Error deleting the petition",
+      "fetching": "Error fetching petitions",
+      "rejection": "petition could not be rejected",
+      "approval": "petition could not be approved"
+    }
   }
 }

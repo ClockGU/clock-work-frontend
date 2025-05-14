@@ -226,7 +226,7 @@ const deletePetition = async () => {
   } catch (error) {
     console.error("Error deleting petition:", error);
     store.dispatch("snackbar/setErrorSnacks", {
-        message: "Error deleting the petition",
+        message: t("errors.petition.deletion"),
       });
   }finally {
     showDeleteConfirmationDialog.value = false;

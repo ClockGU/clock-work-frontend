@@ -56,9 +56,12 @@
 import { ref, computed } from 'vue';
 import ContentApiService from '@/services/contentApiService';
 import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
 
 const emit = defineEmits(['close']);
 const store = useStore();
+const {t} = useI18n();
+
 const employeeDataFormRef = ref(null);
 const filesUploadFormRef = ref(null);
 const tab = ref('personal');
@@ -79,7 +82,7 @@ const saveEmployeeData = async () => {
   } catch (error) {
     console.error('Error saving employee data:', error);
     store.dispatch('snackbar/setErrorSnacks', {
-      message: 'Error saving employee data',
+      message: t('errors.studentData.savingData'),
     });
   }
 };
@@ -97,7 +100,9 @@ const saveDocuments = async () => {
     await filesUploadFormRef.value.fetchDocuments();
   } catch (error) {
     console.error('Error saving files:', error);
-    store.dispatch('snackbar/setErrorSnacks', { message: 'Error saving files' });
+    store.dispatch('snackbar/setErrorSnacks', { 
+      message: t('errors.studentData.savingFiles'),
+    });
   }
 };
 

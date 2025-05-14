@@ -124,7 +124,7 @@ const loadPdfDocument = async (type, url) => {
     documents.value = {}
     pdfErrors.value[type] = true
     store.dispatch('snackbar/setErrorSnacks', {
-      message: "Error loading documents"
+      message: t("errors.uploadedFilesClerk.loadingDocs")
     })
   } finally {
     loadingStates.value[type] = false
@@ -139,7 +139,7 @@ const retryLoad = (type) => {
 const handlePdfError = (error, type) => {
   console.error('PDF render error:', error)
   store.dispatch('snackbar/setErrorSnacks', {
-      message: "Error rendering PDF document"
+      message: t("errors.uploadedFilesClerk.pdfRender")
     })
   documents.value = {}
   pdfErrors.value[type] = true
@@ -177,7 +177,7 @@ const fetchDocuments = async () => {
     console.error("Document fetch failed:", error)
     documents.value = {}
     store.dispatch('snackbar/setErrorSnacks', {
-      message: "Error fetching documents"
+      message: t("errors.uploadedFilesClerk.fetchingDocs")
     })
   }
 } 

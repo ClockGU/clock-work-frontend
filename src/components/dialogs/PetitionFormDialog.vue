@@ -39,6 +39,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
 import PetitionForm from '@/components/forms/PetitionForm.vue';
 import CustomDialog from '@/components/dialogs/CustomDialog.vue';
 import ContentApiService from "@/services/contentApiService";
@@ -54,6 +55,7 @@ const props = defineProps({
 
 const emit = defineEmits(['close','refresh']);
 const store = useStore();
+const {t} = useI18n();
 const petitionFormRef = ref(null);
 
 const userRole = computed(() => store.getters['auth/user'].user_role);
@@ -73,7 +75,7 @@ const submit = async () => {
     } catch (error) {
       console.error('Failed to submit petition:', error);
       store.dispatch('snackbar/setErrorSnacks', {
-        message: 'Failed to submit petition. Please try again.',
+        message: t("errors.petitionFormDialog.submission"),
       });
     }
     finally {
@@ -97,7 +99,7 @@ const save = async () => {
     } catch (error) {
       console.error('Failed to update petition:', error);
       store.dispatch('snackbar/setErrorSnacks', {
-        message: 'Failed to update petition. Please try again.',
+        message: t("errors.petitionFormDialog.saving"),
       });
     }
     finally {

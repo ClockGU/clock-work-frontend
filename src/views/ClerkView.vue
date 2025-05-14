@@ -30,12 +30,14 @@
 <script setup>
 import { computed, onMounted, ref } from "vue";
 import { useStore } from "vuex";
+import { useI18n } from "vue-i18n";
 import ContentApiService from "@/services/contentApiService";
 import PetitionDataDisplay from '@/components/clerk/PetitionDataDisplay.vue';
 import ClerkPetitionTable from "@/components/tables/ClerkPetitionTable.vue";
 import AuthApiService from "@/services/authApiService";
 
 const store = useStore();
+const {t} = useI18n
 const selectedPetition = ref(null);
 const petitions = ref([]);
 const token = computed(() => store.getters["auth/accessToken"]);
@@ -47,7 +49,7 @@ const fetchPetitions = async () => {
     } catch (error) {
         console.error("Error fetching petitions:", error);
         store.dispatch("snackbar/setErrorSnacks", {
-            message: "Error fetching petitions"
+            message: t("errors.petition.fetching")
         });
     }
 };
@@ -65,9 +67,9 @@ const handleRejection = async (petitionId) => {
         })
         fetchPetitions();
     } catch (error) {
-        console.error("Error declining petition:", error);
+        console.error("Error rejecting petition:", error);
         store.dispatch("snackbar/setErrorSnacks", {
-            message: "Error declining petition"
+            message: t("errors.petition.rejection")
         });
     }
 };
@@ -83,7 +85,7 @@ const handleApproval = async (petitionId) => {
     } catch (error) {
         console.error("Error accepting petition:", error);
         store.dispatch("snackbar/setErrorSnacks", {
-            message: "Error accepting petition"
+            message: t("errors.petition.approval")
         });
     }
 };

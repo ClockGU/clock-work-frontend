@@ -28,8 +28,10 @@ import OverviewCard from "@/components/dashboard/OverviewCard.vue";
 import { ref,computed, onMounted } from 'vue';
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
+import { useI18n } from "vue-i18n";
 
 const store = useStore();
+const { t } = useI18n();
 const route = useRoute();
 const role = route.params.role; // Get the role from the route
 
@@ -60,7 +62,7 @@ const fetchPetitions =async () => {
   if(err.response?.status !== 404){
   console.error("Error fetching petitions:", err);
   store.dispatch("snackbar/setErrorSnacks", {
-      message: "Error fetching petitions",
+      message: t("errors.petition.fetching")
    });
   }
  } finally {
