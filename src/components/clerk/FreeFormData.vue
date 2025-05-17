@@ -9,9 +9,14 @@
             :petition="petition"
             @close="emit('close')"
             @refresh="handleRefresh"            />
-            <p v-else class="mt-4 ml-1 text-subtitle-1 text-medium-emphasis" role="status" aria-live="polite">
-            {{ $t('editCard.noPetitionSelected') }}
-            </p>
+            <!-- Placeholder when no petition is selected -->
+            <v-alert v-else 
+                type="info"
+                variant="tonal"
+                density="comfortable"
+            >
+                {{ $t('editCard.noPetitionSelected') }}
+            </v-alert>
         </v-card-text>
     </v-card>
 </template>

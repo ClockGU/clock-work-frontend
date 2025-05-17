@@ -30,7 +30,6 @@
       <v-alert v-else 
         type="info"
         variant="tonal"
-        color="blue-darken-3"
         density="comfortable"
       >
         {{ $t('editCard.noPetitionSelected') }}

@@ -33,12 +33,12 @@ export default createVuetify({
         dark: false,
         colors: {
           accent: "#82B1FF",
-          error: "#FF5252",
-          info: "#2196F3",
+          error: "#C62828", //red-darken-3
+          info: "#1565C0", //blue-darken-3
           primary: "#1976D2",
           secondary: "#424242",
-          success: "#4CAF50",
-          warning: "#FB8C00",
+          success: "#2E7D32", //green-darken-3
+          warning: "#FFAB00",//amber-accent-4
           footerPrimary: "#0064BAFF",
           footerSecondary: "#51B0FFFF"
         }

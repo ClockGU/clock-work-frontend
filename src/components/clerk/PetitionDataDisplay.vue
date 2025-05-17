@@ -22,7 +22,7 @@
                 </v-col>
             </v-row>
             <div class="d-flex flex-columns justify-space-around mt-6">
-                <v-btn color="error" size="large" class="px-10" @click="reject">
+                <v-btn color="error" size="large" class="px-10 " @click="reject">
                     {{ $t('petitionDataDisplay.btn.reject') }}
                 </v-btn>
                 <v-btn color="success" size="large" class="px-10" @click="approve">
