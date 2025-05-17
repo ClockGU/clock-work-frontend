@@ -30,6 +30,7 @@
       <v-alert v-else 
         type="info"
         variant="tonal"
+        color="blue-darken-3"
         density="comfortable"
       >
         {{ $t('editCard.noPetitionSelected') }}
@@ -38,7 +39,6 @@
       <!-- Dialogs -->
       <PetitionFormDialog
         v-model="showPetitionForm"
-        :role="role"
         :petition="selectedPetition"
         @close="showPetitionForm = false"
         @refresh="refresh"

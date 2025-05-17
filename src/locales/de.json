@@ -147,13 +147,21 @@
     "endDateAfterStart": "Enddatum muss nach dem Startdatum liegen",
     "eosNumber": "Muss eine 5-stellige Zahl sein"
   },
-  "appFooter": {
+  "footer": {
     "links": {
       "Datenschutz": "Datenschutz",
       "Impressum": "Impressum"
     },
-    "text": "Dieses Projekt wurde finanziell von der Goethe-Universität Frankfurt unterstützt.",
-    "code": "Code auf "
+    "acknowledgeGU": {
+      "text": "Dieses Projekt wurde mit finanzieller Unterstützung der {link} entwickelt.",
+      "university": "Goethe-Universität Frankfurt",
+      "url": "https://www.uni-frankfurt.de/"
+    },
+    "github_repo": {
+      "text": "Code auf {link} ansehen.",
+      "github": "Github",
+      "url": "https://github.com/ClockGU"
+    }
   },
   "reportIssue": {
      "studentSubjects": {

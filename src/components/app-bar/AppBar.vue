@@ -50,7 +50,7 @@
               <div class="d-flex align-center">  
                 <v-avatar  
                   size="30px"  
-                  color="blue-lighten-2"  
+                  color="blue-darken-2"  
                   style="cursor: pointer"  
                   class="mr-2"  
                 >  
