@@ -6,6 +6,8 @@
   "searchBy": "Search by",
   "overview": "Overview",
   "download": "Download",
+  "supervisor": "Supervisor",
+  "student": "Student",
   "app": {
     "loggingin": "Logging in...",
     "loading": "Loading..."

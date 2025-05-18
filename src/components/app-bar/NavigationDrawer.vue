@@ -15,7 +15,7 @@
             @click="navigate"
             @keypress.enter="navigate"
           >
-            <v-img width="240px" height="36px" :src="imgSrc" />
+            <v-img width="240px" height="36px" :src="svg" alt="clock Logo" />
           </span>
         </router-link>
       </v-row>
@@ -103,7 +103,6 @@
   });
   const emit = defineEmits(["closeDrawer"]);
 
-  const imgSrc =  svg;
   const icons = {
     mdiAccountCog,
     mdiCalendar,

@@ -25,7 +25,7 @@
               width="96px"  
               height="32px"  
               :src="imgSrc"  
-              :alt="'clockLogo'"  
+              :alt="'clock Logo'"  
             />  
           </span>  
         </router-link>  

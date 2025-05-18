@@ -38,7 +38,7 @@ export default createVuetify({
           primary: "#1976D2",
           secondary: "#424242",
           success: "#2E7D32", //green-darken-3
-          warning: "#FFAB00",//amber-accent-4
+          warning: "#FF9800",//amber-accent-4
           footerPrimary: "#0064BAFF",
           footerSecondary: "#51B0FFFF"
         }

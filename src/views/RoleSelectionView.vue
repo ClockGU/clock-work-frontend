@@ -10,15 +10,17 @@
             :title="$t('roleSelectionView.supervisorTitle')"  
             :description="$t('roleSelectionView.supervisorDescription')"  
             :imgSrc="SupervisorImg" 
+            :imgAlt="$t('supervisor')"
             @click="redirectToDashboard('supervisor')"
           />  
         </v-col>  
         <v-col>  
-          <RoleCardButton  
+          <RoleCardButton
+            role="student"  
             :title="$t('roleSelectionView.studentTitle')"  
             :description="$t('roleSelectionView.studentDescription')"  
-            role="student" 
-            :imgSrc="StudentImg"  
+            :imgSrc="StudentImg" 
+            :imgAlt="$t('student')"
             @click="redirectToDashboard('student')"
           />  
         </v-col>  
@@ -42,7 +44,7 @@
 
   const redirectToDashboard = async (role) => {
   try {
-    const roleValue = role === "supervisor" ? 2 : 0;
+    const roleValue = role === "supervisor" ? 1 : 0;
     await AuthApiService.updateUser({ user_role: roleValue },user.value.id)
     const updatedUser = { 
       ...user.value, 

@@ -6,6 +6,8 @@
   "search": "Suchen",
   "searchBy": "Suche nach",
   "download": "Herunterladen",
+   "supervisor": "Betreuer",
+  "student": "Student",
   "app": {
     "loggingin": "Anmeldung...",
     "loading": "Wird geladen..."
