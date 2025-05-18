@@ -213,11 +213,16 @@
 </template>
 
 <script setup>
-import { ref, watch} from 'vue';
+import { computed, ref, watch} from 'vue';
 import { mdiAccount, mdiEmail, mdiOfficeBuilding, mdiNumeric, mdiSchool,mdiCalendar, mdiClock, mdiCurrencyUsd } from '@mdi/js';
 import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
 
 const {t}= useI18n();
+const store = useStore();
+const user= computed(() => store.getters['auth/user']);
+const supervisorMail=computed(() =>user.value.user_role===1? user.value.email:"");
+
 const icons = {
   mdiAccount,
   mdiEmail,
@@ -242,7 +247,7 @@ const degreeOptions =[
 ]
 
 const initialFormData = {
-  supervisor_mail: '',
+  supervisor_mail: supervisorMail,
   student_mail: '',
   start_date: '',
   end_date: '',
@@ -265,6 +270,7 @@ const initialFormData = {
 
 const formData = ref({ ...initialFormData });
 const isFormValid = ref(false);
+
 
 // Populate form data when petition prop changes
 watch(() => props.petition, (newPetition) => {
