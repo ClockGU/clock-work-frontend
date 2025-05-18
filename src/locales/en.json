@@ -99,7 +99,6 @@
   "petition": {
     "id": "Petition ID",
     "status": "Status",
-    "petitioneer": "Petitioneer",
     "supervisorMail": "Supervisor Mail",
     "studentMail": "Student Mail",
     "orgUnit": "Org Unit",

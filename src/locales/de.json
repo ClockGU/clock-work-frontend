@@ -99,7 +99,6 @@
   "petition": {
     "id": "Antrags-ID",
     "status": "Status",
-    "petitioneer": "Antragsteller",
     "supervisorMail": "Antragsteller-Mail",
     "studentMail": "Studenten-Mail",
     "orgUnit": "Organisationseinheit",

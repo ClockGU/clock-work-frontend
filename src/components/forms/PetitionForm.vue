@@ -2,15 +2,15 @@
   <v-form ref="form" v-model="isFormValid">
     <v-row>
       <v-col cols="12" md="6">
-        <label for="petitioneer">{{ $t('petition.petitioneer') }}</label>
+        <label for="supervisorMail">{{ $t('petition.supervisorMail') }}</label>
         <v-text-field
-          id="petitioneer"
-          v-model="formData.petitioneer"
+          id="supervisorMail"
+          v-model="formData.supervisor_mail"
           outlined
           dense
           disabled
           :prepend-icon="icons.mdiAccount"
-          :aria-label="$t('petition.petitioneer')"
+          :aria-label="$t('petition.supervisorMail')"
         />
       </v-col>
       <v-col cols="12" md="6">
@@ -242,7 +242,7 @@ const degreeOptions =[
 ]
 
 const initialFormData = {
-  petitioneer: '',
+  supervisor_mail: '',
   student_mail: '',
   start_date: '',
   end_date: '',
