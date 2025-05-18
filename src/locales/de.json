@@ -186,29 +186,29 @@
     "success": "E-Mail erfolgreich gesendet"
   },
   "errors": {
-  "uploadedFilesClerk": {
-    "loadingDocs": "Fehler beim Laden der Dokumente",
-    "fetchingDocs": "Fehler beim Abrufen der Dokumente",
-    "pdfRender": "Fehler beim Darstellen der PDF"
-  },
-  "petitionFormDialog": {
-    "submission": "Fehler beim Einreichen der Anfrage. Bitte versuchen Sie es erneut",
-    "saving": "Fehler beim Speichern der Anfrage. Bitte versuchen Sie es erneut"
-  },
-  "petitionIssueDialog": {
-    "sendingEmail": "Fehler beim Senden der E-Mail"
-  },
-  "studentData": {
-    "savingData": "Fehler beim Speichern der Mitarbeiterdaten",
-    "savingFiles": "Fehler beim Speichern der Dateien",
-    "fetchingData": "Fehler beim Abrufen der Mitarbeiterdaten",
-    "fetchingDocs": "Fehler beim Abrufen der Dokumente"
-  },
-  "petition": {
-    "deletion": "Fehler beim Löschen der Anfrage",
-    "fetching": "Fehler beim Abrufen der Anfragen",
-    "rejection": "Anfrage konnte nicht abgelehnt werden",
-    "approval": "Anfrage konnte nicht genehmigt werden"
+    "uploadedFilesClerk": {
+      "loadingDocs": "Fehler beim Laden der Dokumente",
+      "fetchingDocs": "Fehler beim Abrufen der Dokumente",
+      "pdfRender": "Fehler beim Darstellen der PDF"
+    },
+    "petitionFormDialog": {
+      "submission": "Fehler beim Einreichen der Anfrage. Bitte versuchen Sie es erneut",
+      "saving": "Fehler beim Speichern der Anfrage. Bitte versuchen Sie es erneut"
+    },
+    "petitionIssueDialog": {
+      "sendingEmail": "Fehler beim Senden der E-Mail"
+    },
+    "studentData": {
+      "savingData": "Fehler beim Speichern der Mitarbeiterdaten",
+      "savingFiles": "Fehler beim Speichern der Dateien",
+      "fetchingData": "Fehler beim Abrufen der Mitarbeiterdaten",
+      "fetchingDocs": "Fehler beim Abrufen der Dokumente"
+    },
+    "petition": {
+      "deletion": "Fehler beim Löschen der Anfrage",
+      "fetching": "Fehler beim Abrufen der Anfragen",
+      "rejection": "Anfrage konnte nicht abgelehnt werden",
+      "approval": "Anfrage konnte nicht genehmigt werden"
+    }
   }
-}
 }

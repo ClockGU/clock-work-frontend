@@ -5,8 +5,12 @@
       <template #content>
         <v-card-text>
           <v-form ref="form" v-model="isValid">
-            <span class="text-subtitle-1 ml-10">{{ $t('reportIssue.subjectLabel') }}</span>
+            <label  for="reportSubject "
+                    class="text-subtitle-1 font-weight-medium ml-10"
+                    >{{ $t('reportIssue.subjectLabel') }}
+            </label>
             <v-select
+              id="reportSubject"
               v-model="reportSubject"
               :rules="[requiredRule]"
               :items="subjects"
@@ -16,18 +20,22 @@
               :prepend-icon="icons.mdiEmailOutline"
             ></v-select>
 
-            <span class="text-subtitle-1 ml-10">{{ $t('reportIssue.messageLabel') }}</span>
-          <v-textarea
-            v-model="reportText"
-            :rules="[requiredRule]"
-            :placeholder="$t('reportIssue.messagePlaceholder')"
-            rows="6"
-            auto-grow
-            clearable
-            :prepend-icon="icons.mdiMessageTextOutline"
-            counter
-            :maxlength="500"
-          ></v-textarea>
+            <label for="reportText" 
+              class="text-subtitle-1 font-weight-medium ml-10"
+              >{{ $t('reportIssue.messageLabel') }}
+            </label>
+            <v-textarea
+              id="reportText"
+              v-model="reportText"
+              :rules="[requiredRule]"
+              :placeholder="$t('reportIssue.messagePlaceholder')"
+              rows="6"
+              auto-grow
+              clearable
+              :prepend-icon="icons.mdiMessageTextOutline"
+              counter
+              :maxlength="500"
+            ></v-textarea>
           </v-form>
         </v-card-text>
         </template>
