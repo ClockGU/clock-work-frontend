@@ -137,7 +137,7 @@
           @update:model-value="handleTimeExceptionChange"
         />
         <div v-if="formData.time_exce_course" class="mx-4">
-          <label for="timeExceName">{{ $t('petition.timeExceName') }}</label>
+          <label for="timeExceName" class="ml-0">{{ $t('petition.timeExceName') }}</label>
           <v-text-field
             id="timeExceName"
             v-model="formData.time_exce_name"
@@ -146,7 +146,7 @@
             :aria-label="$t('petition.timeExceName')"
             :rules="[requiredRule]"
           />
-          <label for="timeExceStart">{{ $t('petition.timeExceStart') }}</label>
+          <label for="timeExceStart" class="ml-0">{{ $t('petition.timeExceStart') }}</label>
           <v-text-field
             id="timeExceStart"
             v-model="formData.time_exce_start"
@@ -156,7 +156,7 @@
             :aria-label="$t('petition.timeExceStart')"
             :rules="[requiredRule]"
           />
-          <label for="timeExceEnd">{{ $t('petition.timeExceEnd') }}</label>
+          <label for="timeExceEnd" class="ml-0">{{ $t('petition.timeExceEnd') }}</label>
           <v-text-field
             id="timeExceEnd"
             v-model="formData.time_exce_end"
@@ -177,7 +177,7 @@
           @update:model-value="handleDurationExceptionChange"
         />
         <div v-if="formData.duration_exce_course" class="mx-4">
-          <label for="durationExceName">{{ $t('petition.durationExceName') }}</label>
+          <label for="durationExceName" class="ml-0">{{ $t('petition.durationExceName') }}</label>
           <v-text-field
             id="durationExceName"
             v-model="formData.duration_exce_name"
@@ -186,7 +186,7 @@
             :aria-label="$t('petition.durationExceName')"
             :rules="[requiredRule]"
           />
-          <label for="durationExceStart">{{ $t('petition.durationExceStart') }}</label>
+          <label for="durationExceStart" class="ml-0">{{ $t('petition.durationExceStart') }}</label>
           <v-text-field
             id="durationExceStart"
             v-model="formData.duration_exce_start"
@@ -196,7 +196,7 @@
             :aria-label="$t('petition.durationExceStart')"
             :rules="[requiredRule]"
           />
-          <label for="durationExceEnd">{{ $t('petition.durationExceEnd') }}</label>
+          <label for="durationExceEnd" class="ml-0">{{ $t('petition.durationExceEnd') }}</label>
           <v-text-field
             id="durationExceEnd"
             v-model="formData.duration_exce_end"

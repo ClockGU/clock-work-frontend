@@ -116,7 +116,8 @@
     "durationExceCourse": "Dauerabweichung",
     "durationExceName": "Name der Dauerabweichung",
     "durationExceStart": "Startdatum der Dauerabweichung",
-    "durationExceEnd": "Enddatum der Dauerabweichung"
+    "durationExceEnd": "Enddatum der Dauerabweichung",
+    "durationException": "Dauerabweichung"
   },
   "petitionDataDisplay": {
     "title": "Petitionsdaten Anzeige",

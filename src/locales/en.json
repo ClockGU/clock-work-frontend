@@ -116,7 +116,8 @@
     "durationExceCourse": "Duration Exception",
     "durationExceName": "Duration Exception Name",
     "durationExceStart": "Duration Exception Start Date",
-    "durationExceEnd": "Duration Exception End Date"
+    "durationExceEnd": "Duration Exception End Date",
+    "durationException": "Duration Exception"
   },
   "petitionDataDisplay":{
     "title": "Petition Data Display",
