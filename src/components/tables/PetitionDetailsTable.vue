@@ -88,15 +88,13 @@
     class="styled-table mb-4"
     density="comfortable"
     hover
-    role="table"
     :aria-label="$t('petitionDetailsTable.title')"
   >
     <thead>
-      <tr role="row">
+      <tr>
         <th
           class="key-column"
           scope="col"
-          role="columnheader"
           :aria-label="$t('petitionDetailsTable.headers.petitionField')"
         >
           {{ $t('petitionDetailsTable.headers.petitionField') }}
@@ -104,23 +102,21 @@
         <th
           class="value-column"
           scope="col"
-          role="columnheader"
           :aria-label="$t('petitionDetailsTable.headers.value')"
         >
           {{ $t('petitionDetailsTable.headers.value') }}
         </th>
       </tr>
     </thead>
-    <tbody role="rowgroup">
+    <tbody >
       <tr
         v-for="key in getOrderedFields(petition)"
         :key="key"
-        role="row"
       >
-        <td class="key-cell" role="cell">
+        <td class="key-cell">
           {{ $t(`petition.${formatKey(key)}`) || key }}
         </td>
-        <td class="value-cell" role="cell">
+        <td class="value-cell">
           {{ formatValue(petition[key]) }}
         </td>
       </tr>
