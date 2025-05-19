@@ -2,35 +2,41 @@
   <v-form v-model="isFormValid">
     <v-row>
       <v-col cols="12">
+        <label for="elstam">{{ $t('filesUploadForm.elstam') }}</label>
         <v-file-input
+          id="elstam"
           v-model="files.elstam"
           outlined
           dense
           show-size
-          persistent-hint="true"
-          :label="$t('filesUploadForm.elstam')"
+          persistent-hint
+          :aria-label="$t('filesUploadForm.elstam')"
           :hint="fileUrl('elstam')"
         />
       </v-col>
       <v-col cols="12">
+        <label for="studienbescheinigung">{{ $t('filesUploadForm.studienbescheinigung') }}</label>
         <v-file-input
+          id="studienbescheinigung"
           v-model="files.studienbescheinigung"
           outlined
           dense
           show-size
-          persistent-hint="true"
-          :label="$t('filesUploadForm.studienbescheinigung')"
+          persistent-hint
+          :aria-label="$t('filesUploadForm.studienbescheinigung')"
           :hint="fileUrl('studienbescheinigung')"
         />
       </v-col>
       <v-col cols="12">
+        <label for="versicherungsbescheinigung">{{ $t('filesUploadForm.versicherungsbescheinigung') }}</label>
         <v-file-input
+          id="versicherungsbescheinigung"
           v-model="files.versicherungsbescheinigung"
           outlined
           dense
           show-size
-          persistent-hint="true"
-          :label="$t('filesUploadForm.versicherungsbescheinigung')"
+          persistent-hint
+          :aria-label="$t('filesUploadForm.versicherungsbescheinigung')"
           :hint="fileUrl('versicherungsbescheinigung')"
         />
       </v-col>
@@ -97,3 +103,10 @@ defineExpose({
   fetchDocuments
 });
 </script>
+<style scoped>
+label {
+  font-weight: 500;
+  font-size: 1rem; 
+  margin-left: 2.5rem; 
+}
+</style>

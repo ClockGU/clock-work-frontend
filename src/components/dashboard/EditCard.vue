@@ -9,7 +9,8 @@
         color="primary"
         class="mb-4"
         :aria-label="$t('editCard.openFormDialog')"
-        @click="role === 'supervisor' ? openNewPetitionDialog() : openStudentDialog()"
+        @click="showDialog = true"
+        @keydown.enter="showDialog = true"
       >
         {{ role === "supervisor" ? $t("editCard.supervisorTitle") : $t("editCard.studentTitle") }}
       </v-btn>
@@ -21,7 +22,6 @@
           :role="role"
           :aria-label="$t('editCard.petitionDetailsTable')"
           @close="selectPetition(null)"
-          @edit="openEditDialog"
           @refresh="refresh"
         />
       </div>
@@ -35,18 +35,18 @@
         {{ $t('editCard.noPetitionSelected') }}
       </v-alert>
 
-      <!-- Dialogs -->
+      <!-- Dialogs based on role -->
+       <!-- Petition Form Dialog initialized with a null petition for supervisors to create new petitions -->
       <PetitionFormDialog
-        v-model="showPetitionForm"
-        :role="role"
-        :petition="selectedPetition"
-        @close="showPetitionForm = false"
+        v-if="role === 'supervisor'"
+        v-model="showDialog"
+        @close="showDialog = false"
         @refresh="refresh"
       />
       <StudentDataManagementDialog
-        v-if="role === 'student'"
-        v-model="showStudentDialog"
-        @close="showStudentDialog = false"
+        v-else
+        v-model="showDialog"
+        @close="showDialog = false"
       />
     </v-card-text>
   </v-card>
@@ -67,19 +67,8 @@ const props = defineProps({
 
 const emit = defineEmits(['refresh']);
 
-const showPetitionForm = ref(false);
-const showStudentDialog = ref(false);
+const showDialog = ref(false);
 const selectedPetition = ref(null);
-
-// selectedPetition =null => open an empty form for petition creation
-// selectedPetition =object => open form with all data prefilled for editing because petitionForm autopopulates a petition
-const openNewPetitionDialog = () => {
-  selectedPetition.value = null;
-  showPetitionForm.value = true;
-};
-//const openEditDialog = () => showPetitionForm.value = true;
-const openStudentDialog = () => showStudentDialog.value = true;
-
 const selectPetition = (petition) => {
   selectedPetition.value = petition;
 };

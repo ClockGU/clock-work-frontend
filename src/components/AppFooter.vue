@@ -17,9 +17,9 @@
             variant="text"  
             rounded  
             class="mx-2"  
-            :aria-label="$t(`appFooter.links.${link.text}`)"
+            :aria-label="$t(`footer.links.${link.text}`)"
           >  
-            {{ $t(`appFooter.links.${link.text}`) }}  
+            {{ $t(`footer.links.${link.text}`) }}  
           </v-btn>  
         </div>  
 
@@ -29,26 +29,38 @@
             href="https://uni-frankfurt.de/clock"  
             rel="noopener noreferrer"  
             target="_blank"  
-            class="text-white" 
+            class="footer-link"
             aria-label="clock"
           >  
             CLOCK-Work 
           </a>  
         </div>  
-
-        <div class="my-2 pb-10">  
-          <p class="mb-4">  
-            {{ $t('appFooter.text') }}  
-          </p>  
-            {{ $t('appFooter.code') }}  
-            <a  
-              class="text-no-wrap"   
-              href="https://github.com/ClockGU"  
-              aria-label="Github"
-            >  
-              Github 
-            </a>  
-        
+       <div class="my-2 pb-10">  
+          <i18n-t keypath="footer.acknowledgeGU.text" tag="p" scope="global">
+            <template #link>
+              <a
+                :href="$t('footer.acknowledgeGU.url')"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="footer-link"                :aria-label="$t('footer.acknowledgeGU.university')"
+              >
+                {{ $t("footer.acknowledgeGU.university") }}
+              </a>
+            </template>
+          </i18n-t>
+          <i18n-t keypath="footer.github_repo.text" tag="p" scope="global">
+            <template #link>
+              <a
+                :href="$t('footer.github_repo.url')"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="footer-link"
+                :aria-label="$t('footer.github_repo.github')"
+              >
+                {{ $t("footer.github_repo.github") }}
+              </a>
+            </template>
+          </i18n-t>
         </div>  
       </v-col>  
     </v-row>  
@@ -62,12 +74,17 @@ const links = [
 ]  
 </script>  
 
-<style scoped>  
-a {  
-  text-decoration: none;  
-  color: #EA80FC;  
-}  
-.text-white {  
-  color: white;  
-}  
+<style scoped>
+.footer-link {
+  color: #FFF394 !important;
+  text-decoration: underline !important;
+  text-underline-offset: 0.3em !important;
+  text-decoration-thickness: 1.5px !important;
+  transition: all 0.2s ease !important;
+  font-weight: 600 !important;
+}
+.footer-link:hover {
+  text-decoration-thickness: 2px !important;
+    color: #00FFBF !important; 
+}
 </style>

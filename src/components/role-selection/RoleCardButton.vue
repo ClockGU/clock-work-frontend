@@ -9,7 +9,7 @@
     >
       <v-card-title
       class="text-h5 text-high-emphasis mt-4" >{{ title }}</v-card-title>
-      <v-img :src="props.imgSrc" width="200" height="200" :alt="`role image as ${props.role}`"/>
+      <v-img :src="props.imgSrc" width="200" height="200" :alt="props.imgAlt"/>
       <v-card-text class="description text-body-1 text-medium-emphasis">{{ description }}</v-card-text>
     </v-card>
   </v-btn>
@@ -31,6 +31,10 @@
       required: true,  
     }, 
     imgSrc: {
+      type: String,
+      required: true
+    },
+    imgAlt:{
       type: String,
       required: true
     }
