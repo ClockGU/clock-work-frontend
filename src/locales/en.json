@@ -23,6 +23,19 @@
     "report": "report an issue",
     "send": "send"
   },
+   "navigation":{
+    "ariaLabel":{
+      "appBar":"Main navigation bar",
+      "navDrawer":"Main navigation drawer",
+      "toggleDrawer":"Toggle navigation drawer",
+      "dashboard":"Go to Dashboard",
+      "roles":"Go to Roles Selection",
+      "avatar":"User avatar",
+      "menu": "User menu",
+      "toggleMenu":"Toggle user menu",
+      "menuOptions":"User menu options"
+    }
+  },
   "roleSelectionView": {
     "welcome": "You are new here!",
     "roleSelection": "Tell us what role you are going to play here:",

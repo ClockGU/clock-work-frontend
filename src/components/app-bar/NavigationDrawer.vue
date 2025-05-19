@@ -5,22 +5,31 @@
       left
       disable-resize-watcher
       clipped
+      :aria-label="$t('navigation.ariaLabel.navDrawer')"
+      role="navigation"
       @update:model-value="closeDrawer"
     >
       <v-row class="mt-4 mb-4" justify="center">
-        <router-link v-slot="{ navigate }" :to="redirectTo" custom>
-          <span
-            role="link"
-            style="cursor: pointer"
+        <router-link v-slot="{ navigate }" 
+          :to="redirectTo" 
+          custom
+          :aria-label="redirectTo === '/roles' ? $t('navigation.ariaLabel.roles') : $t('navigation.ariaLabel.dashboard')">
+          <a
+            style="display: inline-block; cursor: pointer"
             @click="navigate"
-            @keypress.enter="navigate"
-          >
-            <v-img width="240px" height="36px" :src="svg" alt="clock Logo" />
-          </span>
+            @keypress.enter="navigate">
+            <v-img
+              width="240px"
+              height="36px"
+              :src="svg"
+              alt="clock Logo"
+              aria-hidden="false"
+            />
+          </a>
         </router-link>
       </v-row>
   
-      <v-divider></v-divider>
+      <v-divider role="separator" aria-orientation="horizontal"></v-divider>
   
       <v-skeleton-loader
         v-if="isLoggedIn && userLoading"
@@ -30,25 +39,31 @@
         class="pl-2 py-3"
       >
       </v-skeleton-loader>
-      <v-list v-else>
+      <v-list 
+        v-else
+        tabindex="0" 
+        role="menu"
+        :aria-label="$t('navigation.ariaLabel.menu')" 
+      >
         <v-list-group no-action>
           <template #activator="{ props }">
-            <v-list-item v-bind="props">
+            <v-list-item v-bind="props" role="menuitem">
               <template #prepend="prependProps">
                 <v-avatar
                   v-bind="prependProps"
                   size="32px"
-                  color="blue-lighten-2"
+                  color="blue-darken-3"
                   style="cursor: pointer"
+                  :aria-label="$t('navigation.ariaLabel.avatar')"
                 >
-                  <div class="text-white">
+                  <span class="text-white">
                     {{ firstLetter }}
-                  </div>
+                  </span>
                 </v-avatar>
               </template>
-              <p class="text-h6">
+              <span class="text-h6">
                 {{ user.first_name }}
-              </p>
+              </span>
             </v-list-item>
           </template>
   
@@ -57,35 +72,39 @@
             :key="item.text"
             :to="item.to"
             style="--indent-padding: calc(var(--list-indent-size) - 12px)"
+            role="menuitem"
           >
             <template #prepend="prependProps">
-              <v-icon :icon="item.icon" v-bind="prependProps"></v-icon>
+              <v-icon :icon="item.icon" v-bind="prependProps" role="img" ></v-icon>
             </template>
-            <p style="padding-left: 4px">{{ item.text }}</p>
+            <span style="padding-left: 4px">{{ item.text }}</span>
           </v-list-item>
   
           <v-list-item  
               :prepend-icon="icons.mdiLogout"  
               data-cy="menu-logout" 
               @click="logout"   
+              role="menuitem"
             >  
-              Logout  
+              {{$t('logout') }} 
             </v-list-item> 
         </v-list-group>
       </v-list>
   
-      <v-divider></v-divider>
-  
+      <v-divider role="separator" aria-orientation="horizontal"></v-divider>
+      <!--
       <v-list nav density="compact" data-cy="menu-list">
         <v-list-item
           v-for="link in links"
           :key="link.text"
           :prepend-icon="link.icon"
           :to="link.to"
+          role="menuitem"
         >
-          <p>{{ link.text }}</p>
+          <span>{{ link.text }}</span>
         </v-list-item>
       </v-list>
+      -->
     </v-navigation-drawer>
   </template>
   
@@ -131,17 +150,17 @@
       loggedOut: true
     }*/
   ]);
-  const links = ref([
-    /*{
+  /*const links = ref([
+    {
       text: "Dashboard",
       to: {
         name: "roles"
       },
       icon: mdiHome,
       loggedOut: false
-    },*/
+    },
 
-  ]);
+  ]);*/
 
   const isLoggedIn = computed(()=>store.getters['auth/isLoggedIn']);  
   const user = computed(()=>store.getters['auth/user']);
@@ -171,3 +190,4 @@
     store.dispatch('auth/unsetLoading');
   };  
   </script>
+

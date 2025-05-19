@@ -168,7 +168,8 @@
           />
         </div>
       </v-col>
-      <v-col cols="12">
+      <v-col cols="12"       
+>
         <v-checkbox
           id="durationExceCourse"
           v-model="formData.duration_exce_course"
@@ -341,5 +342,12 @@ label {
   font-weight: 500;
   font-size: 1rem; 
   margin-left: 2.5rem; 
+}
+/* Override Vuetify's default styling */
+.v-checkbox :deep(.v-label) {
+  opacity: 1;      
+  font-weight: normal;
+  margin-left: 0;   
+  font-size: inherit; 
 }
 </style>

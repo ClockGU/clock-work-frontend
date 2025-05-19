@@ -23,6 +23,19 @@
     "report": "ein Problem melden",
     "send": "senden"
   },
+  "navigation":{
+    "ariaLabel":{
+      "appBar":"Haupt-Navigationsleiste",
+      "navDrawer":"Haupt-Navigationsmenü",
+      "toggleDrawer":"Navigationsmenü ein-/ausblenden",
+      "dashboard":"Zur Startseite",
+      "roles":"Zur Rollenauswahl",
+      "avatar":"Benutzer-Avatar",
+      "menu": "Benutzer-Menü",
+      "toggleMenu":"Benutzer-Menü ein-/ausblenden",
+      "menuOptions":"Menüoptionen des Benutzers"
+    }
+  },
   "roleSelectionView": {
     "welcome": "Sie sind neu hier!",
     "roleSelection": "Sagen Sie uns, welche Rolle Sie hier spielen werden:",

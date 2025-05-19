@@ -48,7 +48,7 @@
             {{ $t('actions.send') }}
         </v-btn>
     </template>
-    </CustomDialog>
+  </CustomDialog>
 </template>
 <script setup>
 import { ref,computed} from 'vue';

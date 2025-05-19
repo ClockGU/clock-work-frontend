@@ -259,5 +259,12 @@ label {
   font-size: 1rem; 
   margin-left: 2.5rem; 
 }
+/* Override Vuetify's default styling */
+.v-checkbox :deep(.v-label) {
+  opacity: 1;      
+  font-weight: normal;
+  margin-left: 0;   
+  font-size: inherit; 
+}
 </style>
 
