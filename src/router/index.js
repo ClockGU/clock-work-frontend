@@ -18,7 +18,7 @@ const routes = [
   { path: "/roles", component: RoleSelectionView, name: "roles" },
   { path: "/dashboard/:role", component: RoleDashboard },
   {path: "/clerk",component:ClerkView,name:"clerk"},
-  {path: "/approver/:uuid",component: ApproverView, },
+  {path: "/approver",component: ApproverView, },
 ];
 
 const router = createRouter({

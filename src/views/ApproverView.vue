@@ -64,13 +64,6 @@
               <v-icon size="64" color="grey lighten-1" class="mb-4">mdi-file-remove</v-icon>
               <h2 class="text-h5 mb-4">No Petition to Review</h2>
               <p class="text-body-1 mb-4">{{ noPetitionMessage }}</p>
-              <v-btn 
-                color="primary" 
-                @click="fetchPetition"
-                aria-label="Refresh petition"
-              >
-                Refresh
-              </v-btn>
             </v-card>
           </template>
         </main>
@@ -87,8 +80,10 @@ import ContentApiService from '@/services/contentApiService';
 
 const route = useRoute();
 const store = useStore();
-const petitionId = route.params.uuid;
+
+const petitionId = route.query.petition_id;
 const signature = route.query.signature;
+
 const petition = ref(null);
 const isLoading = ref(true);
 const actionCompleted = ref(false);
@@ -126,7 +121,7 @@ const fetchPetition = async () => {
 const handleApproval = async () => {
   try {
     isLoading.value = true;
-    await ContentApiService.patch(`/approver/petitions/${petitionId}`, { 
+    await ContentApiService.patch(`/approver/petitions/${petitionId}/${signature}`, { 
       status: "student_action",
       budget_approved: true,
      });
@@ -149,7 +144,6 @@ const handleRejection = async () => {
   try {
     isLoading.value = true;
     await ContentApiService.patch(`/approver/petitions/${petitionId}/${signature}`, { 
-      status: "rejected",
       budget_approved: false,});
     store.dispatch("snackbar/setSnack", {
       message: "Petition rejected successfully"
@@ -166,7 +160,7 @@ const handleRejection = async () => {
   }
 };
 
-onMounted(async () => {
-  await fetchPetition();
+onMounted(() => {
+   fetchPetition();
 });
 </script>
