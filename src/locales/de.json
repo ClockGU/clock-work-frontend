@@ -19,7 +19,9 @@
     "delete": "löschen",
     "confirm": "bestätigen",
     "report": "ein Problem melden",
-    "send": "senden"
+    "send": "senden",
+    "approve": "genehmigen",
+    "reject": "ablehnen"
   },
   "roleSelectionView": {
     "welcome": "Sie sind neu hier!",
@@ -118,11 +120,7 @@
     "durationExceEnd": "Enddatum der Dauerabweichung"
   },
   "petitionDataDisplay": {
-    "title": "Petitionsdaten Anzeige",
-    "btn": {
-      "approve": "Genehmigen",
-      "reject": "Ablehnen"
-    }
+    "title": "Petitionsdaten Anzeige"
   },
   "uploadedFiles": {
     "title": "Hochgeladene Dateien",
@@ -176,29 +174,43 @@
     "success": "E-Mail erfolgreich gesendet"
   },
   "errors": {
-  "uploadedFilesClerk": {
-    "loadingDocs": "Fehler beim Laden der Dokumente",
-    "fetchingDocs": "Fehler beim Abrufen der Dokumente",
-    "pdfRender": "Fehler beim Darstellen der PDF"
+    "uploadedFilesClerk": {
+      "loadingDocs": "Fehler beim Laden der Dokumente",
+      "fetchingDocs": "Fehler beim Abrufen der Dokumente",
+      "pdfRender": "Fehler beim Darstellen der PDF"
+    },
+    "petitionFormDialog": {
+      "submission": "Fehler beim Einreichen der Anfrage. Bitte versuchen Sie es erneut",
+      "saving": "Fehler beim Speichern der Anfrage. Bitte versuchen Sie es erneut"
+    },
+    "petitionIssueDialog": {
+      "sendingEmail": "Fehler beim Senden der E-Mail"
+    },
+    "studentData": {
+      "savingData": "Fehler beim Speichern der Mitarbeiterdaten",
+      "savingFiles": "Fehler beim Speichern der Dateien",
+      "fetchingData": "Fehler beim Abrufen der Mitarbeiterdaten",
+      "fetchingDocs": "Fehler beim Abrufen der Dokumente"
+    },
+    "petition": {
+      "deletion": "Fehler beim Löschen der Anfrage",
+      "fetching": "Fehler beim Abrufen der Anfragen",
+      "rejection": "Anfrage konnte nicht abgelehnt werden",
+      "approval": "Anfrage konnte nicht genehmigt werden"
+    },
+    "approverView": {
+      "loadPetitionError": "Fehler beim Laden der Petition",
+      "approveError": "Fehler bei der Genehmigung der Petition",
+      "rejectError": "Fehler bei der Ablehnung der Petition"
+    }
   },
-  "petitionFormDialog": {
-    "submission": "Fehler beim Einreichen der Anfrage. Bitte versuchen Sie es erneut",
-    "saving": "Fehler beim Speichern der Anfrage. Bitte versuchen Sie es erneut"
-  },
-  "petitionIssueDialog": {
-    "sendingEmail": "Fehler beim Senden der E-Mail"
-  },
-  "studentData": {
-    "savingData": "Fehler beim Speichern der Mitarbeiterdaten",
-    "savingFiles": "Fehler beim Speichern der Dateien",
-    "fetchingData": "Fehler beim Abrufen der Mitarbeiterdaten",
-    "fetchingDocs": "Fehler beim Abrufen der Dokumente"
-  },
-  "petition": {
-    "deletion": "Fehler beim Löschen der Anfrage",
-    "fetching": "Fehler beim Abrufen der Anfragen",
-    "rejection": "Anfrage konnte nicht abgelehnt werden",
-    "approval": "Anfrage konnte nicht genehmigt werden"
-  }
+  "approverView": {
+    "header": "Sie wurden gebeten, die folgende Einstellungs-Petition zu genehmigen",
+    "headerComplete": "Petition-Begutachtung abgeschlossen",
+    "petitionData": "Petition-Daten",
+    "noPetition": "Es gibt derzeit keine Petition zur Begutachtung.",
+    "noPetitionComplete": "Diese Petition wurde bereits bearbeitet. Vielen Dank für Ihre Bewertung.",
+    "approveSuccess": "Petition erfolgreich genehmigt",
+    "rejectSuccess": "Petition erfolgreich abgelehnt"
 }
 }

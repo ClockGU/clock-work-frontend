@@ -24,7 +24,7 @@
               <v-card class="d-flex flex-column align-center" elevation="2">
                 <v-card-title>
                   <h2 id="petition-data-heading" class="text-h4 font-weight-medium my-4">
-                    Petition Data
+                    {{ $t('approverView.petitionData') }}
                   </h2>
                 </v-card-title>
                 <v-card-text>
@@ -42,27 +42,25 @@
                 size="large" 
                 class="px-10" 
                 @click="handleRejection"
-                aria-label="Reject petition"
+                :aria-label="$t('actions.reject')"
               >
-                {{ $t('petitionDataDisplay.btn.reject') }}
+                {{ $t('actions.reject') }}
               </v-btn>
               <v-btn 
                 color="success" 
                 size="large" 
                 class="px-10" 
                 @click="handleApproval"
-                aria-label="Approve petition"
+                :aria-label="$t('actions.approve') "
               >
-                {{ $t('petitionDataDisplay.btn.approve') }}
+                {{ $t('actions.approve') }}
               </v-btn>
             </section>
           </template>
-
           <!-- No Petition Available State -->
           <template v-else>
             <v-card class="text-center py-8" elevation="2">
-              <v-icon size="64" color="grey lighten-1" class="mb-4">mdi-file-remove</v-icon>
-              <h2 class="text-h5 mb-4">No Petition to Review</h2>
+              <h2 class="text-h5 mb-4">{{ $t('approverView.noPetition') }}</h2>
               <p class="text-body-1 mb-4">{{ noPetitionMessage }}</p>
             </v-card>
           </template>
@@ -71,13 +69,14 @@
     </v-row>
   </v-container>
 </template>
-
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
 import ContentApiService from '@/services/contentApiService';
 
+const { t } = useI18n();
 const route = useRoute();
 const store = useStore();
 
@@ -88,19 +87,9 @@ const petition = ref(null);
 const isLoading = ref(true);
 const actionCompleted = ref(false);
 
-const headerMessage = computed(() => {
-  if (actionCompleted.value) {
-    return "Petition Review Completed";
-  }
-  return "You have been requested to approve the following hire petition";
-});
+const headerMessage = computed(() => actionCompleted.value ? t('approverView.headerComplete') : t('approverView.header'));
 
-const noPetitionMessage = computed(() => {
-  if (actionCompleted.value) {
-    return "This petition has already been processed. Thank you for your review.";
-  }
-  return "No petition available for review at this time.";
-});
+const noPetitionMessage = computed(() => actionCompleted.value ? t('approverView.noPetitionComplete') : t('approverView.noPetition'));
 
 const fetchPetition = async () => {
   try {
@@ -111,7 +100,7 @@ const fetchPetition = async () => {
   } catch (err) {
     console.error(err);
     store.dispatch("snackbar/setErrorSnacks", {
-      message: "Failed to load petition"
+      message: t('errors.approverView.loadPetitionError')
     });
   } finally {
     isLoading.value = false;
@@ -126,40 +115,38 @@ const handleApproval = async () => {
       budget_approved: true,
      });
     store.dispatch("snackbar/setSnack", {
-      message: "Petition approved successfully"
+      message: t('approverView.approveSuccess')
     });
     actionCompleted.value = true;
     petition.value = null;
   } catch (error) {
     console.error("Error accepting petition:", error);
     store.dispatch("snackbar/setErrorSnacks", {
-      message: "Error approving petition"
+      message: t('errors.approverView.approveError')
     });
   } finally {
     isLoading.value = false;
   }
 };
-
 const handleRejection = async () => {
   try {
     isLoading.value = true;
     await ContentApiService.patch(`/approver/petitions/${petitionId}/${signature}`, { 
       budget_approved: false,});
     store.dispatch("snackbar/setSnack", {
-      message: "Petition rejected successfully"
+      message: t('approverView.rejectSuccess')
     });
     actionCompleted.value = true;
     petition.value = null;
   } catch (error) {
     console.error("Error rejecting petition:", error);
     store.dispatch("snackbar/setErrorSnacks", {
-      message: "Error rejecting petition"
+      message: t('errors.approverView.rejectError')
     });
   } finally {
     isLoading.value = false;
   }
 };
-
 onMounted(() => {
    fetchPetition();
 });

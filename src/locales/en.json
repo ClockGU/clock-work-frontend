@@ -19,7 +19,9 @@
     "delete": "delete",
     "confirm": "confirm",
     "report": "report an issue",
-    "send": "send"
+    "send": "send",
+    "approve":"approve",
+    "reject":"reject"
   },
   "roleSelectionView": {
     "welcome": "You are new here!",
@@ -118,11 +120,7 @@
     "durationExceEnd": "Duration Exception End Date"
   },
   "petitionDataDisplay":{
-    "title": "Petition Data Display",
-    "btn":{
-      "approve":"Approve",
-      "reject":"Reject"
-    }
+    "title": "Petition Data Display"
   },
   "uploadedFiles": {
     "title": "Uploaded Files",
@@ -197,6 +195,22 @@
       "fetching": "Error fetching petitions",
       "rejection": "petition could not be rejected",
       "approval": "petition could not be approved"
+    },
+    "approverView": {
+      "loadPetitionError": "Failed to load petition for review",
+      "approveError": "Error approving petition",
+      "rejectError": "Error rejecting petition"
     }
-  }
+  },
+  "approverView": {
+    "header": "You have been requested to approve the following hire petition",
+    "headerComplete": "Petition Review Completed",
+    "petitionData": "Petition Data",
+    "approve": "Approve",
+    "reject": "Reject",
+    "noPetition": "No petition available for review at this time.",
+    "noPetitionComplete": "This petition has already been processed. Thank you for your review.",
+    "approveSuccess": "Petition approved successfully",
+    "rejectSuccess": "Petition rejected successfully"
+}
 }
