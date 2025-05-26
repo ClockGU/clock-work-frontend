@@ -10,13 +10,15 @@ import LandingView from "@/views/LandingView.vue";
 import RoleSelectionView from "@/views/RoleSelectionView.vue";
 import RoleDashboard from "@/views/RoleDashboard.vue";
 import ClerkView from "@/views/ClerkView.vue";
+import ApproverView from "@/views/ApproverView.vue";
 
 const routes = [
   { path: "/", component: LandingView, name: "landing" },
   { path: "/logging-in", component: LoggingInView, name: "logging-in" },
   { path: "/roles", component: RoleSelectionView, name: "roles" },
   { path: "/dashboard/:role", component: RoleDashboard },
-  {path: "/clerk",component:ClerkView,name:"clerk"}
+  {path: "/clerk",component:ClerkView,name:"clerk"},
+  {path: "/approver/:uuid",component: ApproverView, },
 ];
 
 const router = createRouter({
