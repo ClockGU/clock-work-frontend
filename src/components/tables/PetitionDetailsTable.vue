@@ -20,7 +20,6 @@
 
   <!--Dialog to report an issue wuith a petition -->
   <PetitionIssueDialog
-    v-if="userRole==0||userRole==2"
     v-model="showPetitionIssueDialog"
     :petition="petition"
     @close="showPetitionIssueDialog = false"
@@ -29,6 +28,7 @@
   <!-- Tooltips for petitions actions like edit,delete...-->
   <div class="d-flex justify-space-between align-center mb-3 ">
     <v-btn
+        v-if="userRole!=3"
         color="error"
         :aria-label="$t('actions.close')"
         @click="$emit('close')"
@@ -43,7 +43,7 @@
 
     <div class="d-flex align-center ga-3 ml-1" >
       <v-btn
-        v-if="userRole==0||userRole==2"
+        v-if="userRole!=1"
         color="warning"
         :aria-label="$t('actions.report')"
         @click="showPetitionIssueDialog = true"
@@ -56,7 +56,7 @@
         ></v-tooltip>
       </v-btn>
       <v-btn
-        v-if="userRole>0"
+        v-if="userRole===1 || userRole===2"
         color="primary"
         :aria-label="$t('actions.edit')"
         @click="showPetitionFormDialog = true"
@@ -69,7 +69,7 @@
         ></v-tooltip>
         </v-btn>
       <v-btn
-        v-if="userRole>0"
+        v-if="userRole===1 || userRole===2"
         color="error"
         :aria-label="$t('actions.delete')"
         @click="showDeleteConfirmationDialog = true">

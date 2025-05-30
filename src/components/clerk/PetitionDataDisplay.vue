@@ -23,10 +23,10 @@
             </v-row>
             <div class="d-flex flex-columns justify-space-around mt-6">
                 <v-btn color="error" size="large" class="px-10" @click="reject">
-                    {{ $t('petitionDataDisplay.btn.reject') }}
+                    {{ $t('actions.reject') }}
                 </v-btn>
                 <v-btn color="success" size="large" class="px-10" @click="approve">
-                    {{ $t('petitionDataDisplay.btn.approve') }}
+                    {{ $t('actions.approve') }}
                 </v-btn>
             </div>
         </v-card-text>
