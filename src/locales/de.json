@@ -166,6 +166,11 @@
       "incorrectData": "Antrag auf Korrektur persönlicher Daten",
       "others": "Sonstiges"
     },
+    "approverSubjects": {
+      "hoursReduction": "Antrag auf Arbeitszeitreduzierung",
+      "budgetAdjustment": "Antrag auf Budgetanpassung",
+      "others": "Andere Angelegenheiten"
+    },
     "title": "Problem melden",
     "subjectLabel": "Betreff",
     "subjectPlaceholder": "Betreff eingeben",

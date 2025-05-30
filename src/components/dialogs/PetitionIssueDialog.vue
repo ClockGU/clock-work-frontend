@@ -75,6 +75,11 @@ const clerkSubjects=[
    t('reportIssue.clerkSubjects.incorrectData'),
    t('reportIssue.clerkSubjects.others')
 ]
+const approverSubjects = [
+  t('reportIssue.approverSubjects.hoursReduction'),
+  t('reportIssue.approverSubjects.budgetAdjustment'),
+  t('reportIssue.approverSubjects.others')
+]
 const requiredRule = (v) => !!v || t('validationRule.required');
 
 const isValid = ref(false);
@@ -90,6 +95,8 @@ const subjects = computed(()=> {
         return studentSubjects;
     } else if (userRole.value === 2) {
         return clerkSubjects;
+    }else if (userRole.value === 3) {
+        return approverSubjects;
     }
 });
 

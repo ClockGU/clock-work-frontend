@@ -164,6 +164,11 @@
       "incorrectData": "Request correcting personal data",
       "others": "Others"
     },
+    "approverSubjects": {
+      "hoursReduction": "Working hours reduction request",
+      "budgetAdjustment": "Budget adjustment request",
+      "others": "Other matters"
+    },
     "title": "Report an Issue",
     "subjectLabel": "Subject",
     "subjectPlaceholder": "Enter subject line",

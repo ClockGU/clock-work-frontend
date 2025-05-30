@@ -88,8 +88,8 @@ const isLoading = ref(true);
 const actionCompleted = ref(false);
 
 const headerMessage = computed(() => actionCompleted.value ? t('approverView.headerComplete') : t('approverView.header'));
-
 const noPetitionMessage = computed(() => actionCompleted.value ? t('approverView.noPetitionComplete') : t('approverView.noPetition'));
+const user= computed(() => store.getters['auth/user']);
 
 const fetchPetition = async () => {
   try {
@@ -148,6 +148,10 @@ const handleRejection = async () => {
   }
 };
 onMounted(() => {
-   fetchPetition();
+  store.dispatch("auth/setUser",{
+    ...user.value,
+    user_role:3 // Approver role
+  });
+  fetchPetition();
 });
 </script>
