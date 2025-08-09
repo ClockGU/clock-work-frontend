@@ -82,6 +82,7 @@ const store = useStore();
 
 const petitionId = route.query.petition_id;
 const signature = route.query.signature;
+const budgetPositionId= route.query.budget_position_id ;
 
 const petition = ref(null);
 const isLoading = ref(true);
@@ -110,7 +111,7 @@ const fetchPetition = async () => {
 const handleApproval = async () => {
   try {
     isLoading.value = true;
-    await ContentApiService.patch(`/approver/petitions/${petitionId}/${signature}`, { 
+    await ContentApiService.patch(`/approver/petitions/${petitionId}/${signature}/${budgetPositionId}`, { 
       status: "student_action",
       budget_approved: true,
      });
@@ -131,7 +132,7 @@ const handleApproval = async () => {
 const handleRejection = async () => {
   try {
     isLoading.value = true;
-    await ContentApiService.patch(`/approver/petitions/${petitionId}/${signature}`, { 
+    await ContentApiService.patch(`/approver/petitions/${petitionId}/${signature}/${budgetPositionId}`, { 
       budget_approved: false,});
     store.dispatch("snackbar/setSnack", {
       message: t('approverView.rejectSuccess')
