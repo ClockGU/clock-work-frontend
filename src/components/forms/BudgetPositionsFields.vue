@@ -33,7 +33,7 @@
       outlined
       dense
       style="width: 10%; min-width: 80px;"
-      :label="$t('percentage')"
+      :label="$t('petition.percentage')"
       :rules="[requiredRule, percentageRule]"
       suffix="%"
     />
@@ -78,6 +78,7 @@
 </template>
 
 <script setup>
+import {useI18n} from 'vue-i18n';
 import { 
   mdiEmail, 
   mdiCheck, 
@@ -93,6 +94,7 @@ const icons = {
   mdiPlus,
   mdiMinus
 };
+const {t}=useI18n()
 
 const budgetPositions = defineModel({
   type: Array,
@@ -106,7 +108,6 @@ const budgetPositions = defineModel({
   ])
 });
 
-// Add new position
 function addPosition() {
   budgetPositions.value.push({
     budget_position: '',
@@ -115,15 +116,13 @@ function addPosition() {
     budget_approved: false
   });
 }
-
-// Remove position
 function removePosition(index) {
   budgetPositions.value.splice(index, 1);
 }
 
 // Validation rules
-const requiredRule = (value) => !!value || 'Required field';
-const emailRule = (value) => /.+@.+\..+/.test(value) || 'Invalid email';
+const requiredRule = (value) => !!value || t('validationRule.required');
+const emailRule = (value) => /.+@.+\..+/.test(value) || t('validationRule.invalidEmail');
 const percentageRule = (value) => 
-  (value >= 0 && value <= 100) || 'Must be between 0-100';
+  (value >= 0 && value <= 100) || t('validationRule.percentage');
 </script>

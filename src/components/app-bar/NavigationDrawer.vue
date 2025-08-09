@@ -5,7 +5,7 @@
       left
       disable-resize-watcher
       clipped
-      :aria-label="$t('navigation.ariaLabel.navDrawer')"
+      :aria-label="$t('ariaLabel.navigation.navDrawer')"
       role="navigation"
       @update:model-value="closeDrawer"
     >
@@ -13,7 +13,7 @@
         <router-link v-slot="{ navigate }" 
           :to="redirectTo" 
           custom
-          :aria-label="redirectTo === '/roles' ? $t('navigation.ariaLabel.roles') : $t('navigation.ariaLabel.dashboard')">
+          :aria-label="redirectTo === '/roles' ? $t('ariaLabel.navigation.roles') : $t('ariaLabel.navigation.dashboard')">
           <a
             style="display: inline-block; cursor: pointer"
             @click="navigate"
@@ -43,7 +43,7 @@
         v-else
         tabindex="0" 
         role="menu"
-        :aria-label="$t('navigation.ariaLabel.menu')" 
+        :aria-label="$t('ariaLabel.navigation.menu')" 
       >
         <v-list-group no-action>
           <template #activator="{ props }">
@@ -54,7 +54,7 @@
                   size="32px"
                   color="blue-darken-3"
                   style="cursor: pointer"
-                  :aria-label="$t('navigation.ariaLabel.avatar')"
+                  :aria-label="$t('ariaLabel.navigation.avatar')"
                 >
                   <span class="text-white">
                     {{ firstLetter }}

@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-4" role="region" :aria-label="$t('editCard.ariaLabel')">
+  <v-card class="pa-4" role="region" :aria-label="$t('ariaLabel.editCard')">
     <v-card-title v-if="!selectedPetition" class="text-h5 font-weight-bold">
       {{ role === "supervisor" ? $t("editCard.supervisorTitle") : $t("editCard.studentTitle") }}
     </v-card-title>

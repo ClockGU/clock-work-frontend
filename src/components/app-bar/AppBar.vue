@@ -6,12 +6,12 @@
       fixed
       elevation="0"
       :color="bgColor"
-      :aria-label="$t('navigation.ariaLabel.appBar')"
+      :aria-label="$t('ariaLabel.navigation.appBar')"
     >  
       <v-app-bar-nav-icon  
         v-if="isLoggedIn"  
         class="hidden-md-and-up"  
-        :aria-label="$t('navigation.ariaLabel.toggleDrawer')"
+        :aria-label="$t('ariaLabel.navigation.toggleDrawer')"
         @click="toggleNavigationdrawer"  
       >  
         <v-icon>{{ icons.mdiMenu }}</v-icon>  
@@ -22,7 +22,7 @@
           v-slot="{ navigate }"  
           custom  
           :to="redirectTo"  
-          :aria-label="redirectTo === '/roles' ? $t('navigation.ariaLabel.roles') : $t('navigation.ariaLabel.dashboard')"
+          :aria-label="redirectTo === '/roles' ? $t('ariaLabel.navigation.roles') : $t('ariaLabel.navigation.dashboard')"
        >  
           <a  
             style="display: inline-block; cursor: pointer"
@@ -48,14 +48,14 @@
       >  
         <v-menu
           class="py-3"
-          :aria-label="$t('navigation.ariaLabel.menu')"
+          :aria-label="$t('ariaLabel.navigation.menu')"
         >  
           <template #activator="{ props }">  
             <v-btn
               :color="bgColor"
               variant="flat"
               v-bind="props"
-              :aria-label="$t('navigation.ariaLabel.toggleMenu')"
+              :aria-label="$t('ariaLabel.navigation.toggleMenu')"
             >  
               <div class="d-flex align-center">  
                 <v-avatar
@@ -63,7 +63,7 @@
                   color="blue-darken-2"
                   style="cursor: pointer"
                   class="mr-2"
-                  :aria-label="$t('navigation.ariaLabel.avatar')"
+                  :aria-label="$t('ariaLabel.navigation.avatar')"
                 >  
                   <span class="text-white">{{ firstLetter }}</span>  
                 </v-avatar>  
@@ -72,7 +72,7 @@
               <v-icon :icon="icons.mdiChevronDown"></v-icon>  
             </v-btn>  
           </template>  
-          <v-list :aria-label="$t('navigation.ariaLabel.menuOptions')">  
+          <v-list :aria-label="$t('ariaLabel.navigation.menuOptions')">  
             <v-list-item
               :prepend-icon="icons.mdiLogout"
               data-cy="menu-logout"

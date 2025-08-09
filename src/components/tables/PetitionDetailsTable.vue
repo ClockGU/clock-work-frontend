@@ -26,7 +26,7 @@
         <!-- Iterates over the computed tableRows to display data -->
         <tr v-for="(row, index) in tableRows" :key="index">
           <td class="key-cell">
-            {{ row.label }}
+            {{ row.key }}
           </td>
           <td class="value-cell">
             {{ formatValue(row.value) }}
@@ -46,7 +46,6 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-// Component props
 const props = defineProps({
   petition: {
     type: Object,
@@ -54,13 +53,11 @@ const props = defineProps({
   },
 });
 
-const { t } = useI18n(); // For translations
+const { t } = useI18n(); 
 
-/**
+/*
  * Formats a given value for display in the table.
  * Handles null/undefined, date strings, and booleans.
- * @param {*} value - The value to format.
- * @returns {string} The formatted value.
  */
 const formatValue = (value) => {
   if (value === null || value === undefined || value === "") {
@@ -70,15 +67,14 @@ const formatValue = (value) => {
     return new Date(value).toLocaleDateString();
   }
   if (typeof value === 'boolean') {
-    return value ? t('generic.yes', 'Yes') : t('generic.no', 'No');
+    return value ? t('yes') : t('no');
   }
   return value;
 };
 
 /**
  * Formats a snake_case key into a camelCase string for translation lookup.
- * @param {string} key - The key to format.
- * @returns {string} The formatted key.
+
  */
 const formatKey = (key) => {
   return key
@@ -88,9 +84,8 @@ const formatKey = (key) => {
 };
 
 /**
- * A computed property that transforms the petition object into a flat array
- * of rows suitable for rendering in the table. It also handles the nested
- * `budget_positions` array.
+ * A computed property that transforms the petition object into a flat array of rows suitable for rendering in the table. 
+ * It also handles the nested`budget_positions` array.
  */
 const tableRows = computed(() => {
   const p = props.petition;
@@ -110,7 +105,7 @@ const tableRows = computed(() => {
       if (key.startsWith('duration_exce_') && !p.duration_exce_course) return;
 
       rows.push({
-        label: t(`petition.${formatKey(key)}`),
+        key: t(`petition.${formatKey(key)}`),
         value: p[key],
       });
     }
@@ -120,15 +115,15 @@ const tableRows = computed(() => {
   if (p.budget_positions && Array.isArray(p.budget_positions)) {
     p.budget_positions.forEach((position, index) => {
       rows.push({
-        label: `${t('petition.budgetPosition', 'Budget Position')} ${index + 1}`,
+        key: `${t('petition.budgetPosition', 'Budget Position')} ${index + 1}`,
         value: position.budget_position,
       });
       rows.push({
-        label: `${t('petition.budgetApprover', 'Budget Approver')} ${index + 1}`,
+        key: `${t('petition.budgetApprover', 'Budget Approver')} ${index + 1}`,
         value: position.budget_approver,
       });
       rows.push({
-        label: `${t('petition.budgetApproved', 'Budget Approved')} ${index + 1}`,
+        key: `${t('petition.budgetApproved', 'Budget Approved')} ${index + 1}`,
         value: position.budget_approved,
       });
     });

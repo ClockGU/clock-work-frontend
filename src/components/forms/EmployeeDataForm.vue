@@ -226,6 +226,12 @@ const initialFormData = {
 
 const formData = ref({ ...initialFormData });
 const isFormValid = ref(false);
+// Validation Rules
+const requiredRule = (v) => !!v || t('validationRule.required');
+const postalCodeRule = (v) => /^\d{5}$/.test(v) || t('validationRule.postalCode');
+const phoneRule = (v) => /^\d{10,15}$/.test(v) || t('validationRule.invalidPhone');
+const ibanRule = (v) => /^[A-Z]{2}\d{2}[A-Z0-9]{11,30}$/.test(v) || t('validationRule.invalidIban');
+
 const fetchEmployeeData = async () => {
   try{
     const response = await ContentApiService.get('/employees');
@@ -241,17 +247,13 @@ const fetchEmployeeData = async () => {
       }
     }
 }
+
 onMounted(() => {
   fetchEmployeeData();
 });
 
-// Validation Rules
-const requiredRule = (v) => !!v || 'This field is required';
-const postalCodeRule = (v) => /^\d{5}$/.test(v) || 'Postal code must be 5 digits';
-const phoneRule = (v) => /^\d{10,15}$/.test(v) || 'Invalid phone number';
-const ibanRule = (v) => /^[A-Z]{2}\d{2}[A-Z0-9]{11,30}$/.test(v) || 'Invalid IBAN';
-// Validation Rules
 defineExpose({ formData,isFormValid });
+
 </script>
 <style scoped>
 label {
@@ -259,7 +261,6 @@ label {
   font-size: 1rem; 
   margin-left: 2.5rem; 
 }
-/* Override Vuetify's default styling */
 .v-checkbox :deep(.v-label) {
   opacity: 1;      
   font-weight: normal;

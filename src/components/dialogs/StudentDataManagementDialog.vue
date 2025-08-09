@@ -2,7 +2,7 @@
   <CustomDialog :title="$t('studentDataManagementDialog.title')" aria-labelledby="student-data-management-dialog">
     <template #content>
       <v-container>
-        <v-tabs v-model="tab" grow :aria-label="$t('studentDataManagementDialog.ariaLabel.tabs')">
+        <v-tabs v-model="tab" grow :aria-label="$t('ariaLabel.studentDataManagementDialog.tabs')">
           <v-tab value="personal">{{ $t('studentDataManagementDialog.tabs.personal') }}</v-tab>
           <v-tab value="files">{{ $t('studentDataManagementDialog.tabs.files') }}</v-tab>
         </v-tabs>
@@ -16,7 +16,7 @@
                 <EmployeeDataForm
                   ref="employeeDataFormRef"
                   class="mt-8"
-                  :aria-labelledby="$t('studentDataManagementDialog.ariaLabel.personal')"
+                  :aria-labelledby="$t('ariaLabel.studentDataManagementDialog.personal')"
                 />
               </v-card-text>
             </v-card>
@@ -29,7 +29,7 @@
                 <FilesUploadForm
                   ref="filesUploadFormRef"
                   class="mt-6"
-                  :aria-labelledby="$t('studentDataManagementDialog.ariaLabel.files')"
+                  :aria-labelledby="$t('ariaLabel.studentDataManagementDialog.files')"
                 />
               </v-card-text>
             </v-card>

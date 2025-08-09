@@ -13,7 +13,7 @@
       :action="deletePetition"
     >
       <template #content>
-        <p>{{ $t('petitionDetailsTable.deletionConfirmationMessage') }}</p>
+        <p>{{ $t('confirmationDialog.PetitionDeletion') }}</p>
       </template>
     </AlertDialog>
     <PetitionIssueDialog
@@ -78,14 +78,11 @@ import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { mdiClose, mdiPencil, mdiTrashCan, mdiAlertCircleOutline } from '@mdi/js';
 import ContentApiService from '@/services/contentApiService.js';
-
-// Import the child components
 import PetitionDetailsTable from './PetitionDetailsTable.vue';
-import PetitionFormDialog from '@/components/dialogs/PetitionFormDialog.vue'; // Adjust path if needed
-import AlertDialog from '@/components/dialogs/AlertDialog.vue'; // Adjust path if needed
-import PetitionIssueDialog from '@/components/dialogs/PetitionIssueDialog.vue'; // Adjust path if needed
+import PetitionFormDialog from '@/components/dialogs/PetitionFormDialog.vue'; 
+import AlertDialog from '@/components/dialogs/AlertDialog.vue';
+import PetitionIssueDialog from '@/components/dialogs/PetitionIssueDialog.vue';
 
-// Component props
 const props = defineProps({
   petition: {
     type: Object,
@@ -95,20 +92,15 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'refresh']);
 
-// Dependencies
 const store = useStore();
 const { t } = useI18n();
 
-// Component state
 const icons = { mdiClose, mdiPencil, mdiTrashCan, mdiAlertCircleOutline };
 const showDeleteConfirmationDialog = ref(false);
 const showPetitionIssueDialog = ref(false);
 const showPetitionFormDialog = ref(false);
 const userRole = computed(() => store.getters['auth/userRole']);
 
-/**
- * Handles the petition deletion process.
- */
 const deletePetition = async () => {
   try {
     const role = userRole.value === 2 ? 'clerk' : 'supervisor';
@@ -127,10 +119,6 @@ const deletePetition = async () => {
   }
 };
 
-/**
- * Emits the refresh event upwards to the parent component.
- * @param {object} payload - The data to emit with the refresh event.
- */
 const handleRefresh = (payload) => {
   emit('refresh', payload);
 };
