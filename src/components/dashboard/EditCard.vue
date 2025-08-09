@@ -9,19 +9,19 @@
         color="primary"
         class="mb-4"
         :aria-label="$t('editCard.openFormDialog')"
-        @click="showDialog = true"
-        @keydown.enter="showDialog = true"
+        @click="role === 'supervisor' ? openNewPetitionDialog() : openStudentDialog()"
       >
         {{ role === "supervisor" ? $t("editCard.supervisorTitle") : $t("editCard.studentTitle") }}
       </v-btn>
 
       <!-- Petition Details Table -->
       <div v-if="selectedPetition" class="mt-4" role="table" :aria-label="$t('editCard.petitionDetailsTable')">
-        <PetitionDetailsTable
+        <PetitionDetailsManager
           :petition="selectedPetition"
           :role="role"
           :aria-label="$t('editCard.petitionDetailsTable')"
           @close="selectPetition(null)"
+          @edit="openEditDialog"
           @refresh="refresh"
         />
       </div>
@@ -35,18 +35,18 @@
         {{ $t('editCard.noPetitionSelected') }}
       </v-alert>
 
-      <!-- Dialogs based on role -->
-       <!-- Petition Form Dialog initialized with a null petition for supervisors to create new petitions -->
+      <!-- Dialogs -->
       <PetitionFormDialog
-        v-if="role === 'supervisor'"
-        v-model="showDialog"
-        @close="showDialog = false"
+        v-model="showPetitionForm"
+        :role="role"
+        :petition="selectedPetition"
+        @close="showPetitionForm = false"
         @refresh="refresh"
       />
       <StudentDataManagementDialog
-        v-else
-        v-model="showDialog"
-        @close="showDialog = false"
+        v-if="role === 'student'"
+        v-model="showStudentDialog"
+        @close="showStudentDialog = false"
       />
     </v-card-text>
   </v-card>
@@ -56,7 +56,7 @@
 import { ref } from 'vue';
 import PetitionFormDialog from '@/components/dialogs/PetitionFormDialog.vue';
 import StudentDataManagementDialog from '../dialogs/StudentDataManagementDialog.vue';
-import PetitionDetailsTable from '@/components/tables/PetitionDetailsTable.vue';
+import PetitionDetailsManager from '../tables/PetitionDetailsManager.vue';
 
 const props = defineProps({
   role: {
@@ -67,8 +67,19 @@ const props = defineProps({
 
 const emit = defineEmits(['refresh']);
 
-const showDialog = ref(false);
+const showPetitionForm = ref(false);
+const showStudentDialog = ref(false);
 const selectedPetition = ref(null);
+
+// selectedPetition =null => open an empty form for petition creation
+// selectedPetition =object => open form with all data prefilled for editing because petitionForm autopopulates a petition
+const openNewPetitionDialog = () => {
+  selectedPetition.value = null;
+  showPetitionForm.value = true;
+};
+//const openEditDialog = () => showPetitionForm.value = true;
+const openStudentDialog = () => showStudentDialog.value = true;
+
 const selectPetition = (petition) => {
   selectedPetition.value = petition;
 };

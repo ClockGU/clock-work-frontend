@@ -1,158 +1,67 @@
 <template>
-    <!-- Dialogs -->
-    <!--- Dialog to edit a petition-->
-    <PetitionFormDialog
-    v-model="showPetitionFormDialog"
-    :petition="petition"
-    @close="showPetitionFormDialog = false"
-    @refresh="handleRefresh"
-  />
-   <!--  AlertDialog to confirm petition deletion-->
-   <AlertDialog 
-    v-model="showDeleteConfirmationDialog"
-    :action-text="$t('actions.confirm')"
-    :action="deletePetition"
+  <div>
+    <!-- Slot for content above the table -->
+    <div class="mb-4">
+      <slot name="top"></slot>
+    </div>
+
+    <!-- Main Table for displaying petition details -->
+    <v-table
+      class="styled-table"
+      density="comfortable"
+      hover
+      :aria-label="$t('petitionDetailsTable.title')"
     >
-    <template #content>
-      <p>{{ $t('petitionDetailsTable.deletionConfirmationMessage') }}</p>
-    </template>
-  </AlertDialog>
+      <thead>
+        <tr>
+          <th class="key-column" scope="col" :aria-label="$t('petitionDetailsTable.headers.petitionField')">
+            {{ $t('petitionDetailsTable.headers.petitionField') }}
+          </th>
+          <th class="value-column" scope="col" :aria-label="$t('petitionDetailsTable.headers.value')">
+            {{ $t('petitionDetailsTable.headers.value') }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Iterates over the computed tableRows to display data -->
+        <tr v-for="(row, index) in tableRows" :key="index">
+          <td class="key-cell">
+            {{ row.label }}
+          </td>
+          <td class="value-cell">
+            {{ formatValue(row.value) }}
+          </td>
+        </tr>
+      </tbody>
+    </v-table>
 
-  <!--Dialog to report an issue wuith a petition -->
-  <PetitionIssueDialog
-    v-model="showPetitionIssueDialog"
-    :petition="petition"
-    @close="showPetitionIssueDialog = false"
-  ></PetitionIssueDialog>
-
-  <!-- Tooltips for petitions actions like edit,delete...-->
-  <div class="d-flex justify-space-between align-center mb-3 ">
-    <v-btn
-        v-if="userRole!=3"
-        color="error"
-        :aria-label="$t('actions.close')"
-        @click="$emit('close')"
-      >
-        <v-icon>{{ icons.mdiClose }}</v-icon>
-        <v-tooltip 
-          activator="parent"
-          location="top"
-          :text="$t('actions.close')"
-        ></v-tooltip>
-      </v-btn>
-
-    <div class="d-flex align-center ga-3 ml-1" >
-      <v-btn
-        v-if="userRole!=1"
-        color="warning"
-        :aria-label="$t('actions.report')"
-        @click="showPetitionIssueDialog = true"
-        >   
-        <v-icon>{{ icons.mdiAlertCircleOutline }}</v-icon>
-        <v-tooltip 
-          activator="parent"
-          location="top"
-          :text="$t('actions.report')"
-        ></v-tooltip>
-      </v-btn>
-      <v-btn
-        v-if="userRole===1 || userRole===2"
-        color="primary"
-        :aria-label="$t('actions.edit')"
-        @click="showPetitionFormDialog = true"
-        >   
-        <v-icon>{{ icons.mdiPencil }}</v-icon>
-        <v-tooltip 
-          activator="parent"
-          location="top"
-          :text="$t('actions.edit')"
-        ></v-tooltip>
-        </v-btn>
-      <v-btn
-        v-if="userRole===1 || userRole===2"
-        color="error"
-        :aria-label="$t('actions.delete')"
-        @click="showDeleteConfirmationDialog = true">
-        <v-icon>{{ icons.mdiTrashCan }}</v-icon>
-        <v-tooltip 
-          activator="parent"
-          location="top"
-          :text="$t('actions.delete')"
-        ></v-tooltip>
-      </v-btn>
-    </div>  
+    <!-- Slot for content below the table -->
+    <div class="mt-4">
+      <slot name="bottom"></slot>
+    </div>
   </div>
-
-  <!-- Main Table -->
-  <v-table
-    class="styled-table mb-4"
-    density="comfortable"
-    hover
-    :aria-label="$t('petitionDetailsTable.title')"
-  >
-    <thead>
-      <tr>
-        <th
-          class="key-column"
-          scope="col"
-          :aria-label="$t('petitionDetailsTable.headers.petitionField')"
-        >
-          {{ $t('petitionDetailsTable.headers.petitionField') }}
-        </th>
-        <th
-          class="value-column"
-          scope="col"
-          :aria-label="$t('petitionDetailsTable.headers.value')"
-        >
-          {{ $t('petitionDetailsTable.headers.value') }}
-        </th>
-      </tr>
-    </thead>
-    <tbody >
-      <tr
-        v-for="key in getOrderedFields(petition)"
-        :key="key"
-      >
-        <td class="key-cell">
-          {{ $t(`petition.${formatKey(key)}`) || key }}
-        </td>
-        <td class="value-cell">
-          {{ formatValue(petition[key]) }}
-        </td>
-      </tr>
-   </tbody>
-  </v-table>
 </template>
-  
-<script setup>
-import {ref,computed} from 'vue'
-import { mdiClose, mdiPencil ,mdiTrashCan,mdiAlertCircleOutline} from '@mdi/js';
-import ContentApiService from '@/services/contentApiService.js'
-import {useStore} from "vuex"
 
+<script setup>
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+// Component props
 const props = defineProps({
   petition: {
     type: Object,
     required: true,
-  }
+  },
 });
 
-const emit = defineEmits(['close','refresh']);
-const icons = { mdiClose, mdiPencil,mdiTrashCan ,mdiAlertCircleOutline};
+const { t } = useI18n(); // For translations
 
-const store=useStore()
-const showDeleteConfirmationDialog = ref(false);
-const showPetitionIssueDialog = ref(false);
-const showPetitionFormDialog = ref(false);
-const userRole = computed(()=>store.getters['auth/userRole']);
-
-const formatKey = (key) => {
-  return key
-    .split("_")
-    .map((word, index) => (index ? word.charAt(0).toUpperCase() + word.slice(1) : word))
-    .join("");
-};
-
+/**
+ * Formats a given value for display in the table.
+ * Handles null/undefined, date strings, and booleans.
+ * @param {*} value - The value to format.
+ * @returns {string} The formatted value.
+ */
 const formatValue = (value) => {
   if (value === null || value === undefined || value === "") {
     return "-";
@@ -161,82 +70,78 @@ const formatValue = (value) => {
     return new Date(value).toLocaleDateString();
   }
   if (typeof value === 'boolean') {
-    return value ? 'Yes' : 'No';
+    return value ? t('generic.yes', 'Yes') : t('generic.no', 'No');
   }
   return value;
 };
 
-function formatPetition(petition) {
-  const formattedPetition = {}; 
-  const skippedKeys = [
-    'id',
-    'status',
-    'time_exce_student', 
-    'duration_exce_course', 
-    'time_exce_course', 
-    'user_account',
+/**
+ * Formats a snake_case key into a camelCase string for translation lookup.
+ * @param {string} key - The key to format.
+ * @returns {string} The formatted key.
+ */
+const formatKey = (key) => {
+  return key
+    .split("_")
+    .map((word, index) => (index ? word.charAt(0).toUpperCase() + word.slice(1) : word))
+    .join("");
+};
+
+/**
+ * A computed property that transforms the petition object into a flat array
+ * of rows suitable for rendering in the table. It also handles the nested
+ * `budget_positions` array.
+ */
+const tableRows = computed(() => {
+  const p = props.petition;
+  if (!p) return [];
+
+  const rows = [];
+  const fieldOrder = [
+    'supervisor_mail', 'student_mail', 'start_date', 'end_date', 'minutes',
+    'org_unit', 'eos_number', 'ba_degree', 'time_exce_name', 'time_exce_start',
+    'time_exce_end', 'duration_exce_name', 'duration_exce_start', 'duration_exce_end',
   ];
 
-  for (const [key, value] of Object.entries(petition)) {
-    // Skip skipped keys and time/duration exception fields if exception is not enabled
-    if (skippedKeys.includes(key)) continue;
-    if ((key.startsWith('time_exce_')) && !petition.time_exce_course) continue;
-    if ((key.startsWith('duration_exce_')) && !petition.duration_exce_course) continue; 
-    formattedPetition[key] = value;
-  }
-  return formattedPetition;
-}
-const FIELD_ORDER = [
-  'supervisor_mail',
-  'student_mail',
-  'start_date',
-  'end_date',
-  'minutes',
-  'org_unit',
-  'eos_number',
-  'ba_degree',
-  'budget_position',
-  'budget_approver',
-  'time_exce_name',
-  'time_exce_start',
-  'time_exce_end',
-  'duration_exce_name',
-  'duration_exce_start',
-  'duration_exce_end',
-];
+  // Process regular fields based on the defined order
+  fieldOrder.forEach((key) => {
+    if (Object.prototype.hasOwnProperty.call(p, key)) {
+      if (key.startsWith('time_exce_') && !p.time_exce_course) return;
+      if (key.startsWith('duration_exce_') && !p.duration_exce_course) return;
 
-function getOrderedFields(petition) {
-  const fields = formatPetition(petition);
-  return FIELD_ORDER.filter(key => {
-    return fields.hasOwnProperty(key);
-  });
-}
-const deletePetition = async () => {
-  try {
-    const role = userRole.value===2 ? 'clerk': 'supervisor';
-    await ContentApiService.delete(`${role}/petitions/${props.petition.id}`);
-    emit('refresh', {
-      type: 'delete',
-      data: props.petition.id
-    });
-  } catch (error) {
-    console.error("Error deleting petition:", error);
-    store.dispatch("snackbar/setErrorSnacks", {
-        message: t("errors.petition.deletion"),
+      rows.push({
+        label: t(`petition.${formatKey(key)}`),
+        value: p[key],
       });
-  }finally {
-    showDeleteConfirmationDialog.value = false;
+    }
+  });
+
+  // Process the budget_positions array and unnest it
+  if (p.budget_positions && Array.isArray(p.budget_positions)) {
+    p.budget_positions.forEach((position, index) => {
+      rows.push({
+        label: `${t('petition.budgetPosition', 'Budget Position')} ${index + 1}`,
+        value: position.budget_position,
+      });
+      rows.push({
+        label: `${t('petition.budgetApprover', 'Budget Approver')} ${index + 1}`,
+        value: position.budget_approver,
+      });
+      rows.push({
+        label: `${t('petition.budgetApproved', 'Budget Approved')} ${index + 1}`,
+        value: position.budget_approved,
+      });
+    });
   }
-}
-const handleRefresh = (payload) => {
-    emit('refresh', payload);
-};
+
+  return rows;
+});
 </script>
-  
+
 <style scoped>
   .styled-table {
     border-collapse: collapse;
-    border: 1px solid #d6d3d3; 
+    border: 1px solid #d6d3d3;
   }
   .styled-table th,
   .styled-table td {
@@ -268,4 +173,3 @@ const handleRefresh = (payload) => {
     background-color: #ffffff;
   }
 </style>
-
