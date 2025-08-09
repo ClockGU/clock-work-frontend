@@ -18,7 +18,7 @@
             ></v-text-field>
         </v-card-title>
         <v-card-text>
-            <PetitionsTable
+            <PetitionsOverviewTable
                 :headers="headers"
                 :items="filteredItems"
                 v-bind="$attrs"
@@ -32,7 +32,7 @@
 import { computed, ref } from 'vue';
 import { useI18n } from "vue-i18n";
 import { mdiMagnify } from '@mdi/js';
-import PetitionsTable from '@/components/tables/PetitionsTable.vue';
+import PetitionsOverviewTable from '@/components/tables/PetitionsOverviewTable.vue';
 
 const icons = {mdiMagnify};
 const props = defineProps({

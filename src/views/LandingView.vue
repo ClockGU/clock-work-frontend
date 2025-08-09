@@ -44,8 +44,8 @@
 </template>
 
 <script setup>
-import ClockIcon from "@/components/logo/ClockIcon.vue";
-import ButtonGoetheOAuth from "@/components/ButtonGoetheOAuth.vue";
+import ClockIcon from "@/components/landing/ClockIcon.vue";
+import ButtonGoetheOAuth from "@/components/landing/ButtonGoetheOAuth.vue";
 import { computed,onMounted } from "vue";
 import { useDisplay } from "vuetify";
 import {useStore} from "vuex"
@@ -54,10 +54,9 @@ const store= useStore()
 const error = computed(()=>store.getters["auth/loginError"]);
 const { mdAndUp } = useDisplay();
 const hasError = computed(() => error.value!=="");
-// onMounted(() => {
-//   store.dispatch("auth/clearError");
-// })
-
+onMounted(() => {
+ store.dispatch("auth/clearError");
+ })
 </script>
 
 

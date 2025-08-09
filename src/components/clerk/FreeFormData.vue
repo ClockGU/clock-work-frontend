@@ -4,7 +4,7 @@
             {{ $t('freeFormData.title') }}
         </v-card-title>
         <v-card-text>
-            <PetitionDetailsManager 
+            <PetitionTableWithActions 
             v-if="petition"
             :petition="petition"
             @close="emit('close')"
@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-import PetitionDetailsManager from '../tables/PetitionDetailsManager.vue';
+import PetitionTableWithActions from '../tables/PetitionTableWithActions.vue';
 const props=defineProps({
     petition:{
         type: [Object,null],

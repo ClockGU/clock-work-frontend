@@ -263,7 +263,6 @@ const initialFormData = {
 const formData = ref({ ...initialFormData });
 const isFormValid = ref(false);
 
-
 // Populate form data when petition prop changes
 watch(() => props.petition, (newPetition) => {
   if (newPetition) {
@@ -334,7 +333,6 @@ label {
   font-size: 1rem; 
   margin-left: 2.5rem; 
 }
-/* Override Vuetify's default styling */
 .v-checkbox :deep(.v-label) {
   opacity: 1;      
   font-weight: normal;

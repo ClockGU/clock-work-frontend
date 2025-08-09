@@ -16,7 +16,7 @@
 
       <!-- Petition Details Table -->
       <div v-if="selectedPetition" class="mt-4" role="table" :aria-label="$t('editCard.petitionDetailsTable')">
-        <PetitionDetailsManager
+        <PetitionTableWithActions
           :petition="selectedPetition"
           :role="role"
           :aria-label="$t('editCard.petitionDetailsTable')"
@@ -56,7 +56,7 @@
 import { ref } from 'vue';
 import PetitionFormDialog from '@/components/dialogs/PetitionFormDialog.vue';
 import StudentDataManagementDialog from '../dialogs/StudentDataManagementDialog.vue';
-import PetitionDetailsManager from '../tables/PetitionDetailsManager.vue';
+import PetitionTableWithActions from '../tables/PetitionTableWithActions.vue';
 
 const props = defineProps({
   role: {

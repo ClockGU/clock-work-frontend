@@ -7,23 +7,22 @@
       @close="showPetitionFormDialog = false"
       @refresh="handleRefresh"
     />
-    <AlertDialog
+    <ConfirmationDialog
       v-model="showDeleteConfirmationDialog"
-      :action-text="$t('actions.confirm')"
       :action="deletePetition"
     >
       <template #content>
         <p>{{ $t('confirmationDialog.PetitionDeletion') }}</p>
       </template>
-    </AlertDialog>
+    </ConfirmationDialog>
     <PetitionIssueDialog
       v-model="showPetitionIssueDialog"
       :petition="petition"
       @close="showPetitionIssueDialog = false"
     ></PetitionIssueDialog>
 
-    <!-- The PetitionDetailsTable component is used here -->
-    <PetitionDetailsTable :petition="petition">
+    <!-- The PetitionTable component is used here -->
+    <PetitionTable :petition="petition">
       <!-- Action buttons are injected into the 'top' slot of the table component -->
       <template #top>
         <div class="d-flex justify-space-between align-center">
@@ -68,7 +67,7 @@
           </div>
         </div>
       </template>
-    </PetitionDetailsTable>
+    </PetitionTable>
   </div>
 </template>
 
@@ -78,9 +77,9 @@ import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { mdiClose, mdiPencil, mdiTrashCan, mdiAlertCircleOutline } from '@mdi/js';
 import ContentApiService from '@/services/contentApiService.js';
-import PetitionDetailsTable from './PetitionDetailsTable.vue';
+import PetitionTable from './PetitionTable.vue';
 import PetitionFormDialog from '@/components/dialogs/PetitionFormDialog.vue'; 
-import AlertDialog from '@/components/dialogs/AlertDialog.vue';
+import ConfirmationDialog from '@/components/dialogs/ConfirmationDialog.vue';
 import PetitionIssueDialog from '@/components/dialogs/PetitionIssueDialog.vue';
 
 const props = defineProps({

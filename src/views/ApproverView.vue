@@ -28,7 +28,7 @@
                   </h2>
                 </v-card-title>
                 <v-card-text>
-                  <PetitionDetailsManager
+                  <PetitionTableWithActions
                     :petition="petition"
                     aria-labelledby="petition-data-heading"
                   />
@@ -75,7 +75,7 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import ContentApiService from '@/services/contentApiService';
-import PetitionDetailsManager from '@/components/tables/PetitionDetailsManager.vue';
+import PetitionTableWithActions from '@/components/tables/PetitionTableWithActions.vue';
 
 const { t } = useI18n();
 const route = useRoute();
