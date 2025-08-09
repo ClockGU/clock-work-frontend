@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="12" md="6">
         <v-text-field
-          v-model="formData.petitioneer"
+          v-model="formData.supervisor_mail"
           outlined
           dense
           disabled
@@ -93,28 +93,10 @@
           :aria-label="$t('petition.baDegree')"
         />
       </v-col>
-      <v-col cols="12" md="6">
-        <v-text-field
-          v-model="formData.budget_position"
-          outlined
-          dense
-          :prepend-icon="icons.mdiCurrencyUsd"
-          :label="$t('petition.budgetPosition')"
-          :aria-label="$t('petition.budgetPosition')"
-          :rules="[requiredRule]"
-        />
-      </v-col>
-      <v-col cols="12" md="6">
-        <v-text-field
-          v-model="formData.budget_approver"
-          type="email"
-          outlined
-          dense
-          :prepend-icon="icons.mdiEmail"
-          :label="$t('petition.budgetApprover')"
-          :aria-label="$t('petition.budgetApprover')"
-          :rules="[requiredRule, emailRule]"
-        />
+      <v-col cols="12">
+          <BudgetPositionsFields
+            v-model="formData.budget_positions"
+          />
       </v-col>
 
        <!-- Time Exception Fields -->
@@ -206,6 +188,7 @@
 import { ref, watch} from 'vue';
 import { mdiAccount, mdiEmail, mdiOfficeBuilding, mdiNumeric, mdiSchool,mdiCalendar, mdiClock, mdiCurrencyUsd } from '@mdi/js';
 import { useI18n } from 'vue-i18n';
+import BudgetPositionsFields from './BudgetPositionsFields.vue';
 
 const {t}= useI18n();
 const icons = {
@@ -232,25 +215,35 @@ const degreeOptions =[
 ]
 
 const initialFormData = {
-  petitioneer: '',
-  student_mail: '',
   start_date: '',
   end_date: '',
-  org_unit: '',
-  eos_number: '',
-  minutes: '',
-  ba_degree: false,
-  budget_position: '',
-  budget_approver: '',
-  time_exce_student: false,
-  time_exce_course: false,
+  minutes: 0,
+  student_mail: '',
+  supervisor_mail: '',
   time_exce_name: '',
   time_exce_start: '',
   time_exce_end: '',
-  duration_exce_course: false,
   duration_exce_name: '',
   duration_exce_start: '',
   duration_exce_end: '',
+  id: '',
+  user_account: '',
+  org_unit: '',
+  eos_number: '',
+  ba_degree: false,
+  status: '',
+  time_exce_student: false,
+  time_exce_course: false,
+  duration_exce_course: false,
+  budget_positions: [
+    {
+      id: '',
+      budget_position: '',
+      budget_approver: '',
+      budget_approved: false,
+      percentage: 0,
+    },
+  ],
 };
 
 const formData = ref({ ...initialFormData });
