@@ -51,40 +51,29 @@
       </template>
       <span>{{ position.budget_approved ? $t('approved') : $t('notApproved') }}</span>
     </v-tooltip>
-    
-    <!-- Add Button with Tooltip -->
-    <v-tooltip v-if="index === 0" location="top">
-      <template v-slot:activator="{ props }">
-        <v-btn
-          v-bind="props"
-          :icon="icons.mdiPlus"
-          variant="tonal"
-          rounded="sm"
-          size="small"
-          color="primary"
-          class="mb-4"
-          @click="addPosition"
-        />
-      </template>
-      <span>{{ $t('addNewPosition') }}</span>
-    </v-tooltip>
-    
-    <!-- Remove Button with Tooltip -->
-    <v-tooltip v-else location="top">
-      <template v-slot:activator="{ props }">
-        <v-btn
-          v-bind="props"
-          :icon="icons.mdiMinus"
-          variant="tonal"
-          rounded="sm"
-          size="small"
-          color="error"
-          class="mb-4"
-          @click="removePosition(index)"
-        />
-      </template>
-      <span>{{ $t('removePosition') }}</span>
-    </v-tooltip>
+    <!-- Add Button  -->
+    <v-btn
+      v-if="index === 0"
+      :icon="icons.mdiPlus"
+      variant="tonal"
+      rounded="sm"
+      size="small"
+      color="primary"
+      class="mb-4"
+      @click="addPosition"
+    />
+    <!-- Remove Button  -->
+    <v-btn
+      v-else
+      :icon="icons.mdiMinus"
+      variant="tonal"
+      rounded="sm"
+      size="small"
+      color="error"
+      class="mb-4"
+      @click="removePosition(index)"
+    />
+
   </div>
 </template>
 
