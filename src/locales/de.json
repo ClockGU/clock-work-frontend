@@ -225,6 +225,9 @@
     "approveSuccess": "Antrag erfolgreich genehmigt",
     "rejectSuccess": "Antrag erfolgreich abgelehnt"
   },
+    "petitionsOverviewTable":{
+      "noPetitions":"zurzeit sind keine Anträge verfügbar"
+    },
   "ariaLabel": {
     "navigation": {
       "appBar": "Hauptnavigationsleiste",

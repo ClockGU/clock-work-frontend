@@ -198,6 +198,7 @@
     "petitionIssueDialog":{
       "sendingEmail": "Error sending email"
     },
+  
     "studentData":{
       "savingData":"Error saving employee data",
       "savingFiles":"Error saving files",
@@ -225,6 +226,9 @@
     "approveSuccess": "Petition approved successfully",
     "rejectSuccess": "Petition rejected successfully"
 },
+  "petitionsOverviewTable":{
+      "noPetitions":"currently there are no petitions available"
+    },
 "ariaLabel": {
     "navigation":{
       "appBar":"Main navigation bar",

@@ -9,7 +9,7 @@
         indeterminate
         color="primary"
       ></v-progress-circular>
-      <PetitionsOverviewTable
+      <PetitionsTable
         v-else
         :headers="headers" 
         :items="petitions" 
@@ -20,7 +20,7 @@
 </template>
 
 <script setup>
-import PetitionsOverviewTable from "@/components/tables/PetitionsOverviewTable.vue";
+import PetitionsTable from "@/components/tables/PetitionsTable.vue";
 import { computed} from "vue";
 import { useI18n } from "vue-i18n";
 

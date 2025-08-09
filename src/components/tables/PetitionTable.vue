@@ -55,10 +55,7 @@ const props = defineProps({
 
 const { t } = useI18n(); 
 
-/*
- * Formats a given value for display in the table.
- * Handles null/undefined, date strings, and booleans.
- */
+//Formats a given value for display in the table.
 const formatValue = (value) => {
   if (value === null || value === undefined || value === "") {
     return "-";
@@ -72,10 +69,7 @@ const formatValue = (value) => {
   return value;
 };
 
-/**
- * Formats a snake_case key into a camelCase string for translation lookup.
-
- */
+//Formats a snake_case key into a camelCase string for translation lookup.
 const formatKey = (key) => {
   return key
     .split("_")
@@ -83,9 +77,10 @@ const formatKey = (key) => {
     .join("");
 };
 
-/**
- * A computed property that transforms the petition object into a flat array of rows suitable for rendering in the table. 
- * It also handles the nested`budget_positions` array.
+/*
+ A computed property that transforms the petition object into 
+ a flat array of rows suitable for rendering in the table. 
+It also handles the nested`budget_positions` array.
  */
 const tableRows = computed(() => {
   const p = props.petition;
@@ -137,6 +132,7 @@ const tableRows = computed(() => {
   .styled-table {
     border-collapse: collapse;
     border: 1px solid #d6d3d3;
+    cursor: pointer;
   }
   .styled-table th,
   .styled-table td {
