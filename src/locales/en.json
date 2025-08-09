@@ -1,11 +1,13 @@
 {
-  "welcome": "Welcome to the supervisor portal of CLOCK Work",
+  "welcome": "Welcome to the portal of CLOCK Work",
   "login": "Login",
   "logout": "Logout",
   "search": "Search",
   "searchBy": "Search by",
   "overview": "Overview",
   "download": "Download",
+  "supervisor": "Supervisor",
+  "student": "Student",
   "app": {
     "loggingin": "Logging in...",
     "loading": "Loading..."
@@ -22,6 +24,19 @@
     "send": "send",
     "approve":"approve",
     "reject":"reject"
+  },
+   "navigation":{
+    "ariaLabel":{
+      "appBar":"Main navigation bar",
+      "navDrawer":"Main navigation drawer",
+      "toggleDrawer":"Toggle navigation drawer",
+      "dashboard":"Go to Dashboard",
+      "roles":"Go to Roles Selection",
+      "avatar":"User avatar",
+      "menu": "User menu",
+      "toggleMenu":"Toggle user menu",
+      "menuOptions":"User menu options"
+    }
   },
   "roleSelectionView": {
     "welcome": "You are new here!",
@@ -99,7 +114,6 @@
   "petition": {
     "id": "Petition ID",
     "status": "Status",
-    "petitioneer": "Petitioneer",
     "supervisorMail": "Supervisor Mail",
     "studentMail": "Student Mail",
     "orgUnit": "Org Unit",
@@ -117,7 +131,8 @@
     "durationExceCourse": "Duration Exception",
     "durationExceName": "Duration Exception Name",
     "durationExceStart": "Duration Exception Start Date",
-    "durationExceEnd": "Duration Exception End Date"
+    "durationExceEnd": "Duration Exception End Date",
+    "durationException": "Duration Exception"
   },
   "petitionDataDisplay":{
     "title": "Petition Data Display"
@@ -143,13 +158,21 @@
     "endDateAfterStart": "End date must be after start date",
     "eosNumber": "Must be a 5 digit number "
   },
-  "appFooter": {
+  "footer": {
     "links": {
       "Datenschutz": "Privacy",
       "Impressum": "Imprint"
     },
-    "text": "This project was financially supported by the Goethe-Universität Frankfurt.",
-    "code": "Code on "
+    "acknowledgeGU": {
+      "text": "The development of this project was supported by {link}.",
+      "university": "Goethe University Frankfurt",
+      "url": "https://www.goethe-university-frankfurt.de/"
+    },
+    "github_repo": {
+      "text": "Check out the code on {link}.",
+      "github": "Github",
+      "url": "https://github.com/ClockGU"
+    }
   },
   "reportIssue": {
     "studentSubjects": {

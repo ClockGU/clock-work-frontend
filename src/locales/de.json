@@ -1,11 +1,13 @@
 {
-  "welcome": "Willkommen im Supervisor-Portal von CLOCK Work",
+  "welcome": "Willkommen im Portal von CLOCK Work",
   "login": "Anmelden",
   "logout": "Abmelden",
   "overview": "Übersicht",
   "search": "Suchen",
   "searchBy": "Suche nach",
   "download": "Herunterladen",
+   "supervisor": "Betreuer",
+  "student": "Student",
   "app": {
     "loggingin": "Anmeldung...",
     "loading": "Wird geladen..."
@@ -22,6 +24,19 @@
     "send": "senden",
     "approve": "genehmigen",
     "reject": "ablehnen"
+  },
+  "navigation":{
+    "ariaLabel":{
+      "appBar":"Haupt-Navigationsleiste",
+      "navDrawer":"Haupt-Navigationsmenü",
+      "toggleDrawer":"Navigationsmenü ein-/ausblenden",
+      "dashboard":"Zur Startseite",
+      "roles":"Zur Rollenauswahl",
+      "avatar":"Benutzer-Avatar",
+      "menu": "Benutzer-Menü",
+      "toggleMenu":"Benutzer-Menü ein-/ausblenden",
+      "menuOptions":"Menüoptionen des Benutzers"
+    }
   },
   "roleSelectionView": {
     "welcome": "Sie sind neu hier!",
@@ -99,7 +114,6 @@
   "petition": {
     "id": "Antrags-ID",
     "status": "Status",
-    "petitioneer": "Antragsteller",
     "supervisorMail": "Antragsteller-Mail",
     "studentMail": "Studenten-Mail",
     "orgUnit": "Organisationseinheit",
@@ -117,7 +131,8 @@
     "durationExceCourse": "Dauerabweichung",
     "durationExceName": "Name der Dauerabweichung",
     "durationExceStart": "Startdatum der Dauerabweichung",
-    "durationExceEnd": "Enddatum der Dauerabweichung"
+    "durationExceEnd": "Enddatum der Dauerabweichung",
+    "durationException": "Dauerabweichung"
   },
   "petitionDataDisplay": {
     "title": "Petitionsdaten Anzeige"
@@ -145,13 +160,21 @@
     "endDateAfterStart": "Enddatum muss nach dem Startdatum liegen",
     "eosNumber": "Muss eine 5-stellige Zahl sein"
   },
-  "appFooter": {
+  "footer": {
     "links": {
       "Datenschutz": "Datenschutz",
       "Impressum": "Impressum"
     },
-    "text": "Dieses Projekt wurde finanziell von der Goethe-Universität Frankfurt unterstützt.",
-    "code": "Code auf "
+    "acknowledgeGU": {
+      "text": "Dieses Projekt wurde mit finanzieller Unterstützung der {link} entwickelt.",
+      "university": "Goethe-Universität Frankfurt",
+      "url": "https://www.uni-frankfurt.de/"
+    },
+    "github_repo": {
+      "text": "Code auf {link} ansehen.",
+      "github": "Github",
+      "url": "https://github.com/ClockGU"
+    }
   },
   "reportIssue": {
      "studentSubjects": {
@@ -217,5 +240,4 @@
     "noPetitionComplete": "Diese Petition wurde bereits bearbeitet. Vielen Dank für Ihre Bewertung.",
     "approveSuccess": "Petition erfolgreich genehmigt",
     "rejectSuccess": "Petition erfolgreich abgelehnt"
-}
-}
+}}

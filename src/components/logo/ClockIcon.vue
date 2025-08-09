@@ -1,5 +1,5 @@
 <template>
-  <v-img :width="dimension" :height="dimension" :src="imgSrc" />
+  <v-img :width="dimension" :height="dimension" :src="imgSrc"  alt="clock Logo"/>
 </template>
 <script setup>
 import { ref } from "vue";
