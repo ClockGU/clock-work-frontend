@@ -15,15 +15,14 @@
         :key="header.key"
         >
           <template v-if="header.key === 'exceptions'">
-            <!---->
-            <div class="d-flex align-center justify-center">
+            <!--shows X if there is no exception or ✓ if there is an exception-->
               <StatusIndicator
+                class="d-flex align-center justify-center"
                 :status="item.time_exce_course || item.duration_exce_course"
                 :tooltip="item.time_exce_course || item.duration_exce_course ? $t('petitionsOverviewTable.exceptions.true') : $t('petitionsOverviewTable.exceptions.false')"
                 tooltip-location="end"
                 variant="text"
               />
-            </div>
           </template>
           <template v-else>
             {{ item[header.key] }}

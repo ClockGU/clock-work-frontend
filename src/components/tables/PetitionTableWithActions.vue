@@ -26,44 +26,35 @@
       <!-- Action buttons are injected into the 'top' slot of the table component -->
       <template #top>
         <div class="d-flex justify-space-between align-center">
-          <v-btn
-            v-if="userRole != 3"
-            color="error"
-            :aria-label="$t('actions.close')"
-            @click="$emit('close')"
-          >
-            <v-icon>{{ icons.mdiClose }}</v-icon>
-            <v-tooltip activator="parent" location="top" :text="$t('actions.close')"></v-tooltip>
-          </v-btn>
-
+          <RoleActionButton
+          color="error"
+          :roles="[0,1,2]"
+          :icon="icons.mdiClose"
+          :tooltip="$t('actions.close')"
+          :action="()=>$emit('close') "
+          />
           <div class="d-flex align-center ga-3 ml-1">
-            <v-btn
-              v-if="userRole != 1"
+            <RoleActionButton
               color="warning"
-              :aria-label="$t('actions.report')"
-              @click="showPetitionIssueDialog = true"
-            >
-              <v-icon>{{ icons.mdiAlertCircleOutline }}</v-icon>
-              <v-tooltip activator="parent" location="top" :text="$t('actions.report')"></v-tooltip>
-            </v-btn>
-            <v-btn
-              v-if="userRole === 1 || userRole === 2"
+              :roles="[0,2]"
+              :icon="icons.mdiAlertCircleOutline"
+              :tooltip="$t('actions.report')"
+              :action="()=>showPetitionIssueDialog = true"
+            />
+            <RoleActionButton
               color="primary"
-              :aria-label="$t('actions.edit')"
-              @click="showPetitionFormDialog = true"
-            >
-              <v-icon>{{ icons.mdiPencil }}</v-icon>
-              <v-tooltip activator="parent" location="top" :text="$t('actions.edit')"></v-tooltip>
-            </v-btn>
-            <v-btn
-              v-if="userRole === 1 || userRole === 2"
+              :roles="[1,2]"
+              :icon="icons.mdiPencil"
+              :tooltip="$t('actions.edit')"
+              :action="()=>showPetitionFormDialog = true"
+            />
+            <RoleActionButton
               color="error"
-              :aria-label="$t('actions.delete')"
-              @click="showDeleteConfirmationDialog = true"
-            >
-              <v-icon>{{ icons.mdiTrashCan }}</v-icon>
-              <v-tooltip activator="parent" location="top" :text="$t('actions.delete')"></v-tooltip>
-            </v-btn>
+              :roles="[1,2]"
+              :icon="icons.mdiTrashCan"
+              :tooltip="$t('actions.delete')"
+              :action="()=>showDeleteConfirmationDialog = true"
+            />
           </div>
         </div>
       </template>
@@ -81,6 +72,7 @@ import PetitionTable from './PetitionTable.vue';
 import PetitionFormDialog from '@/components/dialogs/PetitionFormDialog.vue'; 
 import ConfirmationDialog from '@/components/dialogs/ConfirmationDialog.vue';
 import PetitionIssueDialog from '@/components/dialogs/PetitionIssueDialog.vue';
+import RoleActionButton from '../ui/RoleActionButton.vue';
 
 const props = defineProps({
   petition: {
