@@ -9,7 +9,7 @@
         indeterminate
         color="primary"
       ></v-progress-circular>
-      <PetitionsTable
+      <PetitionsOverviewTable
         v-else
         :headers="headers" 
         :items="petitions" 
@@ -20,9 +20,9 @@
 </template>
 
 <script setup>
-import PetitionsTable from "@/components/tables/PetitionsTable.vue";
 import { computed} from "vue";
 import { useI18n } from "vue-i18n";
+import PetitionsOverviewTable from "@/components/tables/PetitionsOverviewTable.vue";
 
 const props = defineProps({
   petitions: {
@@ -45,7 +45,8 @@ const headers = computed(() => {
   const baseHeaders = [
     { title: t('petition.startDate'), key: "start_date" },
     { title: t('petition.endDate'), key: "end_date" },
-    { title: t('petition.minutes'), key: "minutes" }
+    { title: t('petition.minutes'), key: "minutes" },
+    { title: t('petition.exceptions'), key: 'exceptions', align: 'center', sortable: false }
   ];
   
   if (props.role === "student") {
@@ -56,6 +57,7 @@ const headers = computed(() => {
   } else {
     return [
       { title: t('petition.studentMail'), key: "student_mail" },
+      { title: t('petition.eosNumber'), key: "eos_number" },
       ...baseHeaders
     ];
   }

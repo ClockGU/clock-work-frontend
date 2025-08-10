@@ -229,6 +229,10 @@
   "petitionsOverviewTable":{
       "noPetitions":"currently there are no petitions available"
     },
+    "budget":{
+      "approved":"The Budget has been approved",
+      "notApproved":"The Budget has not been approved yet"
+    },
 "ariaLabel": {
     "navigation":{
       "appBar":"Main navigation bar",

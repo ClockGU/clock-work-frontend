@@ -228,6 +228,10 @@
     "petitionsOverviewTable":{
       "noPetitions":"zurzeit sind keine Anträge verfügbar"
     },
+    "budget": {
+      "approved": "Das Budget wurde genehmigt",
+      "notApproved": "Das Budget wurde noch nicht genehmigt"
+    },
   "ariaLabel": {
     "navigation": {
       "appBar": "Hauptnavigationsleiste",

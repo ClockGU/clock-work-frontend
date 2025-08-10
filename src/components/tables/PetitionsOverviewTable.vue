@@ -14,7 +14,17 @@
         v-for="header in headers" 
         :key="header.key"
         >
-          {{ item[header.key] }}
+          <template v-if="header.key === 'exceptions'">
+            <v-btn
+              v-if="item.time_exce_course || item.duration_exce_course"
+              color="green"
+            >
+              mdi-check-circle
+            </v-btn>
+          </template>
+          <template v-else>
+            {{ item[header.key] }}
+          </template>
         </td>
       </tr>
     </template>
@@ -37,14 +47,13 @@
   const selectedItem = ref(null);
 
   const handleRowClick = (item) => {
-    // If the clicked item is already selected, deselect it. Otherwise, select the new one.
+    // If the clicked item is already selected, deselect it. Otherwise, select the new 
     if (selectedItem.value === item) {
       selectedItem.value = null; 
-      emit('row-click', null);
     } else {
       selectedItem.value = item; 
-      emit('row-click', item);
     }
+    emit('row-click', selectedItem.value);
   };
   </script>
   <style scoped>

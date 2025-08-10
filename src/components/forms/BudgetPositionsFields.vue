@@ -37,60 +37,42 @@
       :rules="[requiredRule, percentageRule]"
       suffix="%"
     />
-
-    <!-- Approval Status Button -->
-    <v-tooltip location="top">
-      <template v-slot:activator="{ props }">
-        <v-btn
-          v-bind="props"
-          :icon="position.budget_approved ? icons.mdiCheck : icons.mdiClose"
-          :color="position.budget_approved ? 'success' : 'error'"
-          density="compact"
-          class="mb-4"
-        />
-      </template>
-      <span>{{ position.budget_approved ? $t('approved') : $t('notApproved') }}</span>
-    </v-tooltip>
-    <!-- Add Button  -->
-    <v-btn
-      v-if="index === 0"
-      :icon="icons.mdiPlus"
-      variant="tonal"
-      rounded="sm"
-      size="small"
-      color="primary"
-      class="mb-4"
-      @click="addPosition"
-    />
-    <!-- Remove Button  -->
-    <v-btn
-      v-else
-      :icon="icons.mdiMinus"
-      variant="tonal"
-      rounded="sm"
-      size="small"
-      color="error"
-      class="mb-4"
-      @click="removePosition(index)"
-    />
-
+    <div class="d-flex align-center ga-2 mb-4" >
+      <StatusIndicator
+        v-model="position.budget_approved"
+        :tooltip="position.budget_approved ? $t('budget.approved') : $t('budget.notApproved')"
+       />
+      <!-- Add field Button  -->
+      <v-btn
+        v-if="index === 0"
+        :icon="icons.mdiPlus"
+        variant="tonal"
+        rounded="sm"
+        size="small"
+        color="primary"
+        @click="addPosition"
+      />
+      <!-- Remove field Button  -->
+      <v-btn
+        v-else
+        :icon="icons.mdiMinus"
+        variant="tonal"
+        rounded="sm"
+        size="small"
+        color="error"
+        @click="removePosition(index)"
+      />
+    </div> 
   </div>
 </template>
 
 <script setup>
 import {useI18n} from 'vue-i18n';
-import { 
-  mdiEmail, 
-  mdiCheck, 
-  mdiClose, 
-  mdiPlus, 
-  mdiMinus 
-} from '@mdi/js';
+import {mdiEmail,mdiPlus,mdiMinus} from '@mdi/js';
+import StatusIndicator from '@/components/ui/StatusIndicator.vue';
 
 const icons = {
   mdiEmail,
-  mdiCheck,
-  mdiClose,
   mdiPlus,
   mdiMinus
 };
