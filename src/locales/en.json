@@ -114,7 +114,8 @@
     "durationExceName": "Duration Exception Name",
     "durationExceStart": "Duration Exception Start Date",
     "durationExceEnd": "Duration Exception End Date",
-    "durationException": "Duration Exception"
+    "durationException": "Duration Exception",
+    "exceptions": "Exceptions"
   },
   "petitionDataDisplay":{
     "title": "Petition Data Display"
@@ -227,7 +228,11 @@
     "rejectSuccess": "Petition rejected successfully"
 },
   "petitionsOverviewTable":{
-      "noPetitions":"currently there are no petitions available"
+      "noPetitions":"currently there are no petitions available",
+      "exceptions": {
+        "true": "There is an exception",
+        "false": "No exception"
+      }
     },
     "budget":{
       "approved":"The Budget has been approved",

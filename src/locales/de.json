@@ -114,7 +114,8 @@
     "durationExceName": "Dauer Ausnahme Name",
     "durationExceStart": "Dauer Ausnahme Startdatum",
     "durationExceEnd": "Dauer Ausnahme Enddatum",
-    "durationException": "Dauer Ausnahme"
+    "durationException": "Dauer Ausnahme",
+    "exceptions": "Ausnahmen"
   },
   "petitionDataDisplay": {
     "title": "Antragsdatenanzeige"
@@ -226,7 +227,11 @@
     "rejectSuccess": "Antrag erfolgreich abgelehnt"
   },
     "petitionsOverviewTable":{
-      "noPetitions":"zurzeit sind keine Anträge verfügbar"
+      "noPetitions":"zurzeit sind keine Anträge verfügbar",
+      "exceptions": {
+        "true": "Es gibt eine Ausnahme",
+        "false": "Keine Ausnahme"
+      }
     },
     "budget": {
       "approved": "Das Budget wurde genehmigt",

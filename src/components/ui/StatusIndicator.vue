@@ -1,21 +1,21 @@
 <template>
-    <div>
-        <v-btn
-          :color="modelValue? 'success' : 'error'"
-          :icon="modelValue? icons.mdiCheck : icons.mdiClose "
-          :variant="variant"
-          :density="density"
-          :aria-label="tooltip"
-
-         />
-        <v-tooltip 
-            v-if="tooltip" 
-            activator="parent" 
-            location="top" 
-            :text="tooltip"
-        />
-    </div>
+  <div>
+    <v-btn
+      :color="status ? 'success' : 'error'"
+      :icon="status ? icons.mdiCheck : icons.mdiClose"
+      :variant="variant"
+      :density="density"
+      :aria-label="tooltip"
+    />
+    <v-tooltip 
+      v-if="tooltip" 
+      activator="parent" 
+      :location="tooltipLocation" 
+      :text="tooltip"
+    />
+  </div>
 </template>
+
 <script setup>
 import { 
   mdiCheck, 
@@ -26,7 +26,13 @@ const icons = {
   mdiCheck,
   mdiClose,
 };
-const props= defineProps({
+
+const props = defineProps({
+    //the status we want to track Whether it should be green (true) or red (false).
+  status: {
+    type: Boolean,
+    required: true,
+  },
   tooltip: {
     type: String,
     default: ''
@@ -38,10 +44,10 @@ const props= defineProps({
   variant: {
     type: String,
     default: 'flat'
+  },
+  tooltipLocation: {
+    type: String,
+    default: 'top'
   }
-});
-const modelValue =defineModel({
-  type: Boolean,
-  default: false
 });
 </script>

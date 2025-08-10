@@ -39,7 +39,7 @@
     />
     <div class="d-flex align-center ga-2 mb-4" >
       <StatusIndicator
-        v-model="position.budget_approved"
+        :status="position.budget_approved"
         :tooltip="position.budget_approved ? $t('budget.approved') : $t('budget.notApproved')"
        />
       <!-- Add field Button  -->
