@@ -16,8 +16,8 @@
                 </v-col>
                 <v-col cols="12" md="6" class="d-flex flex-column">
                     <UploadedFiles 
-                    class="flex-grow-1"
-                    :petition="petition"
+                        class="flex-grow-1"
+                        :petition="petition"
                     />
                 </v-col>
             </v-row>

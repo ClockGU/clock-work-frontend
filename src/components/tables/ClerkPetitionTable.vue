@@ -21,6 +21,7 @@
             <PetitionsOverviewTable
                 :headers="headers"
                 :items="filteredItems"
+                :selected-item="selectedPetition"
                 v-bind="$attrs"
                 @row-click="$emit('row-click', $event)"
             />
@@ -40,6 +41,10 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  selectedPetition: {
+    type: Object,
+    default: null
+  }
 });
 
 const emit = defineEmits(['row-click']);

@@ -9,7 +9,7 @@
     >
     <template #item="{ item }">
       <tr @click="handleRowClick(item)"
-        :class="{ 'selected-row': selectedItem=== item}">
+        :class="{ 'selected-row': selectedItem && selectedItem.id === item.id }">
         <td 
         v-for="header in headers" 
         :key="header.key"
@@ -51,8 +51,10 @@
   });
   const emit = defineEmits(['row-click']);
 
+  // This function handles row click events by toggling the selection of the clicked item
   const handleRowClick = (item) => {
-    emit('row-click', props.selectedItem === item ? null : item);
+    const isSelected = props.selectedItem && props.selectedItem.id === item.id;
+    emit('row-click', isSelected ? null : item);
   };
 </script>
 <style scoped>
