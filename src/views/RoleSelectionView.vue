@@ -32,7 +32,7 @@
   import { computed, onMounted } from 'vue';
   import { useRouter } from 'vue-router';  
   import { useStore } from 'vuex'; 
-  import RoleCardButton from '@/components/role-selection/RoleCardButton.vue';
+  import RoleCardButton from '@/components/ui/RoleCardButton.vue';
   import StudentImg from '@/assets/student.jpg';
   import SupervisorImg from '@/assets/supervisor.png';
   import AuthApiService from '@/services/authApiService';
