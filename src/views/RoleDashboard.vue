@@ -6,16 +6,19 @@
         <EditCard
         ref="editCardRef"
         :role="role"
-        @refresh="fetchPetitions"  />
+        :selectedPetition="selectedPetition"
+        @refresh="handleRefresh" 
+        @deselect-petition="deselectPetition" />
       </v-col>
       <v-col cols="12" md="6">
         <!-- OverviewCard with event listener for select-petition -->
         <OverviewCard 
         :key="petitions.length" 
         :petitions="petitions"
+        :selectedPetition="selectedPetition"
         :isLoading ="isLoading"
         :role="role"
-        @select-petition="handleSelectPetition" />
+        @select-petition="selectPetition" />
       </v-col>
     </v-row>
   </v-container>
@@ -36,17 +39,16 @@ const route = useRoute();
 const role = route.params.role; // Get the role from the route
 
 const petitions = ref([]);
+const selectedPetition = ref(null);
 const isLoading = ref(true);
-// Create a ref for the EditCard component
-const editCardRef = ref(null);
 
 const token = computed(() => store.getters["auth/accessToken"]);
 
-const handleSelectPetition = (petition) => {
-  // Pass the selected petition to the EditCard component to handle the selection
-  if (editCardRef.value) {
-    editCardRef.value.selectPetition(petition);
-  }
+const selectPetition = (petition) => {
+  selectedPetition.value = petition;
+};
+const deselectPetition = () => {
+  selectedPetition.value = null;
 };
 const fetchPetitions =async () => {
  isLoading.value = true;
@@ -69,6 +71,23 @@ const fetchPetitions =async () => {
    isLoading.value = false;
  }
 }
+const handleRefresh = (payload) => {
+  if (payload) {
+    switch(payload.type) {
+      case 'update':
+        if (selectedPetition.value?.id === payload.data.id) {
+          selectPetition(payload.data);
+        }
+        break;
+      case 'delete':
+        if (selectedPetition.value?.id === payload.data) {
+          deselectPetition();
+        }
+        break;
+    }
+  }
+  fetchPetitions();
+};
 onMounted(() => {
   fetchPetitions();
 });

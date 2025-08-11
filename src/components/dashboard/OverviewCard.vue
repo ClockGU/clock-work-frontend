@@ -13,6 +13,7 @@
         v-else
         :headers="headers" 
         :items="petitions" 
+        :selected-item="selectedPetition"
         @row-click="selectPetition"
       />
     </v-card-text>
@@ -36,6 +37,10 @@ const props = defineProps({
   role: {
     type: String,
     required: true
+  },
+  selectedPetition: {
+    type: Object,
+    default: null,
   }
 });
 const emit = defineEmits(["select-petition"]);

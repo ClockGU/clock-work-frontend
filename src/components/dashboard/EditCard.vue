@@ -1,6 +1,6 @@
 <template>
   <v-card class="pa-4" role="region" :aria-label="$t('ariaLabel.editCard')">
-    <v-card-title v-if="!selectedPetition" class="text-h5 font-weight-bold">
+    <v-card-title  class="text-h5 font-weight-bold">
       {{ role === "supervisor" ? $t("editCard.supervisorTitle") : $t("editCard.studentTitle") }}
     </v-card-title>
     <v-card-text>
@@ -20,7 +20,7 @@
           :petition="selectedPetition"
           :role="role"
           :aria-label="$t('editCard.petitionDetailsTable')"
-          @close="selectPetition(null)"
+          @close="emit('deselect-petition');"
           @edit="openEditDialog"
           @refresh="refresh"
         />
@@ -63,43 +63,24 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  selectedPetition: {
+    type: Object,
+    default: null,
+  }
 });
 
-const emit = defineEmits(['refresh']);
+const emit = defineEmits(['refresh','deselect-petition']);
 
 const showPetitionForm = ref(false);
 const showStudentDialog = ref(false);
-const selectedPetition = ref(null);
 
-// selectedPetition =null => open an empty form for petition creation
-// selectedPetition =object => open form with all data prefilled for editing because petitionForm autopopulates a petition
 const openNewPetitionDialog = () => {
-  selectedPetition.value = null;
+  emit('deselect-petition'); // Clear any selected petition
   showPetitionForm.value = true;
 };
-//const openEditDialog = () => showPetitionForm.value = true;
 const openStudentDialog = () => showStudentDialog.value = true;
 
-const selectPetition = (petition) => {
-  selectedPetition.value = petition;
-};
 const refresh = (payload) => {
-  if (payload) {
-    switch(payload.type) {
-      case 'update':
-        if (selectedPetition.value?.id === payload.data.id) {
-          selectedPetition.value = payload.data;
-        }
-        break;
-      case 'delete':
-        if (selectedPetition.value?.id === payload.data) {
-          selectedPetition.value = null;
-        }
-        break;
-    }
-  }
-  emit('refresh');
+  emit('refresh',payload);
 };
-
-defineExpose({ selectPetition });
 </script>

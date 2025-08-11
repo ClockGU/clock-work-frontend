@@ -34,7 +34,6 @@
 </template>
   
 <script setup>
-  import { ref } from 'vue';
   import StatusIndicator from '@/components/ui/StatusIndicator.vue';
   const props = defineProps({
     headers: {
@@ -44,19 +43,16 @@
     items: {
       type: Array,
       required: true
+    },
+    selectedItem: {
+      type: Object,
+      default: null
     }
   });
   const emit = defineEmits(['row-click']);
-  const selectedItem = ref(null);
 
   const handleRowClick = (item) => {
-    // If the clicked item is already selected, deselect it. Otherwise, select the new 
-    if (selectedItem.value === item) {
-      selectedItem.value = null; 
-    } else {
-      selectedItem.value = item; 
-    }
-    emit('row-click', selectedItem.value);
+    emit('row-click', props.selectedItem === item ? null : item);
   };
 </script>
 <style scoped>
