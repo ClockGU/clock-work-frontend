@@ -62,8 +62,8 @@ const headers = computed(() => [
     { title: t('petition.orgUnit'), key: "org_unit" },
     { title: t('petition.eosNumber'), key: "eos_number" },
     { title: t('petition.baDegree'), key: "ba_degree" },
-    { title: t('petition.budgetPosition'), key: "budget_position" },
-    { title: t('petition.budgetApprover'), key: "budget_approver" }
+    { title: t('petition.exceptions'), key: 'exceptions', align: 'center'}
+
 ]);
 const searchableFields = computed(() => {
   return headers.value.filter((header) =>
