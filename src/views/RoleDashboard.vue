@@ -4,19 +4,18 @@
       <v-col cols="12" md="6">
         <!-- EditCard with a ref to allow communication -->
         <EditCard
-          ref="editCardRef"
-          :selectedPetition="selectedPetition"
-          @refresh="handleRefresh" 
-          @deselect-petition="deselectPetition" />
+            :selectedPetition="selectedPetition"
+            @refresh="handleRefresh" 
+            @deselect-petition="deselectPetition" />
       </v-col>
       <v-col cols="12" md="6">
         <!-- OverviewCard with event listener for select-petition -->
         <OverviewCard 
-          :key="petitions.length" 
-          :petitions="petitions"
-          :selectedPetition="selectedPetition"
-          :isLoading ="isLoading"
-          @select-petition="selectPetition" />
+            :key="petitions.length" 
+            :petitions="petitions"
+            :selectedPetition="selectedPetition"
+            :isLoading ="isLoading"
+            @select-petition="selectPetition" />
       </v-col>
     </v-row>
   </v-container>

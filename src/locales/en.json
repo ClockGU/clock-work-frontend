@@ -36,9 +36,14 @@
     "studentDescription": "As a student you can manage hire petitions and work for the university"
   },
   "editCard": {
-    "supervisorTitle": "Create Petition",
-    "studentTitle": "Manage Personal Information",
-    "openFormDialog": "Open Form Dialog",
+    "supervisor": {
+      "title": "Supervisor Dashboard",
+      "action": "Create New Petition"
+    },
+    "student": {
+      "title": "Student Dashboard",
+      "action": "Open Student Data Management Dialog"
+    },
     "petitionDetailsTable": "Petition Details Table",
     "noPetitionSelected": "You can select a petition from the overview table to view its details.",
     "petitionFormDialog": "Petition Form Dialog",
@@ -250,7 +255,6 @@
       "toggleMenu":"Toggle user menu",
       "menuOptions":"User menu options"
     },
-    "editCard" :"Edit Card",
     "petitionFormDialog": {
       "dialog": "Petition Dialog",
       "petitionForm": "Petition Form",

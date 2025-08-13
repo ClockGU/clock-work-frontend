@@ -1,12 +1,26 @@
 <template>
+    <!-- Dialogs -->
+  <PetitionFormDialog
+    v-model="showPetitionForm"
+    :petition="selectedPetition"
+    @close="showPetitionForm = false"
+    @refresh="refresh"
+  />
+  <StudentDataManagementDialog
+    v-if="userRole===0"
+    v-model="showStudentDialog"
+    @close="showStudentDialog = false"
+  />
   <v-card 
     class="pa-4" 
-    role="region" 
-    :aria-label="$t('ariaLabel.editCard')"
+    role="region"
+    aria-labelledby="edit-card-title" 
     tabindex="0">
     <v-card-title>
-      <h2 class="text-h5 font-weight-bold">
-        {{ userRole === 1 ? $t("editCard.supervisorTitle") : $t("editCard.studentTitle") }}
+      <h2 
+        id="edit-card-title" 
+        class="text-h5 font-weight-bold">
+        {{ userRole === 1 ? $t("editCard.supervisor.title") : $t("editCard.student.title") }}
       </h2>
     </v-card-title>
     <v-card-text>
@@ -14,44 +28,31 @@
       <v-btn
         color="primary"
         class="mb-4"
-        :aria-label="$t('editCard.openFormDialog')"
+        :aria-label="buttonLabel"
         @click="userRole === 1 ? openNewPetitionDialog() : openStudentDialog()"
       >
-        {{ userRole === 1 ? $t("editCard.supervisorTitle") : $t("editCard.studentTitle") }}
+        {{ buttonLabel }}
       </v-btn>
 
-      <!-- Petition Details Table -->
-      <div v-if="selectedPetition" class="mt-4" role="table" :aria-label="$t('editCard.petitionDetailsTable')">
-        <PetitionTableWithActions
-          :petition="selectedPetition"
-          :aria-label="$t('editCard.petitionDetailsTable')"
-          @close="emit('deselect-petition');"
-          @edit="openEditDialog"
-          @refresh="refresh"
-        />
-      </div>
+      <PetitionTableWithActions
+        v-if="selectedPetition" 
+        class="mt-4" "
+        :petition="selectedPetition"
+        :aria-label="$t('editCard.petitionDetailsTable')"
+        @close="emit('deselect-petition');"
+        @edit="openEditDialog"
+        @refresh="refresh"
+      />
 
       <!-- Placeholder when no petition is selected -->
       <v-alert v-else 
         type="info"
         variant="tonal"
         density="comfortable"
+        tabindex="0"
       >
         {{ $t('editCard.noPetitionSelected') }}
       </v-alert>
-
-      <!-- Dialogs -->
-      <PetitionFormDialog
-        v-model="showPetitionForm"
-        :petition="selectedPetition"
-        @close="showPetitionForm = false"
-        @refresh="refresh"
-      />
-      <StudentDataManagementDialog
-        v-if="userRole===0"
-        v-model="showStudentDialog"
-        @close="showStudentDialog = false"
-      />
     </v-card-text>
   </v-card>
 </template>
@@ -59,6 +60,7 @@
 <script setup>
 import { ref,computed } from 'vue';
 import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
 import PetitionFormDialog from '@/components/dialogs/PetitionFormDialog.vue';
 import StudentDataManagementDialog from '../dialogs/StudentDataManagementDialog.vue';
 import PetitionTableWithActions from '../tables/PetitionTableWithActions.vue';
@@ -72,10 +74,16 @@ const props = defineProps({
 
 const emit = defineEmits(['refresh','deselect-petition']);
 
+const store = useStore();
+const { t } = useI18n();
+
 const showPetitionForm = ref(false);
 const showStudentDialog = ref(false);
-const store = useStore();
+
 const userRole = computed(() => store.getters['auth/userRole']);
+const buttonLabel = computed(() => {
+  return userRole.value === 1 ? t("editCard.supervisor.action") : t("editCard.student.action");
+});
 
 const openNewPetitionDialog = () => {
   emit('deselect-petition'); // Clear any selected petition
