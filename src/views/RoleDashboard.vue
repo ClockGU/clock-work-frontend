@@ -4,21 +4,19 @@
       <v-col cols="12" md="6">
         <!-- EditCard with a ref to allow communication -->
         <EditCard
-        ref="editCardRef"
-        :role="role"
-        :selectedPetition="selectedPetition"
-        @refresh="handleRefresh" 
-        @deselect-petition="deselectPetition" />
+          ref="editCardRef"
+          :selectedPetition="selectedPetition"
+          @refresh="handleRefresh" 
+          @deselect-petition="deselectPetition" />
       </v-col>
       <v-col cols="12" md="6">
         <!-- OverviewCard with event listener for select-petition -->
         <OverviewCard 
-        :key="petitions.length" 
-        :petitions="petitions"
-        :selectedPetition="selectedPetition"
-        :isLoading ="isLoading"
-        :role="role"
-        @select-petition="selectPetition" />
+          :key="petitions.length" 
+          :petitions="petitions"
+          :selectedPetition="selectedPetition"
+          :isLoading ="isLoading"
+          @select-petition="selectPetition" />
       </v-col>
     </v-row>
   </v-container>
@@ -29,20 +27,18 @@ import ContentApiService from "@/services/contentApiService";
 import EditCard from "@/components/dashboard/EditCard.vue";
 import OverviewCard from "@/components/dashboard/OverviewCard.vue";
 import { ref,computed, onMounted } from 'vue';
-import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 import { useI18n } from "vue-i18n";
 
 const store = useStore();
 const { t } = useI18n();
-const route = useRoute();
-const role = route.params.role; // Get the role from the route
 
 const petitions = ref([]);
 const selectedPetition = ref(null);
 const isLoading = ref(true);
 
 const token = computed(() => store.getters["auth/accessToken"]);
+const userRole = computed(() => store.getters["auth/userRole"]);
 
 const selectPetition = (petition) => {
   selectedPetition.value = petition;
@@ -56,7 +52,7 @@ const fetchPetitions =async () => {
   if (token.value) {
     ContentApiService.setAccessToken(token.value);
   }
-   const response = await ContentApiService.get(`${role==="student"?"/students":"/supervisor"}/petitions`);
+   const response = await ContentApiService.get(`${userRole===0?"/students":"/supervisor"}/petitions`);
    petitions.value = response.data;
  } catch (err) {
   //404 is supposed to be when there are no petitions

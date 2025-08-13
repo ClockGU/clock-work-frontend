@@ -23,6 +23,7 @@
 <script setup>
 import { computed} from "vue";
 import { useI18n } from "vue-i18n";
+import { useStore } from "vuex";
 import PetitionsOverviewTable from "@/components/tables/PetitionsOverviewTable.vue";
 
 const props = defineProps({
@@ -34,10 +35,6 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  role: {
-    type: String,
-    required: true
-  },
   selectedPetition: {
     type: Object,
     default: null,
@@ -45,6 +42,8 @@ const props = defineProps({
 });
 const emit = defineEmits(["select-petition"]);
 const { t } = useI18n();
+const store = useStore();
+const userRole = computed(() => store.getters["auth/userRole"]);
 
 const headers = computed(() => {
   const baseHeaders = [
@@ -54,12 +53,12 @@ const headers = computed(() => {
     { title: t('petition.exceptions'), key: 'exceptions', align: 'center', sortable: false }
   ];
   
-  if (props.role === "student") {
+  if (userRole.value === 0) { // Student specific headers
     return [
       { title: t('petition.supervisorMail'), key: "supervisor_mail" },
       ...baseHeaders
     ];
-  } else {
+  } else {// Supervisor specific headers
     return [
       { title: t('petition.studentMail'), key: "student_mail" },
       { title: t('petition.eosNumber'), key: "eos_number" },

@@ -50,7 +50,6 @@ const props = defineProps({
     required: false,
     default: null,
   },
-
 });
 
 const emit = defineEmits(['close','refresh']);
@@ -58,7 +57,7 @@ const store = useStore();
 const {t} = useI18n();
 const petitionFormRef = ref(null);
 
-const userRole = computed(() => store.getters['auth/user'].user_role);
+const userRole = computed(() => store.getters['auth/userRole']);
 const isFormValid = computed(() => petitionFormRef.value?.isFormValid || false);
 
 const closeDialog = () => emit('close');

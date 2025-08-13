@@ -1,5 +1,6 @@
 <template>
   <v-app class="ma-0">
+    <h1 class="sr-only">Clock Work</h1>
     <NavigationDrawer
       v-if="showAppBarAndFooter"
       class="hidden-md-and-up"
@@ -42,3 +43,16 @@ const showAppBarAndFooter = computed(() => currentPath.value !== '/' && currentP
 const toggleDrawer = () => drawer.value = !drawer.value
 const closeDrawer = () => drawer.value = false
 </script>
+<style>
+  /* Style for visually hidden elements */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }</style>
