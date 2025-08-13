@@ -36,7 +36,7 @@
 
       <PetitionTableWithActions
         v-if="selectedPetition" 
-        class="mt-4" "
+        class="mt-4" 
         :petition="selectedPetition"
         :aria-label="$t('editCard.petitionDetailsTable')"
         @close="emit('deselect-petition');"
