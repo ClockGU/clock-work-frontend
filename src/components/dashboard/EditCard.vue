@@ -12,7 +12,7 @@
     @close="showStudentDialog = false"
   />
   <v-card 
-    class="pa-4" 
+    class="py-4 pl-2" 
     role="region"
     aria-labelledby="edit-card-title" 
     tabindex="0">

@@ -4,7 +4,6 @@
   "logout": "Logout",
   "search": "Search",
   "searchBy": "Search by",
-  "overview": "Overview",
   "download": "Download",
   "supervisor": "Supervisor",
   "student": "Student",
@@ -233,6 +232,7 @@
     "rejectSuccess": "Petition rejected successfully"
 },
   "petitionsOverviewTable":{
+      "title": "Overview Table",
       "noPetitions":"currently there are no petitions available",
       "exceptions": {
         "true": "There is an exception",

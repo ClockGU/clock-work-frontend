@@ -1,6 +1,16 @@
 <template>
-  <v-card>
-    <v-card-title>{{ $t('overview') }}</v-card-title>
+  <v-card
+    class="py-4 pl-2" 
+    role="region"
+    aria-labelledby="overview-card-title" 
+    tabindex="0">
+    <v-card-title>
+      <h2 
+      id="overview-card-title" 
+      class="text-h5 font-weight-bold">
+        {{ $t('petitionsOverviewTable.title') }}
+      </h2>
+    </v-card-title>
     <v-card-text>
       <!-- Loading Spinner -->
       <v-progress-circular
