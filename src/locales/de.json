@@ -1,62 +1,69 @@
 {
-  "welcome": "Willkommen bei CLOCK Work",
+  "welcome": "Willkommen im Portal von CLOCK Work",
   "login": "Anmelden",
   "logout": "Abmelden",
   "search": "Suchen",
   "searchBy": "Suchen nach",
   "download": "Herunterladen",
-  "supervisor": "Vorgesetzte/r",
-  "student": "Student/in",
+  "supervisor": "Vorgesetzter",
+  "student": "Student",
   "yes": "Ja",
   "no": "Nein",
   "app": {
-    "loggingin": "Melde mich an...",
-    "loading": "Laden..."
+    "loggingin": "Melde an...",
+    "loading": "Lädt..."
   },
   "actions": {
-    "cancel": "abbrechen",
-    "submit": "einreichen",
-    "save": "speichern",
-    "edit": "bearbeiten",
-    "close": "schließen",
-    "delete": "löschen",
-    "confirm": "bestätigen",
-    "report": "ein Problem melden",
-    "send": "senden",
-    "approve": "genehmigen",
-    "reject": "ablehnen"
+    "cancel": "Abbrechen",
+    "submit": "Senden",
+    "save": "Speichern",
+    "edit": "Bearbeiten",
+    "close": "Schließen",
+    "delete": "Löschen",
+    "confirm": "Bestätigen",
+    "report": "Problem melden",
+    "send": "Senden",
+    "approve":"Genehmigen",
+    "reject":"Ablehnen"
   },
   "roleSelectionView": {
     "welcome": "Sie sind neu hier!",
     "roleSelection": "Wählen Sie Ihre Rolle aus:",
-    "supervisorTitle": "Vorgesetzte/r",
-    "supervisorDescription": "Als Vorgesetzte/r können Sie studentische Hilfskräfte einstellen und betreuen",
-    "studentTitle": "Student/in",
-    "studentDescription": "Als Student/in können Sie Anträge verwalten und für die Universität arbeiten"
+    "supervisorTitle": "Vorgesetzter",
+    "supervisorDescription": "Als Vorgesetzter stellen Sie studentische Hilfskräfte ein und betreuen sie",
+    "studentTitle": "Student",
+    "studentDescription": "Als Student können Sie Einstellungsanträge verwalten und für die Universität arbeiten"
   },
   "editCard": {
     "supervisor": {
-      "title": "Vorgesetzten-Dashboard",
+      "title": "Dashboard Vorgesetzte",
       "action": "Neuen Antrag erstellen"
     },
     "student": {
-      "title": "Studenten-Dashboard",
-      "action": "Studentendaten-Management-Dialog öffnen"
+      "title": "Dashboard Studenten",
+      "action": "Öffne Dialog Studentendatenverwaltung"
     },
-    "petitionDetailsTable": "Antragsdetails",
-    "noPetitionSelected": "Wählen Sie einen Antrag aus der Übersichtstabelle aus, um die Details anzuzeigen.",
-    "petitionFormDialog": "Antragsformular-Dialog",
-    "studentDataManagementDialog": "Studentendaten-Management-Dialog"
+    "noPetitionSelected": "Sie können einen Antrag aus der Übersichtstabelle auswählen, um die Details anzuzeigen.",
+    "petitionFormDialog": "Antragsformular Dialog",
+    "studentDataManagementDialog": "Studentendatenverwaltung Dialog"
   },
-  "petitionDetailsTable": {
-    "title": "Antragsdetails",
+  "petitionTable": {
+    "title": "Antragstabelle",
     "headers": {
       "petitionField": "Antragsfeld",
       "value": "Wert"
     }
   },
+  "petitionsOverviewTable":{
+      "title": "Übersichtstabelle",
+      "noPetitions":"Zurzeit sind keine Anträge verfügbar",
+      "exceptions": {
+        "true": "Es liegt eine Ausnahme vor",
+        "false": "Keine Ausnahme"
+      }
+    },
   "confirmationDialog": {
-    "PetitionDeletion": "Sind Sie sicher, dass Sie diesen Antrag löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden."
+      "PetitionDeletion": "Sind Sie sicher, dass Sie diesen Antrag löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden."
   },
   "petitionFormDialog": {
     "title": "Neuen Antrag erstellen"
@@ -64,14 +71,14 @@
   "studentDataManagementDialog": {
     "title": "Studentendaten verwalten",
     "tabs": {
-      "personal": "Persönliche Informationen",
+      "personal": "Persönliche Daten",
       "files": "Hochgeladene Dateien"
     },
     "content": {
-      "personal": "Hier können Sie Ihre persönlichen Informationen einsehen und bearbeiten.",
+      "personal": "Hier können Sie Ihre persönlichen Daten einsehen und bearbeiten.",
       "files": "Hier können Sie die von Ihnen hochgeladenen Dateien einsehen."
     }
-  },
+  }, 
   "employeeDataForm": {
     "firstName": "Vorname",
     "lastName": "Nachname",
@@ -83,10 +90,10 @@
     "postalCode": "Postleitzahl",
     "nationality": "Nationalität",
     "telephoneNumber": "Telefonnummer",
-    "healthInsurance": "Krankenkasse",
+    "healthInsurance": "Krankenversicherung",
     "iban": "IBAN",
     "married": "Verheiratet",
-    "previousEmployment": "Vorherige Beschäftigung an Universitäten",
+    "previousEmployment": "Bisherige Beschäftigung an Hochschulen",
     "duration": "Dauer"
   },
   "filesUploadForm": {
@@ -97,32 +104,32 @@
   "petition": {
     "id": "Antrags-ID",
     "status": "Status",
-    "supervisorMail": "E-Mail Vorgesetzte/r",
-    "studentMail": "E-Mail Student/in",
+    "supervisorMail": "E-Mail Vorgesetzter",
+    "studentMail": "E-Mail Student",
     "orgUnit": "Organisationseinheit",
     "eosNumber": "EOS-Nummer",
     "startDate": "Startdatum",
     "endDate": "Enddatum",
     "minutes": "Minuten (h/Monat)",
     "baDegree": "Bachelor-Abschluss",
-    "budgetPositions": "Haushaltspositionen",
-    "budgetPosition": "Haushaltsposition",
-    "budgetApprover": "E-Mail Haushaltsgenehmiger/in",
-    "budgetApproved": "Haushalt genehmigt",
+    "budgetPositions": "Haushaltsstellen",
+    "budgetPosition": "Haushaltsstelle",
+    "budgetApprover": "E-Mail Budget-Genehmiger",
+    "budgetApproved": "Budget genehmigt",
     "percentage": "Prozentsatz",
-    "timeExceCourse": "Zeitausnahme",
-    "timeExceName": "Name der Zeitausnahme",
-    "timeExceStart": "Startdatum der Zeitausnahme",
-    "timeExceEnd": "Enddatum der Zeitausnahme",
-    "durationExceCourse": "Dauerausnahme",
-    "durationExceName": "Name der Dauerausnahme",
-    "durationExceStart": "Startdatum der Dauerausnahme",
-    "durationExceEnd": "Enddatum der Dauerausnahme",
-    "durationException": "Dauerausnahme",
+    "timeExceCourse": "Zeitliche Ausnahme",
+    "timeExceName": "Name zeitliche Ausnahme",
+    "timeExceStart": "Startdatum zeitliche Ausnahme",
+    "timeExceEnd": "Enddatum zeitliche Ausnahme",
+    "durationExceCourse": "Dauer-Ausnahme",
+    "durationExceName": "Name Dauer-Ausnahme",
+    "durationExceStart": "Startdatum Dauer-Ausnahme",
+    "durationExceEnd": "Enddatum Dauer-Ausnahme",
+    "durationException": "Dauer-Ausnahme",
     "exceptions": "Ausnahmen"
   },
-  "petitionDataDisplay": {
-    "title": "Antragsdatenanzeige"
+  "petitionDataDisplay":{
+    "title": "Anzeige Antragsdaten"
   },
   "uploadedFiles": {
     "title": "Hochgeladene Dateien",
@@ -131,23 +138,23 @@
     "studienbescheinigung": "Studienbescheinigung",
     "versicherung": "Versicherung",
     "pageCounter": "Seite {current} von {total}",
-    "pdfLoadError": "Fehler beim Laden des PDF. Sie können stattdessen versuchen, es herunterzuladen.",
+    "pdfLoadError": "PDF konnte nicht geladen werden. Sie können versuchen, es stattdessen herunterzuladen.",
     "defaultFilename": "Dokument",
-    "retry": "Wiederholen"
+    "retry": "Erneut versuchen"
   },
-  "freeFormData": {
-    "title": "Freiform-Daten"
+  "freeFormData":{
+    "title":"Freiform Daten"
   },
   "validationRule": {
     "required": "Dieses Feld ist erforderlich",
     "invalidEmail": "Ungültige E-Mail-Adresse",
     "invalidPhone": "Ungültige Telefonnummer",
     "invalidIban": "Ungültige IBAN",
-    "percentage": "Muss zwischen 0-100 liegen",
+    "percentage": "Muss zwischen 0 und 100 liegen",
     "positiveNumber": "Muss eine positive Zahl sein",
-    "endDateAfterStart": "Das Enddatum muss nach dem Startdatum liegen",
-    "eosNumber": "Muss eine 5-stellige Zahl sein",
-    "postalCode": "Postleitzahl muss 5 Ziffern haben"
+    "endDateAfterStart": "Enddatum muss nach dem Startdatum liegen",
+    "eosNumber": "Muss eine 5-stellige Nummer sein",
+    "postalCode":"Postleitzahl muss 5-stellig sein"
   },
   "footer": {
     "links": {
@@ -160,60 +167,61 @@
       "url": "https://www.goethe-university-frankfurt.de/"
     },
     "github_repo": {
-      "text": "Sehen Sie sich den Code auf {link} an.",
+      "text": "Code auf {link} ansehen.",
       "github": "Github",
       "url": "https://github.com/ClockGU"
     }
   },
   "reportIssue": {
     "studentSubjects": {
-      "changeDates": "Änderung des Start-/Enddatums beantragen",
-      "changeHours": "Änderung der Arbeitszeiten beantragen",
-      "exceptionHours": "Ausnahme für Arbeitszeiten beantragen",
+      "changeDates": "Änderung von Start-/Enddatum beantragen",
+      "changeHours": "Änderung der Arbeitszeit beantragen",
+      "exceptionHours": "Eine Ausnahme zur Arbeitszeit beantragen",
       "others": "Sonstiges"
     },
     "clerkSubjects": {
-      "missingDocuments": "Hochladen fehlender Dokumente anfordern",
-      "incorrectDocuments": "Ändern fehlerhafter Dokumente anfordern",
-      "incorrectData": "Korrigieren persönlicher Daten anfordern",
+      "missingDocuments": "Fehlende Dokumente anfordern",
+      "incorrectDocuments": "Änderung von inkorrekten Dokumenten beantragen",
+      "incorrectData": "Korrektur persönlicher Daten beantragen",
       "others": "Sonstiges"
     },
     "approverSubjects": {
       "hoursReduction": "Antrag auf Arbeitszeitreduzierung",
       "budgetAdjustment": "Antrag auf Budgetanpassung",
-      "others": "Sonstige Angelegenheiten"
+      "others": "Sonstiges"
     },
-    "title": "Ein Problem melden",
+    "title": "Problem melden",
     "subjectLabel": "Betreff",
     "subjectPlaceholder": "Betreff eingeben",
-    "messageLabel": "Detaillierte Nachricht",
-    "messagePlaceholder": "Beschreiben Sie das Problem im Detail",
-    "success": "E-Mail erfolgreich gesendet"
+    "messageLabel": "Ausführliche Nachricht",
+    "messagePlaceholder": "Problem detailliert beschreiben",
+    "success":"E-Mail erfolgreich gesendet"
   },
-  "errors": {
-    "uploadedFilesClerk": {
-      "loadingDocs": "Fehler beim Laden der Dokumente",
-      "fetchingDocs": "Fehler beim Abrufen der Dokumente",
-      "pdfRender": "Fehler beim Rendern des PDF"
+  "errors":{
+    "uploadedFilesClerk":{
+      "loadingDocs":"Fehler beim Laden der Dokumente",
+      "fetchingDocs":"Fehler beim Abrufen der Dokumente",
+      "pdfRender":"Fehler beim Rendern des PDFs"
     },
-    "petitionFormDialog": {
-      "submission": "Fehler beim Einreichen des Antrags. Bitte versuchen Sie es erneut.",
-      "saving": "Fehler beim Speichern des Antrags. Bitte versuchen Sie es erneut."
+    "petitionFormDialog":{
+      "submission":"Fehler beim Senden des Antrags. Bitte versuchen Sie es erneut.",
+      "saving":"Fehler beim Speichern des Antrags. Bitte versuchen Sie es erneut."
     },
-    "petitionIssueDialog": {
+    "petitionIssueDialog":{
       "sendingEmail": "Fehler beim Senden der E-Mail"
     },
-    "studentData": {
-      "savingData": "Fehler beim Speichern der Mitarbeiterdaten",
-      "savingFiles": "Fehler beim Speichern der Dateien",
-      "fetchingData": "Fehler beim Abrufen der Mitarbeiterdaten",
+  
+    "studentData":{
+      "savingData":"Fehler beim Speichern der Mitarbeiterdaten",
+      "savingFiles":"Fehler beim Speichern der Dateien",
+      "fetchingData":"Fehler beim Abrufen der Mitarbeiterdaten",
       "fetchingDocs": "Fehler beim Abrufen der Dokumente"
     },
-    "petition": {
+    "petition":{
       "deletion": "Fehler beim Löschen des Antrags",
       "fetching": "Fehler beim Abrufen der Anträge",
-      "rejection": "Der Antrag konnte nicht abgelehnt werden",
-      "approval": "Der Antrag konnte nicht genehmigt werden"
+      "rejection": "Antrag konnte nicht abgelehnt werden",
+      "approval": "Antrag konnte nicht genehmigt werden"
     },
     "approverView": {
       "loadPetitionError": "Fehler beim Laden des Antrags zur Überprüfung",
@@ -225,45 +233,37 @@
     "header": "Sie wurden gebeten, den folgenden Einstellungsantrag zu genehmigen",
     "headerComplete": "Antragsprüfung abgeschlossen",
     "petitionData": "Antragsdaten",
-    "noPetition": "Derzeit kein Antrag zur Überprüfung verfügbar.",
+    "noPetition": "Zurzeit ist kein Antrag zur Überprüfung verfügbar.",
     "noPetitionComplete": "Dieser Antrag wurde bereits bearbeitet. Vielen Dank für Ihre Überprüfung.",
     "approveSuccess": "Antrag erfolgreich genehmigt",
     "rejectSuccess": "Antrag erfolgreich abgelehnt"
-  },
-  "petitionsOverviewTable": {
-    "title": "Übersichtstabelle",
-    "noPetitions": "Derzeit sind keine Anträge verfügbar",
-    "exceptions": {
-      "true": "Es gibt eine Ausnahme",
-      "false": "Keine Ausnahme"
-    }
-  },
-  "budget": {
-    "approved": "Das Budget wurde genehmigt",
-    "notApproved": "Das Budget wurde noch nicht genehmigt"
-  },
-  "ariaLabel": {
-    "navigation": {
-      "appBar": "Hauptnavigationsleiste",
-      "navDrawer": "Hauptnavigationsmenü",
-      "toggleDrawer": "Navigationsmenü umschalten",
-      "dashboard": "Zum Dashboard gehen",
-      "roles": "Zur Rollenauswahl gehen",
-      "avatar": "Benutzer-Avatar",
+},
+    "budget":{
+      "approved":"Das Budget wurde genehmigt",
+      "notApproved":"Das Budget wurde noch nicht genehmigt"
+    },
+"ariaLabel": {
+    "navigation":{
+      "appBar":"Hauptnavigationsleiste",
+      "navDrawer":"Hauptnavigationsschublade",
+      "toggleDrawer":"Navigationsschublade umschalten",
+      "dashboard":"Zum Dashboard gehen",
+      "roles":"Zur Rollenauswahl gehen",
+      "avatar":"Benutzer-Avatar",
       "menu": "Benutzermenü",
-      "toggleMenu": "Benutzermenü umschalten",
-      "menuOptions": "Optionen des Benutzermenüs"
+      "toggleMenu":"Benutzermenü umschalten",
+      "menuOptions":"Benutzermenü-Optionen"
     },
     "petitionFormDialog": {
       "dialog": "Antragsdialog",
       "petitionForm": "Antragsformular",
-      "submit": "Antragsformular einreichen",
+      "submit": "Antragsformular senden",
       "save": "Antragsformular speichern"
     },
     "studentDataManagementDialog": {
-      "tabs": "Registerkarten für das Studentendaten-Management",
-      "personal": "Registerkarte für persönliche Informationen",
-      "files": "Registerkarte für hochgeladene Dateien"
+      "tabs": "Tabs zur Studentendatenverwaltung",
+      "personal": "Tab für persönliche Daten",
+      "files": "Tab für hochgeladene Dateien"
     }
   }
 }

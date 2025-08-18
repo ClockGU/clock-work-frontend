@@ -17,14 +17,14 @@
       <thead role="rowgroup">
         <tr role="row" tabindex="0">
           <th 
-            class="key-column" 
+            class="font-weight-bold w-33" 
             scope="col"
             role="columnheader" 
           >
               {{ $t('petitionTable.headers.petitionField') }}
           </th>
           <th 
-            class="value-column" 
+            class="font-weight-bold w-66" 
             scope="col" 
             role="columnheader" 
           >
@@ -165,13 +165,6 @@ const tableRows = computed(() => {
   .styled-table td {
     color: #555;
     border-right: 1px solid #e0e0e0;
-  }
-  .key-column {
-    width: 30%;
-    font-weight: 500;
-  }
-  .value-column {
-    width: 70%;
   }
   .key-cell {
     background-color: #fafafa;

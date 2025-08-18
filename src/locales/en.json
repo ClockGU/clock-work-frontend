@@ -54,6 +54,14 @@
       "value": "Value"
     }
   },
+  "petitionsOverviewTable":{
+      "title": "Overview Table",
+      "noPetitions":"currently there are no petitions available",
+      "exceptions": {
+        "true": "There is an exception",
+        "false": "No exception"
+      }
+    },
   "confirmationDialog": {
       "PetitionDeletion": "Are you sure you want to delete this petition? This action cannot be undone."
   },
@@ -230,14 +238,6 @@
     "approveSuccess": "Petition approved successfully",
     "rejectSuccess": "Petition rejected successfully"
 },
-  "petitionsOverviewTable":{
-      "title": "Overview Table",
-      "noPetitions":"currently there are no petitions available",
-      "exceptions": {
-        "true": "There is an exception",
-        "false": "No exception"
-      }
-    },
     "budget":{
       "approved":"The Budget has been approved",
       "notApproved":"The Budget has not been approved yet"
