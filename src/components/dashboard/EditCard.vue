@@ -1,105 +1,97 @@
 <template>
-  <v-card class="pa-4" role="region" :aria-label="$t('editCard.ariaLabel')">
-    <v-card-title v-if="!selectedPetition" class="text-h5 font-weight-bold">
-      {{ role === "supervisor" ? $t("editCard.supervisorTitle") : $t("editCard.studentTitle") }}
+    <!-- Dialogs -->
+  <PetitionFormDialog
+    v-model="showPetitionForm"
+    :petition="selectedPetition"
+    @close="showPetitionForm = false"
+    @refresh="refresh"
+  />
+  <StudentDataManagementDialog
+    v-if="userRole===0"
+    v-model="showStudentDialog"
+    @close="showStudentDialog = false"
+  />
+  <v-card 
+    class="py-4 pl-2" 
+    role="region"
+    aria-labelledby="edit-card-title" 
+    tabindex="0">
+    <v-card-title>
+      <h2 
+        id="edit-card-title" 
+        class="text-h5 font-weight-bold">
+        {{ userRole === 1 ? $t("editCard.supervisor.title") : $t("editCard.student.title") }}
+      </h2>
     </v-card-title>
     <v-card-text>
       <!-- Main button - behavior differs by role -->
       <v-btn
         color="primary"
         class="mb-4"
-        :aria-label="$t('editCard.openFormDialog')"
-        @click="role === 'supervisor' ? openNewPetitionDialog() : openStudentDialog()"
+        :aria-label="buttonLabel"
+        @click="userRole === 1 ? openNewPetitionDialog() : openStudentDialog()"
       >
-        {{ role === "supervisor" ? $t("editCard.supervisorTitle") : $t("editCard.studentTitle") }}
+        {{ buttonLabel }}
       </v-btn>
 
-      <!-- Petition Details Table -->
-      <div v-if="selectedPetition" class="mt-4" role="table" :aria-label="$t('editCard.petitionDetailsTable')">
-        <PetitionDetailsTable
-          :petition="selectedPetition"
-          :role="role"
-          :aria-label="$t('editCard.petitionDetailsTable')"
-          @close="selectPetition(null)"
-          @edit="openEditDialog"
-          @refresh="refresh"
-        />
-      </div>
+      <PetitionTableWithActions
+        v-if="selectedPetition" 
+        class="mt-4" 
+        :petition="selectedPetition"
+        :aria-label="$t('editCard.petitionDetailsTable')"
+        @close="emit('deselect-petition');"
+        @edit="openEditDialog"
+        @refresh="refresh"
+      />
 
       <!-- Placeholder when no petition is selected -->
       <v-alert v-else 
         type="info"
         variant="tonal"
         density="comfortable"
+        tabindex="0"
       >
         {{ $t('editCard.noPetitionSelected') }}
       </v-alert>
-
-      <!-- Dialogs -->
-      <PetitionFormDialog
-        v-model="showPetitionForm"
-        :role="role"
-        :petition="selectedPetition"
-        @close="showPetitionForm = false"
-        @refresh="refresh"
-      />
-      <StudentDataManagementDialog
-        v-if="role === 'student'"
-        v-model="showStudentDialog"
-        @close="showStudentDialog = false"
-      />
     </v-card-text>
   </v-card>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref,computed } from 'vue';
+import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
 import PetitionFormDialog from '@/components/dialogs/PetitionFormDialog.vue';
 import StudentDataManagementDialog from '../dialogs/StudentDataManagementDialog.vue';
-import PetitionDetailsTable from '@/components/tables/PetitionDetailsTable.vue';
+import PetitionTableWithActions from '../tables/PetitionTableWithActions.vue';
 
 const props = defineProps({
-  role: {
-    type: String,
-    required: true,
-  },
+  selectedPetition: {
+    type: Object,
+    default: null,
+  }
 });
 
-const emit = defineEmits(['refresh']);
+const emit = defineEmits(['refresh','deselect-petition']);
+
+const store = useStore();
+const { t } = useI18n();
 
 const showPetitionForm = ref(false);
 const showStudentDialog = ref(false);
-const selectedPetition = ref(null);
 
-// selectedPetition =null => open an empty form for petition creation
-// selectedPetition =object => open form with all data prefilled for editing because petitionForm autopopulates a petition
+const userRole = computed(() => store.getters['auth/userRole']);
+const buttonLabel = computed(() => {
+  return userRole.value === 1 ? t("editCard.supervisor.action") : t("editCard.student.action");
+});
+
 const openNewPetitionDialog = () => {
-  selectedPetition.value = null;
+  emit('deselect-petition'); // Clear any selected petition
   showPetitionForm.value = true;
 };
-//const openEditDialog = () => showPetitionForm.value = true;
 const openStudentDialog = () => showStudentDialog.value = true;
 
-const selectPetition = (petition) => {
-  selectedPetition.value = petition;
-};
 const refresh = (payload) => {
-  if (payload) {
-    switch(payload.type) {
-      case 'update':
-        if (selectedPetition.value?.id === payload.data.id) {
-          selectedPetition.value = payload.data;
-        }
-        break;
-      case 'delete':
-        if (selectedPetition.value?.id === payload.data) {
-          selectedPetition.value = null;
-        }
-        break;
-    }
-  }
-  emit('refresh');
+  emit('refresh',payload);
 };
-
-defineExpose({ selectPetition });
 </script>

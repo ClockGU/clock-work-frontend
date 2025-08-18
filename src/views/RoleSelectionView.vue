@@ -10,15 +10,17 @@
             :title="$t('roleSelectionView.supervisorTitle')"  
             :description="$t('roleSelectionView.supervisorDescription')"  
             :imgSrc="SupervisorImg" 
+            :imgAlt="$t('supervisor')"
             @click="redirectToDashboard('supervisor')"
           />  
         </v-col>  
         <v-col>  
-          <RoleCardButton  
+          <RoleCardButton
+            role="student"  
             :title="$t('roleSelectionView.studentTitle')"  
             :description="$t('roleSelectionView.studentDescription')"  
-            role="student" 
-            :imgSrc="StudentImg"  
+            :imgSrc="StudentImg" 
+            :imgAlt="$t('student')"
             @click="redirectToDashboard('student')"
           />  
         </v-col>  
@@ -30,7 +32,7 @@
   import { computed, onMounted } from 'vue';
   import { useRouter } from 'vue-router';  
   import { useStore } from 'vuex'; 
-  import RoleCardButton from '@/components/role-selection/RoleCardButton.vue';
+  import RoleCardButton from '@/components/ui/RoleCardButton.vue';
   import StudentImg from '@/assets/student.jpg';
   import SupervisorImg from '@/assets/supervisor.png';
   import AuthApiService from '@/services/authApiService';
@@ -41,25 +43,25 @@
   const token = computed(() => store.getters["auth/accessToken"]);  
 
   const redirectToDashboard = async (role) => {
-  try {
-    const roleValue = role === "supervisor" ? 1 : 0;
-    await AuthApiService.updateUser({ user_role: roleValue },user.value.id)
-    const updatedUser = { 
-      ...user.value, 
-      user_role: roleValue 
-    };
-    store.dispatch('auth/setIsRoleSelected', true);
-    store.dispatch('auth/setUser', updatedUser);
-    router.push({ path: `/dashboard/${role}` });
-  } catch (error) {
-    console.error("Error updating user role ",error);
-    store.dispatch("auth/setError","Error updating user role")
-    store.dispatch("auth/logout");
-    router.push({ name: "landing" }); 
-  }
-};
-onMounted(() => {
-  if (token.value) {
-    AuthApiService.setAccessToken(token.value);
-    }})
+    try {
+      const roleValue = role === "supervisor" ? 1 : 0;
+      // Update user role on backend
+      const response =  await AuthApiService.updateUser({ user_role: roleValue }, user.value.id);
+      store.dispatch('auth/setUser', response.data);
+      store.dispatch('auth/setIsRoleSelected', true);
+      // Refresh user data from backend to ensure consistency
+      await AuthApiService.refreshToken(token.value);
+      router.push({ path: `/dashboard/${role}` });
+    } catch (error) {
+      console.error("Error updating user role ", error);
+      store.dispatch("auth/setError", "Error updating user role");
+      store.dispatch("auth/logout");
+      router.push({ name: "landing" });
+    }
+  };
+  onMounted(() => {
+    if (token.value) {
+      AuthApiService.setAccessToken(token.value);
+      }
+  })
   </script>  

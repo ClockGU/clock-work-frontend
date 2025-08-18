@@ -4,20 +4,25 @@
             {{ $t('freeFormData.title') }}
         </v-card-title>
         <v-card-text>
-            <PetitionDetailsTable 
+            <PetitionTableWithActions 
             v-if="petition"
             :petition="petition"
             @close="emit('close')"
             @refresh="handleRefresh"            />
-            <p v-else class="mt-4 ml-1 text-subtitle-1 text-medium-emphasis" role="status" aria-live="polite">
-            {{ $t('editCard.noPetitionSelected') }}
-            </p>
+            <!-- Placeholder when no petition is selected -->
+            <v-alert v-else 
+                type="info"
+                variant="tonal"
+                density="comfortable"
+            >
+                {{ $t('editCard.noPetitionSelected') }}
+            </v-alert>
         </v-card-text>
     </v-card>
 </template>
 
 <script setup>
-import PetitionDetailsTable from '@/components/tables/PetitionDetailsTable.vue';
+import PetitionTableWithActions from '../tables/PetitionTableWithActions.vue';
 const props=defineProps({
     petition:{
         type: [Object,null],

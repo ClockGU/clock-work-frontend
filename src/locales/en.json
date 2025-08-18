@@ -1,11 +1,14 @@
 {
-  "welcome": "Welcome to the supervisor portal of CLOCK Work",
+  "welcome": "Welcome to the portal of CLOCK Work",
   "login": "Login",
   "logout": "Logout",
   "search": "Search",
   "searchBy": "Search by",
-  "overview": "Overview",
   "download": "Download",
+  "supervisor": "Supervisor",
+  "student": "Student",
+  "yes": "Yes",
+  "no": "No",
   "app": {
     "loggingin": "Logging in...",
     "loading": "Loading..."
@@ -32,39 +35,41 @@
     "studentDescription": "As a student you can manage hire petitions and work for the university"
   },
   "editCard": {
-    "ariaLabel": "Edit Card",
-    "supervisorTitle": "Create Petition",
-    "studentTitle": "Manage Personal Information",
-    "openFormDialog": "Open Form Dialog",
-    "petitionDetailsTable": "Petition Details Table",
+    "supervisor": {
+      "title": "Supervisor Dashboard",
+      "action": "Create New Petition"
+    },
+    "student": {
+      "title": "Student Dashboard",
+      "action": "Open Student Data Management Dialog"
+    },
     "noPetitionSelected": "You can select a petition from the overview table to view its details.",
     "petitionFormDialog": "Petition Form Dialog",
     "studentDataManagementDialog": "Student Data Management Dialog"
   },
-  "petitionDetailsTable": {
-    "title": "Petition Details Table",
+  "petitionTable": {
+    "title": "Petition  Table",
     "headers": {
       "petitionField": "Petition Field",
       "value": "Value"
+    }
+  },
+  "petitionsOverviewTable":{
+      "title": "Overview Table",
+      "noPetitions":"currently there are no petitions available",
+      "exceptions": {
+        "true": "There is an exception",
+        "false": "No exception"
+      }
     },
-    "deletionConfirmationMessage": "Are you sure you want to delete this petition? This action cannot be undone."
+  "confirmationDialog": {
+      "PetitionDeletion": "Are you sure you want to delete this petition? This action cannot be undone."
   },
   "petitionFormDialog": {
-    "title": "Create New Petition",
-    "ariaLabel": {
-      "dialog": "Petition Dialog",
-      "petitionForm": "Petition Form",
-      "submit": "Submit Petition Form",
-      "save": "Save Petition Form"
-    }
+    "title": "Create New Petition"
   },
   "studentDataManagementDialog": {
     "title": "Manage Student Data",
-    "ariaLabel": {
-      "tabs": "Tabs for student data management",
-      "personal": "Tab for personal information",
-      "files": "Tab for uploaded files"
-    },
     "tabs": {
       "personal": "Personal Information",
       "files": "Uploaded Files"
@@ -99,7 +104,6 @@
   "petition": {
     "id": "Petition ID",
     "status": "Status",
-    "petitioneer": "Petitioneer",
     "supervisorMail": "Supervisor Mail",
     "studentMail": "Student Mail",
     "orgUnit": "Org Unit",
@@ -108,8 +112,11 @@
     "endDate": "End Date",
     "minutes": "Minutes (h/Month)",
     "baDegree": "Bachelor Degree",
+    "budgetPositions": "Budget Positions",
     "budgetPosition": "Budget Position",
     "budgetApprover": "Budget Approver Email",
+    "budgetApproved": "Budget Approved",
+    "percentage": "Percentage",
     "timeExceCourse": "Time Exception",
     "timeExceName": "Time Exception Name",
     "timeExceStart": "Time Exception Start Date",
@@ -117,7 +124,9 @@
     "durationExceCourse": "Duration Exception",
     "durationExceName": "Duration Exception Name",
     "durationExceStart": "Duration Exception Start Date",
-    "durationExceEnd": "Duration Exception End Date"
+    "durationExceEnd": "Duration Exception End Date",
+    "durationException": "Duration Exception",
+    "exceptions": "Exceptions"
   },
   "petitionDataDisplay":{
     "title": "Petition Data Display"
@@ -139,17 +148,29 @@
   "validationRule": {
     "required": "This field is required",
     "invalidEmail": "Invalid email address",
+    "invalidPhone": "Invalid phone number",
+    "invalidIban": "Invalid IBAN",
+    "percentage": "Must be between 0-100",
     "positiveNumber": "Must be a positive number",
     "endDateAfterStart": "End date must be after start date",
-    "eosNumber": "Must be a 5 digit number "
+    "eosNumber": "Must be a 5 digit number ",
+    "postalCode":"Postal code must be 5 digits"
   },
-  "appFooter": {
+  "footer": {
     "links": {
       "Datenschutz": "Privacy",
       "Impressum": "Imprint"
     },
-    "text": "This project was financially supported by the Goethe-Universität Frankfurt.",
-    "code": "Code on "
+    "acknowledgeGU": {
+      "text": "The development of this project was supported by {link}.",
+      "university": "Goethe University Frankfurt",
+      "url": "https://www.goethe-university-frankfurt.de/"
+    },
+    "github_repo": {
+      "text": "Check out the code on {link}.",
+      "github": "Github",
+      "url": "https://github.com/ClockGU"
+    }
   },
   "reportIssue": {
     "studentSubjects": {
@@ -189,11 +210,12 @@
     "petitionIssueDialog":{
       "sendingEmail": "Error sending email"
     },
+  
     "studentData":{
       "savingData":"Error saving employee data",
       "savingFiles":"Error saving files",
       "fetchingData":"Error fetching employee data",
-      "fetchingDocs":  "Error fetching documents"
+      "fetchingDocs": "Error fetching documents"
     },
     "petition":{
       "deletion": "Error deleting the petition",
@@ -211,11 +233,37 @@
     "header": "You have been requested to approve the following hire petition",
     "headerComplete": "Petition Review Completed",
     "petitionData": "Petition Data",
-    "approve": "Approve",
-    "reject": "Reject",
     "noPetition": "No petition available for review at this time.",
     "noPetitionComplete": "This petition has already been processed. Thank you for your review.",
     "approveSuccess": "Petition approved successfully",
     "rejectSuccess": "Petition rejected successfully"
-}
+},
+    "budget":{
+      "approved":"The Budget has been approved",
+      "notApproved":"The Budget has not been approved yet"
+    },
+"ariaLabel": {
+    "navigation":{
+      "appBar":"Main navigation bar",
+      "navDrawer":"Main navigation drawer",
+      "toggleDrawer":"Toggle navigation drawer",
+      "dashboard":"Go to Dashboard",
+      "roles":"Go to Roles Selection",
+      "avatar":"User avatar",
+      "menu": "User menu",
+      "toggleMenu":"Toggle user menu",
+      "menuOptions":"User menu options"
+    },
+    "petitionFormDialog": {
+      "dialog": "Petition Dialog",
+      "petitionForm": "Petition Form",
+      "submit": "Submit Petition Form",
+      "save": "Save Petition Form"
+    },
+    "studentDataManagementDialog": {
+      "tabs": "Tabs for student data management",
+      "personal": "Tab for personal information",
+      "files": "Tab for uploaded files"
+    }
+  }
 }

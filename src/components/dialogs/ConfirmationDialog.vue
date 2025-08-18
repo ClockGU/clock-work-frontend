@@ -52,8 +52,8 @@
   
   <script setup>
   import { mdiClose } from '@mdi/js';
+  import VueI18n from "@/plugins/i18n";
 
-  const icons = { mdiClose };
   const props = defineProps({
     maxWidth: {
       type: [Number, String],
@@ -64,15 +64,16 @@
       default: false
     },
     actionText: {
-    type: String,
-    required: true
+      type: String,
+      default: () => VueI18n.global.t('actions.confirm')
     },
     action: {
       type: Function,
       default: () => {}
     }
   });
-  
+
+  const icons = { mdiClose };
   const model = defineModel({
     type: Boolean,
     default: false
@@ -80,5 +81,4 @@
   
   const close = () => model.value = false;
   const handleAction = () => props.action();
-
   </script>

@@ -18,9 +18,10 @@
             ></v-text-field>
         </v-card-title>
         <v-card-text>
-            <PetitionsTable
+            <PetitionsOverviewTable
                 :headers="headers"
                 :items="filteredItems"
+                :selected-item="selectedPetition"
                 v-bind="$attrs"
                 @row-click="$emit('row-click', $event)"
             />
@@ -32,7 +33,7 @@
 import { computed, ref } from 'vue';
 import { useI18n } from "vue-i18n";
 import { mdiMagnify } from '@mdi/js';
-import PetitionsTable from '@/components/tables/PetitionsTable.vue';
+import PetitionsOverviewTable from '@/components/tables/PetitionsOverviewTable.vue';
 
 const icons = {mdiMagnify};
 const props = defineProps({
@@ -40,6 +41,10 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  selectedPetition: {
+    type: Object,
+    default: null
+  }
 });
 
 const emit = defineEmits(['row-click']);
@@ -57,8 +62,8 @@ const headers = computed(() => [
     { title: t('petition.orgUnit'), key: "org_unit" },
     { title: t('petition.eosNumber'), key: "eos_number" },
     { title: t('petition.baDegree'), key: "ba_degree" },
-    { title: t('petition.budgetPosition'), key: "budget_position" },
-    { title: t('petition.budgetApprover'), key: "budget_approver" }
+    { title: t('petition.exceptions'), key: 'exceptions', align: 'center'}
+
 ]);
 const searchableFields = computed(() => {
   return headers.value.filter((header) =>

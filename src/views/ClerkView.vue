@@ -18,6 +18,7 @@
                     <v-card-text>
                         <ClerkPetitionTable
                             :items="petitions" 
+                            :selected-petition="selectedPetition"
                             @row-click="selectPetition"
                         />
                     </v-card-text>

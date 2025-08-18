@@ -1,10 +1,18 @@
-<template>  
-    <v-app-bar app flat fixed elevation="0" :color="bgColor" aria-label="Application navigation">  
+<template> 
+  <nav>
+    <v-app-bar
+      app
+      flat
+      fixed
+      elevation="0"
+      :color="bgColor"
+      :aria-label="$t('ariaLabel.navigation.appBar')"
+    >  
       <v-app-bar-nav-icon  
         v-if="isLoggedIn"  
         class="hidden-md-and-up"  
+        :aria-label="$t('ariaLabel.navigation.toggleDrawer')"
         @click="toggleNavigationdrawer"  
-        aria-label="Toggle navigation drawer"  
       >  
         <v-icon>{{ icons.mdiMenu }}</v-icon>  
       </v-app-bar-nav-icon>  
@@ -12,47 +20,50 @@
       <v-toolbar-title>  
         <router-link  
           v-slot="{ navigate }"  
-          :to="redirectTo"  
           custom  
-        >  
-          <span  
-            role="link"  
-            style="cursor: pointer"  
-            @click="navigate"  
-            @keypress.enter="navigate"  
+          :to="redirectTo"  
+          :aria-label="redirectTo === '/roles' ? $t('ariaLabel.navigation.roles') : $t('ariaLabel.navigation.dashboard')"
+       >  
+          <a  
+            style="display: inline-block; cursor: pointer"
+            @click="navigate"
+            @keypress.enter="navigate"
           >  
-            <v-img  
-              width="96px"  
-              height="32px"  
-              :src="imgSrc"  
-              :alt="'clockLogo'"  
+            <v-img
+              width="96px"
+              height="32px"
+              :src="imgSrc"
+              :alt="'clock Logo'"
             />  
-          </span>  
+          </a>  
         </router-link>  
       </v-toolbar-title>  
 
       <v-spacer></v-spacer>  
-
-      <!-- <ThemeToggle />   
-      -->  
-
       <LanguageSwitcher />
 
-      <v-skeleton-loader  
-        v-if="isLoggedIn && mdAndUp"  
-        :loading="userLoading"  
-        type="avatar"  
-        aria-label="User avatar"  
+      <v-skeleton-loader
+        v-if="isLoggedIn && mdAndUp"
+        :loading="userLoading"
       >  
-        <v-menu class="py-3" aria-label="User menu">  
+        <v-menu
+          class="py-3"
+          :aria-label="$t('ariaLabel.navigation.menu')"
+        >  
           <template #activator="{ props }">  
-            <v-btn :color="bgColor" variant="flat" v-bind="props">  
+            <v-btn
+              :color="bgColor"
+              variant="flat"
+              v-bind="props"
+              :aria-label="$t('ariaLabel.navigation.toggleMenu')"
+            >  
               <div class="d-flex align-center">  
-                <v-avatar  
-                  size="30px"  
-                  color="blue-lighten-2"  
-                  style="cursor: pointer"  
-                  class="mr-2"  
+                <v-avatar
+                  size="30px"
+                  color="blue-darken-2"
+                  style="cursor: pointer"
+                  class="mr-2"
+                  :aria-label="$t('ariaLabel.navigation.avatar')"
                 >  
                   <span class="text-white">{{ firstLetter }}</span>  
                 </v-avatar>  
@@ -61,12 +72,12 @@
               <v-icon :icon="icons.mdiChevronDown"></v-icon>  
             </v-btn>  
           </template>  
-          <v-list aria-label="User menu options">  
-            <v-list-item  
-              :prepend-icon="icons.mdiLogout"  
-              data-cy="menu-logout"  
-              @click="logout"  
-              :aria-label="$t('logout')"  
+          <v-list :aria-label="$t('ariaLabel.navigation.menuOptions')">  
+            <v-list-item
+              :prepend-icon="icons.mdiLogout"
+              data-cy="menu-logout"
+              @click="logout"
+              :aria-label="$t('logout')"
             >  
               {{ $t('logout') }}  
             </v-list-item>  
@@ -74,6 +85,7 @@
         </v-menu>  
       </v-skeleton-loader>  
     </v-app-bar>  
+  </nav>   
 </template>  
 
 <script setup>  
@@ -122,5 +134,4 @@ const logout = () => {
   store.dispatch('auth/unsetLoading');
 };  
 </script>
-
 
