@@ -5,30 +5,47 @@
       <slot name="top"></slot>
     </div>
 
-    <!-- Main Table for displaying petition details -->
+    <!-- Main Table for displaying petition details. Added ARIA roles for better screen reader compatibility. -->
     <v-table
       class="styled-table"
       density="comfortable"
       hover
-      :aria-label="$t('petitionDetailsTable.title')"
+      role="table"
+      :aria-label="$t('petitionTable.title')"
+      tabindex="0"
     >
-      <thead>
-        <tr>
-          <th class="key-column" scope="col" :aria-label="$t('petitionDetailsTable.headers.petitionField')">
-            {{ $t('petitionDetailsTable.headers.petitionField') }}
+      <thead role="rowgroup">
+        <tr role="row" tabindex="0">
+          <th 
+            class="key-column" 
+            scope="col"
+            role="columnheader" 
+          >
+              {{ $t('petitionTable.headers.petitionField') }}
           </th>
-          <th class="value-column" scope="col" :aria-label="$t('petitionDetailsTable.headers.value')">
-            {{ $t('petitionDetailsTable.headers.value') }}
+          <th 
+            class="value-column" 
+            scope="col" 
+            role="columnheader" 
+          >
+              {{ $t('petitionTable.headers.value') }}
           </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody role="rowgroup">
         <!-- Iterates over the computed tableRows to display data -->
-        <tr v-for="(row, index) in tableRows" :key="index">
-          <td class="key-cell">
+        <tr 
+          v-for="(row, index) in tableRows" 
+          :key="index" 
+          role="row" 
+          tabindex="0">
+          <td 
+            class="key-cell" 
+            role="cell"
+          >
             {{ row.key }}
           </td>
-          <td class="value-cell">
+          <td class="value-cell" role="cell">
             {{ formatValue(row.value) }}
           </td>
         </tr>

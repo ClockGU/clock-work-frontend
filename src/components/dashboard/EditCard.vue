@@ -38,7 +38,7 @@
         v-if="selectedPetition" 
         class="mt-4" 
         :petition="selectedPetition"
-        :aria-label="$t('editCard.petitionDetailsTable')"
+        :aria-label="$t('petitionTable.title')"
         @close="emit('deselect-petition');"
         @edit="openEditDialog"
         @refresh="refresh"

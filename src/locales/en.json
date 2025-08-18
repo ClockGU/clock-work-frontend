@@ -43,13 +43,12 @@
       "title": "Student Dashboard",
       "action": "Open Student Data Management Dialog"
     },
-    "petitionDetailsTable": "Petition Details Table",
     "noPetitionSelected": "You can select a petition from the overview table to view its details.",
     "petitionFormDialog": "Petition Form Dialog",
     "studentDataManagementDialog": "Student Data Management Dialog"
   },
-  "petitionDetailsTable": {
-    "title": "Petition Details Table",
+  "petitionTable": {
+    "title": "Petition  Table",
     "headers": {
       "petitionField": "Petition Field",
       "value": "Value"
