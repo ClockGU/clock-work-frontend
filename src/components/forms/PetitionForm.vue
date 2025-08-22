@@ -284,7 +284,17 @@ watch(() => props.petition, (newPetition) => {
       cleanData.duration_exce_start = '';
       cleanData.duration_exce_end = '';
     }
-    
+
+    // Reset budget_positions to the initial state when editing a petition
+    cleanData.budget_positions = [
+      {
+        id: '',
+        budget_position: '',
+        budget_approver: '',
+        budget_position_status: '',
+        percentage: 0,
+      },
+    ];
     formData.value = cleanData;
   } else {
     formData.value = { ...initialFormData };
