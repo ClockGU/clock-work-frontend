@@ -23,8 +23,8 @@
     "confirm": "Bestätigen",
     "report": "Problem melden",
     "send": "Senden",
-    "approve":"Genehmigen",
-    "reject":"Ablehnen"
+    "approve": "Genehmigen",
+    "reject": "Ablehnen"
   },
   "roleSelectionView": {
     "welcome": "Sie sind neu hier!",
@@ -54,16 +54,16 @@
       "value": "Wert"
     }
   },
-  "petitionsOverviewTable":{
-      "title": "Übersichtstabelle",
-      "noPetitions":"Zurzeit sind keine Anträge verfügbar",
-      "exceptions": {
-        "true": "Es liegt eine Ausnahme vor",
-        "false": "Keine Ausnahme"
-      }
-    },
+  "petitionsOverviewTable": {
+    "title": "Übersichtstabelle",
+    "noPetitions": "Zurzeit sind keine Anträge verfügbar",
+    "exceptions": {
+      "true": "Es liegt eine Ausnahme vor",
+      "false": "Keine Ausnahme"
+    }
+  },
   "confirmationDialog": {
-      "PetitionDeletion": "Sind Sie sicher, dass Sie diesen Antrag löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden."
+    "PetitionDeletion": "Sind Sie sicher, dass Sie diesen Antrag löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden."
   },
   "petitionFormDialog": {
     "title": "Neuen Antrag erstellen"
@@ -78,7 +78,7 @@
       "personal": "Hier können Sie Ihre persönlichen Daten einsehen und bearbeiten.",
       "files": "Hier können Sie die von Ihnen hochgeladenen Dateien einsehen."
     }
-  }, 
+  },
   "employeeDataForm": {
     "firstName": "Vorname",
     "lastName": "Nachname",
@@ -115,7 +115,7 @@
     "budgetPositions": "Haushaltsstellen",
     "budgetPosition": "Haushaltsstelle",
     "budgetApprover": "E-Mail Budget-Genehmiger",
-    "budgetApproved": "Budget genehmigt",
+    "budgetPositionStatus": "Status der Haushaltsstelle",
     "percentage": "Prozentsatz",
     "timeExceCourse": "Zeitliche Ausnahme",
     "timeExceName": "Name zeitliche Ausnahme",
@@ -128,7 +128,7 @@
     "durationException": "Dauer-Ausnahme",
     "exceptions": "Ausnahmen"
   },
-  "petitionDataDisplay":{
+  "petitionDataDisplay": {
     "title": "Anzeige Antragsdaten"
   },
   "uploadedFiles": {
@@ -142,8 +142,8 @@
     "defaultFilename": "Dokument",
     "retry": "Erneut versuchen"
   },
-  "freeFormData":{
-    "title":"Freiform Daten"
+  "freeFormData": {
+    "title": "Freiform Daten"
   },
   "validationRule": {
     "required": "Dieses Feld ist erforderlich",
@@ -154,7 +154,7 @@
     "positiveNumber": "Muss eine positive Zahl sein",
     "endDateAfterStart": "Enddatum muss nach dem Startdatum liegen",
     "eosNumber": "Muss eine 5-stellige Nummer sein",
-    "postalCode":"Postleitzahl muss 5-stellig sein"
+    "postalCode": "Postleitzahl muss 5-stellig sein"
   },
   "footer": {
     "links": {
@@ -195,29 +195,28 @@
     "subjectPlaceholder": "Betreff eingeben",
     "messageLabel": "Ausführliche Nachricht",
     "messagePlaceholder": "Problem detailliert beschreiben",
-    "success":"E-Mail erfolgreich gesendet"
+    "success": "E-Mail erfolgreich gesendet"
   },
-  "errors":{
-    "uploadedFilesClerk":{
-      "loadingDocs":"Fehler beim Laden der Dokumente",
-      "fetchingDocs":"Fehler beim Abrufen der Dokumente",
-      "pdfRender":"Fehler beim Rendern des PDFs"
+  "errors": {
+    "uploadedFilesClerk": {
+      "loadingDocs": "Fehler beim Laden der Dokumente",
+      "fetchingDocs": "Fehler beim Abrufen der Dokumente",
+      "pdfRender": "Fehler beim Rendern des PDFs"
     },
-    "petitionFormDialog":{
-      "submission":"Fehler beim Senden des Antrags. Bitte versuchen Sie es erneut.",
-      "saving":"Fehler beim Speichern des Antrags. Bitte versuchen Sie es erneut."
+    "petitionFormDialog": {
+      "submission": "Fehler beim Senden des Antrags. Bitte versuchen Sie es erneut.",
+      "saving": "Fehler beim Speichern des Antrags. Bitte versuchen Sie es erneut."
     },
-    "petitionIssueDialog":{
+    "petitionIssueDialog": {
       "sendingEmail": "Fehler beim Senden der E-Mail"
     },
-  
-    "studentData":{
-      "savingData":"Fehler beim Speichern der Mitarbeiterdaten",
-      "savingFiles":"Fehler beim Speichern der Dateien",
-      "fetchingData":"Fehler beim Abrufen der Mitarbeiterdaten",
+    "studentData": {
+      "savingData": "Fehler beim Speichern der Mitarbeiterdaten",
+      "savingFiles": "Fehler beim Speichern der Dateien",
+      "fetchingData": "Fehler beim Abrufen der Mitarbeiterdaten",
       "fetchingDocs": "Fehler beim Abrufen der Dokumente"
     },
-    "petition":{
+    "petition": {
       "deletion": "Fehler beim Löschen des Antrags",
       "fetching": "Fehler beim Abrufen der Anträge",
       "rejection": "Antrag konnte nicht abgelehnt werden",
@@ -237,22 +236,24 @@
     "noPetitionComplete": "Dieser Antrag wurde bereits bearbeitet. Vielen Dank für Ihre Überprüfung.",
     "approveSuccess": "Antrag erfolgreich genehmigt",
     "rejectSuccess": "Antrag erfolgreich abgelehnt"
-},
-    "budget":{
-      "approved":"Das Budget wurde genehmigt",
-      "notApproved":"Das Budget wurde noch nicht genehmigt"
-    },
-"ariaLabel": {
-    "navigation":{
-      "appBar":"Hauptnavigationsleiste",
-      "navDrawer":"Hauptnavigationsschublade",
-      "toggleDrawer":"Navigationsschublade umschalten",
-      "dashboard":"Zum Dashboard gehen",
-      "roles":"Zur Rollenauswahl gehen",
-      "avatar":"Benutzer-Avatar",
+  },
+  "budgetPositionStatus": {
+    "approved": "Das Budget wurde genehmigt",
+    "rejected": "Das Budget wurde abgelehnt",
+    "approver revision": "Das Budget wird vom Genehmiger geprüft",
+    "waiting approver action": "Das Budget wartet auf die Aktion des Genehmigers"
+  },
+  "ariaLabel": {
+    "navigation": {
+      "appBar": "Hauptnavigationsleiste",
+      "navDrawer": "Hauptnavigationsschublade",
+      "toggleDrawer": "Navigationsschublade umschalten",
+      "dashboard": "Zum Dashboard gehen",
+      "roles": "Zur Rollenauswahl gehen",
+      "avatar": "Benutzer-Avatar",
       "menu": "Benutzermenü",
-      "toggleMenu":"Benutzermenü umschalten",
-      "menuOptions":"Benutzermenü-Optionen"
+      "toggleMenu": "Benutzermenü umschalten",
+      "menuOptions": "Benutzermenü-Optionen"
     },
     "petitionFormDialog": {
       "dialog": "Antragsdialog",

@@ -254,7 +254,7 @@ const initialFormData = {
       id: '',
       budget_position: '',
       budget_approver: '',
-      budget_approved: false,
+      budget_position_status: "",
       percentage: 0,
     },
   ],

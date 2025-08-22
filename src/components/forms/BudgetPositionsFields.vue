@@ -39,8 +39,8 @@
     />
     <div class="d-flex align-center ga-2 mb-4" >
       <StatusIndicator
-        :status="position.budget_approved"
-        :tooltip="position.budget_approved ? $t('budget.approved') : $t('budget.notApproved')"
+        :status="position.budget_position_status==='approved'"
+        :tooltip="$t(`budgetPositionStatus.${position.budget_position_status}`)"
        />
       <!-- Add field Button  -->
       <v-btn
@@ -85,7 +85,7 @@ const budgetPositions = defineModel({
       budget_position: '', 
       budget_approver: '', 
       percentage: 0, 
-      budget_approved: false 
+      budget_position_status: "" 
     }
   ])
 });
@@ -95,8 +95,7 @@ function addPosition() {
     budget_position: '',
     budget_approver: '',
     percentage: 0,
-    budget_approved: false
-  });
+    budget_position_status: "", });
 }
 function removePosition(index) {
   budgetPositions.value.splice(index, 1);

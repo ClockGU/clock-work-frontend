@@ -114,7 +114,7 @@ const handleApproval = async () => {
     isLoading.value = true;
     await ContentApiService.patch(`/approver/petitions/${petitionId}/${signature}/${budgetPositionId}`, { 
       status: "student_action",
-      budget_approved: true,
+      budget_position_status: "approved",
      });
     store.dispatch("snackbar/setSnack", {
       message: t('approverView.approveSuccess')
@@ -134,7 +134,7 @@ const handleRejection = async () => {
   try {
     isLoading.value = true;
     await ContentApiService.patch(`/approver/petitions/${petitionId}/${signature}/${budgetPositionId}`, { 
-      budget_approved: false,});
+      budget_position_status: "rejected",});
     store.dispatch("snackbar/setSnack", {
       message: t('approverView.rejectSuccess')
     });
