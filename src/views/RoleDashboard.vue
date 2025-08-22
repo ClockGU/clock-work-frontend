@@ -51,8 +51,9 @@ const fetchPetitions =async () => {
   if (token.value) {
     ContentApiService.setAccessToken(token.value);
   }
-   const response = await ContentApiService.get(`${userRole===0?"/students":"/supervisor"}/petitions`);
+   const response = await ContentApiService.get(`${userRole.value===0?"/students":"/supervisor"}/petitions`);
    petitions.value = response.data;
+   console.log("Fetched petitions:", petitions.value);
  } catch (err) {
   //404 is supposed to be when there are no petitions
   // so we don't want to show an error in that case
@@ -70,17 +71,22 @@ const handleRefresh = (payload) => {
   if (payload) {
     switch(payload.type) {
       case 'update':
+        // Update the selected petition's data if it's the one that was updated
         if (selectedPetition.value?.id === payload.data.id) {
           selectPetition(payload.data);
         }
         break;
       case 'delete':
+        // Deselect the petition if it's the one being deleted
         if (selectedPetition.value?.id === payload.data) {
           deselectPetition();
         }
+        // Immediately update the local petitions array to remove the deleted item
+        petitions.value = petitions.value.filter(p => p.id !== payload.data);
         break;
     }
   }
+  // Re-fetch all petitions to ensure data consistency with the server
   fetchPetitions();
 };
 onMounted(() => {

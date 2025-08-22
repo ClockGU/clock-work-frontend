@@ -5,7 +5,7 @@
       v-model="showPetitionFormDialog"
       :petition="petition"
       @close="showPetitionFormDialog = false"
-      @refresh="handleRefresh"
+      @refresh="emit('refresh', $event)"
     />
     <ConfirmationDialog
       v-model="showDeleteConfirmationDialog"
@@ -27,11 +27,11 @@
       <template #top>
         <div class="d-flex justify-space-between align-center">
           <RoleActionButton
-          color="error"
-          :roles="[0,1,2]"
-          :icon="icons.mdiClose"
-          :tooltip="$t('actions.close')"
-          :action="()=>$emit('close') "
+            color="error"
+            :roles="[0,1,2]"
+            :icon="icons.mdiClose"
+            :tooltip="$t('actions.close')"
+            :action="()=>$emit('close') "
           />
           <div class="d-flex align-center ga-3 ml-1">
             <RoleActionButton
@@ -46,7 +46,7 @@
               :roles="[1,2]"
               :icon="icons.mdiPencil"
               :tooltip="$t('actions.edit')"
-              :action="()=>showPetitionFormDialog = true"
+              :action="()=>$emit('edit')"
             />
             <RoleActionButton
               color="error"
@@ -81,7 +81,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['close', 'refresh']);
+const emit = defineEmits(['close', 'refresh', 'edit']);
 
 const store = useStore();
 const { t } = useI18n();
@@ -105,12 +105,6 @@ const deletePetition = async () => {
     store.dispatch("snackbar/setErrorSnacks", {
       message: t("errors.petition.deletion", "Failed to delete petition."),
     });
-  } finally {
-    showDeleteConfirmationDialog.value = false;
   }
-};
-
-const handleRefresh = (payload) => {
-  emit('refresh', payload);
 };
 </script>
