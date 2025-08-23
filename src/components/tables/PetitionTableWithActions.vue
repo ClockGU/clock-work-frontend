@@ -47,7 +47,7 @@
               :roles="[1,2]"
               :icon="icons.mdiPencil"
               :tooltip="$t('actions.edit')"
-              :action="()=>$emit('edit')"
+              :action="()=>showPetitionFormDialog = true"
             />
             <RoleActionButton
               color="error"
@@ -82,7 +82,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['close', 'refresh', 'edit']);
+const emit = defineEmits(['close', 'refresh']);
 
 const store = useStore();
 const { t } = useI18n();

@@ -40,7 +40,6 @@
         :petition="selectedPetition"
         :aria-label="$t('petitionTable.title')"
         @close="emit('deselect-petition');"
-        @edit="openEditDialog"
         @refresh="refresh"
       />
 
@@ -90,10 +89,6 @@ const openNewPetitionDialog = () => {
   showPetitionForm.value = true;
 };
 const openStudentDialog = () => showStudentDialog.value = true;
-
-const openEditDialog = () => {
-  showPetitionForm.value = true;
-};
 const refresh = (payload) => {
   emit('refresh', payload);
 };

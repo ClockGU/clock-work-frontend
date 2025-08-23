@@ -84,8 +84,9 @@ const studentSubjects = [
 ];
 
 const clerkSubjects = [
-  t('reportIssue.clerkSubjects.studentIssue'),
-  t('reportIssue.clerkSubjects.approverIssue'),
+  t('reportIssue.clerkSubjects.missingDocuments'),
+  t('reportIssue.clerkSubjects.incorrectDocuments'),
+  t('reportIssue.clerkSubjects.incorrectData'),
   t('reportIssue.clerkSubjects.others'),
 ];
 
