@@ -151,6 +151,7 @@
     "invalidPhone": "Ungültige Telefonnummer",
     "invalidIban": "Ungültige IBAN",
     "percentage": "Muss zwischen 0-100 liegen",
+    "percentageTotal": "Die Gesamtsumme aller Prozents  muss 100% betragen. Aktuelle Gesamtsumme: {totalPercentage}%",
     "positiveNumber": "Muss eine positive Zahl sein",
     "endDateAfterStart": "Enddatum muss nach dem Startdatum liegen",
     "eosNumber": "Muss eine 5-stellige Nummer sein",

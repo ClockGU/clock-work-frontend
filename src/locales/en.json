@@ -151,6 +151,7 @@
     "invalidPhone": "Invalid phone number",
     "invalidIban": "Invalid IBAN",
     "percentage": "Must be between 0-100",
+    "percentageTotal": "Total percentage must equal 100%. Current total: {totalPercentage}%",
     "positiveNumber": "Must be a positive number",
     "endDateAfterStart": "End date must be after start date",
     "eosNumber": "Must be a 5 digit number ",

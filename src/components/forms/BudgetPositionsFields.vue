@@ -4,7 +4,6 @@
   </v-label>
   
   <div v-for="(position, index) in budgetPositions" :key="index" class="d-flex flex-wrap align-center my-4 ga-2" >
-    <!-- Budget Position Field -->
     <v-text-field
       v-model="position.budget_position"
       outlined
@@ -14,7 +13,6 @@
       :rules="[requiredRule]"
     />
     
-    <!-- Approver Email Field -->
     <v-text-field
       v-model="position.budget_approver"
       type="email"
@@ -26,7 +24,6 @@
       :rules="[requiredRule, emailRule]"
     />
     
-    <!-- Percentage Field -->
     <v-text-field
       v-model.number="position.percentage"
       type="number"
@@ -42,7 +39,6 @@
         :status="position.budget_position_status==='approved'"
         :tooltip="$t(`budgetPositionStatus.${position.budget_position_status}`)"
        />
-      <!-- Add field Button  -->
       <v-btn
         v-if="index === 0"
         :icon="icons.mdiPlus"
@@ -52,7 +48,6 @@
         color="primary"
         @click="addPosition"
       />
-      <!-- Remove field Button  -->
       <v-btn
         v-else
         :icon="icons.mdiMinus"
@@ -64,11 +59,15 @@
       />
     </div> 
   </div>
+   <div v-if="percentageTotalRule !== true" class="text-error mb-3">
+    {{ percentageTotalRule }}
+  </div>
 </template>
 
 <script setup>
-import {useI18n} from 'vue-i18n';
-import {mdiEmail,mdiPlus,mdiMinus} from '@mdi/js';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { mdiEmail, mdiPlus, mdiMinus } from '@mdi/js';
 import StatusIndicator from '@/components/ui/StatusIndicator.vue';
 
 const icons = {
@@ -76,16 +75,16 @@ const icons = {
   mdiPlus,
   mdiMinus
 };
-const {t}=useI18n()
+const { t } = useI18n();
 
 const budgetPositions = defineModel({
   type: Array,
   default: () => ([
-    { 
-      budget_position: '', 
-      budget_approver: '', 
-      percentage: 0, 
-      budget_position_status: "" 
+    {
+      budget_position: '',
+      budget_approver: '',
+      percentage: 0,
+      budget_position_status: ""
     }
   ])
 });
@@ -95,8 +94,10 @@ function addPosition() {
     budget_position: '',
     budget_approver: '',
     percentage: 0,
-    budget_position_status: "", });
+    budget_position_status: ""
+  });
 }
+
 function removePosition(index) {
   budgetPositions.value.splice(index, 1);
 }
@@ -104,6 +105,13 @@ function removePosition(index) {
 // Validation rules
 const requiredRule = (value) => !!value || t('validationRule.required');
 const emailRule = (value) => /.+@.+\..+/.test(value) || t('validationRule.invalidEmail');
-const percentageRule = (value) => 
-  (value >= 0 && value <= 100) || t('validationRule.percentage');
+const percentageRule = (value) => (value >= 0 && value <= 100) || t('validationRule.percentage');
+
+// New computed property for total percentage validation
+const percentageTotalRule = computed(() => {
+  const totalPercentage = budgetPositions.value.reduce((sum, position) => sum + (Number(position.percentage) || 0), 0);
+
+  return totalPercentage === 100 ? true : t('validationRule.percentageTotal', { totalPercentage });
+});
+defineExpose({ percentageTotalRule });
 </script>
