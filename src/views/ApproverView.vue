@@ -45,6 +45,7 @@
                   <PetitionTableWithActions
                     :petition="petition"
                     aria-labelledby="petition-data-heading"
+                    @refresh="fetchPetition"
                   />
                 </v-card-text>
               </v-card>

@@ -185,11 +185,7 @@
       "incorrectData": "Request correcting personal data",
       "others": "Others"
     },
-    "approverSubjects": {
-      "hoursReduction": "Working hours reduction request",
-      "budgetAdjustment": "Budget adjustment request",
-      "others": "Other matters"
-    },
+    "approverMessage": "You can report an issue with the budget position of this petition",
     "title": "Report an Issue",
     "subjectLabel": "Subject",
     "subjectPlaceholder": "Enter subject line",
@@ -208,7 +204,8 @@
       "saving":"Error saving petition.Please try again "
     },
     "petitionIssueDialog":{
-      "sendingEmail": "Error sending email"
+      "sendingEmail": "Error sending email",
+      "approverRevision": "Error with approver Revision"
     },
   
     "studentData":{

@@ -19,6 +19,7 @@
       v-model="showPetitionIssueDialog"
       :petition="petition"
       @close="showPetitionIssueDialog = false"
+      @refresh="emit('refresh', $event)"
     ></PetitionIssueDialog>
 
     <!-- The PetitionTable component is used here -->
@@ -36,7 +37,7 @@
           <div class="d-flex align-center ga-3 ml-1">
             <RoleActionButton
               color="warning"
-              :roles="[0,2]"
+              :roles="[0,2,3]"
               :icon="icons.mdiAlertCircleOutline"
               :tooltip="$t('actions.report')"
               :action="()=>showPetitionIssueDialog = true"
