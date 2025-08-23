@@ -3,40 +3,55 @@
     <v-row justify="center">
       <v-col cols="12" md="8">
         <header>
-          <h1 class="text-center text-h5 text-sm-h4 font-weight-medium mb-8">
-            {{ headerMessage }}
-          </h1>
+          <h2 
+            id="main-heading"
+            class="text-center text-h5 text-sm-h4 font-weight-medium mb-8">
+              {{ headerMessage }}
+          </h2>
         </header>
 
         <main>
           <!-- Loading State -->
           <template v-if="isLoading">
-            <v-card class="mb-4" elevation="2">
-              <v-skeleton-loader
-                type="card"
-              ></v-skeleton-loader>
+            <v-card 
+              class="mb-4" 
+              elevation="2" 
+              role="region" 
+              aria-labelledby="loading-message">
+              <v-skeleton-loader type="card"/>
+              <p 
+                id="loading-message"
+                class="sr-only" >
+                  {{ $t('app.loading') }}
+              </p>
             </v-card>
           </template>
 
           <!-- Petition Content (when loaded and available) -->
           <template v-else-if="petition">
-            <section aria-labelledby="petition-data-heading">
-              <v-card class="d-flex flex-column align-center" elevation="2">
+            <section >
+              <v-card 
+                class="d-flex flex-column align-center" 
+                elevation="2" 
+                role="region" 
+                aria-labelledby="main-heading"
+                tabindex="0">
                 <v-card-title>
-                  <h2 id="petition-data-heading" class="text-h4 font-weight-medium my-4">
+                  <h3 id="petition-data-heading" class="text-h4 font-weight-medium my-4">
                     {{ $t('approverView.petitionData') }}
-                  </h2>
+                  </h3>
                 </v-card-title>
                 <v-card-text>
                   <PetitionTableWithActions
                     :petition="petition"
                     aria-labelledby="petition-data-heading"
+                    @refresh="fetchPetition"
                   />
                 </v-card-text>
               </v-card>
             </section>
 
-            <section aria-label="Approval actions" class="d-flex justify-space-around mt-6 ga-4">
+            <section class="d-flex justify-space-around mt-6 ga-4" role="region">
               <v-btn 
                 color="error" 
                 size="large" 
@@ -59,8 +74,12 @@
           </template>
           <!-- No Petition Available State -->
           <template v-else>
-            <v-card class="text-center py-8" elevation="2">
-              <h2 class="text-h5 mb-4">{{ $t('approverView.noPetition') }}</h2>
+            <v-card 
+              class="text-center py-8" 
+              elevation="2" 
+              role="region" 
+              aria-labelledby="no-petition-message">
+              <h3 class="text-h5 mb-4" id="no-petition-message">{{ $t('approverView.noPetition') }}</h3>
               <p class="text-body-1 mb-4">{{ noPetitionMessage }}</p>
             </v-card>
           </template>
@@ -98,7 +117,21 @@ const fetchPetition = async () => {
     isLoading.value = true;
     actionCompleted.value = false;
     const response = await ContentApiService.get(`/approver/petitions/${petitionId}`);
-    petition.value = response.data;
+    const fetchedPetition = response.data;
+    
+    // Check if the petition exists and has a budget position that matches
+    // the budgetPositionId from the query and is awaiting action.
+    const hasPendingBudgetPosition = fetchedPetition.budget_positions.some(
+      (pos) => pos.id === budgetPositionId && pos.budget_position_status === 'waiting approver action'
+    );
+
+    if (hasPendingBudgetPosition) {
+      petition.value = fetchedPetition;
+    } else {
+      // If the petition is not pending, clear the petition data
+      petition.value = null;
+      actionCompleted.value = true; 
+    }
   } catch (err) {
     console.error(err);
     store.dispatch("snackbar/setErrorSnacks", {
@@ -114,7 +147,7 @@ const handleApproval = async () => {
     isLoading.value = true;
     await ContentApiService.patch(`/approver/petitions/${petitionId}/${signature}/${budgetPositionId}`, { 
       status: "student_action",
-      budget_approved: true,
+      budget_position_status: "approved",
      });
     store.dispatch("snackbar/setSnack", {
       message: t('approverView.approveSuccess')
@@ -134,7 +167,7 @@ const handleRejection = async () => {
   try {
     isLoading.value = true;
     await ContentApiService.patch(`/approver/petitions/${petitionId}/${signature}/${budgetPositionId}`, { 
-      budget_approved: false,});
+      budget_position_status: "rejected",});
     store.dispatch("snackbar/setSnack", {
       message: t('approverView.rejectSuccess')
     });

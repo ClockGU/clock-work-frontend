@@ -5,7 +5,7 @@
       v-model="showPetitionFormDialog"
       :petition="petition"
       @close="showPetitionFormDialog = false"
-      @refresh="handleRefresh"
+      @refresh="emit('refresh', $event)"
     />
     <ConfirmationDialog
       v-model="showDeleteConfirmationDialog"
@@ -19,6 +19,7 @@
       v-model="showPetitionIssueDialog"
       :petition="petition"
       @close="showPetitionIssueDialog = false"
+      @refresh="emit('refresh', $event)"
     ></PetitionIssueDialog>
 
     <!-- The PetitionTable component is used here -->
@@ -27,16 +28,16 @@
       <template #top>
         <div class="d-flex justify-space-between align-center">
           <RoleActionButton
-          color="error"
-          :roles="[0,1,2]"
-          :icon="icons.mdiClose"
-          :tooltip="$t('actions.close')"
-          :action="()=>$emit('close') "
+            color="error"
+            :roles="[0,1,2]"
+            :icon="icons.mdiClose"
+            :tooltip="$t('actions.close')"
+            :action="()=>$emit('close') "
           />
           <div class="d-flex align-center ga-3 ml-1">
             <RoleActionButton
               color="warning"
-              :roles="[0,2]"
+              :roles="[0,2,3]"
               :icon="icons.mdiAlertCircleOutline"
               :tooltip="$t('actions.report')"
               :action="()=>showPetitionIssueDialog = true"
@@ -105,12 +106,6 @@ const deletePetition = async () => {
     store.dispatch("snackbar/setErrorSnacks", {
       message: t("errors.petition.deletion", "Failed to delete petition."),
     });
-  } finally {
-    showDeleteConfirmationDialog.value = false;
   }
-};
-
-const handleRefresh = (payload) => {
-  emit('refresh', payload);
 };
 </script>

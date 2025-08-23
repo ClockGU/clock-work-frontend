@@ -103,9 +103,10 @@
           :aria-label="$t('petition.baDegree')"
         />
       </v-col>
-      <v-col cols="12" >
+      <v-col cols="12">
           <BudgetPositionsFields
             v-model="formData.budget_positions"
+            ref="budgetPositionsRef"
           />
       </v-col>
       <v-col cols="12">
@@ -148,8 +149,7 @@
           />
         </div>
       </v-col>
-      <v-col cols="12"       
->
+      <v-col cols="12">
         <v-checkbox
           id="durationExceCourse"
           v-model="formData.duration_exce_course"
@@ -194,16 +194,16 @@
 </template>
 
 <script setup>
-import { computed, ref, watch} from 'vue';
-import { mdiAccount, mdiEmail, mdiOfficeBuilding, mdiNumeric, mdiSchool,mdiCalendar, mdiClock, mdiCurrencyUsd } from '@mdi/js';
+import { computed, ref, watch } from 'vue';
+import { mdiAccount, mdiEmail, mdiOfficeBuilding, mdiNumeric, mdiSchool, mdiCalendar, mdiClock, mdiCurrencyUsd } from '@mdi/js';
 import { useI18n } from 'vue-i18n';
 import BudgetPositionsFields from './BudgetPositionsFields.vue';
 import { useStore } from 'vuex';
 
-const {t}= useI18n();
+const { t } = useI18n();
 const store = useStore();
-const user= computed(() => store.getters['auth/user']);
-const supervisorMail=computed(() =>user.value.user_role===1? user.value.email:"");
+const user = computed(() => store.getters['auth/user']);
+const supervisorMail = computed(() => user.value.user_role === 1 ? user.value.email : "");
 
 const icons = {
   mdiAccount,
@@ -223,7 +223,7 @@ const props = defineProps({
     default: null,
   },
 });
-const degreeOptions =[
+const degreeOptions = [
   { text: 'Student has a Bachelor Degree', value: true },
   { text: 'Student does not have a Bachelor Degree', value: false }
 ]
@@ -254,14 +254,25 @@ const initialFormData = {
       id: '',
       budget_position: '',
       budget_approver: '',
-      budget_approved: false,
+      budget_position_status: "",
       percentage: 0,
     },
   ],
 };
 
 const formData = ref({ ...initialFormData });
+const form = ref(null);
+const budgetPositionsRef = ref(null);
+
 const isFormValid = ref(false);
+
+// Combine the form validity and the budget position validation
+const isAllValid = computed(() => {
+  const isBudgetValid = budgetPositionsRef.value?.percentageTotalRule === true;
+  const isOtherFieldsValid = isFormValid.value;
+
+  return isOtherFieldsValid && isBudgetValid;
+});
 
 // Populate form data when petition prop changes
 watch(() => props.petition, (newPetition) => {
@@ -272,8 +283,7 @@ watch(() => props.petition, (newPetition) => {
       time_exce_course: newPetition.time_exce_course ?? false,
       duration_exce_course: newPetition.duration_exce_course ?? false,
     };
-    
-    // Only clear exception fields if their checkboxes are false
+
     if (!cleanData.time_exce_course) {
       cleanData.time_exce_name = '';
       cleanData.time_exce_start = '';
@@ -284,7 +294,17 @@ watch(() => props.petition, (newPetition) => {
       cleanData.duration_exce_start = '';
       cleanData.duration_exce_end = '';
     }
-    
+
+    // Reset budget_positions to the initial state when editing a petition
+    cleanData.budget_positions = [
+      {
+        id: '',
+        budget_position: '',
+        budget_approver: '',
+        budget_position_status: '',
+        percentage: 0,
+      },
+    ];
     formData.value = cleanData;
   } else {
     formData.value = { ...initialFormData };
@@ -298,8 +318,7 @@ const handleTimeExceptionChange = (value) => {
     formData.value.time_exce_name = '';
     formData.value.time_exce_start = '';
     formData.value.time_exce_end = '';
-  }
-  else{
+  } else {
     formData.value.time_exce_course = true;
   }
 };
@@ -310,12 +329,12 @@ const handleDurationExceptionChange = (value) => {
     formData.value.duration_exce_name = '';
     formData.value.duration_exce_start = '';
     formData.value.duration_exce_end = '';
-  }
-  else{
+  } else {
     formData.value.duration_exce_course = true;
   }
 };
-//validation rules 
+
+// Validation rules
 const requiredRule = (v) => !!v || t('validationRule.required');
 const emailRule = (v) => /.+@.+\..+/.test(v) || t('validationRule.invalidEmail');
 const positiveNumberRule = (v) => v > 0 || t('validationRule.positiveNumber');
@@ -325,18 +344,19 @@ const endDateRule = (v) => {
 };
 const eosRule = (v) => /^\d{5}$/.test(v) || t('validationRule.eosNumber');
 
-defineExpose({ formData, isFormValid });
+// Expose the formData and the new combined validity state
+defineExpose({ formData, isAllValid });
 </script>
 <style scoped>
 label {
   font-weight: 500;
-  font-size: 1rem; 
-  margin-left: 2.5rem; 
+  font-size: 1rem;
+  margin-left: 2.5rem;
 }
 .v-checkbox :deep(.v-label) {
-  opacity: 1;      
+  opacity: 1;
   font-weight: normal;
-  margin-left: 0;   
-  font-size: inherit; 
+  margin-left: 0;
+  font-size: inherit;
 }
 </style>

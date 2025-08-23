@@ -52,23 +52,23 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['close','refresh']);
+const emit = defineEmits(['close', 'refresh']);
 const store = useStore();
-const {t} = useI18n();
+const { t } = useI18n();
 const petitionFormRef = ref(null);
 
 const userRole = computed(() => store.getters['auth/userRole']);
-const isFormValid = computed(() => petitionFormRef.value?.isFormValid || false);
+
+const isFormValid = computed(() => petitionFormRef.value?.isAllValid || false);
 
 const closeDialog = () => emit('close');
 const submit = async () => {
   if (isFormValid.value) {
-    const formData = petitionFormRef.value.formData; // Get form data from the form petition form
+    const formData = petitionFormRef.value.formData;
     const filteredFormData = Object.fromEntries(
       Object.entries(formData).filter(([key, value]) => value !== '' && value !== null)
     );
     try {
-      // Call the backend API to create a new petition (only suppervisor can create a petition)
       await ContentApiService.post('supervisor/petitions/', filteredFormData);
       emit('refresh');
     } catch (error) {
@@ -76,12 +76,12 @@ const submit = async () => {
       store.dispatch('snackbar/setErrorSnacks', {
         message: t("errors.petitionFormDialog.submission"),
       });
-    }
-    finally {
+    } finally {
       closeDialog();
     }
   }
 };
+
 const save = async () => {
   if (isFormValid.value) {
     const formData = petitionFormRef.value.formData;
@@ -89,7 +89,7 @@ const save = async () => {
       Object.entries(formData).filter(([key, value]) => value !== '' && value !== null)
     );
     try {
-      const role = userRole.value===2 ? 'clerk': 'supervisor';
+      const role = userRole.value === 2 ? 'clerk' : 'supervisor';
       const response = await ContentApiService.patch(`${role}/petitions/${props.petition.id}`, filteredFormData);
       emit('refresh', {
         type: 'update',
@@ -100,11 +100,9 @@ const save = async () => {
       store.dispatch('snackbar/setErrorSnacks', {
         message: t("errors.petitionFormDialog.saving"),
       });
-    }
-    finally {
+    } finally {
       closeDialog();
     }
   }
 };
 </script>
-

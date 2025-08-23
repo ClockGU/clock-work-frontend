@@ -115,7 +115,7 @@
     "budgetPositions": "Budget Positions",
     "budgetPosition": "Budget Position",
     "budgetApprover": "Budget Approver Email",
-    "budgetApproved": "Budget Approved",
+    "budgetPositionStatus": "Budget Position Status",
     "percentage": "Percentage",
     "timeExceCourse": "Time Exception",
     "timeExceName": "Time Exception Name",
@@ -151,6 +151,7 @@
     "invalidPhone": "Invalid phone number",
     "invalidIban": "Invalid IBAN",
     "percentage": "Must be between 0-100",
+    "percentageTotal": "Total percentage must equal 100%. Current total: {totalPercentage}%",
     "positiveNumber": "Must be a positive number",
     "endDateAfterStart": "End date must be after start date",
     "eosNumber": "Must be a 5 digit number ",
@@ -185,11 +186,7 @@
       "incorrectData": "Request correcting personal data",
       "others": "Others"
     },
-    "approverSubjects": {
-      "hoursReduction": "Working hours reduction request",
-      "budgetAdjustment": "Budget adjustment request",
-      "others": "Other matters"
-    },
+    "approverMessage": "You can report an issue with the budget position of this petition",
     "title": "Report an Issue",
     "subjectLabel": "Subject",
     "subjectPlaceholder": "Enter subject line",
@@ -208,7 +205,8 @@
       "saving":"Error saving petition.Please try again "
     },
     "petitionIssueDialog":{
-      "sendingEmail": "Error sending email"
+      "sendingEmail": "Error sending email",
+      "approverRevision": "Error with approver Revision"
     },
   
     "studentData":{
@@ -238,9 +236,11 @@
     "approveSuccess": "Petition approved successfully",
     "rejectSuccess": "Petition rejected successfully"
 },
-    "budget":{
+    "budgetPositionStatus":{
       "approved":"The Budget has been approved",
-      "notApproved":"The Budget has not been approved yet"
+      "rejected":"The Budget has been rejected",
+      "approver revision":"The Budget is under revision by the approver",
+      "waiting approver action":"The Budget is waiting for the approver's action"
     },
 "ariaLabel": {
     "navigation":{
