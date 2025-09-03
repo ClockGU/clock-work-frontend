@@ -12,7 +12,7 @@
           <v-btn  
             v-for="link in links"  
             :key="link.text"  
-            :href="link.to"  
+            :to="{ name: link.to }"  
             color="white"  
             variant="text"  
             rounded  
@@ -69,8 +69,8 @@
 
 <script setup>  
 const links = [  
-  { text: "Datenschutz", to: "https://clock.uni-frankfurt.de/privacy" },  
-  { text: "Impressum", to: "https://clock.uni-frankfurt.de/impressum" }  
+  { text: "Datenschutz", to: "privacy" },  
+  { text: "Impressum", to: "imprint" }  
 ]  
 </script>  
 
@@ -88,3 +88,4 @@ const links = [
     color: #00FFBF !important; 
 }
 </style>
+
