@@ -24,15 +24,19 @@
     "report": "Problem melden",
     "send": "senden",
     "approve": "genehmigen",
-    "reject": "ablehnen"
+    "reject": "ablehnen",
+    "complete": "abschließen"
   },
   "roleSelectionView": {
     "welcome": "Sie sind neu hier!",
     "roleSelection": "Wählen Sie Ihre Rolle aus:",
-    "supervisorTitle": "Vorgesetzter",
     "supervisorDescription": "Als Vorgesetzter stellen Sie studentische Hilfskräfte ein und betreuen diese.",
-    "studentTitle": "Student",
     "studentDescription": "Als Student können Sie Einstellungsanträge verwalten und für die Universität arbeiten."
+  },
+  "gdprAcceptanceDialog": {
+    "title": "Datenschutzerklärung",
+    "text": "Diese Anwendung verwendet Cookies und sammelt personenbezogene Daten, um Ihre Erfahrung zu verbessern. Durch die Fortsetzung stimmen Sie unserer Verwendung von Daten gemäß unserer Datenschutzerklärung zu. Dies umfasst, aber nicht beschränkt auf Ihren Namen, Ihre E-Mail-Adresse und andere personenbezogene Informationen. Bitte lesen Sie unsere Datenschutzerklärung sorgfältig, um zu verstehen, wie wir Ihre Daten schützen und verwenden.",
+    "accept": "Ich habe die Datenschutzerklärung gelesen und akzeptiere sie"
   },
   "editCard": {
     "supervisor": {
@@ -224,6 +228,9 @@
       "loadPetitionError": "Fehler beim Laden des Antrags zur Überprüfung",
       "approveError": "Fehler beim Genehmigen des Antrags",
       "rejectError": "Fehler beim Ablehnen des Antrags"
+    },
+    "gdprAcceptanceDialog": {
+      "updateFailed": "Die Aktualisierung der Benutzervereinbarung ist fehlgeschlagen. Bitte versuchen Sie es erneut."
     }
   },
   "approverView": {

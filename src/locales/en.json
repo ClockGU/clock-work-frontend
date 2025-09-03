@@ -24,15 +24,19 @@
     "report": "report an issue",
     "send": "send",
     "approve":"approve",
-    "reject":"reject"
+    "reject":"reject",
+    "complete": "complete"
   },
   "roleSelectionView": {
     "welcome": "You are new here!",
     "roleSelection": "Tell us what role you are going to play here:",
-    "supervisorTitle": "Supervisor",
     "supervisorDescription": "As a supervisor you hire and supervise student assistants",
-    "studentTitle": "Student",
     "studentDescription": "As a student you can manage hire petitions and work for the university"
+  },
+  "gdprAcceptanceDialog": {
+    "title": "Privacy Agreement",
+    "text": "This application uses cookies and collects personal data to enhance your experience. By continuing, you agree to our use of data as outlined in our Privacy Policy. This includes but is not limited to your name, email address, and other personal information. Please read our Privacy Policy carefully to understand how we protect and use your data.",
+    "accept": "I have read and accept the Privacy Policy"
   },
   "editCard": {
     "supervisor": {
@@ -225,6 +229,9 @@
       "loadPetitionError": "Failed to load petition for review",
       "approveError": "Error approving petition",
       "rejectError": "Error rejecting petition"
+    },
+    "gdprAcceptanceDialog": {
+      "updateFailed": "The update of the user agreement failed. Please try again."
     }
   },
   "approverView": {
