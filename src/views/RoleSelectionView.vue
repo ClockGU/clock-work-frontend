@@ -7,7 +7,7 @@
         <v-col>  
           <RoleCardButton 
             role="supervisor"  
-            :title="$t('roleSelectionView.supervisorTitle')"  
+            :title="$t('supervisor')"  
             :description="$t('roleSelectionView.supervisorDescription')"  
             :imgSrc="SupervisorImg" 
             :imgAlt="$t('supervisor')"
@@ -17,7 +17,7 @@
         <v-col>  
           <RoleCardButton
             role="student"  
-            :title="$t('roleSelectionView.studentTitle')"  
+            :title="$t('student')"  
             :description="$t('roleSelectionView.studentDescription')"  
             :imgSrc="StudentImg" 
             :imgAlt="$t('student')"

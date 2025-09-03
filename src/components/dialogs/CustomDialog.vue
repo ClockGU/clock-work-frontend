@@ -7,45 +7,40 @@
     transition="slide-y-reverse-transition"
     role="dialog"
   >
-    <!-- Activator Slot -->
+      <!-- Activator Slot -->
     <template #activator="props">
       <slot name="activator" v-bind="props"></slot>
     </template>
 
     <v-card>
-      <!-- Title Section -->
-      
-        <v-card-title  class="text-h6 font-weight-bold bg-grey-lighten-2 d-flex justify-space-between align-center">
+            <!-- Title Section -->
+      <v-card-title  class="text-h6 font-weight-bold bg-grey-lighten-2 d-flex justify-space-between align-center">
           <span class="text-h6 pa-2">{{ title }}</span>
-
-        <!-- Close Button -->
+<!-- Close Button -->
         <v-btn
           icon
           variant="text"
           class="text-grey-darken-2"
           :ripple="false"
           :aria-label="$t('actions.close')"
-          @click="close"
+          @click="handleClose"
         >
           <v-icon>{{ icons.mdiClose }}</v-icon>
         </v-btn>
       </v-card-title>
 
-      <!-- Divider -->
       <v-divider class="my-0" />
-
-      <!-- Main Content Slot -->
+     <!-- Main Content Slot -->
       <v-card-text class="px-6">
-        <slot name="content" :events="{ close }"></slot>
+        <slot name="content" :events="{ close: handleClose }"></slot>
       </v-card-text>
-
       <!-- Actions Slot -->
       <v-card-actions class="pa-4">
         <v-btn
           color="grey-darken-1"
           variant="text"
           :aria-label="$t('actions.cancel')"
-          @click="close"
+          @click="handleClose"
         >
           {{ $t('actions.cancel') }}
         </v-btn>
@@ -75,6 +70,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  customClose: {
+    type: Function,
+    required: false,
+  }
 });
 
 const icons = { mdiClose };
@@ -82,8 +81,12 @@ const model = defineModel({
   type: Boolean,
   default: false,
 });
-const close = () => {
-  model.value = false;
-};
 
+const handleClose = () => {
+  if (props.customClose) {
+    props.customClose();
+  } else {
+    model.value = false;
+  }
+};
 </script>
