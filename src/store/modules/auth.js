@@ -11,7 +11,6 @@ const state = () => ({
   refreshToken: undefined,
   user: undefined,
   isRoleSelected: false,
-  isLoggedIn: undefined,
   loginError: ""
 });
 
@@ -22,7 +21,7 @@ const getters = {
   refreshToken: (state) => state.refreshToken,
   user: (state) => state.user,
   userRole: (state) => state.user.user_role,
-  isLoggedIn: (state) => state.user !== undefined,
+  isLoggedIn: (state) => state.accessToken !== null,
   loginError: (state) => state.loginError,
   isRoleSelected:(state) => state.isRoleSelected
 };
