@@ -10,7 +10,6 @@ const initialState = () => ({
   accessToken: undefined,
   refreshToken: undefined,
   user: undefined,
-  isRoleSelected: false,
   loginError: "",
 });
 
@@ -21,10 +20,9 @@ const getters = {
   accessToken: (state) => state.accessToken,
   refreshToken: (state) => state.refreshToken,
   user: (state) => state.user,
-  userRole: (state) => state.user.user_role,
-  isLoggedIn: (state) => state.accessToken !== null && state.accessToken !== undefined,
+  userRole: (state) => state.user? state.user.user_role:undefined,
+  isLoggedIn: (state) => !!state.accessToken ,
   loginError: (state) => state.loginError,
-  isRoleSelected: (state) => state.isRoleSelected,
 };
 
 const mutations = {
@@ -40,14 +38,12 @@ const mutations = {
   setLoginError: (state, value) => (state.loginError = value),
   clearError: (state) => (state.loginError = ""),
   setLocale: (state, value) => (state.locale = value),
-  setIsRoleSelected: (state, value) => (state.isRoleSelected = value),
   resetState: (state) => {
     Object.assign(state, initialState());
   },
 };
 
 const actions = {
-  setIsRoleSelected: ({ commit }, value) => commit("setIsRoleSelected", value),
   login: ({ commit }, payload) => {
     commit("setAccessToken", payload.access_token);
     commit("setRefreshToken", payload.refresh_token);

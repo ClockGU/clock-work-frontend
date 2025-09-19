@@ -48,7 +48,6 @@
       // Update user role on backend
       const response =  await AuthApiService.updateUser({ user_role: roleValue }, user.value.id);
       store.dispatch('auth/setUser', response.data);
-      store.dispatch('auth/setIsRoleSelected', true);
       // Refresh user data from backend to ensure consistency
       await AuthApiService.refreshToken(token.value);
       router.push({ path: `/dashboard/${role}` });

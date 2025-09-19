@@ -155,17 +155,24 @@
 
   const isLoggedIn = computed(()=>store.getters['auth/isLoggedIn']);  
   const user = computed(()=>store.getters['auth/user']);
-  const isRoleSelected = computed(()=>store.getters["auth/isRoleSelected"])
+
   const firstLetter = computed(() => user.value?.first_name?.charAt(0) || '');
 
   const redirectTo = computed(() => {
     if (!isLoggedIn.value) return "/";
     
-    const userRole = user.value?.user_role;
-    if (userRole === 2) return "/clerk";
-    if (userRole === 1) return "/dashboard/supervisor";
-    if (userRole === 0 && isRoleSelected.value) return "/dashboard/student";
-    return "/roles";
+    switch (user.value?.user_role) {
+      case 3:
+        return "/approver";
+      case 2:
+        return "/clerk";
+      case 1:
+        return "/dashboard/supervisor";
+      case 0:
+        return "/dashboard/student";
+      default:
+        return "/roles";
+    }
   });
 
   const closeDrawer = (value) => {

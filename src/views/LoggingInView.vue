@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import {computed, onMounted } from "vue";
+import { onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
 import AuthApiService from "@/services/authApiService";
@@ -24,7 +24,7 @@ import AuthApiService from "@/services/authApiService";
 const route = useRoute();
 const router = useRouter();
 const store = useStore();
-const isRoleSelected = computed(() => store.getters["auth/isRoleSelected"]);
+
 const handleError = (error) => {
   AuthApiService.logout();
   store.dispatch("auth/setLoginError",error)
@@ -65,7 +65,7 @@ onMounted(async () => {
         router.push({path:"/clerk"});
       }else if (userRole === 1){
         router.push({path:"/dashboard/supervisor"});
-      }else if(isRoleSelected.value && userRole === 0){
+      }else if(userRole === 0){
         router.push({path:"/dashboard/student"});
       }else{
         router.push({ name: "roles" });
