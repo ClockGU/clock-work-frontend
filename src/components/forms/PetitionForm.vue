@@ -52,26 +52,20 @@
       </v-col>
       <v-col cols="12" md="6">
         <label for="startDate">{{ $t('petition.startDate') }}</label>
-        <v-text-field
+        <v-date-input
           id="startDate"
           v-model="formData.start_date"
-          type="date"
-          outlined
-          dense
-          :prepend-icon="icons.mdiCalendar"
+          :display-format="formatDate"
           :aria-label="$t('petition.startDate')"
           :rules="[requiredRule]"
         />
       </v-col>
       <v-col cols="12" md="6">
         <label for="endDate">{{ $t('petition.endDate') }}</label>
-        <v-text-field
+        <v-date-input
           id="endDate"
           v-model="formData.end_date"
-          type="date"
-          outlined
-          dense
-          :prepend-icon="icons.mdiCalendar"
+          :display-format="formatDate"
           :aria-label="$t('petition.endDate')"
           :rules="[requiredRule, endDateRule]"
         />
@@ -128,22 +122,18 @@
             :rules="[requiredRule]"
           />
           <label for="timeExceStart" class="ml-0">{{ $t('petition.timeExceStart') }}</label>
-          <v-text-field
+          <v-date-input
             id="timeExceStart"
             v-model="formData.time_exce_start"
-            type="date"
-            outlined
-            dense
+            :display-format="formatDate"
             :aria-label="$t('petition.timeExceStart')"
             :rules="[requiredRule]"
           />
           <label for="timeExceEnd" class="ml-0">{{ $t('petition.timeExceEnd') }}</label>
-          <v-text-field
+          <v-date-input
             id="timeExceEnd"
             v-model="formData.time_exce_end"
-            type="date"
-            outlined
-            dense
+            :display-format="formatDate"
             :aria-label="$t('petition.timeExceEnd')"
             :rules="[requiredRule]"
           />
@@ -168,22 +158,18 @@
             :rules="[requiredRule]"
           />
           <label for="durationExceStart" class="ml-0">{{ $t('petition.durationExceStart') }}</label>
-          <v-text-field
+          <v-date-input
             id="durationExceStart"
             v-model="formData.duration_exce_start"
-            type="date"
-            outlined
-            dense
+            :display-format="formatDate"
             :aria-label="$t('petition.durationExceStart')"
             :rules="[requiredRule]"
           />
           <label for="durationExceEnd" class="ml-0">{{ $t('petition.durationExceEnd') }}</label>
-          <v-text-field
+          <v-date-input
             id="durationExceEnd"
             v-model="formData.duration_exce_end"
-            type="date"
-            outlined
-            dense
+            :display-format="formatDate"
             :aria-label="$t('petition.durationExceEnd')"
             :rules="[requiredRule]"
           />
@@ -197,11 +183,20 @@
 import { computed, ref, watch } from 'vue';
 import { mdiAccount, mdiEmail, mdiOfficeBuilding, mdiNumeric, mdiSchool, mdiCalendar, mdiClock, mdiCurrencyUsd } from '@mdi/js';
 import { useI18n } from 'vue-i18n';
-import BudgetPositionsFields from './BudgetPositionsFields.vue';
 import { useStore } from 'vuex';
+import BudgetPositionsFields from './BudgetPositionsFields.vue';
+import { VDateInput } from 'vuetify/labs/VDateInput';
+import { format } from 'date-fns';
 
 const { t } = useI18n();
 const store = useStore();
+
+
+const formatDate = (date) => {
+  if (!date) return null;
+  return format(new Date(date), 'dd.MM.yyyy');
+};
+
 const user = computed(() => store.getters['auth/user']);
 const supervisorMail = computed(() => user.value.user_role === 1 ? user.value.email : "");
 
@@ -226,7 +221,7 @@ const props = defineProps({
 const degreeOptions = [
   { text: 'Student has a Bachelor Degree', value: true },
   { text: 'Student does not have a Bachelor Degree', value: false }
-]
+];
 
 const initialFormData = {
   supervisor_mail: supervisorMail,
@@ -295,7 +290,7 @@ watch(() => props.petition, (newPetition) => {
       cleanData.duration_exce_end = '';
     }
 
-    // Reset budget_positions to the initial state when editing a petition
+        // Reset budget_positions to the initial state when editing a petition
     cleanData.budget_positions = [
       {
         id: '',
@@ -342,11 +337,11 @@ const endDateRule = (v) => {
   if (!formData.value.start_date || !v) return true;
   return new Date(v) >= new Date(formData.value.start_date) || t('validationRule.endDateAfterStart');
 };
-const eosRule = (v) => /^F\d{7}$/.test(v) || t('validationRule.eosNumber');
+//const eosRule = (v) => /^F\d{7}$/.test(v) || t('validationRule.eosNumber');
 
-// Expose the formData and the new combined validity state
 defineExpose({ formData, isAllValid });
 </script>
+
 <style scoped>
 label {
   font-weight: 500;
@@ -360,4 +355,3 @@ label {
   font-size: inherit;
 }
 </style>
-
