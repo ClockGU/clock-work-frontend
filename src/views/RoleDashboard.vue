@@ -1,6 +1,11 @@
 <template>
   <v-container>
     <v-row>
+      <v-col cols="12">
+        <InstructionCard
+        :title="instructionCardTitle"
+        :text="instructionCardText"/>
+      </v-col>
       <v-col cols="12" md="6">
         <!-- EditCard with a ref to allow communication -->
         <EditCard
@@ -28,6 +33,7 @@ import OverviewCard from "@/components/dashboard/OverviewCard.vue";
 import { ref,computed, onMounted } from 'vue';
 import { useStore } from "vuex";
 import { useI18n } from "vue-i18n";
+import InstructionCard from "@/components/dashboard/InstructionCard.vue";
 
 const store = useStore();
 const { t } = useI18n();
@@ -38,7 +44,12 @@ const isLoading = ref(true);
 
 const token = computed(() => store.getters["auth/accessToken"]);
 const userRole = computed(() => store.getters["auth/userRole"]);
-
+const instructionCardTitle = computed(() => {
+  return userRole.value === 0 ? t("instructionCard.title.student") : t("instructionCard.title.supervisor");
+});
+const instructionCardText = computed(() => {
+  return userRole.value === 0 ? t("instructionCard.text.student") : t("instructionCard.text.supervisor");
+})
 const selectPetition = (petition) => {
   selectedPetition.value = petition;
 };

@@ -34,6 +34,16 @@
     "studentTitle": "Student",
     "studentDescription": "Als Student können Sie Einstellungsanträge verwalten und für die Universität arbeiten."
   },
+  "instructionCard": {
+    "title": {
+      "student": "Anleitung zum Studenten-Dashboard",
+      "supervisor": "Anleitung zum Vorgesetzten-Dashboard"
+    },
+    "text": {
+      "student": "Here you can manage your petitions and work for the university.Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut sit voluptatum iusto vel, quia voluptates qui cumque dolore labore alias minima quod aliquid esse et modi, voluptas unde, voluptatibus nisi. Earum corporis quis rem suscipit. Voluptatem ipsa modi veritatis adipisci vel animi",
+      "supervisor": "Here you can hire and supervise student assistants.Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut sit voluptatum iusto vel, quia voluptates qui cumque dolore labore alias minima quod aliquid esse et modi, voluptas unde, voluptatibus nisi. Earum corporis quis rem suscipit. Voluptatem ipsa modi veritatis adipisci vel animi"
+    }
+  },
   "editCard": {
     "supervisor": {
       "title": "Vorgesetzten-Dashboard",
