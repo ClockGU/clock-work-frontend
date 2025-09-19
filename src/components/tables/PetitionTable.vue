@@ -106,7 +106,7 @@ const tableRows = computed(() => {
   const rows = [];
   const fieldOrder = [
     'supervisor_mail', 'student_mail', 'start_date', 'end_date', 'minutes',
-    'org_unit', 'eos_number', 'ba_degree', 'time_exce_name', 'time_exce_start',
+    'org_unit', 'eos_number', 'ba_degree', 'status', 'time_exce_name', 'time_exce_start',
     'time_exce_end', 'duration_exce_name', 'duration_exce_start', 'duration_exce_end',
   ];
 
