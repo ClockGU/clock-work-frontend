@@ -7,7 +7,6 @@ const initialState = () => ({
     localStorage.getItem("locale") === null
       ? "de"
       : localStorage.getItem("locale"),
-  loading: false,
   accessToken: undefined,
   refreshToken: undefined,
   user: undefined,
@@ -38,7 +37,7 @@ const mutations = {
   setUser: (state, value) => {
     state.user = value;
   },
-  setError: (state, value) => (state.loginError = value),
+  setLoginError: (state, value) => (state.loginError = value),
   clearError: (state) => (state.loginError = ""),
   setLocale: (state, value) => (state.locale = value),
   setIsRoleSelected: (state, value) => (state.isRoleSelected = value),
@@ -58,9 +57,10 @@ const actions = {
   logout: ({ commit }) => {
     AuthApiService.logout();
     commit("resetState");
+    window.location = "https://cas.rz.uni-frankfurt.de/cas/logout";
   },
   setUser: ({ commit }, payload) => commit("setUser", payload),
-  setError: ({ commit }, error) => commit("setError", error),
+  setLoginError: ({ commit }, error) => commit("setLoginError", error),
   clearError: ({ commit }) => commit("clearError"),
   async refreshTokens({ dispatch, getters }) {
     try {

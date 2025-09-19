@@ -34,8 +34,8 @@ const startOAuthFlow = async () => {
     window.location.href = authorization_url;
   } catch (error) {
     console.error(error);
-    store.dispatch("auth/setError","Error while connecting to the Goethe University Single Sign On. Please try again later.")
-    store.dispatch("auth/logout");
+    AuthApiService.logout();  
+    store.dispatch("auth/setLoginError","Error while connecting to the Goethe University Single Sign On. Please try again later.")
     router.push({ name: "landing" });
     return ;
   }

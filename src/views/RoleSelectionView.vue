@@ -54,8 +54,8 @@
       router.push({ path: `/dashboard/${role}` });
     } catch (error) {
       console.error("Error updating user role ", error);
-      store.dispatch("auth/setError", "Error updating user role");
-      store.dispatch("auth/logout");
+      AuthApiService.logout();
+      store.dispatch("auth/setLoginError", "Error updating user role");
       router.push({ name: "landing" });
     }
   };

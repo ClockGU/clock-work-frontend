@@ -26,8 +26,8 @@ const router = useRouter();
 const store = useStore();
 const isRoleSelected = computed(() => store.getters["auth/isRoleSelected"]);
 const handleError = (error) => {
-  store.dispatch("auth/setError",error)
-  store.dispatch("auth/logout");
+  AuthApiService.logout();
+  store.dispatch("auth/setLoginError",error)
   router.push({ name: "landing" });
   return ;
 };

@@ -175,7 +175,6 @@
   };
   const logout = () => {  
     store.dispatch('auth/logout');
-    window.location = "https://cas.rz.uni-frankfurt.de/cas/logout";
   };  
   </script>
 
