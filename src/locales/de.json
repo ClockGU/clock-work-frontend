@@ -154,7 +154,7 @@
     "percentageTotal": "Die Gesamtsumme aller Prozents  muss 100% betragen. Aktuelle Gesamtsumme: {totalPercentage}%",
     "positiveNumber": "Muss eine positive Zahl sein",
     "endDateAfterStart": "Enddatum muss nach dem Startdatum liegen",
-    "eosNumber": "Muss eine 5-stellige Nummer sein",
+    "eosNumber": "Muss im Format 'FXXXXXX' sein, wobei 'X' eine beliebige Ziffer von 0 bis 9 ist",
     "postalCode": "Postleitzahl muss 5-stellig sein"
   },
   "footer": {

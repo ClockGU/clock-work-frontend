@@ -154,7 +154,7 @@
     "percentageTotal": "Total percentage must equal 100%. Current total: {totalPercentage}%",
     "positiveNumber": "Must be a positive number",
     "endDateAfterStart": "End date must be after start date",
-    "eosNumber": "Must be a 5 digit number ",
+    "eosNumber": "Must be in the format 'FXXXXXX' where 'X' is any digit from 0 to 9",
     "postalCode":"Postal code must be 5 digits"
   },
   "footer": {

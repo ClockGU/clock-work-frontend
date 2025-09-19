@@ -342,7 +342,7 @@ const endDateRule = (v) => {
   if (!formData.value.start_date || !v) return true;
   return new Date(v) >= new Date(formData.value.start_date) || t('validationRule.endDateAfterStart');
 };
-const eosRule = (v) => /^\d{5}$/.test(v) || t('validationRule.eosNumber');
+const eosRule = (v) => /^F\d{7}$/.test(v) || t('validationRule.eosNumber');
 
 // Expose the formData and the new combined validity state
 defineExpose({ formData, isAllValid });
@@ -360,3 +360,4 @@ label {
   font-size: inherit;
 }
 </style>
+
