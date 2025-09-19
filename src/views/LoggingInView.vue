@@ -26,7 +26,6 @@ const router = useRouter();
 const store = useStore();
 const isRoleSelected = computed(() => store.getters["auth/isRoleSelected"]);
 const handleError = (error) => {
-  store.dispatch("auth/unsetLoading");
   store.dispatch("auth/setError",error)
   store.dispatch("auth/logout");
   router.push({ name: "landing" });
@@ -36,7 +35,6 @@ const handleError = (error) => {
 onMounted(async () => {
   // Clean the browser address bar by removing auth code from URL
   window.history.replaceState({}, null, "/");
-  store.dispatch("auth/setIsLoading");
   try {
     const casToken = route.query.code;
     if (!casToken) return handleError("No CAS token found in URL parameters");
@@ -61,7 +59,6 @@ onMounted(async () => {
     try {
       const userResponse = await AuthApiService.getUser();
       await store.dispatch("auth/setUser", userResponse.data);
-      store.dispatch("auth/unsetLoading");
       // Authentication flow complete - redirect based on user_role
       const userRole= userResponse.data.user_role;
       if (userRole === 2){

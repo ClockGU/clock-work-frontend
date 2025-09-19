@@ -44,7 +44,6 @@
 
       <v-skeleton-loader
         v-if="isLoggedIn && mdAndUp"
-        :loading="userLoading"
       >  
         <v-menu
           class="py-3"
@@ -67,7 +66,7 @@
                 >  
                   <span class="text-white">{{ firstLetter }}</span>  
                 </v-avatar>  
-                <span class="text-capitalize">{{ user.first_name }}</span>  
+                <span class="text-capitalize" >{{ user.first_name }}</span>  
               </div>  
               <v-icon :icon="icons.mdiChevronDown"></v-icon>  
             </v-btn>  
@@ -109,8 +108,7 @@ const store = useStore();
 const emit = defineEmits(["toggle"]);
 
 const isLoggedIn = computed(()=>store.getters['auth/isLoggedIn']);  
-const user = computed(()=>store.getters['auth/user']);
-const userLoading = computed(()=>store.getters['auth/isLoading']);  
+const user = computed(()=>store.getters['auth/user']); 
 const isRoleSelected = computed(()=>store.getters["auth/isRoleSelected"])
 const firstLetter = computed(() => user.value?.first_name?.charAt(0) || '');
 
@@ -128,10 +126,8 @@ const toggleNavigationdrawer = () => {
   emit("toggle");  
 };  
 const logout = () => {  
-  store.dispatch('auth/setIsLoading');
-  window.location ="https://cas.rz.uni-frankfurt.de/cas/logout";
   store.dispatch('auth/logout');
-  store.dispatch('auth/unsetLoading');
+  window.location = "https://cas.rz.uni-frankfurt.de/cas/logout";
 };  
 </script>
 

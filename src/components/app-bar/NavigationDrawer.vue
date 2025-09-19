@@ -30,17 +30,8 @@
       </v-row>
   
       <v-divider role="separator" aria-orientation="horizontal"></v-divider>
-  
-      <v-skeleton-loader
-        v-if="isLoggedIn && userLoading"
-        :loading="userLoading"
-        type="heading"
-        width="300px"
-        class="pl-2 py-3"
-      >
-      </v-skeleton-loader>
       <v-list 
-        v-else
+        v-if="isLoggedIn"
         tabindex="0" 
         role="menu"
         :aria-label="$t('ariaLabel.navigation.menu')" 
@@ -164,7 +155,6 @@
 
   const isLoggedIn = computed(()=>store.getters['auth/isLoggedIn']);  
   const user = computed(()=>store.getters['auth/user']);
-  const userLoading = computed(()=>store.getters['auth/isLoading']);  
   const isRoleSelected = computed(()=>store.getters["auth/isRoleSelected"])
   const firstLetter = computed(() => user.value?.first_name?.charAt(0) || '');
 
@@ -184,10 +174,9 @@
     }
   };
   const logout = () => {  
-    store.dispatch('auth/setIsLoading');
-    window.location ="https://cas.rz.uni-frankfurt.de/cas/logout";
     store.dispatch('auth/logout');
-    store.dispatch('auth/unsetLoading');
+    window.location = "https://cas.rz.uni-frankfurt.de/cas/logout";
   };  
   </script>
+
 

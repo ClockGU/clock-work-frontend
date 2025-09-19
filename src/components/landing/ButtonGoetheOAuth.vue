@@ -1,12 +1,12 @@
 <template>
-  <v-btn :color="color" :loading="loading" v-bind="$attrs" @click="startOAuthFlow">
+  <v-btn :color="color" :loading="isLoading" v-bind="$attrs" @click="startOAuthFlow">
     <slot>Login</slot>
   </v-btn>
 </template>
 
 <script setup>
 import AuthApiService from "@/services/authApiService";
-import {computed} from "vue";
+import {ref} from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
@@ -19,10 +19,11 @@ const props = defineProps({
 
 const store = useStore();
 const router= useRouter();
-const loading = computed(() => store.getters["auth/isLoading"]);
+
+const isLoading = ref(false);
 
 const startOAuthFlow = async () => {
-  store.dispatch("auth/setIsLoading")
+  isLoading.value = true;
   store.dispatch("auth/clearError")
 
   try {
@@ -39,7 +40,7 @@ const startOAuthFlow = async () => {
     return ;
   }
   finally {
-    store.dispatch("auth/unsetLoading")
+    isLoading.value = false;
   }
 };
 </script>
