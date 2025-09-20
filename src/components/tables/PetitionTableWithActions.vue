@@ -44,14 +44,14 @@
             />
             <RoleActionButton
               color="primary"
-              :roles="[1,2]"
+              :roles="[1]"
               :icon="icons.mdiPencil"
               :tooltip="$t('actions.edit')"
               :action="()=>showPetitionFormDialog = true"
             />
             <RoleActionButton
               color="error"
-              :roles="[1,2]"
+              :roles="[1]"
               :icon="icons.mdiTrashCan"
               :tooltip="$t('actions.delete')"
               :action="()=>showDeleteConfirmationDialog = true"

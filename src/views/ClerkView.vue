@@ -5,8 +5,7 @@
                 <PetitionDataDisplay 
                     :petition="selectedPetition"
                     @close="selectPetition(null)"
-                    @refresh="refresh"
-                    @reject="handleRejection"
+                    @refresh="handleRefresh"
                     @approve="handleApproval"
                 />
             </v-col>
@@ -58,23 +57,6 @@ const fetchPetitions = async () => {
 const selectPetition = (petition) => {
     selectedPetition.value = petition;
 };
-
-const handleRejection = async (petitionId) => {
-    try {
-        await ContentApiService.patch(`/clerk/petitions/${petitionId}`, { status: "rejected" });
-        selectedPetition.value = null;
-        store.dispatch("snackbar/setSnack", {
-            message: "Petition rejected successfully"
-        })
-        fetchPetitions();
-    } catch (error) {
-        console.error("Error rejecting petition:", error);
-        store.dispatch("snackbar/setErrorSnacks", {
-            message: t("errors.petition.rejection")
-        });
-    }
-};
-
 const handleApproval = async (petitionId) => {
     try {
         await ContentApiService.patch(`/clerk/petitions/${petitionId}`, { status: "approved" });
@@ -90,7 +72,7 @@ const handleApproval = async (petitionId) => {
         });
     }
 };
-const refresh = (payload) => {
+const handleRefresh = (payload) => {
   if (payload) {
     switch(payload.type) {
       case 'update':
