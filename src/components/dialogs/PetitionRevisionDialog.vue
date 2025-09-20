@@ -149,21 +149,10 @@ const reportSubject = ref('');
 const reportText = ref('');
 
 const userRole = computed(() => store.getters['auth/userRole']);
-const userEmail = computed(() => store.getters['auth/user'].email);
-
-// Determine sender email based on user role
-const senderEmail = computed(() => {
-  if (userRole.value === 3) {
-    // For approvers, use the petition's approver email if available
-    return props.petition.approver_mail || userEmail.value;
-  }
-  return userEmail.value;
-});
-
+const senderEmail = computed(() => store.getters['auth/user'].email);
 const recipientMail = computed(() => {
   return userRole.value === 2 ? props.petition.student_mail : props.petition.supervisor_mail;
 });
-
 const subjects = computed(() => {
   if (userRole.value === 0) {
     return studentSubjects;
