@@ -84,7 +84,7 @@
         {{ $t('actions.send') }}
       </v-btn>
     </template>
-    <template #activator>
+    <template v-if="showActivator" #activator>
       <v-btn 
         color="warning" 
         size="large" 
@@ -111,6 +111,10 @@ const props = defineProps({
   petition: {
     type: Object,
     required: true,
+  },
+  showActivator: {
+    type: Boolean,
+    default: false,
   }
 });
 
