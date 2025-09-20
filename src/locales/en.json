@@ -25,7 +25,9 @@
     "send": "send",
     "approve":"approve",
     "reject":"reject",
-    "requestChange":"request change"
+    "requestChange":"request change",
+    "back":"back",
+    "next":"next"
   },
   "roleSelectionView": {
     "welcome": "You are new here!",
