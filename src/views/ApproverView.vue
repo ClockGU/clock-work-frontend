@@ -64,7 +64,7 @@
               >
                 {{ $t('actions.reject') }}
               </v-btn>
-              <PetitionRevisionDialog showActivator="true" :petition="petition">
+              <PetitionRevisionDialog :petition="petition">
                 <template #activator="{ props }">
                   <v-btn
                     color="warning"
