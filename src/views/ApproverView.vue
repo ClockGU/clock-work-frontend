@@ -62,6 +62,18 @@
               <PetitionRevisionDialog 
                 showActivator="true"
                 :petition="petition"
+              >
+                <template #activator="{ props }">
+                  <v-btn  
+                    color="warning"  
+                    size="large"  
+                    class="px-8"  
+                    :aria-label="$t('actions.requestChange')" 
+                    v-bind="props"
+                  >
+                    {{ $t('actions.requestChange') }}
+                  </v-btn>
+                </template>
               </PetitionRevisionDialog>
               <v-btn 
                 color="success" 
