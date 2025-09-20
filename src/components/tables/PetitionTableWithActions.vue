@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- All the dialogs are placed here  -->
     <PetitionFormDialog
       v-model="showPetitionFormDialog"
       :petition="petition"
@@ -14,8 +15,16 @@
         <p>{{ $t('confirmationDialog.PetitionDeletion') }}</p>
       </template>
     </ConfirmationDialog>
+    <PetitionRevisionDialog
+      v-model="showPetitionRevisionDialog"
+      :petition="petition"
+      @refresh="emit('refresh', $event)"
+      @close="showPetitionRevisionDialog = false"
+    ></PetitionRevisionDialog>
 
+    <!-- main table -->
     <PetitionTable :petition="petition">
+      <!-- All the actions button on top of table-->
       <template #top>
         <div class="d-flex justify-space-between align-center">
           <RoleActionButton
@@ -26,25 +35,13 @@
             :action="()=>$emit('close') "
           />
           <div class="d-flex align-center ga-3 ml-1">
-            <PetitionRevisionDialog
-              v-model="showPetitionRevisionDialog"
-              :petition="petition"
-              @refresh="emit('refresh', $event)"
-              @close="showPetitionRevisionDialog = false"
-            >
-              <template #activator="{ props }">
-                <v-btn
-                  v-if="userRole === 0 || userRole === 2 || userRole === 3"
-                  color="warning"
-                  :icon="icons.mdiAlertCircleOutline"
-                  variant="elevated"
-                  rounded="sm"
-                  :aria-label="$t('actions.requestChange')"
-                  @click="showPetitionRevisionDialog = true"
-                  v-bind="props"
-                />
-              </template>
-            </PetitionRevisionDialog>
+            <RoleActionButton
+              color="warning"
+              :roles="[0,2,3]"
+              :icon="icons.mdiAlertCircleOutline"
+              :tooltip="$t('actions.requestChange')"
+              :action="()=>showPetitionRevisionDialog = true"
+            />
             <RoleActionButton
               color="primary"
               :roles="[1,2]"
