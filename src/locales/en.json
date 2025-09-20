@@ -24,7 +24,8 @@
     "report": "report an issue",
     "send": "send",
     "approve":"approve",
-    "reject":"reject"
+    "reject":"reject",
+    "requestChange":"request change"
   },
   "roleSelectionView": {
     "welcome": "You are new here!",
@@ -183,7 +184,19 @@
       "url": "https://github.com/ClockGU"
     }
   },
-  "reportIssue": {
+  "PetitionRevisionDialog": {
+    "fromLabel": "From",
+    "toLabel": "To",
+    "subjectLabel": "Subject",
+    "subjectPlaceholder": "Enter subject line",
+    "messageLabel": "Detailed Message",
+    "messagePlaceholder": "Describe the issue in detail",
+    "success":"Email sent successfully",
+    "instruction": {
+      "approver": "You can request a change to the budget position of a petition to a supervisor. you can write your changes in the message box below.The supervisor will receive an email with your requested changes.",
+      "clerk": "You can request a change of a petition to a student.You can select a subject in the dropdown menu and then write your changes in the message box below. The student will receive an email with your requested changes.",
+      "student": "You can request a change of a petition to a supervisor. You can select a subject in the dropdown menu and then write your changes in the message box below. The supervisor will receive an email with your requested changes."
+    },
     "studentSubjects": {
       "changeDates": "Request changing start/end date",
       "changeHours": "Request changing working hours",
@@ -195,14 +208,7 @@
       "incorrectDocuments": "Request changing incorrect documents",
       "incorrectData": "Request correcting personal data",
       "others": "Others"
-    },
-    "approverMessage": "You can report an issue with the budget position of this petition",
-    "title": "Report an Issue",
-    "subjectLabel": "Subject",
-    "subjectPlaceholder": "Enter subject line",
-    "messageLabel": "Detailed Message",
-    "messagePlaceholder": "Describe the issue in detail",
-    "success":"Email sent successfully"
+    }
   },
   "errors":{
     "uploadedFilesClerk":{
@@ -214,7 +220,7 @@
       "submission":"Error submitting petition.Please try again ",
       "saving":"Error saving petition.Please try again "
     },
-    "petitionIssueDialog":{
+    "PetitionRevisionDialog":{
       "sendingEmail": "Error sending email",
       "approverRevision": "Error with approver Revision"
     },

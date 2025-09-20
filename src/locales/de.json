@@ -24,7 +24,9 @@
     "report": "Problem melden",
     "send": "senden",
     "approve": "genehmigen",
-    "reject": "ablehnen"
+    "reject": "ablehnen",
+    "requestChange":"Änderung beantragen"
+
   },
   "roleSelectionView": {
     "welcome": "Sie sind neu hier!",
@@ -183,7 +185,19 @@
       "url": "https://github.com/ClockGU"
     }
   },
-  "reportIssue": {
+  "PetitionRevisionDialog": {
+    "fromLabel": "Von",
+    "toLabel": "An",
+    "subjectLabel": "Betreff",
+    "subjectPlaceholder": "Betreff eingeben",
+    "messageLabel": "Detaillierte Nachricht",
+    "messagePlaceholder": "Beschreiben Sie das Problem im Detail",
+    "success": "E-Mail erfolgreich gesendet",
+    "instruction": {
+      "approver": "Sie können eine Änderung der Budgetposition eines Antrags an einen Vorgesetzten beantragen. Sie können Ihre Änderungen in der Nachrichtenbox unten eintragen. Der Vorgesetzte wird per E-Mail benachrichtigt, sobald Ihre Änderungen vorliegen.",
+      "clerk": "Sie können eine Änderung eines Antrags an einen Studenten beantragen. Sie können ein Thema in der Dropdown-Menü auswählen und dann Ihre Änderungen in der Nachrichtenbox unten eintragen. Der Student wird per E-Mail benachrichtigt, sobald Ihre Änderungen vorliegen.",
+      "student": "Sie können eine Änderung eines Antrags an einen Vorgesetzten beantragen. Sie können ein Thema in der Dropdown-Menü auswählen und dann Ihre Änderungen in der Nachrichtenbox unten eintragen. Der Vorgesetzte wird per E-Mail benachrichtigt, sobald Ihre Änderungen vorliegen."
+    },
     "studentSubjects": {
       "changeDates": "Änderung des Start-/Enddatums beantragen",
       "changeHours": "Änderung der Arbeitsstunden beantragen",
@@ -195,14 +209,7 @@
       "incorrectDocuments": "Falsche Dokumente ändern",
       "incorrectData": "Persönliche Daten korrigieren",
       "others": "Sonstiges"
-    },
-    "approverMessage": "Sie können ein Problem mit der Budgetposition dieses Antrags melden",
-    "title": "Problem melden",
-    "subjectLabel": "Betreff",
-    "subjectPlaceholder": "Betreff eingeben",
-    "messageLabel": "Detaillierte Nachricht",
-    "messagePlaceholder": "Beschreiben Sie das Problem im Detail",
-    "success": "E-Mail erfolgreich gesendet"
+    }
   },
   "errors": {
     "uploadedFilesClerk": {
@@ -214,7 +221,7 @@
       "submission": "Fehler beim Einreichen des Antrags. Bitte versuchen Sie es erneut.",
       "saving": "Fehler beim Speichern des Antrags. Bitte versuchen Sie es erneut."
     },
-    "petitionIssueDialog": {
+    "PetitionRevisionDialog": {
       "sendingEmail": "Fehler beim Senden der E-Mail",
       "approverRevision": "Fehler bei der Genehmiger-Überprüfung"
     },

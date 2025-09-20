@@ -34,7 +34,7 @@
                 class="d-flex flex-column align-center" 
                 elevation="2" 
                 role="region" 
-                aria-labelledby="main-heading"
+                aria-labelledby="petition-data-heading"
                 tabindex="0">
                 <v-card-title>
                   <h3 id="petition-data-heading" class="text-h4 font-weight-medium my-4">
@@ -42,10 +42,8 @@
                   </h3>
                 </v-card-title>
                 <v-card-text>
-                  <PetitionTableWithActions
+                  <PetitionTable
                     :petition="petition"
-                    aria-labelledby="petition-data-heading"
-                    @refresh="fetchPetition"
                   />
                 </v-card-text>
               </v-card>
@@ -61,6 +59,10 @@
               >
                 {{ $t('actions.reject') }}
               </v-btn>
+              <PetitionRevisionDialog 
+                showActivator="true"
+                :petition="petition"
+              </PetitionRevisionDialog>
               <v-btn 
                 color="success" 
                 size="large" 
@@ -94,7 +96,8 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import ContentApiService from '@/services/contentApiService';
-import PetitionTableWithActions from '@/components/tables/PetitionTableWithActions.vue';
+import PetitionTable from '@/components/tables/PetitionTable.vue';
+import PetitionRevisionDialog from '@/components/dialogs/PetitionRevisionDialog.vue';
 
 const { t } = useI18n();
 const route = useRoute();

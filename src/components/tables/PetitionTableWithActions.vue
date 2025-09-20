@@ -15,12 +15,12 @@
         <p>{{ $t('confirmationDialog.PetitionDeletion') }}</p>
       </template>
     </ConfirmationDialog>
-    <PetitionIssueDialog
-      v-model="showPetitionIssueDialog"
+    <PetitionRevisionDialog
+      v-model="showPetitionRevisionDialog"
       :petition="petition"
-      @close="showPetitionIssueDialog = false"
+      @close="showPetitionRevisionDialog = false"
       @refresh="emit('refresh', $event)"
-    ></PetitionIssueDialog>
+    ></PetitionRevisionDialog>
 
     <!-- The PetitionTable component is used here -->
     <PetitionTable :petition="petition">
@@ -40,7 +40,7 @@
               :roles="[0,2,3]"
               :icon="icons.mdiAlertCircleOutline"
               :tooltip="$t('actions.report')"
-              :action="()=>showPetitionIssueDialog = true"
+              :action="()=>showPetitionRevisionDialog = true"
             />
             <RoleActionButton
               color="primary"
@@ -72,7 +72,7 @@ import ContentApiService from '@/services/contentApiService.js';
 import PetitionTable from './PetitionTable.vue';
 import PetitionFormDialog from '@/components/dialogs/PetitionFormDialog.vue'; 
 import ConfirmationDialog from '@/components/dialogs/ConfirmationDialog.vue';
-import PetitionIssueDialog from '@/components/dialogs/PetitionIssueDialog.vue';
+import PetitionRevisionDialog from '@/components/dialogs/PetitionRevisionDialog.vue';
 import RoleActionButton from '../ui/RoleActionButton.vue';
 
 const props = defineProps({
@@ -89,7 +89,7 @@ const { t } = useI18n();
 
 const icons = { mdiClose, mdiPencil, mdiTrashCan, mdiAlertCircleOutline };
 const showDeleteConfirmationDialog = ref(false);
-const showPetitionIssueDialog = ref(false);
+const showPetitionRevisionDialog = ref(false);
 const showPetitionFormDialog = ref(false);
 const userRole = computed(() => store.getters['auth/userRole']);
 
