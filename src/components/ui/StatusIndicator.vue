@@ -8,20 +8,17 @@
       :aria-label="tooltip"
       tabindex="-1"
     />
-    <v-tooltip 
-      v-if="tooltip" 
-      activator="parent" 
-      :location="tooltipLocation" 
+    <v-tooltip
+      v-if="tooltip"
+      activator="parent"
+      :location="tooltipLocation"
       :text="tooltip"
     />
   </div>
 </template>
 
 <script setup>
-import { 
-  mdiCheck, 
-  mdiClose
-} from '@mdi/js';
+import { mdiCheck, mdiClose } from '@mdi/js';
 
 const icons = {
   mdiCheck,
@@ -29,26 +26,26 @@ const icons = {
 };
 
 const props = defineProps({
-    //the status we want to track Whether it should be green (true) or red (false).
+  //the status we want to track Whether it should be green (true) or red (false).
   status: {
     type: Boolean,
     required: true,
   },
   tooltip: {
     type: String,
-    default: ''
+    default: '',
   },
   density: {
     type: String,
-    default: 'compact'
+    default: 'compact',
   },
   variant: {
     type: String,
-    default: 'flat'
+    default: 'flat',
   },
   tooltipLocation: {
     type: String,
-    default: 'top'
-  }
+    default: 'top',
+  },
 });
 </script>

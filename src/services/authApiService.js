@@ -1,14 +1,13 @@
-import axios from "axios";
+import axios from 'axios';
 
 // Create an isolated Axios instance for the Auth API
 const authApi = axios.create({
   baseURL: import.meta.env.VITE_AUTH_API, // Or your actual auth base URL
   headers: {
-    "Accept-Language": "de",
+    'Accept-Language': 'de',
   },
 });
 const REDIRECT_URI = `${import.meta.env.VITE_PUBLIC_URL}/logging-in`;
-
 
 const AuthApiService = {
   /**
@@ -22,7 +21,7 @@ const AuthApiService = {
    * Set the Authorization header with a Bearer token.
    */
   setAccessToken(accessToken) {
-    this.setHeader("Authorization", `Bearer ${accessToken}`);
+    this.setHeader('Authorization', `Bearer ${accessToken}`);
   },
 
   /**
@@ -43,14 +42,16 @@ const AuthApiService = {
    * Login using the provided CAS token.
    */
   login(casToken) {
-    return authApi.get("/auth/cas/callback", { params: { code: casToken } });
+    return authApi.get('/auth/cas/callback', { params: { code: casToken } });
   },
 
   /**
    * Login as a supervisor using the provided CAS token.
    */
   loginSupervisor(casToken) {
-    return authApi.post("/auth/cas/logging-in", null, { params: { code: casToken } });
+    return authApi.post('/auth/cas/logging-in', null, {
+      params: { code: casToken },
+    });
   },
 
   /**
@@ -64,14 +65,14 @@ const AuthApiService = {
    * Retrieve data about the currently authenticated user.
    */
   getUser() {
-    return authApi.get("/auth/me");
+    return authApi.get('/auth/me');
   },
 
   /**
    * Refresh the access token.
    */
   refreshToken(token) {
-    return authApi.get("/auth/refresh", { params: { token } });
+    return authApi.get('/auth/refresh', { params: { token } });
   },
 
   /**
@@ -89,10 +90,10 @@ const AuthApiService = {
     // You can also unmount shared interceptors if needed here
   },
   getAuthorizationUrl() {
-    return authApi.get("/authorize", {
+    return authApi.get('/authorize', {
       params: {
-        redirect_uri: REDIRECT_URI
-      }
+        redirect_uri: REDIRECT_URI,
+      },
     });
   },
   /**
@@ -100,7 +101,7 @@ const AuthApiService = {
    */
   getAxiosInstance() {
     return authApi;
-  }
+  },
 };
 
 export default AuthApiService;

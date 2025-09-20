@@ -14,9 +14,11 @@
 
     <v-card>
       <!-- Title Section -->
-      
-        <v-card-title  class="text-h6 font-weight-bold bg-grey-lighten-2 d-flex justify-space-between align-center">
-          <span class="text-h6 pa-2">{{ title }}</span>
+
+      <v-card-title
+        class="text-h6 font-weight-bold bg-grey-lighten-2 d-flex justify-space-between align-center"
+      >
+        <span class="text-h6 pa-2">{{ title }}</span>
 
         <!-- Close Button -->
         <v-btn
@@ -85,5 +87,4 @@ const model = defineModel({
 const close = () => {
   model.value = false;
 };
-
 </script>

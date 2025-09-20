@@ -16,33 +16,23 @@
     >
       <thead role="rowgroup">
         <tr role="row" tabindex="0">
-          <th 
-            class="font-weight-bold w-33" 
-            scope="col"
-            role="columnheader" 
-          >
-              {{ $t('petitionTable.headers.petitionField') }}
+          <th class="font-weight-bold w-33" scope="col" role="columnheader">
+            {{ $t('petitionTable.headers.petitionField') }}
           </th>
-          <th 
-            class="font-weight-bold w-66" 
-            scope="col" 
-            role="columnheader" 
-          >
-              {{ $t('petitionTable.headers.value') }}
+          <th class="font-weight-bold w-66" scope="col" role="columnheader">
+            {{ $t('petitionTable.headers.value') }}
           </th>
         </tr>
       </thead>
       <tbody role="rowgroup">
         <!-- Iterates over the computed tableRows to display data -->
-        <tr 
-          v-for="(row, index) in tableRows" 
-          :key="index" 
-          role="row" 
-          tabindex="0">
-          <td 
-            class="key-cell" 
-            role="cell"
-          >
+        <tr
+          v-for="(row, index) in tableRows"
+          :key="index"
+          role="row"
+          tabindex="0"
+        >
+          <td class="key-cell" role="cell">
             {{ row.key }}
           </td>
           <td class="value-cell" role="cell">
@@ -71,14 +61,14 @@ const props = defineProps({
   },
 });
 
-const { t } = useI18n(); 
-const store  = useStore();
+const { t } = useI18n();
+const store = useStore();
 //Formats a given value for display in the table.
 const formatValue = (value) => {
-  if (value === null || value === undefined || value === "") {
-    return "-";
+  if (value === null || value === undefined || value === '') {
+    return '-';
   }
-  if (typeof value === "string" && value.match(/^\d{4}-\d{2}-\d{2}$/)) {
+  if (typeof value === 'string' && value.match(/^\d{4}-\d{2}-\d{2}$/)) {
     return new Date(value).toLocaleDateString();
   }
   if (typeof value === 'boolean') {
@@ -90,9 +80,11 @@ const formatValue = (value) => {
 //Formats a snake_case key into a camelCase string for translation lookup.
 const formatKey = (key) => {
   return key
-    .split("_")
-    .map((word, index) => (index ? word.charAt(0).toUpperCase() + word.slice(1) : word))
-    .join("");
+    .split('_')
+    .map((word, index) =>
+      index ? word.charAt(0).toUpperCase() + word.slice(1) : word
+    )
+    .join('');
 };
 
 const userRole = computed(() => store.getters['auth/userRole']);
@@ -107,9 +99,21 @@ const tableRows = computed(() => {
 
   const rows = [];
   const fieldOrder = [
-    'supervisor_mail', 'student_mail', 'start_date', 'end_date', 'minutes',
-    'org_unit', 'eos_number', 'ba_degree', 'status', 'time_exce_name', 'time_exce_start',
-    'time_exce_end', 'duration_exce_name', 'duration_exce_start', 'duration_exce_end',
+    'supervisor_mail',
+    'student_mail',
+    'start_date',
+    'end_date',
+    'minutes',
+    'org_unit',
+    'eos_number',
+    'ba_degree',
+    'status',
+    'time_exce_name',
+    'time_exce_start',
+    'time_exce_end',
+    'duration_exce_name',
+    'duration_exce_start',
+    'duration_exce_end',
   ];
 
   // Process regular fields based on the defined order
@@ -125,7 +129,7 @@ const tableRows = computed(() => {
     }
   });
   // don't show budget positions realated data for student
-  if (userRole.value !==0){
+  if (userRole.value !== 0) {
     // Process the budget_positions array and unnest it .
     if (p.budget_positions && Array.isArray(p.budget_positions)) {
       p.budget_positions.forEach((position, index) => {
@@ -143,37 +147,37 @@ const tableRows = computed(() => {
         });
       });
     }
-    }
+  }
   return rows;
 });
 </script>
 
 <style scoped>
-  .styled-table {
-    border-collapse: collapse;
-    border: 1px solid #d6d3d3;
-    cursor: pointer;
-  }
-  .styled-table th,
-  .styled-table td {
-    border-bottom: 1px solid #fafafa;
-  }
-  .styled-table th {
-    background-color: #fafafa;
-    font-weight: 500;
-    color: #333;
-    text-align: left;
-    border-right: 1px solid #e0e0e0;
-  }
-  .styled-table td {
-    color: #555;
-    border-right: 1px solid #e0e0e0;
-  }
-  .key-cell {
-    background-color: #fafafa;
-    font-weight: 500;
-  }
-  .value-cell {
-    background-color: #ffffff;
-  }
+.styled-table {
+  border-collapse: collapse;
+  border: 1px solid #d6d3d3;
+  cursor: pointer;
+}
+.styled-table th,
+.styled-table td {
+  border-bottom: 1px solid #fafafa;
+}
+.styled-table th {
+  background-color: #fafafa;
+  font-weight: 500;
+  color: #333;
+  text-align: left;
+  border-right: 1px solid #e0e0e0;
+}
+.styled-table td {
+  color: #555;
+  border-right: 1px solid #e0e0e0;
+}
+.key-cell {
+  background-color: #fafafa;
+  font-weight: 500;
+}
+.value-cell {
+  background-color: #ffffff;
+}
 </style>

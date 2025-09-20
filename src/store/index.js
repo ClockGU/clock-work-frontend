@@ -1,17 +1,17 @@
-import { createStore, createLogger } from "vuex"; 
-import createPersistedState from "vuex-persistedstate";
-import auth from "./modules/auth";
-import snackbar from "./modules/snackbar";
+import { createStore, createLogger } from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
+import auth from './modules/auth';
+import snackbar from './modules/snackbar';
 
-const debug = process.env.NODE_ENV !== "production";
+const debug = process.env.NODE_ENV !== 'production';
 
 export default createStore({
   modules: {
     snackbar,
-    auth
+    auth,
   },
   strict: debug,
   plugins: debug
-    ? [createLogger(), createPersistedState()] 
+    ? [createLogger(), createPersistedState()]
     : [createPersistedState()],
 });

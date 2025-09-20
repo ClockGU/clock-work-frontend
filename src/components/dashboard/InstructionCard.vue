@@ -15,11 +15,11 @@
 const props = defineProps({
   title: {
     type: String,
-    required: true
+    required: true,
   },
   text: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 </script>

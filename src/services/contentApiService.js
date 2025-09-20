@@ -1,11 +1,11 @@
-import axios from "axios";
-import { log } from "@/utils/log";
+import axios from 'axios';
+import { log } from '@/utils/log';
 
 // Create a scoped Axios instance for the Content API
 const contentApi = axios.create({
   baseURL: import.meta.env.VITE_CONTENT_API, // or hardcode your content baseURL
   headers: {
-    "Accept-Language": "de",
+    'Accept-Language': 'de',
   },
 });
 
@@ -15,7 +15,7 @@ const ContentApiService = {
   },
 
   setAccessToken(accessToken) {
-    this.setHeader("Authorization", `Bearer ${accessToken}`);
+    this.setHeader('Authorization', `Bearer ${accessToken}`);
   },
 
   removeHeader() {
@@ -27,32 +27,32 @@ const ContentApiService = {
   },
 
   get(resource, config = {}) {
-    log("ContentApiService.get called", resource);
+    log('ContentApiService.get called', resource);
     return contentApi.get(resource, config);
   },
 
   post(resource, data, config = {}) {
-    log("ContentApiService.post called", resource);
+    log('ContentApiService.post called', resource);
     return contentApi.post(resource, data, config);
   },
 
   put(resource, data, config = {}) {
-    log("ContentApiService.put called", resource);
+    log('ContentApiService.put called', resource);
     return contentApi.put(resource, data, config);
   },
 
   patch(resource, data, config = {}) {
-    log("ContentApiService.patch called", resource);
+    log('ContentApiService.patch called', resource);
     return contentApi.patch(resource, data, config);
   },
 
   delete(resource, config = {}) {
-    log("ContentApiService.delete called", resource);
+    log('ContentApiService.delete called', resource);
     return contentApi.delete(resource, config);
   },
 
   customRequest(config = {}) {
-    log("ContentApiService.customRequest called");
+    log('ContentApiService.customRequest called');
     return contentApi(config);
   },
 

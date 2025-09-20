@@ -1,17 +1,24 @@
 <template>
-  <CustomDialog :title="$t('studentDataManagementDialog.title')" aria-labelledby="student-data-management-dialog">
+  <CustomDialog
+    :title="$t('studentDataManagementDialog.title')"
+    aria-labelledby="student-data-management-dialog"
+  >
     <template #content>
       <v-container>
         <v-window v-model="step">
           <v-window-item :value="1">
             <v-card flat>
               <v-card-text>
-                <h2 class="sr-only">{{ $t('studentDataManagementDialog.tabs.personal') }}</h2>
+                <h2 class="sr-only">
+                  {{ $t('studentDataManagementDialog.tabs.personal') }}
+                </h2>
                 <p>{{ $t('studentDataManagementDialog.content.personal') }}</p>
                 <EmployeeDataForm
                   ref="employeeDataFormRef"
                   class="mt-8"
-                  :aria-labelledby="$t('ariaLabel.studentDataManagementDialog.personal')"
+                  :aria-labelledby="
+                    $t('ariaLabel.studentDataManagementDialog.personal')
+                  "
                 />
               </v-card-text>
             </v-card>
@@ -19,12 +26,16 @@
           <v-window-item :value="2">
             <v-card flat>
               <v-card-text>
-                <h2 class="sr-only">{{ $t('studentDataManagementDialog.tabs.files') }}</h2>
+                <h2 class="sr-only">
+                  {{ $t('studentDataManagementDialog.tabs.files') }}
+                </h2>
                 <p>{{ $t('studentDataManagementDialog.content.files') }}</p>
                 <FilesUploadForm
                   ref="filesUploadFormRef"
                   class="mt-6"
-                  :aria-labelledby="$t('ariaLabel.studentDataManagementDialog.files')"
+                  :aria-labelledby="
+                    $t('ariaLabel.studentDataManagementDialog.files')
+                  "
                 />
               </v-card-text>
             </v-card>
@@ -105,8 +116,13 @@ const saveDocuments = async () => {
     const { files } = filesUploadFormRef.value;
 
     if (files.elstam.length) formData.append('elstam', files.elstam[0]);
-    if (files.studienbescheinigung.length) formData.append('studienbescheinigung', files.studienbescheinigung[0]);
-    if (files.versicherungsbescheinigung.length) formData.append('versicherungsbescheinigung', files.versicherungsbescheinigung[0]);
+    if (files.studienbescheinigung.length)
+      formData.append('studienbescheinigung', files.studienbescheinigung[0]);
+    if (files.versicherungsbescheinigung.length)
+      formData.append(
+        'versicherungsbescheinigung',
+        files.versicherungsbescheinigung[0]
+      );
 
     await ContentApiService.patch('/documents', formData);
     await filesUploadFormRef.value.fetchDocuments();

@@ -98,10 +98,10 @@
         />
       </v-col>
       <v-col cols="12">
-          <BudgetPositionsFields
-            v-model="formData.budget_positions"
-            ref="budgetPositionsRef"
-          />
+        <BudgetPositionsFields
+          v-model="formData.budget_positions"
+          ref="budgetPositionsRef"
+        />
       </v-col>
       <v-col cols="12">
         <v-checkbox
@@ -112,7 +112,9 @@
           @update:model-value="handleTimeExceptionChange"
         />
         <div v-if="formData.time_exce_course" class="mx-4">
-          <label for="timeExceName" class="ml-0">{{ $t('petition.timeExceName') }}</label>
+          <label for="timeExceName" class="ml-0">{{
+            $t('petition.timeExceName')
+          }}</label>
           <v-text-field
             id="timeExceName"
             v-model="formData.time_exce_name"
@@ -121,7 +123,9 @@
             :aria-label="$t('petition.timeExceName')"
             :rules="[requiredRule]"
           />
-          <label for="timeExceStart" class="ml-0">{{ $t('petition.timeExceStart') }}</label>
+          <label for="timeExceStart" class="ml-0">{{
+            $t('petition.timeExceStart')
+          }}</label>
           <v-date-input
             id="timeExceStart"
             v-model="formData.time_exce_start"
@@ -129,7 +133,9 @@
             :aria-label="$t('petition.timeExceStart')"
             :rules="[requiredRule]"
           />
-          <label for="timeExceEnd" class="ml-0">{{ $t('petition.timeExceEnd') }}</label>
+          <label for="timeExceEnd" class="ml-0">{{
+            $t('petition.timeExceEnd')
+          }}</label>
           <v-date-input
             id="timeExceEnd"
             v-model="formData.time_exce_end"
@@ -148,7 +154,9 @@
           @update:model-value="handleDurationExceptionChange"
         />
         <div v-if="formData.duration_exce_course" class="mx-4">
-          <label for="durationExceName" class="ml-0">{{ $t('petition.durationExceName') }}</label>
+          <label for="durationExceName" class="ml-0">{{
+            $t('petition.durationExceName')
+          }}</label>
           <v-text-field
             id="durationExceName"
             v-model="formData.duration_exce_name"
@@ -157,7 +165,9 @@
             :aria-label="$t('petition.durationExceName')"
             :rules="[requiredRule]"
           />
-          <label for="durationExceStart" class="ml-0">{{ $t('petition.durationExceStart') }}</label>
+          <label for="durationExceStart" class="ml-0">{{
+            $t('petition.durationExceStart')
+          }}</label>
           <v-date-input
             id="durationExceStart"
             v-model="formData.duration_exce_start"
@@ -165,7 +175,9 @@
             :aria-label="$t('petition.durationExceStart')"
             :rules="[requiredRule]"
           />
-          <label for="durationExceEnd" class="ml-0">{{ $t('petition.durationExceEnd') }}</label>
+          <label for="durationExceEnd" class="ml-0">{{
+            $t('petition.durationExceEnd')
+          }}</label>
           <v-date-input
             id="durationExceEnd"
             v-model="formData.duration_exce_end"
@@ -181,7 +193,16 @@
 
 <script setup>
 import { computed, ref, watch } from 'vue';
-import { mdiAccount, mdiEmail, mdiOfficeBuilding, mdiNumeric, mdiSchool, mdiCalendar, mdiClock, mdiCurrencyUsd } from '@mdi/js';
+import {
+  mdiAccount,
+  mdiEmail,
+  mdiOfficeBuilding,
+  mdiNumeric,
+  mdiSchool,
+  mdiCalendar,
+  mdiClock,
+  mdiCurrencyUsd,
+} from '@mdi/js';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import BudgetPositionsFields from './BudgetPositionsFields.vue';
@@ -191,14 +212,15 @@ import { format } from 'date-fns';
 const { t } = useI18n();
 const store = useStore();
 
-
 const formatDate = (date) => {
   if (!date) return null;
   return format(new Date(date), 'dd.MM.yyyy');
 };
 
 const user = computed(() => store.getters['auth/user']);
-const supervisorMail = computed(() => user.value.user_role === 1 ? user.value.email : "");
+const supervisorMail = computed(() =>
+  user.value.user_role === 1 ? user.value.email : ''
+);
 
 const icons = {
   mdiAccount,
@@ -208,7 +230,7 @@ const icons = {
   mdiCalendar,
   mdiClock,
   mdiCurrencyUsd,
-  mdiSchool
+  mdiSchool,
 };
 
 const props = defineProps({
@@ -220,7 +242,7 @@ const props = defineProps({
 });
 const degreeOptions = [
   { text: 'Student has a Bachelor Degree', value: true },
-  { text: 'Student does not have a Bachelor Degree', value: false }
+  { text: 'Student does not have a Bachelor Degree', value: false },
 ];
 
 const initialFormData = {
@@ -249,7 +271,7 @@ const initialFormData = {
       id: '',
       budget_position: '',
       budget_approver: '',
-      budget_position_status: "",
+      budget_position_status: '',
       percentage: 0,
     },
   ],
@@ -270,41 +292,45 @@ const isAllValid = computed(() => {
 });
 
 // Populate form data when petition prop changes
-watch(() => props.petition, (newPetition) => {
-  if (newPetition) {
-    const cleanData = {
-      ...initialFormData,
-      ...newPetition,
-      time_exce_course: newPetition.time_exce_course ?? false,
-      duration_exce_course: newPetition.duration_exce_course ?? false,
-    };
+watch(
+  () => props.petition,
+  (newPetition) => {
+    if (newPetition) {
+      const cleanData = {
+        ...initialFormData,
+        ...newPetition,
+        time_exce_course: newPetition.time_exce_course ?? false,
+        duration_exce_course: newPetition.duration_exce_course ?? false,
+      };
 
-    if (!cleanData.time_exce_course) {
-      cleanData.time_exce_name = '';
-      cleanData.time_exce_start = '';
-      cleanData.time_exce_end = '';
-    }
-    if (!cleanData.duration_exce_course) {
-      cleanData.duration_exce_name = '';
-      cleanData.duration_exce_start = '';
-      cleanData.duration_exce_end = '';
-    }
+      if (!cleanData.time_exce_course) {
+        cleanData.time_exce_name = '';
+        cleanData.time_exce_start = '';
+        cleanData.time_exce_end = '';
+      }
+      if (!cleanData.duration_exce_course) {
+        cleanData.duration_exce_name = '';
+        cleanData.duration_exce_start = '';
+        cleanData.duration_exce_end = '';
+      }
 
-        // Reset budget_positions to the initial state when editing a petition
-    cleanData.budget_positions = [
-      {
-        id: '',
-        budget_position: '',
-        budget_approver: '',
-        budget_position_status: '',
-        percentage: 0,
-      },
-    ];
-    formData.value = cleanData;
-  } else {
-    formData.value = { ...initialFormData };
-  }
-}, { immediate: true });
+      // Reset budget_positions to the initial state when editing a petition
+      cleanData.budget_positions = [
+        {
+          id: '',
+          budget_position: '',
+          budget_approver: '',
+          budget_position_status: '',
+          percentage: 0,
+        },
+      ];
+      formData.value = cleanData;
+    } else {
+      formData.value = { ...initialFormData };
+    }
+  },
+  { immediate: true }
+);
 
 // Clear time exception fields when checkbox is unchecked
 const handleTimeExceptionChange = (value) => {
@@ -331,11 +357,15 @@ const handleDurationExceptionChange = (value) => {
 
 // Validation rules
 const requiredRule = (v) => !!v || t('validationRule.required');
-const emailRule = (v) => /.+@.+\..+/.test(v) || t('validationRule.invalidEmail');
+const emailRule = (v) =>
+  /.+@.+\..+/.test(v) || t('validationRule.invalidEmail');
 const positiveNumberRule = (v) => v > 0 || t('validationRule.positiveNumber');
 const endDateRule = (v) => {
   if (!formData.value.start_date || !v) return true;
-  return new Date(v) >= new Date(formData.value.start_date) || t('validationRule.endDateAfterStart');
+  return (
+    new Date(v) >= new Date(formData.value.start_date) ||
+    t('validationRule.endDateAfterStart')
+  );
 };
 //const eosRule = (v) => /^F\d{7}$/.test(v) || t('validationRule.eosNumber');
 

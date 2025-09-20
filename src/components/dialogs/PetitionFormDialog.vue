@@ -1,6 +1,10 @@
 <template>
   <CustomDialog
-    :title="$t('petitionFormDialog.title', { petition: petition ? 'Edit' : 'Create New' })"
+    :title="
+      $t('petitionFormDialog.title', {
+        petition: petition ? 'Edit' : 'Create New',
+      })
+    "
     :aria-label="$t('ariaLabel.petitionFormDialog.dialog')"
   >
     <template #content>
@@ -42,8 +46,8 @@ import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import PetitionForm from '@/components/forms/PetitionForm.vue';
 import CustomDialog from '@/components/dialogs/CustomDialog.vue';
-import ContentApiService from "@/services/contentApiService";
-import { formatISO } from 'date-fns'; 
+import ContentApiService from '@/services/contentApiService';
+import { formatISO } from 'date-fns';
 
 const props = defineProps({
   petition: {
@@ -78,7 +82,9 @@ const formatDatesForBackend = (data) => {
   const formattedData = { ...data };
   dateKeys.forEach((key) => {
     if (formattedData[key]) {
-      formattedData[key] = formatISO(new Date(formattedData[key]), { representation: 'date' });
+      formattedData[key] = formatISO(new Date(formattedData[key]), {
+        representation: 'date',
+      });
     }
   });
 
@@ -89,7 +95,9 @@ const submit = async () => {
   if (isFormValid.value) {
     const formData = petitionFormRef.value.formData;
     const filteredFormData = Object.fromEntries(
-      Object.entries(formData).filter(([key, value]) => value !== '' && value !== null)
+      Object.entries(formData).filter(
+        ([key, value]) => value !== '' && value !== null
+      )
     );
 
     // Format dates before sending
@@ -101,7 +109,7 @@ const submit = async () => {
     } catch (error) {
       console.error('Failed to submit petition:', error);
       store.dispatch('snackbar/setErrorSnacks', {
-        message: t("errors.petitionFormDialog.submission"),
+        message: t('errors.petitionFormDialog.submission'),
       });
     } finally {
       closeDialog();
@@ -113,7 +121,9 @@ const save = async () => {
   if (isFormValid.value) {
     const formData = petitionFormRef.value.formData;
     const filteredFormData = Object.fromEntries(
-      Object.entries(formData).filter(([key, value]) => value !== '' && value !== null)
+      Object.entries(formData).filter(
+        ([key, value]) => value !== '' && value !== null
+      )
     );
 
     // Format dates before sending
@@ -121,15 +131,18 @@ const save = async () => {
 
     try {
       const role = userRole.value === 2 ? 'clerk' : 'supervisor';
-      const response = await ContentApiService.patch(`${role}/petitions/${props.petition.id}`, dataToSend);
+      const response = await ContentApiService.patch(
+        `${role}/petitions/${props.petition.id}`,
+        dataToSend
+      );
       emit('refresh', {
         type: 'update',
-        data: response.data
+        data: response.data,
       });
     } catch (error) {
       console.error('Failed to update petition:', error);
       store.dispatch('snackbar/setErrorSnacks', {
-        message: t("errors.petitionFormDialog.saving"),
+        message: t('errors.petitionFormDialog.saving'),
       });
     } finally {
       closeDialog();

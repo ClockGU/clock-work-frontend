@@ -26,7 +26,9 @@
         />
       </v-col>
       <v-col cols="12" md="6">
-        <label for="formOfAddress">{{ $t('employeeDataForm.formOfAddress') }}</label>
+        <label for="formOfAddress">{{
+          $t('employeeDataForm.formOfAddress')
+        }}</label>
         <v-select
           id="formOfAddress"
           v-model="formData.form_of_address"
@@ -52,7 +54,9 @@
         />
       </v-col>
       <v-col cols="12" md="6">
-        <label for="dateOfBirth">{{ $t('employeeDataForm.dateOfBirth') }}</label>
+        <label for="dateOfBirth">{{
+          $t('employeeDataForm.dateOfBirth')
+        }}</label>
         <v-text-field
           id="dateOfBirth"
           v-model="formData.date_of_birth"
@@ -65,7 +69,9 @@
         />
       </v-col>
       <v-col cols="12" md="6">
-        <label for="cityOfBirth">{{ $t('employeeDataForm.cityOfBirth') }}</label>
+        <label for="cityOfBirth">{{
+          $t('employeeDataForm.cityOfBirth')
+        }}</label>
         <v-text-field
           id="cityOfBirth"
           v-model="formData.city_of_birth"
@@ -101,7 +107,9 @@
         />
       </v-col>
       <v-col cols="12" md="6">
-        <label for="nationality">{{ $t('employeeDataForm.nationality') }}</label>
+        <label for="nationality">{{
+          $t('employeeDataForm.nationality')
+        }}</label>
         <v-text-field
           id="nationality"
           v-model="formData.nationality"
@@ -113,7 +121,9 @@
         />
       </v-col>
       <v-col cols="12" md="6">
-        <label for="telephoneNumber">{{ $t('employeeDataForm.telephoneNumber') }}</label>
+        <label for="telephoneNumber">{{
+          $t('employeeDataForm.telephoneNumber')
+        }}</label>
         <v-text-field
           id="telephoneNumber"
           v-model="formData.telephone_number"
@@ -125,7 +135,9 @@
         />
       </v-col>
       <v-col cols="12" md="6">
-        <label for="healthInsurance">{{ $t('employeeDataForm.healthInsurance') }}</label>
+        <label for="healthInsurance">{{
+          $t('employeeDataForm.healthInsurance')
+        }}</label>
         <v-text-field
           id="healthInsurance"
           v-model="formData.health_insurance"
@@ -165,7 +177,9 @@
         />
       </v-col>
       <v-col v-if="formData.previous_employment" cols="12" md="6">
-        <label for="prevEmpDuration">{{ $t('employeeDataForm.duration') }}</label>
+        <label for="prevEmpDuration">{{
+          $t('employeeDataForm.duration')
+        }}</label>
         <v-text-field
           id="prevEmpDuration"
           v-model="formData.prev_emp_duration"
@@ -182,10 +196,23 @@
 </template>
 
 <script setup>
-import { ref,onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
-import { mdiAccount, mdiGenderMaleFemale, mdiCity, mdiHomeMapMarker, mdiNumeric, mdiFlag, mdiPhone, mdiHospital, mdiBank, mdiCalendar, mdiClock, mdiAccountBox } from '@mdi/js';
+import {
+  mdiAccount,
+  mdiGenderMaleFemale,
+  mdiCity,
+  mdiHomeMapMarker,
+  mdiNumeric,
+  mdiFlag,
+  mdiPhone,
+  mdiHospital,
+  mdiBank,
+  mdiCalendar,
+  mdiClock,
+  mdiAccountBox,
+} from '@mdi/js';
 import ContentApiService from '@/services/contentApiService';
 
 const icons = {
@@ -200,7 +227,7 @@ const icons = {
   mdiBank,
   mdiClock,
   mdiCalendar,
-  mdiAccountBox
+  mdiAccountBox,
 };
 
 const store = useStore();
@@ -228,44 +255,45 @@ const formData = ref({ ...initialFormData });
 const isFormValid = ref(false);
 // Validation Rules
 const requiredRule = (v) => !!v || t('validationRule.required');
-const postalCodeRule = (v) => /^\d{5}$/.test(v) || t('validationRule.postalCode');
-const phoneRule = (v) => /^\d{10,15}$/.test(v) || t('validationRule.invalidPhone');
-const ibanRule = (v) => /^[A-Z]{2}\d{2}[A-Z0-9]{11,30}$/.test(v) || t('validationRule.invalidIban');
+const postalCodeRule = (v) =>
+  /^\d{5}$/.test(v) || t('validationRule.postalCode');
+const phoneRule = (v) =>
+  /^\d{10,15}$/.test(v) || t('validationRule.invalidPhone');
+const ibanRule = (v) =>
+  /^[A-Z]{2}\d{2}[A-Z0-9]{11,30}$/.test(v) || t('validationRule.invalidIban');
 
 const fetchEmployeeData = async () => {
-  try{
+  try {
     const response = await ContentApiService.get('/employees');
     if (response.data) {
       formData.value = { ...initialFormData, ...response.data };
-      }
-    } catch (error) {
-      if (error.response?.status !== 404) {
-        console.error('Error fetching employee data:', error);
-        store.dispatch('snackbar/setErrorSnacks', {
-          message: t("errors.studentData.fetchingData"),
-        });
-      }
     }
-}
+  } catch (error) {
+    if (error.response?.status !== 404) {
+      console.error('Error fetching employee data:', error);
+      store.dispatch('snackbar/setErrorSnacks', {
+        message: t('errors.studentData.fetchingData'),
+      });
+    }
+  }
+};
 
 onMounted(() => {
   fetchEmployeeData();
 });
 
-defineExpose({ formData,isFormValid });
-
+defineExpose({ formData, isFormValid });
 </script>
 <style scoped>
 label {
   font-weight: 500;
-  font-size: 1rem; 
-  margin-left: 2.5rem; 
+  font-size: 1rem;
+  margin-left: 2.5rem;
 }
 .v-checkbox :deep(.v-label) {
-  opacity: 1;      
+  opacity: 1;
   font-weight: normal;
-  margin-left: 0;   
-  font-size: inherit; 
+  margin-left: 0;
+  font-size: inherit;
 }
 </style>
-

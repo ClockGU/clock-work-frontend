@@ -25,9 +25,9 @@
     "send": "senden",
     "approve": "genehmigen",
     "reject": "ablehnen",
-    "requestChange":"Änderung beantragen",
-    "back":"zurück",
-    "next":"weiter"
+    "requestChange": "Änderung beantragen",
+    "back": "zurück",
+    "next": "weiter"
   },
   "roleSelectionView": {
     "welcome": "Sie sind neu hier!",
