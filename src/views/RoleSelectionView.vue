@@ -48,7 +48,7 @@ const token = computed(() => store.getters['auth/accessToken']);
 
 const redirectToDashboard = async (role) => {
   try {
-    const roleValue = role === 'supervisor' ? 2 : 0;
+    const roleValue = role === 'supervisor' ? 1 : 0;
     // Update user role on backend
     const response = await AuthApiService.updateUser(
       { user_role: roleValue },
