@@ -104,7 +104,7 @@ const submit = async () => {
     const dataToSend = formatDatesForBackend(filteredFormData);
 
     try {
-      await ContentApiService.post('supervisor/petitions/', dataToSend);
+      await ContentApiService.post('/supervisor/petitions/', dataToSend);
       emit('refresh');
     } catch (error) {
       console.error('Failed to submit petition:', error);
