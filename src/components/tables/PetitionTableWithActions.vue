@@ -101,7 +101,7 @@ const userRole = computed(() => store.getters['auth/userRole']);
 const deletePetition = async () => {
   try {
     const role = userRole.value === 2 ? 'clerk' : 'supervisor';
-    await ContentApiService.delete(`${role}/petitions/${props.petition.id}`);
+    await ContentApiService.delete(`/${role}/petitions/${props.petition.id}`);
     emit('refresh', {
       type: 'delete',
       data: props.petition.id,

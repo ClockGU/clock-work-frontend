@@ -142,8 +142,8 @@ const tableRows = computed(() => {
           value: position.budget_approver,
         });
         rows.push({
-          key: `${t('petition.budgetPositionStatus', 'Budget Position Status')} ${index + 1}`,
-          value: t(`budgetPositionStatus.${position.budget_position_status}`),
+          key: `${t('petition.budgetPositionApproved', 'Budget Position Approved')} ${index + 1}`,
+          value: position.budget_position_approved? t('yes') : t('no'),
         });
       });
     }

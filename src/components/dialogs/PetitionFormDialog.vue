@@ -132,7 +132,7 @@ const save = async () => {
     try {
       const role = userRole.value === 2 ? 'clerk' : 'supervisor';
       const response = await ContentApiService.patch(
-        `${role}/petitions/${props.petition.id}`,
+        `/${role}/petitions/${props.petition.id}`,
         dataToSend
       );
       emit('refresh', {
