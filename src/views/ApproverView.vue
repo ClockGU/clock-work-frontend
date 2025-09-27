@@ -107,6 +107,7 @@
     </v-row>
   </v-container>
 </template>
+
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
@@ -140,6 +141,10 @@ const noPetitionMessage = computed(() =>
 );
 const user = computed(() => store.getters['auth/user']);
 
+const isBudgetPositionPending = (budgetPosition) => {
+  return budgetPosition.budget_position_approved === false 
+};
+
 const fetchPetition = async () => {
   try {
     isLoading.value = true;
@@ -152,9 +157,7 @@ const fetchPetition = async () => {
     // Check if the petition exists and has a budget position that matches
     // the budgetPositionId from the query and is awaiting action.
     const hasPendingBudgetPosition = fetchedPetition.budget_positions.some(
-      (pos) =>
-        pos.id === budgetPositionId &&
-        pos.budget_position_status === 'waiting approver action'
+      (pos) => pos.id === budgetPositionId && isBudgetPositionPending(pos)
     );
 
     if (hasPendingBudgetPosition) {
@@ -181,7 +184,7 @@ const handleApproval = async () => {
       `/approver/petitions/${petitionId}/${signature}/${budgetPositionId}`,
       {
         status: 'student_action',
-        budget_position_status: 'approved',
+        budget_position_approved: true,
       }
     );
     store.dispatch('snackbar/setSnack', {
@@ -198,13 +201,14 @@ const handleApproval = async () => {
     isLoading.value = false;
   }
 };
+
 const handleRejection = async () => {
   try {
     isLoading.value = true;
     await ContentApiService.patch(
       `/approver/petitions/${petitionId}/${signature}/${budgetPositionId}`,
       {
-        budget_position_status: 'rejected',
+        budget_position_approved: false, 
       }
     );
     store.dispatch('snackbar/setSnack', {
@@ -221,6 +225,7 @@ const handleRejection = async () => {
     isLoading.value = false;
   }
 };
+
 onMounted(() => {
   store.dispatch('auth/setUser', {
     ...user.value,
