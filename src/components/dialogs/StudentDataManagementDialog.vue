@@ -1,8 +1,5 @@
 <template>
-  <CustomDialog
-    :title="$t('studentDataManagementDialog.title')"
-    aria-labelledby="student-data-management-dialog"
-  >
+  <CustomDialog :title="$t('studentDataManagementDialog.title')">
     <template #content>
       <v-container>
         <v-window v-model="step">
@@ -16,9 +13,6 @@
                 <EmployeeDataForm
                   ref="employeeDataFormRef"
                   class="mt-8"
-                  :aria-labelledby="
-                    $t('ariaLabel.studentDataManagementDialog.personal')
-                  "
                 />
               </v-card-text>
             </v-card>
@@ -33,9 +27,6 @@
                 <FilesUploadForm
                   ref="filesUploadFormRef"
                   class="mt-6"
-                  :aria-labelledby="
-                    $t('ariaLabel.studentDataManagementDialog.files')
-                  "
                 />
               </v-card-text>
             </v-card>
@@ -46,29 +37,25 @@
 
     <template #actions>
       <v-spacer></v-spacer>
+      <!-- Next button for student data form (first step) -->
+      <v-btn
+        v-if="step === 1"
+        color="primary"
+        :disabled="!isPersonalFormValid || isSaving"
+        :loading="isSaving"
+        @click="saveAndContinue"
+      >
+        {{ $t('actions.next') }}
+      </v-btn>
+      <!-- Back  and save button for document upload form (second step)   -->
       <v-btn v-if="step === 2" text @click="step = 1">
         {{ $t('actions.back') }}
       </v-btn>
       <v-btn
-        v-if="step === 1"
-        color="primary"
-        :disabled="!isPersonalFormValid"
-        @click="saveEmployeeData"
-      >
-        {{ $t('actions.save') }}
-      </v-btn>
-      <v-btn
-        v-if="step === 1"
-        color="primary"
-        :disabled="!isPersonalDataSaved"
-        @click="step = 2"
-      >
-        {{ $t('actions.next') }}
-      </v-btn>
-      <v-btn
         v-if="step === 2"
         color="primary"
-        :disabled="!isFilesFormValid"
+        :disabled="!isFilesFormValid || isSaving"
+        :loading="isSaving"
         @click="saveDocuments"
       >
         {{ $t('actions.save') }}
@@ -90,28 +77,35 @@ const { t } = useI18n();
 const employeeDataFormRef = ref(null);
 const filesUploadFormRef = ref(null);
 const step = ref(1);
-const isPersonalDataSaved = ref(false);
+const isSaving = ref(false);
 
 const saveEmployeeData = async () => {
-  if (!isPersonalFormValid.value) return;
   try {
+    isSaving.value = true;
     const formData = employeeDataFormRef.value.formData;
     await ContentApiService.patch('/employees', formData);
-    isPersonalDataSaved.value = true;
-    store.dispatch('snackbar/setSuccessSnacks', {
-      message: t('success.studentData.savingData'),
-    });
+    return true; // Success
   } catch (error) {
     console.error('Error saving employee data:', error);
     store.dispatch('snackbar/setErrorSnacks', {
       message: t('errors.studentData.savingData'),
     });
+    return false; // Failure
+  } finally {
+    isSaving.value = false;
+  }
+};
+
+const saveAndContinue = async () => {
+  const success = await saveEmployeeData();
+  if (success) {
+    step.value = 2; // Only proceed to next step if save was successful
   }
 };
 
 const saveDocuments = async () => {
-  if (!isFilesFormValid.value) return;
   try {
+    isSaving.value = true;
     const formData = new FormData();
     const { files } = filesUploadFormRef.value;
 
@@ -126,8 +120,8 @@ const saveDocuments = async () => {
 
     await ContentApiService.patch('/documents', formData);
     await filesUploadFormRef.value.fetchDocuments();
-    store.dispatch('snackbar/setSuccessSnacks', {
-      message: t('success.studentData.savingFiles'),
+    store.dispatch('snackbar/setSnack', {
+      message: t('studentDataManagementDialog.saveSuccess'),
     });
     emit('close');
   } catch (error) {
@@ -135,13 +129,14 @@ const saveDocuments = async () => {
     store.dispatch('snackbar/setErrorSnacks', {
       message: t('errors.studentData.savingFiles'),
     });
+  } finally {
+    isSaving.value = false;
   }
 };
 
 const isPersonalFormValid = computed(() => {
   return employeeDataFormRef.value?.isFormValid ?? false;
 });
-
 const isFilesFormValid = computed(() => {
   return filesUploadFormRef.value?.isFormValid ?? false;
 });

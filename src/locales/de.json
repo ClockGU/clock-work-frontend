@@ -90,7 +90,8 @@
     "content": {
       "personal": "Hier können Sie Ihre persönlichen Informationen einsehen und bearbeiten.",
       "files": "Hier können Sie die von Ihnen hochgeladenen Dateien einsehen."
-    }
+    },
+    "saveSuccess": "Daten erfolgreich gespeichert"
   },
   "employeeDataForm": {
     "firstName": "Vorname",
@@ -280,11 +281,6 @@
       "petitionForm": "Antragsformular",
       "submit": "Antragsformular einreichen",
       "save": "Antragsformular speichern"
-    },
-    "studentDataManagementDialog": {
-      "tabs": "Tabs für die Studentendatenverwaltung",
-      "personal": "Tab für persönliche Informationen",
-      "files": "Tab für hochgeladene Dateien"
     }
   }
 }

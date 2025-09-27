@@ -90,7 +90,8 @@
     "content": {
       "personal": "Here you can view and edit your personal information.",
       "files": "Here you can view the files you've uploaded."
-    }
+    },
+    "saveSuccess": "Data saved successfully"
   },
   "employeeDataForm": {
     "firstName": "First Name",
@@ -281,11 +282,6 @@
       "petitionForm": "Petition Form",
       "submit": "Submit Petition Form",
       "save": "Save Petition Form"
-    },
-    "studentDataManagementDialog": {
-      "tabs": "Tabs for student data management",
-      "personal": "Tab for personal information",
-      "files": "Tab for uploaded files"
     }
   }
 }

@@ -5,7 +5,7 @@
         <label for="elstam">{{ $t('filesUploadForm.elstam') }}</label>
         <v-file-input
           id="elstam"
-          v-model="files.elstam"
+          v-model="elstamFile"
           outlined
           dense
           show-size
@@ -20,7 +20,7 @@
         }}</label>
         <v-file-input
           id="studienbescheinigung"
-          v-model="files.studienbescheinigung"
+          v-model="studienbescheinigungFile"
           outlined
           dense
           show-size
@@ -35,7 +35,7 @@
         }}</label>
         <v-file-input
           id="versicherungsbescheinigung"
-          v-model="files.versicherungsbescheinigung"
+          v-model="versicherungsbescheinigungFile"
           outlined
           dense
           show-size
@@ -49,46 +49,74 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, reactive } from 'vue';
 import ContentApiService from '@/services/contentApiService';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 
 const store = useStore();
-const { t } = useI18n;
-const files = ref({
-  elstam: [],
-  studienbescheinigung: [],
-  versicherungsbescheinigung: [],
-});
-const existingDocuments = ref({
+const { t } = useI18n();
+
+const elstamFile = ref(null);
+const studienbescheinigungFile = ref(null);
+const versicherungsbescheinigungFile = ref(null);
+
+const existingDocuments = reactive({
   elstam_url: null,
   studienbescheinigung_url: null,
   versicherungsbescheinigung_url: null,
 });
 
-// Proper validation that checks both existing docs and new uploads exists
+// Validation: All three files must be present (either existing or new)
 const isFormValid = computed(() => {
-  return ['elstam', 'studienbescheinigung', 'versicherungsbescheinigung'].every(
-    (field) => {
-      return (
-        existingDocuments.value[`${field}_url`] || files.value[field].length > 0
-      );
-    }
-  );
+  const elstamValid = !!elstamFile.value || !!existingDocuments.elstam_url;
+  const studienValid = !!studienbescheinigungFile.value || !!existingDocuments.studienbescheinigung_url;
+  const versicherungValid = !!versicherungsbescheinigungFile.value || !!existingDocuments.versicherungsbescheinigung_url;
+  
+  return elstamValid && studienValid && versicherungValid;
 });
-//if a file exist show its url as a hint
+
 const fileUrl = (field) => {
-  if (files.value[field].length > 0) return '';
-  return existingDocuments.value[`${field}_url`]
-    ? existingDocuments.value[`${field}_url`].split('/').pop()
-    : '';
+  let file = null;
+  let existingUrl = null;
+  
+  switch (field) {
+    case 'elstam':
+      file = elstamFile.value;
+      existingUrl = existingDocuments.elstam_url;
+      break;
+    case 'studienbescheinigung':
+      file = studienbescheinigungFile.value;
+      existingUrl = existingDocuments.studienbescheinigung_url;
+      break;
+    case 'versicherungsbescheinigung':
+      file = versicherungsbescheinigungFile.value;
+      existingUrl = existingDocuments.versicherungsbescheinigung_url;
+      break;
+  }
+  
+  if (file) {
+    return `Selected: ${file.name}`;
+  }
+  
+  if (existingUrl) {
+    return `Existing: ${existingUrl.split('/').pop()}`;
+  }
+  
+  return 'No file selected';
 };
+
+// Computed files object for parent component
+const files = computed(() => ({
+  elstam: elstamFile.value ? [elstamFile.value] : [],
+  studienbescheinigung: studienbescheinigungFile.value ? [studienbescheinigungFile.value] : [],
+  versicherungsbescheinigung: versicherungsbescheinigungFile.value ? [versicherungsbescheinigungFile.value] : [],
+}));
 
 const fetchDocuments = async () => {
   try {
     const response = await ContentApiService.get('/documents');
-    existingDocuments.value = response.data;
+    Object.assign(existingDocuments, response.data);
   } catch (error) {
     if (error.response?.status !== 404) {
       console.error('Error fetching documents:', error);
@@ -107,6 +135,7 @@ defineExpose({
   fetchDocuments,
 });
 </script>
+
 <style scoped>
 label {
   font-weight: 500;
