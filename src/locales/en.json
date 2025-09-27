@@ -213,6 +213,10 @@
     }
   },
   "errors": {
+    "roleSelection": {
+      "sessionExpired": "Session expired. Please login again.",
+      "updateFailed": "Error updating user role. Please try again."
+    },
     "uploadedFilesClerk": {
       "loadingDocs": "Error loading documents",
       "fetchingDocs": "Error fetching documents",

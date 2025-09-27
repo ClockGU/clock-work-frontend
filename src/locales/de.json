@@ -213,6 +213,10 @@
     }
   },
   "errors": {
+    "roleSelection": {
+      "sessionExpired": "Sitzung abgelaufen. Bitte melden Sie sich erneut an.",
+      "updateFailed": "Fehler beim Aktualisieren der Benutzerrolle. Bitte versuchen Sie es erneut."
+    },
     "uploadedFilesClerk": {
       "loadingDocs": "Fehler beim Laden der Dokumente",
       "fetchingDocs": "Fehler beim Abrufen der Dokumente",

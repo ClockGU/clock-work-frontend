@@ -78,6 +78,13 @@ const AuthApiService = {
   },
 
   /**
+   * Partially update the current user's information.
+   */
+  updateUserPartially(userData, userId) {
+    return axios.patch(`${import.meta.env.VITE_AUTH_API}/users/${userId}`, userData);
+  },
+
+  /**
    * Logout the current user by removing the token and headers.
    */
   logout() {
