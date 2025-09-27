@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import RoleCardButton from '@/components/ui/RoleCardButton.vue';
@@ -44,30 +44,28 @@ import AuthApiService from '@/services/authApiService';
 const router = useRouter();
 const store = useStore();
 const user = computed(() => store.getters['auth/user']);
-const token = computed(() => store.getters['auth/accessToken']);
 
 const redirectToDashboard = async (role) => {
   try {
     const roleValue = role === 'supervisor' ? 1 : 0;
-    // Update user role on backend
     const response = await AuthApiService.updateUser(
       { user_role: roleValue },
       user.value.id
     );
+    
     store.dispatch('auth/setUser', response.data);
-    // Refresh user data from backend to ensure consistency
-    await AuthApiService.refreshToken(token.value);
     router.push({ path: `/dashboard/${role}` });
+    
   } catch (error) {
-    console.error('Error updating user role ', error);
-    AuthApiService.logout();
-    store.dispatch('auth/setLoginError', 'Error updating user role');
-    router.push({ name: 'landing' });
+    console.error('Error updating user role:', error);
+    if (error.response?.status === 401) {
+      AuthApiService.logout();
+      store.dispatch('auth/setLoginError', 'Session expired. Please login again.');
+      router.push({ name: 'landing' });
+    } else {
+      store.dispatch('auth/setLoginError', 'Error updating user role: ' + error.message);
+      router.push({ name: 'landing' });
+    }
   }
 };
-onMounted(() => {
-  if (token.value) {
-    AuthApiService.setAccessToken(token.value);
-  }
-});
 </script>

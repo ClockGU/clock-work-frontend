@@ -44,7 +44,6 @@ const petitions = ref([]);
 const selectedPetition = ref(null);
 const isLoading = ref(true);
 
-const token = computed(() => store.getters['auth/accessToken']);
 const userRole = computed(() => store.getters['auth/userRole']);
 const instructionCardTitle = computed(() =>
   userRole.value === 0
@@ -63,9 +62,6 @@ const deselectPetition = () => (selectedPetition.value = null);
 const fetchPetitions = async () => {
   isLoading.value = true;
   try {
-    if (token.value) {
-      ContentApiService.setAccessToken(token.value);
-    }
     const response = await ContentApiService.get(
       `${userRole.value === 0 ? '/students' : '/supervisor'}/petitions`
     );

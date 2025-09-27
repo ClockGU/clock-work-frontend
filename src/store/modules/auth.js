@@ -28,10 +28,6 @@ const getters = {
 const mutations = {
   setAccessToken: (state, value) => (state.accessToken = value),
   setRefreshToken: (state, value) => (state.refreshToken = value),
-  unsetTokens: (state) => {
-    state.accessToken = undefined;
-    state.refreshToken = undefined;
-  },
   setUser: (state, value) => {
     state.user = value;
   },
@@ -47,12 +43,10 @@ const actions = {
   login: ({ commit }, payload) => {
     commit('setAccessToken', payload.access_token);
     commit('setRefreshToken', payload.refresh_token);
-    ContentApiService.setAccessToken(payload.access_token);
-    AuthApiService.setAccessToken(payload.access_token);
   },
   logout: ({ commit }) => {
-    AuthApiService.logout();
     commit('resetState');
+    AuthApiService.logout();
     window.location = 'https://cas.rz.uni-frankfurt.de/cas/logout';
   },
   setUser: ({ commit }, payload) => commit('setUser', payload),

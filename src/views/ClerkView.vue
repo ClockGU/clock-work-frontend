@@ -28,19 +28,17 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import ContentApiService from '@/services/contentApiService';
 import PetitionDataDisplay from '@/components/clerk/PetitionDataDisplay.vue';
 import ClerkPetitionTable from '@/components/tables/ClerkPetitionTable.vue';
-import AuthApiService from '@/services/authApiService';
 
 const store = useStore();
 const { t } = useI18n;
 const selectedPetition = ref(null);
 const petitions = ref([]);
-const token = computed(() => store.getters['auth/accessToken']);
 
 const fetchPetitions = async () => {
   try {
@@ -93,10 +91,6 @@ const handleRefresh = (payload) => {
 };
 
 onMounted(() => {
-  if (token.value) {
-    ContentApiService.setAccessToken(token.value);
-    AuthApiService.setAccessToken(token.value);
-  }
   fetchPetitions();
 });
 </script>
