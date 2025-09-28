@@ -36,13 +36,13 @@ import PetitionDataDisplay from '@/components/clerk/PetitionDataDisplay.vue';
 import ClerkPetitionTable from '@/components/tables/ClerkPetitionTable.vue';
 
 const store = useStore();
-const { t } = useI18n;
+const { t } = useI18n();
 const selectedPetition = ref(null);
 const petitions = ref([]);
 
 const fetchPetitions = async () => {
   try {
-    const response = await ContentApiService.get('clerk/petitions/pending');
+    const response = await ContentApiService.get('/clerk/petitions/pending');
     petitions.value = response.data;
   } catch (error) {
     console.error('Error fetching petitions:', error);

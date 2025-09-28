@@ -127,23 +127,23 @@ const refresh = (payload) => {
 };
 
 const handleDeclination = async () => {
-  // await ContentApiService.patch(
-  //   `/student/petitions/${props.selectedPetition.id}/student-action`,
-  //   {"approved": false }
-  // );
-  // emit('refresh');
-  // store.dispatch("snackbar/setSnack", {
-  //   message: t('snackbar.petitionRejected'),
-  // });
+  await ContentApiService.patch(
+    `/students/petitions/${props.selectedPetition.id}/student-action`,
+    {approved: false}
+  );
+  emit('refresh');
+  store.dispatch("snackbar/setSnack", {
+    message: t('snackbar.petitionRejected'),
+  });
 };
 const handleAcceptance = async () => {
-  // await ContentApiService.patch(
-  //   `/student/petitions/${props.selectedPetition.id}/student-action`,
-  //   {"approved": true }
-  // );
-  // emit('refresh');
-  // store.dispatch("snackbar/setSnack", {
-  //   message: t('snackbar.petitionAccepted'),
-  // });
+  await ContentApiService.patch(
+    `/students/petitions/${props.selectedPetition.id}/student-action`,
+    {approved: true}
+  );
+  emit('refresh');
+  store.dispatch("snackbar/setSnack", {
+    message: t('snackbar.petitionAccepted'),
+  });
 };
 </script>
