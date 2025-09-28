@@ -70,16 +70,20 @@ const existingDocuments = reactive({
 // Validation: All three files must be present (either existing or new)
 const isFormValid = computed(() => {
   const elstamValid = !!elstamFile.value || !!existingDocuments.elstam_url;
-  const studienValid = !!studienbescheinigungFile.value || !!existingDocuments.studienbescheinigung_url;
-  const versicherungValid = !!versicherungsbescheinigungFile.value || !!existingDocuments.versicherungsbescheinigung_url;
-  
+  const studienValid =
+    !!studienbescheinigungFile.value ||
+    !!existingDocuments.studienbescheinigung_url;
+  const versicherungValid =
+    !!versicherungsbescheinigungFile.value ||
+    !!existingDocuments.versicherungsbescheinigung_url;
+
   return elstamValid && studienValid && versicherungValid;
 });
 
 const fileUrl = (field) => {
   let file = null;
   let existingUrl = null;
-  
+
   switch (field) {
     case 'elstam':
       file = elstamFile.value;
@@ -94,23 +98,27 @@ const fileUrl = (field) => {
       existingUrl = existingDocuments.versicherungsbescheinigung_url;
       break;
   }
-  
+
   if (file) {
     return `Selected: ${file.name}`;
   }
-  
+
   if (existingUrl) {
     return `Existing: ${existingUrl.split('/').pop()}`;
   }
-  
+
   return 'No file selected';
 };
 
 // Computed files object for parent component
 const files = computed(() => ({
   elstam: elstamFile.value ? [elstamFile.value] : [],
-  studienbescheinigung: studienbescheinigungFile.value ? [studienbescheinigungFile.value] : [],
-  versicherungsbescheinigung: versicherungsbescheinigungFile.value ? [versicherungsbescheinigungFile.value] : [],
+  studienbescheinigung: studienbescheinigungFile.value
+    ? [studienbescheinigungFile.value]
+    : [],
+  versicherungsbescheinigung: versicherungsbescheinigungFile.value
+    ? [versicherungsbescheinigungFile.value]
+    : [],
 }));
 
 const fetchDocuments = async () => {

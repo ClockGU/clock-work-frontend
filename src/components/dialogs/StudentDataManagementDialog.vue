@@ -10,10 +10,7 @@
                   {{ $t('studentDataManagementDialog.tabs.personal') }}
                 </h2>
                 <p>{{ $t('studentDataManagementDialog.content.personal') }}</p>
-                <EmployeeDataForm
-                  ref="employeeDataFormRef"
-                  class="mt-8"
-                />
+                <EmployeeDataForm ref="employeeDataFormRef" class="mt-8" />
               </v-card-text>
             </v-card>
           </v-window-item>
@@ -24,10 +21,7 @@
                   {{ $t('studentDataManagementDialog.tabs.files') }}
                 </h2>
                 <p>{{ $t('studentDataManagementDialog.content.files') }}</p>
-                <FilesUploadForm
-                  ref="filesUploadFormRef"
-                  class="mt-6"
-                />
+                <FilesUploadForm ref="filesUploadFormRef" class="mt-6" />
               </v-card-text>
             </v-card>
           </v-window-item>

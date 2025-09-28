@@ -41,7 +41,11 @@
     <div class="d-flex align-center ga-2 mb-4">
       <StatusIndicator
         :status="position.budget_position_approved"
-        :tooltip="position.budget_position_approved? t('budgetPositionStatus.approved') : t('budgetPositionStatus.rejected')"
+        :tooltip="
+          position.budget_position_approved
+            ? t('budgetPositionStatus.approved')
+            : t('budgetPositionStatus.rejected')
+        "
       />
       <v-btn
         v-if="index === 0"
@@ -126,4 +130,3 @@ const percentageTotalRule = computed(() => {
 });
 defineExpose({ percentageTotalRule });
 </script>
-

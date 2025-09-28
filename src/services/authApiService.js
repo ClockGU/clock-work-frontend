@@ -33,8 +33,8 @@ const AuthApiService = {
    * Login using the provided CAS token.
    */
   login(casToken) {
-    return axios.get(`${import.meta.env.VITE_AUTH_API}/auth/cas/callback`, { 
-      params: { code: casToken } 
+    return axios.get(`${import.meta.env.VITE_AUTH_API}/auth/cas/callback`, {
+      params: { code: casToken },
     });
   },
 
@@ -42,9 +42,13 @@ const AuthApiService = {
    * Login as a supervisor using the provided CAS token.
    */
   loginSupervisor(casToken) {
-    return axios.post(`${import.meta.env.VITE_AUTH_API}/auth/cas/logging-in`, null, {
-      params: { code: casToken },
-    });
+    return axios.post(
+      `${import.meta.env.VITE_AUTH_API}/auth/cas/logging-in`,
+      null,
+      {
+        params: { code: casToken },
+      }
+    );
   },
 
   /**
@@ -65,8 +69,8 @@ const AuthApiService = {
    * Refresh the access token.
    */
   refreshToken(token) {
-    return axios.get(`${import.meta.env.VITE_AUTH_API}/auth/refresh`, { 
-      params: { token } 
+    return axios.get(`${import.meta.env.VITE_AUTH_API}/auth/refresh`, {
+      params: { token },
     });
   },
 
@@ -74,14 +78,20 @@ const AuthApiService = {
    * Update the current user's information.
    */
   updateUser(userData, userId) {
-    return axios.put(`${import.meta.env.VITE_AUTH_API}/users/${userId}`, userData);
+    return axios.put(
+      `${import.meta.env.VITE_AUTH_API}/users/${userId}`,
+      userData
+    );
   },
 
   /**
    * Partially update the current user's information.
    */
   updateUserPartially(userData, userId) {
-    return axios.patch(`${import.meta.env.VITE_AUTH_API}/users/${userId}`, userData);
+    return axios.patch(
+      `${import.meta.env.VITE_AUTH_API}/users/${userId}`,
+      userData
+    );
   },
 
   /**

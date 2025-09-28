@@ -143,7 +143,7 @@ const tableRows = computed(() => {
         });
         rows.push({
           key: `${t('petition.budgetPositionApproved', 'Budget Position Approved')} ${index + 1}`,
-          value: position.budget_position_approved? t('yes') : t('no'),
+          value: position.budget_position_approved ? t('yes') : t('no'),
         });
       });
     }

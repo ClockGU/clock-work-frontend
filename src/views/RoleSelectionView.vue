@@ -58,19 +58,24 @@ const redirectToDashboard = async (role) => {
     const newAccessToken = response.data.new_jwt_token;
     if (newAccessToken) {
       AuthApiService.setAccessToken(newAccessToken);
-      store.dispatch('auth/login', {access_token: newAccessToken });
+      store.dispatch('auth/login', { access_token: newAccessToken });
     }
     store.dispatch('auth/setUser', response.data);
     router.push({ path: `/dashboard/${role}` });
-    
   } catch (error) {
     console.error('Error updating user role:', error);
     if (error.response?.status === 401) {
       AuthApiService.logout();
-      store.dispatch('auth/setLoginError', t('errors.roleSelection.sessionExpired'));
+      store.dispatch(
+        'auth/setLoginError',
+        t('errors.roleSelection.sessionExpired')
+      );
       router.push({ name: 'landing' });
     } else {
-      store.dispatch('auth/setLoginError', t('errors.roleSelection.updateFailed'));
+      store.dispatch(
+        'auth/setLoginError',
+        t('errors.roleSelection.updateFailed')
+      );
       router.push({ name: 'landing' });
     }
   }

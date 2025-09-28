@@ -142,7 +142,7 @@ const noPetitionMessage = computed(() =>
 const user = computed(() => store.getters['auth/user']);
 
 const isBudgetPositionPending = (budgetPosition) => {
-  return budgetPosition.budget_position_approved === false 
+  return budgetPosition.budget_position_approved === false;
 };
 
 const fetchPetition = async () => {
@@ -208,7 +208,7 @@ const handleRejection = async () => {
     await ContentApiService.patch(
       `/approver/petitions/${petitionId}/${signature}/${budgetPositionId}`,
       {
-        budget_position_approved: false, 
+        budget_position_approved: false,
       }
     );
     store.dispatch('snackbar/setSnack', {

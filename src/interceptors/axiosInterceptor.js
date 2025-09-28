@@ -7,7 +7,7 @@ let isRefreshing = false;
 let failedQueue = [];
 
 const processQueue = (error, token = null) => {
-  failedQueue.forEach(prom => {
+  failedQueue.forEach((prom) => {
     if (error) {
       prom.reject(error);
     } else {
@@ -46,17 +46,19 @@ const setupInterceptors = () => {
 
       if (error.response?.status === 401 && !originalRequest._retry) {
         log('Handling 401 error - attempting token refresh');
-        
+
         if (isRefreshing) {
           log('Token refresh already in progress - queuing request');
           return new Promise((resolve, reject) => {
             failedQueue.push({ resolve, reject });
-          }).then(token => {
-            originalRequest.headers.Authorization = `Bearer ${token}`;
-            return axios(originalRequest);
-          }).catch(err => {
-            return Promise.reject(err);
-          });
+          })
+            .then((token) => {
+              originalRequest.headers.Authorization = `Bearer ${token}`;
+              return axios(originalRequest);
+            })
+            .catch((err) => {
+              return Promise.reject(err);
+            });
         }
 
         originalRequest._retry = true;
@@ -71,11 +73,11 @@ const setupInterceptors = () => {
           log('Refreshing token...');
           const response = await AuthApiService.refreshToken(refreshToken);
           const newToken = response.data.access;
-          
+
           log('Token refresh successful');
           store.dispatch('auth/setAccessToken', newToken);
           AuthApiService.setAccessToken(newToken);
-          
+
           processQueue(null, newToken);
           originalRequest.headers.Authorization = `Bearer ${newToken}`;
           return axios(originalRequest);

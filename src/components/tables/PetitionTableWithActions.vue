@@ -60,8 +60,8 @@
         </div>
       </template>
       <template #bottom>
-          <slot name="bottom"></slot>
-      </template>  
+        <slot name="bottom"></slot>
+      </template>
     </PetitionTable>
   </div>
 </template>

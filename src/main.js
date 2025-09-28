@@ -15,7 +15,7 @@ import { createApp } from 'vue';
 import store from './store';
 
 import AuthApiService from '@/services/authApiService';
-import setupInterceptors  from '@/interceptors/axiosInterceptor';
+import setupInterceptors from '@/interceptors/axiosInterceptor';
 
 const app = createApp(App);
 export const debugLogger = true;
@@ -48,12 +48,12 @@ store.subscribe((mutation, state) => {
         log('Token synchronized from mutation:', mutation.type);
       }
       break;
-      
+
     case 'auth/resetState':
       AuthApiService.removeHeader();
       log('Token headers cleared on logout');
       break;
-      
+
     default:
       break;
   }

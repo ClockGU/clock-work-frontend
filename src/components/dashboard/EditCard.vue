@@ -45,33 +45,32 @@
         @close="emit('deselect-petition')"
         @refresh="refresh"
       >
-      <!-- Action buttons for students to accept/reject petitions -->
-      <template #bottom v-if="userRole === 0">
-        <div class="d-flex justify-space-between">
-          <v-btn
-                color="error"
-                size="large"
-                class="px-5"
-                :disabled="selectedPetition.status !== 'student_action'"
-                :aria-label="$t('actions.decline')"
-                @click="handleDeclination"
-              >
-                {{ $t('actions.decline') }}
-              </v-btn>
-          <v-btn
-                color="success"
-                size="large"
-                class="px-5"
-                :disabled="selectedPetition.status !== 'student_action'"
-                :aria-label="$t('actions.accept')"
-                @click="handleAcceptance"
-
-              >
-                {{ $t('actions.accept') }}
-              </v-btn>
-        </div>
-      </template>
-    </PetitionTableWithActions>
+        <!-- Action buttons for students to accept/reject petitions -->
+        <template #bottom v-if="userRole === 0">
+          <div class="d-flex justify-space-between">
+            <v-btn
+              color="error"
+              size="large"
+              class="px-5"
+              :disabled="selectedPetition.status !== 'student_action'"
+              :aria-label="$t('actions.decline')"
+              @click="handleDeclination"
+            >
+              {{ $t('actions.decline') }}
+            </v-btn>
+            <v-btn
+              color="success"
+              size="large"
+              class="px-5"
+              :disabled="selectedPetition.status !== 'student_action'"
+              :aria-label="$t('actions.accept')"
+              @click="handleAcceptance"
+            >
+              {{ $t('actions.accept') }}
+            </v-btn>
+          </div>
+        </template>
+      </PetitionTableWithActions>
 
       <!-- Placeholder when no petition is selected -->
       <v-alert
@@ -127,7 +126,7 @@ const refresh = (payload) => {
   emit('refresh', payload);
 };
 
-const handleDeclination = async() => {
+const handleDeclination = async () => {
   // await ContentApiService.patch(
   //   `/student/petitions/${props.selectedPetition.id}/student-action`,
   //   {"approved": false }
@@ -137,15 +136,14 @@ const handleDeclination = async() => {
   //   message: t('snackbar.petitionRejected'),
   // });
 };
-const handleAcceptance = async() => {
-    // await ContentApiService.patch(
-    //   `/student/petitions/${props.selectedPetition.id}/student-action`,
-    //   {"approved": true }
-    // );
-    // emit('refresh');
-    // store.dispatch("snackbar/setSnack", {
-    //   message: t('snackbar.petitionAccepted'),
-    // });
+const handleAcceptance = async () => {
+  // await ContentApiService.patch(
+  //   `/student/petitions/${props.selectedPetition.id}/student-action`,
+  //   {"approved": true }
+  // );
+  // emit('refresh');
+  // store.dispatch("snackbar/setSnack", {
+  //   message: t('snackbar.petitionAccepted'),
+  // });
 };
-
 </script>

@@ -9,22 +9,37 @@ const ContentApiService = {
 
   post(resource, data, config = {}) {
     log('ContentApiService.post called', resource);
-    return axios.post(`${import.meta.env.VITE_CONTENT_API}${resource}`, data, config);
+    return axios.post(
+      `${import.meta.env.VITE_CONTENT_API}${resource}`,
+      data,
+      config
+    );
   },
 
   put(resource, data, config = {}) {
     log('ContentApiService.put called', resource);
-    return axios.put(`${import.meta.env.VITE_CONTENT_API}${resource}`, data, config);
+    return axios.put(
+      `${import.meta.env.VITE_CONTENT_API}${resource}`,
+      data,
+      config
+    );
   },
 
   patch(resource, data, config = {}) {
     log('ContentApiService.patch called', resource);
-    return axios.patch(`${import.meta.env.VITE_CONTENT_API}${resource}`, data, config);
+    return axios.patch(
+      `${import.meta.env.VITE_CONTENT_API}${resource}`,
+      data,
+      config
+    );
   },
 
   delete(resource, config = {}) {
     log('ContentApiService.delete called', resource);
-    return axios.delete(`${import.meta.env.VITE_CONTENT_API}${resource}`, config);
+    return axios.delete(
+      `${import.meta.env.VITE_CONTENT_API}${resource}`,
+      config
+    );
   },
 
   customRequest(config = {}) {
