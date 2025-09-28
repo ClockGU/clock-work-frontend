@@ -64,19 +64,15 @@
               >
                 {{ $t('actions.reject') }}
               </v-btn>
-              <PetitionRevisionDialog :petition="petition">
-                <template #activator="{ props }">
-                  <v-btn
-                    color="warning"
-                    size="large"
-                    class="px-8"
-                    :aria-label="$t('actions.requestChange')"
-                    v-bind="props"
-                  >
-                    {{ $t('actions.requestChange') }}
-                  </v-btn>
-                </template>
-              </PetitionRevisionDialog>
+              <v-btn
+                color="warning"
+                size="large"
+                class="px-8"
+                @click="showPetitionRevisionDialog = true"
+                :aria-label="$t('actions.requestChange')"
+              >
+                {{ $t('actions.requestChange') }}
+              </v-btn>
               <v-btn
                 color="success"
                 size="large"
@@ -105,6 +101,15 @@
         </main>
       </v-col>
     </v-row>
+
+    <!-- Petition Revision Dialog -->
+    <PetitionRevisionDialog
+      v-if="petition"
+      :petition="petition"
+      v-model="showPetitionRevisionDialog"
+      @close="handleDialogClose"
+      @refresh="fetchPetition"
+    />
   </v-container>
 </template>
 
@@ -128,6 +133,7 @@ const budgetPositionId = route.query.budget_position_id;
 const petition = ref(null);
 const isLoading = ref(true);
 const actionCompleted = ref(false);
+const showPetitionRevisionDialog = ref(false);
 
 const headerMessage = computed(() =>
   actionCompleted.value
@@ -224,6 +230,10 @@ const handleRejection = async () => {
   } finally {
     isLoading.value = false;
   }
+};
+
+const handleDialogClose = () => {
+  showPetitionRevisionDialog.value = false;
 };
 
 onMounted(() => {
