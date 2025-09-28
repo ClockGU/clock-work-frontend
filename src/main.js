@@ -15,7 +15,7 @@ import { createApp } from 'vue';
 import store from './store';
 
 import AuthApiService from '@/services/authApiService';
-import setupInterceptors  from '@/interceptors/axiosInterceptor';
+import setupInterceptors  from '@/services/axiosInterceptor';
 
 const app = createApp(App);
 export const debugLogger = true;
