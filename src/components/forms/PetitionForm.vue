@@ -271,7 +271,7 @@ const initialFormData = {
       id: '',
       budget_position: '',
       budget_approver: '',
-      budget_position_status: '',
+      budget_position_approved: false,
       percentage: 0,
     },
   ],
@@ -320,7 +320,7 @@ watch(
           id: '',
           budget_position: '',
           budget_approver: '',
-          budget_position_status: '',
+          budget_position_approved: false,
           percentage: 0,
         },
       ];
@@ -367,7 +367,7 @@ const endDateRule = (v) => {
     t('validationRule.endDateAfterStart')
   );
 };
-const eosRule = (v) => /^F\d{5}$/.test(v) || t('validationRule.eosNumber');
+const eosRule = (v) => /^F\d{6}$/.test(v) || t('validationRule.eosNumber');
 
 defineExpose({ formData, isAllValid });
 </script>

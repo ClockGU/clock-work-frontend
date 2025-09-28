@@ -92,7 +92,7 @@ const budgetPositions = defineModel({
       budget_position: '',
       budget_approver: '',
       percentage: 0,
-      budget_position_status: '',
+      budget_position_approved: false,
     },
   ],
 });
@@ -102,7 +102,7 @@ function addPosition() {
     budget_position: '',
     budget_approver: '',
     percentage: 0,
-    budget_position_status: '',
+    budget_position_approved: false,
   });
 }
 

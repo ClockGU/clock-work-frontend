@@ -190,8 +190,7 @@
     }
   },
   "PetitionRevisionDialog": {
-    "fromLabel": "From",
-    "toLabel": "To",
+    "sendToLabel": "Send to {role} :",    
     "subjectLabel": "Subject",
     "subjectPlaceholder": "Enter subject line",
     "messageLabel": "Detailed Message",

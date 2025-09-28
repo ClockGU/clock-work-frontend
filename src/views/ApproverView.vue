@@ -183,7 +183,6 @@ const handleApproval = async () => {
     await ContentApiService.patch(
       `/approver/petitions/${petitionId}/${signature}/${budgetPositionId}`,
       {
-        status: 'student_action',
         budget_position_approved: true,
       }
     );
@@ -209,6 +208,7 @@ const handleRejection = async () => {
       `/approver/petitions/${petitionId}/${signature}/${budgetPositionId}`,
       {
         budget_position_approved: false,
+        revision_requested: false
       }
     );
     store.dispatch('snackbar/setSnack', {

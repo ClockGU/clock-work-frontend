@@ -2,39 +2,19 @@
   <CustomDialog :title="$t('actions.requestChange')">
     <template #content>
       <v-card-text>
+        <p
+          class="text-body-1 text-justify text-medium-emphasis px-10 mb-2 mt-6"
+        >
+          {{ RevisionDialogInstruction }}
+        </p>
         <v-row class="mb-4">
           <v-col cols="12" sm="12">
-            <p
-              class="text-body-1 text-justify text-medium-emphasis px-10 mb-2 mt-6"
-            >
-              {{ RevisionDialogInstruction }}
-            </p>
-          </v-col>
-          <v-col cols="12" sm="6">
-            <label class="text-subtitle-1 font-weight-medium ml-10">
-              {{ $t('PetitionRevisionDialog.fromLabel') }}
-            </label>
-            <v-text-field
-              :model-value="senderEmail"
-              :readonly="true"
-              variant="outlined"
-              class="mt-1"
-              :prepend-icon="icons.mdiAccountOutline"
-              hide-details
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12" sm="6">
-            <label class="text-subtitle-1 font-weight-medium ml-10">
-              {{ $t('PetitionRevisionDialog.toLabel') }}
-            </label>
-            <v-text-field
-              :model-value="recipientMail"
-              :readonly="true"
-              variant="outlined"
-              class="mt-1"
-              :prepend-icon="icons.mdiAccountOutline"
-              hide-details
-            ></v-text-field>
+            <div class="ml-10 mt-6 d-flex align-center">
+              <span class="text-subtitle-1 font-weight-bold">
+                {{ $t('PetitionRevisionDialog.sendToLabel', { role: $t(recipientRole) }) }}
+              </span>
+              <span class="ml-3 text-body-1">{{ recipientMail }}</span>
+            </div>
           </v-col>
         </v-row>
 
@@ -79,11 +59,13 @@
         </v-form>
       </v-card-text>
     </template>
+
     <template #actions>
       <v-btn :disabled="!isValid" color="primary" @click="handleRevision">
         {{ $t('actions.send') }}
       </v-btn>
     </template>
+
     <template #activator="{ props: activatorProps }">
       <slot name="activator" :props="activatorProps"></slot>
     </template>
@@ -118,8 +100,9 @@ const route = useRoute();
 
 const icons = { mdiEmailOutline, mdiMessageTextOutline, mdiAccountOutline };
 const studentSubjects = [
-  t('PetitionRevisionDialog.studentSubjects.issue'),
-  t('PetitionRevisionDialog.studentSubjects.error'),
+  t('PetitionRevisionDialog.studentSubjects.changeDates'),
+  t('PetitionRevisionDialog.studentSubjects.changeHours'),
+  t('PetitionRevisionDialog.studentSubjects.exceptionHours'),
   t('PetitionRevisionDialog.studentSubjects.others'),
 ];
 
@@ -131,18 +114,21 @@ const clerkSubjects = [
 ];
 
 const requiredRule = (v) => !!v || t('validationRule.required');
-
 const isValid = ref(false);
 const reportSubject = ref('');
 const reportText = ref('');
 
 const userRole = computed(() => store.getters['auth/userRole']);
-const senderEmail = computed(() => store.getters['auth/user'].email);
 const recipientMail = computed(() => {
   return userRole.value === 2
     ? props.petition.student_mail
     : props.petition.supervisor_mail;
 });
+
+const recipientRole = computed(() => {
+  return userRole.value === 2 ? 'student' : 'supervisor';
+});
+
 const subjects = computed(() => {
   if (userRole.value === 0) {
     return studentSubjects;
@@ -151,6 +137,7 @@ const subjects = computed(() => {
   }
   return [];
 });
+
 const RevisionDialogInstruction = computed(() => {
   if (userRole.value === 3) {
     return t('PetitionRevisionDialog.instruction.approver');
@@ -162,40 +149,39 @@ const RevisionDialogInstruction = computed(() => {
   return '';
 });
 
+// handle Revisions and sending email .approver uses a seperate endpoint then other roles
 const handleRevision = async () => {
-  const apiMethod = userRole.value === 3 ? 'patch' : 'post';
-  const apiEndpoint =
-    userRole.value === 3
-      ? `/approver/petitions/${route.query.petition_id}/${route.query.signature}/${route.query.budget_position_id}`
-      : '/send-email';
+  const isApprover = userRole.value === 3;
+  const apiMethod = isApprover ? 'patch' : 'post';
 
-  const apiData =
-    userRole.value === 3
-      ? {
-          budget_position_status: 'approver_revision',
-          message: reportText.value,
-        }
-      : {
-          recipient: recipientMail.value,
-          subject: reportSubject.value,
-          body: reportText.value,
-        };
+  const apiEndpoint = isApprover
+    ? `/approver/petitions/${route.query.petition_id}/${route.query.signature}/${route.query.budget_position_id}`
+    : '/send-email';
+
+  const apiData = isApprover
+    ? {
+        message: reportText.value,
+        budget_position_approved: false,
+        revision_requested: true,
+      }
+    : {
+        recipient: recipientMail.value,
+        subject: reportSubject.value,
+        body: reportText.value,
+      };
 
   try {
     await ContentApiService[apiMethod](apiEndpoint, apiData);
-
     store.dispatch('snackbar/setSnack', {
       message: t('PetitionRevisionDialog.success'),
     });
     emit('refresh');
   } catch (error) {
     console.error('Error handling report issue:', error);
-
-    const errorMessage =
-      userRole.value === 3
-        ? t('errors.PetitionRevisionDialog.approverRevision')
-        : t('errors.PetitionRevisionDialog.sendingEmail');
-
+    const errorMessage = isApprover
+      ? t('errors.PetitionRevisionDialog.approverRevision')
+      : t('errors.PetitionRevisionDialog.sendingEmail');
+      
     store.dispatch('snackbar/setErrorSnacks', {
       message: errorMessage,
     });
