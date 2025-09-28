@@ -44,7 +44,34 @@
         :aria-label="$t('petitionTable.title')"
         @close="emit('deselect-petition')"
         @refresh="refresh"
-      />
+      >
+      <!-- Action buttons for students to accept/reject petitions -->
+      <template #bottom v-if="userRole === 0">
+        <div class="d-flex justify-space-between">
+          <v-btn
+                color="error"
+                size="large"
+                class="px-5"
+                :disabled="selectedPetition.status !== 'student_action'"
+                :aria-label="$t('actions.decline')"
+                @click="handleDeclination"
+              >
+                {{ $t('actions.decline') }}
+              </v-btn>
+          <v-btn
+                color="success"
+                size="large"
+                class="px-5"
+                :disabled="selectedPetition.status !== 'student_action'"
+                :aria-label="$t('actions.accept')"
+                @click="handleAcceptance"
+
+              >
+                {{ $t('actions.accept') }}
+              </v-btn>
+        </div>
+      </template>
+    </PetitionTableWithActions>
 
       <!-- Placeholder when no petition is selected -->
       <v-alert
@@ -67,6 +94,7 @@ import { useI18n } from 'vue-i18n';
 import PetitionFormDialog from '@/components/dialogs/PetitionFormDialog.vue';
 import StudentDataManagementDialog from '../dialogs/StudentDataManagementDialog.vue';
 import PetitionTableWithActions from '../tables/PetitionTableWithActions.vue';
+import ContentApiService from '@/services/contentApiService';
 
 const props = defineProps({
   selectedPetition: {
@@ -98,4 +126,26 @@ const openStudentDialog = () => (showStudentDialog.value = true);
 const refresh = (payload) => {
   emit('refresh', payload);
 };
+
+const handleDeclination = async() => {
+  // await ContentApiService.patch(
+  //   `/student/petitions/${props.selectedPetition.id}/student-action`,
+  //   {"approved": false }
+  // );
+  // emit('refresh');
+  // store.dispatch("snackbar/setSnack", {
+  //   message: t('snackbar.petitionRejected'),
+  // });
+};
+const handleAcceptance = async() => {
+    // await ContentApiService.patch(
+    //   `/student/petitions/${props.selectedPetition.id}/student-action`,
+    //   {"approved": true }
+    // );
+    // emit('refresh');
+    // store.dispatch("snackbar/setSnack", {
+    //   message: t('snackbar.petitionAccepted'),
+    // });
+};
+
 </script>

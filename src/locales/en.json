@@ -27,7 +27,9 @@
     "reject": "reject",
     "requestChange": "request change",
     "back": "back",
-    "next": "next"
+    "next": "next",
+    "accept": "accept",
+    "decline": "decline"
   },
   "roleSelectionView": {
     "welcome": "You are new here!",
