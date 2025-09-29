@@ -17,7 +17,9 @@
       >
         <v-carousel-item v-for="(item, index) in pdfItems" :key="index">
           <div class="d-flex flex-column align-center pa-4">
-            <p class="text-subtitle-1 font-weight-bold mb-4">{{ item.title }}</p>
+            <p class="text-subtitle-1 font-weight-bold mb-4">
+              {{ item.title }}
+            </p>
 
             <!-- Loading State -->
             <div v-if="loadingStates[item.type]" class="text-center">
@@ -204,7 +206,7 @@ watch(() => props.petition, fetchDocuments, { immediate: true, deep: true });
 
 .pdf-embed {
   width: 100%;
-  min-width: 600px; 
+  min-width: 600px;
 }
 
 :deep(.vue-pdf-embed__page) {

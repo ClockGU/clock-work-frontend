@@ -19,19 +19,15 @@
         </v-col>
       </v-row>
       <div class="d-flex justify-space-around mt-6">
-        <PetitionRevisionDialog :petition="petition">
-          <template #activator="{ props }">
-            <v-btn
-              v-bind="props"
-              color="warning"
-              size="large"
-              class="px-6"
-              :disabled="!petition"
-            >
-              {{ $t('actions.requestChange') }}
-            </v-btn>
-          </template>
-        </PetitionRevisionDialog>
+        <v-btn
+          color="warning"
+          size="large"
+          class="px-6"
+          :disabled="!petition"
+          @click="showRevisionDialog = true"
+        >
+          {{ $t('actions.requestChange') }}
+        </v-btn>
         <v-btn
           color="success"
           size="large"
@@ -43,10 +39,17 @@
         </v-btn>
       </div>
     </v-card-text>
+
+    <PetitionRevisionDialog
+      v-model="showRevisionDialog"
+      :petition="petition"
+      @close="showRevisionDialog = false"
+    />
   </v-card>
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import PetitionRevisionDialog from '../dialogs/PetitionRevisionDialog.vue';
 import FreeFormData from './FreeFormData.vue';
 import UploadedFiles from './UploadedFiles.vue';
@@ -60,9 +63,12 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'refresh', 'approve']);
 
+const showRevisionDialog = ref(false);
+
 const approve = () => {
   if (props.petition?.id) emit('approve', props.petition.id);
 };
+
 const handleRefresh = (payload) => {
   emit('refresh', payload);
 };
