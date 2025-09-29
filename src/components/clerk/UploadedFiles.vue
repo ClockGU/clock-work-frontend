@@ -13,37 +13,39 @@
         v-model="currentSlide"
         show-arrows="hover"
         hide-delimiters
+        height="auto"
       >
         <v-carousel-item v-for="(item, index) in pdfItems" :key="index">
-          <div class="d-flex flex-column align-center">
-            <p class="text-subtitle-1 font-weight-bold">{{ item.title }}</p>
+          <div class="d-flex flex-column align-center pa-4">
+            <p class="text-subtitle-1 font-weight-bold mb-4">{{ item.title }}</p>
 
             <!-- Loading State -->
-            <div v-if="loadingStates[item.type]">
+            <div v-if="loadingStates[item.type]" class="text-center">
               <v-progress-circular
                 indeterminate
                 color="primary"
+                size="64"
               ></v-progress-circular>
-              <span>{{ $t('app.loading') }}</span>
+              <p class="mt-2">{{ $t('app.loading') }}</p>
             </div>
 
             <!-- Error State -->
-            <div v-else-if="pdfErrors[item.type]">
-              {{ $t('uploadedFiles.pdfLoadError') }}
+            <div v-else-if="pdfErrors[item.type]" class="text-center">
+              <p>{{ $t('uploadedFiles.pdfLoadError') }}</p>
               <v-btn @click="retryLoad(item.type)" class="mt-2">
                 {{ $t('uploadedFiles.retry') }}
               </v-btn>
             </div>
 
-            <!-- PDF Display -->
-            <vue-pdf-embed
-              v-else
-              :source="item.blobUrl"
-              height="800"
-              width="600"
-              :page="1"
-              @error="(err) => handlePdfError(err, item.type)"
-            />
+            <!-- PDF Display  -->
+            <div v-else class="pdf-container">
+              <vue-pdf-embed
+                :source="item.blobUrl"
+                :page="1"
+                class="pdf-embed"
+                @error="(err) => handlePdfError(err, item.type)"
+              />
+            </div>
           </div>
         </v-carousel-item>
       </v-carousel>
@@ -110,7 +112,7 @@ const loadPdfDocument = async (type, url) => {
     loadingStates.value[type] = true;
     pdfErrors.value[type] = false;
 
-    const response = await ContentApiService.get('download-file/', {
+    const response = await ContentApiService.get('/download-file/', {
       params: { file_url: url },
       responseType: 'arraybuffer',
       validateStatus: (status) => status === 200,
@@ -153,7 +155,7 @@ const fetchDocuments = async () => {
   }
   try {
     // Fetch document URLs
-    const response = await ContentApiService.get('clerk/documents-by-email/', {
+    const response = await ContentApiService.get('/clerk/documents-by-email/', {
       params: { email: props.petition.student_mail },
     });
     documents.value = response.data;
@@ -189,3 +191,28 @@ onBeforeUnmount(() => {
 // Watchers
 watch(() => props.petition, fetchDocuments, { immediate: true, deep: true });
 </script>
+
+<style scoped>
+.pdf-container {
+  width: 100%;
+  max-width: 800px;
+  height: 75vh;
+  overflow: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+
+.pdf-embed {
+  width: 100%;
+  min-width: 600px; 
+}
+
+:deep(.vue-pdf-embed__page) {
+  margin: 0 auto;
+}
+
+:deep(.vue-pdf-embed__container) {
+  display: flex;
+  justify-content: center;
+}
+</style>
