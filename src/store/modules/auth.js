@@ -1,12 +1,6 @@
 import AuthApiService from '@/services/authApiService';
-import ContentApiService from '@/services/contentApiService';
-import i18n, { switchDateFnsLocale } from '@/plugins/i18n';
 
 const initialState = () => ({
-  locale:
-    localStorage.getItem('locale') === null
-      ? 'de'
-      : localStorage.getItem('locale'),
   accessToken: undefined,
   refreshToken: undefined,
   user: undefined,
@@ -16,7 +10,6 @@ const initialState = () => ({
 const state = initialState;
 
 const getters = {
-  locale: (state) => state.locale,
   accessToken: (state) => state.accessToken,
   refreshToken: (state) => state.refreshToken,
   user: (state) => state.user,
@@ -33,7 +26,6 @@ const mutations = {
   },
   setLoginError: (state, value) => (state.loginError = value),
   clearError: (state) => (state.loginError = ''),
-  setLocale: (state, value) => (state.locale = value),
   resetState: (state) => {
     Object.assign(state, initialState());
   },
@@ -63,11 +55,6 @@ const actions = {
     } catch (error) {
       return Promise.reject(error);
     }
-  },
-  changeLocale({ commit }, locale) {
-    i18n.global.locale.value = locale;
-    commit('setLocale', locale);
-    switchDateFnsLocale(locale);
   },
 };
 

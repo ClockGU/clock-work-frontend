@@ -19,6 +19,7 @@ import { onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import AuthApiService from '@/services/authApiService';
+import { setLocale } from '@/plugins/i18n';
 
 const route = useRoute();
 const router = useRouter();
@@ -56,10 +57,12 @@ onMounted(async () => {
         `Failed to store authentication tokens: ${error.message}`
       );
     }
-    // Step 3: Fetch user profile data
+    // Step 3: Fetch user profile data and set language
     try {
       const userResponse = await AuthApiService.getUser();
       await store.dispatch('auth/setUser', userResponse.data);
+      const locale = userResponse.data.language || 'de';
+      setLocale(locale);
       // Authentication flow complete - redirect based on user_role
       const userRole = userResponse.data.user_role;
       if (userRole === 2) {
