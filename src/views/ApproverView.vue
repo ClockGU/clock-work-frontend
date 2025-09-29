@@ -214,7 +214,7 @@ const handleRejection = async () => {
       `/approver/petitions/${petitionId}/${signature}/${budgetPositionId}`,
       {
         budget_position_approved: false,
-        revision_requested: false
+        revision_requested: false,
       }
     );
     store.dispatch('snackbar/setSnack', {

@@ -58,6 +58,10 @@
       "title": "Studenten-Dashboard",
       "action": "Dialog zur Studenten-Datenverwaltung öffnen"
     },
+    "success": {
+      "acceptance": "Antrag erfolgreich akzeptiert",
+      "declination": "Antrag erfolgreich abgelehnt"
+    },
     "noPetitionSelected": "Sie können einen Antrag aus der Übersichtstabelle auswählen, um die Details anzuzeigen.",
     "petitionFormDialog": "Dialog für das Antragsformular",
     "studentDataManagementDialog": "Dialog für die Studenten-Datenverwaltung"
@@ -242,7 +246,10 @@
       "deletion": "Fehler beim Löschen des Antrags",
       "fetching": "Fehler beim Abrufen der Anträge",
       "rejection": "Antrag konnte nicht abgelehnt werden",
-      "approval": "Antrag konnte nicht genehmigt werden"
+      "approval": "Antrag konnte nicht genehmigt werden",
+      "declining": "Antrag konnte nicht abgelehnt werden",
+      "accepting": "Antrag konnte nicht akzeptiert werden",
+      "uploadDocument": "Bitte laden Sie die erforderlichen Daten und Dokumente hoch"
     },
     "approverView": {
       "loadPetitionError": "Fehler beim Laden des Antrags zur Überprüfung",

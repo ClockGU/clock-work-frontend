@@ -58,6 +58,10 @@
       "title": "Student Dashboard",
       "action": "Open Student Data Management Dialog"
     },
+    "success": {
+      "acceptance": "Petition accepted successfully",
+      "declination": "Petition declined successfully"
+    },
     "noPetitionSelected": "You can select a petition from the overview table to view its details.",
     "petitionFormDialog": "Petition Form Dialog",
     "studentDataManagementDialog": "Student Data Management Dialog"
@@ -190,7 +194,7 @@
     }
   },
   "PetitionRevisionDialog": {
-    "sendToLabel": "Send to {role} :",    
+    "sendToLabel": "Send to {role} :",
     "subjectLabel": "Subject",
     "subjectPlaceholder": "Enter subject line",
     "messageLabel": "Detailed Message",
@@ -243,7 +247,10 @@
       "deletion": "Error deleting the petition",
       "fetching": "Error fetching petitions",
       "rejection": "petition could not be rejected",
-      "approval": "petition could not be approved"
+      "approval": "petition could not be approved",
+      "declining": "petition could not be declined",
+      "accepting": "petition could not be accepted",
+      "uploadDocument": "please upload the required data and documents"
     },
     "approverView": {
       "loadPetitionError": "Failed to load petition for review",

@@ -11,7 +11,11 @@
           <v-col cols="12" sm="12">
             <div class="ml-10 mt-6 d-flex align-center">
               <span class="text-subtitle-1 font-weight-bold">
-                {{ $t('PetitionRevisionDialog.sendToLabel', { role: $t(recipientRole) }) }}
+                {{
+                  $t('PetitionRevisionDialog.sendToLabel', {
+                    role: $t(recipientRole),
+                  })
+                }}
               </span>
               <span class="ml-3 text-body-1">{{ recipientMail }}</span>
             </div>
@@ -181,7 +185,7 @@ const handleRevision = async () => {
     const errorMessage = isApprover
       ? t('errors.PetitionRevisionDialog.approverRevision')
       : t('errors.PetitionRevisionDialog.sendingEmail');
-      
+
     store.dispatch('snackbar/setErrorSnacks', {
       message: errorMessage,
     });

@@ -127,23 +127,59 @@ const refresh = (payload) => {
 };
 
 const handleDeclination = async () => {
-  await ContentApiService.patch(
-    `/students/petitions/${props.selectedPetition.id}/student-action`,
-    {approved: false}
-  );
-  emit('refresh');
-  store.dispatch("snackbar/setSnack", {
-    message: t('snackbar.petitionRejected'),
-  });
+  try {
+    await ContentApiService.patch(
+      `/students/petitions/${props.selectedPetition.id}/student-action`,
+      { approved: false }
+    );
+    emit('refresh', {
+      type: 'delete',
+      data: props.selectedPetition.id,
+    });
+    store.dispatch('snackbar/setSnack', {
+      message: t('editCard.success.declination'),
+    });
+  } catch (error) {
+    if (error.response?.status !== 404) {
+      console.error('Error accepting petition:', error);
+      if (error.response?.status === 400) {
+        store.dispatch('snackbar/setErrorSnacks', {
+          message: t('errors.petition.uploadDocument'),
+        });
+      } else {
+        store.dispatch('snackbar/setErrorSnacks', {
+          message: t('errors.petition.declining'),
+        });
+      }
+    }
+  }
 };
 const handleAcceptance = async () => {
-  await ContentApiService.patch(
-    `/students/petitions/${props.selectedPetition.id}/student-action`,
-    {approved: true}
-  );
-  emit('refresh');
-  store.dispatch("snackbar/setSnack", {
-    message: t('snackbar.petitionAccepted'),
-  });
+  try {
+    await ContentApiService.patch(
+      `/students/petitions/${props.selectedPetition.id}/student-action`,
+      { approved: true }
+    );
+    emit('refresh', {
+      type: 'delete',
+      data: props.selectedPetition.id,
+    });
+    store.dispatch('snackbar/setSnack', {
+      message: t('editCard.success.acceptance'),
+    });
+  } catch (error) {
+    if (error.response?.status !== 404) {
+      console.error('Error accepting petition:', error);
+      if (error.response?.status === 400) {
+        store.dispatch('snackbar/setErrorSnacks', {
+          message: t('errors.petition.uploadDocument'),
+        });
+      } else {
+        store.dispatch('snackbar/setErrorSnacks', {
+          message: t('errors.petition.accepting'),
+        });
+      }
+    }
+  }
 };
 </script>
