@@ -64,21 +64,30 @@ const props = defineProps({
 const emit = defineEmits(['row-click']);
 
 const formattedItems = computed(() => {
-  return props.items.map(item => {
+  return props.items.map((item) => {
     const formattedItem = { ...item };
     // Format dates in items to dd.mm.yyyy
-    const dateFields = ['start_date', 'end_date', 'time_exce_start', 'time_exce_end', 'duration_exce_start', 'duration_exce_end'];
-    
-    dateFields.forEach(field => {
+    const dateFields = [
+      'start_date',
+      'end_date',
+      'time_exce_start',
+      'time_exce_end',
+      'duration_exce_start',
+      'duration_exce_end',
+    ];
+
+    dateFields.forEach((field) => {
       if (formattedItem[field] && typeof formattedItem[field] === 'string') {
-          formattedItem[field] = format(parseISO(formattedItem[field]), 'dd.MM.yyyy');
+        formattedItem[field] = format(
+          parseISO(formattedItem[field]),
+          'dd.MM.yyyy'
+        );
       }
     });
-    
+
     return formattedItem;
   });
 });
-
 
 // This function generates a comprehensive label for the screen reader
 const getAriaLabel = (item) => {

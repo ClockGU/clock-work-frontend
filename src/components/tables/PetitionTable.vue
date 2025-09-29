@@ -70,13 +70,12 @@ const formatValue = (value, key) => {
   if (value === null || value === undefined || value === '') {
     return '-';
   }
-  
+
   // Check if this is a date field and format it as dd.mm.yyyy
-  if (typeof value === 'string' && (
-    key.includes('Date') || 
-    key.includes('Start') || 
-    key.includes('End') 
-  )) {
+  if (
+    typeof value === 'string' &&
+    (key.includes('Date') || key.includes('Start') || key.includes('End'))
+  ) {
     try {
       return format(parseISO(value), 'dd.MM.yyyy');
     } catch {
