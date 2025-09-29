@@ -45,10 +45,12 @@ const fetchPetitions = async () => {
     const response = await ContentApiService.get('/clerk/petitions/pending');
     petitions.value = response.data;
   } catch (error) {
-    console.error('Error fetching petitions:', error);
-    store.dispatch('snackbar/setErrorSnacks', {
-      message: t('errors.petition.fetching'),
-    });
+    if (error.response?.status !== 404) {
+      console.error('Error fetching petitions:', error);
+      store.dispatch('snackbar/setErrorSnacks', {
+        message: t('errors.petition.fetching'),
+      });
+    }
   }
 };
 
@@ -58,13 +60,14 @@ const selectPetition = (petition) => {
 const handleApproval = async (petitionId) => {
   try {
     await ContentApiService.patch(`/clerk/petitions/${petitionId}`, {
+      approved: true,
       status: 'approved',
     });
     selectedPetition.value = null;
     store.dispatch('snackbar/setSnack', {
       message: 'Petition approved successfully',
     });
-    fetchPetitions();
+    handleRefresh();
   } catch (error) {
     console.error('Error accepting petition:', error);
     store.dispatch('snackbar/setErrorSnacks', {
