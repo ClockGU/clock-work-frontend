@@ -95,7 +95,7 @@
     },
     "content": {
       "personal": "Here you can view and edit your personal information.",
-      "files": "Here you can view the files you've uploaded."
+      "files": "Here you can upload the required files.each document should be a single PDF page."
     },
     "saveSuccess": "Data saved successfully"
   },
@@ -117,9 +117,19 @@
     "duration": "Duration"
   },
   "filesUploadForm": {
-    "elstam": "Elstam",
-    "studienbescheinigung": "Studienbescheinigung",
-    "versicherungsbescheinigung": "Versicherungsbescheinigung"
+    "elstam": "Eligibility Document",
+    "studienbescheinigung": "University Certificate",
+    "versicherungsbescheinigung": "Insurance Certificate",
+    "hint": {
+      "selected": "Selected: {filename}",
+      "existing": "Existing: {filename}",
+      "noFile": "No file selected"
+    },
+    "status": {
+      "newDocument": "{document}: A new document has been uploaded",
+      "existingDocument": "{document}: Document has already been uploaded",
+      "noDocument": "{document}: No document was uploaded"
+    }
   },
   "petition": {
     "id": "Petition ID",

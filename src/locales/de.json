@@ -95,7 +95,7 @@
     },
     "content": {
       "personal": "Hier können Sie Ihre persönlichen Informationen einsehen und bearbeiten.",
-      "files": "Hier können Sie die von Ihnen hochgeladenen Dateien einsehen."
+      "files": "Hier können Sie die erforderlichen Dokumente hochladen. Jedes Dokument sollte eine einzelne PDF-Seite sein."
     },
     "saveSuccess": "Daten erfolgreich gespeichert"
   },
@@ -119,7 +119,17 @@
   "filesUploadForm": {
     "elstam": "Elstam",
     "studienbescheinigung": "Studienbescheinigung",
-    "versicherungsbescheinigung": "Versicherungsbescheinigung"
+    "versicherungsbescheinigung": "Versicherungsbescheinigung",
+    "hint": {
+      "selected": "Ausgewählt: {filename}",
+      "existing": "Vorhanden: {filename}",
+      "noFile": "Keine Datei ausgewählt"
+    },
+    "status": {
+      "newDocument": "{document}: Ein neues Dokument wurde hochgeladen",
+      "existingDocument": "{document}: Dokument wurde bereits hochgeladen",
+      "noDocument": "{document}: Kein Dokument wurde hochgeladen"
+    }
   },
   "petition": {
     "id": "Antrags-ID",
