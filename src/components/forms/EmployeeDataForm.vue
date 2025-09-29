@@ -57,13 +57,10 @@
         <label for="dateOfBirth">{{
           $t('employeeDataForm.dateOfBirth')
         }}</label>
-        <v-text-field
+        <v-date-input
           id="dateOfBirth"
           v-model="formData.date_of_birth"
-          type="date"
-          outlined
-          dense
-          :prepend-icon="icons.mdiCalendar"
+          :display-format="formatDate"
           :aria-label="$t('employeeDataForm.dateOfBirth')"
           :rules="[requiredRule]"
         />
@@ -214,6 +211,8 @@ import {
   mdiAccountBox,
 } from '@mdi/js';
 import ContentApiService from '@/services/contentApiService';
+import { VDateInput } from 'vuetify/labs/VDateInput';
+import { format } from 'date-fns';
 
 const icons = {
   mdiAccount,
@@ -262,6 +261,10 @@ const phoneRule = (v) =>
 const ibanRule = (v) =>
   /^[A-Z]{2}\d{2}[A-Z0-9]{11,30}$/.test(v) || t('validationRule.invalidIban');
 
+const formatDate = (date) => {
+  if (!date) return null;
+  return format(new Date(date), 'dd.MM.yyyy');
+};
 const fetchEmployeeData = async () => {
   try {
     const response = await ContentApiService.get('/employees');

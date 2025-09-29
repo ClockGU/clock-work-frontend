@@ -36,7 +36,7 @@
             {{ row.key }}
           </td>
           <td class="value-cell" role="cell">
-            {{ formatValue(row.value) }}
+            {{ formatValue(row.value, row.key) }}
           </td>
         </tr>
       </tbody>
@@ -53,6 +53,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
+import { format, parseISO } from 'date-fns';
 
 const props = defineProps({
   petition: {
@@ -63,13 +64,24 @@ const props = defineProps({
 
 const { t } = useI18n();
 const store = useStore();
+
 //Formats a given value for display in the table.
-const formatValue = (value) => {
+const formatValue = (value, key) => {
   if (value === null || value === undefined || value === '') {
     return '-';
   }
-  if (typeof value === 'string' && value.match(/^\d{4}-\d{2}-\d{2}$/)) {
-    return new Date(value).toLocaleDateString();
+  
+  // Check if this is a date field and format it as dd.mm.yyyy
+  if (typeof value === 'string' && (
+    key.includes('Date') || 
+    key.includes('Start') || 
+    key.includes('End') 
+  )) {
+    try {
+      return format(parseISO(value), 'dd.MM.yyyy');
+    } catch {
+      return value;
+    }
   }
   if (typeof value === 'boolean') {
     return value ? t('yes') : t('no');

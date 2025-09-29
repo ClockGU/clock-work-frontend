@@ -2,7 +2,7 @@
   <v-data-table
     role="table"
     :headers="headers"
-    :items="items"
+    :items="formattedItems"
     item-selectable
     hover
     :no-data-text="$t('petitionsOverviewTable.noPetitions')"
@@ -42,6 +42,8 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
+import { format, parseISO } from 'date-fns';
 import StatusIndicator from '@/components/ui/StatusIndicator.vue';
 
 const props = defineProps({
@@ -61,6 +63,23 @@ const props = defineProps({
 
 const emit = defineEmits(['row-click']);
 
+const formattedItems = computed(() => {
+  return props.items.map(item => {
+    const formattedItem = { ...item };
+    // Format dates in items to dd.mm.yyyy
+    const dateFields = ['start_date', 'end_date', 'time_exce_start', 'time_exce_end', 'duration_exce_start', 'duration_exce_end'];
+    
+    dateFields.forEach(field => {
+      if (formattedItem[field] && typeof formattedItem[field] === 'string') {
+          formattedItem[field] = format(parseISO(formattedItem[field]), 'dd.MM.yyyy');
+      }
+    });
+    
+    return formattedItem;
+  });
+});
+
+
 // This function generates a comprehensive label for the screen reader
 const getAriaLabel = (item) => {
   let label = '';
@@ -72,6 +91,7 @@ const getAriaLabel = (item) => {
   });
   return label.trim();
 };
+
 const handleRowClick = (item) => {
   const isSelected = props.selectedItem && props.selectedItem.id === item.id;
   emit('row-click', isSelected ? null : item);

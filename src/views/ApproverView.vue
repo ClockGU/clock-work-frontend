@@ -153,7 +153,7 @@ const isBudgetPositionPending = (budgetPosition) => {
 const markPetitionRevisionAsComplete = () => {
   actionCompleted.value = true;
   petition.value = null;
-}
+};
 const fetchPetition = async () => {
   try {
     isLoading.value = true;
