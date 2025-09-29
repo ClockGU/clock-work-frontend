@@ -33,7 +33,7 @@ const AuthApiService = {
    * Login using the provided CAS token.
    */
   login(casToken) {
-    return axios.get(`${import.meta.env.VITE_AUTH_API}/auth/cas/callback`, {
+    return axios.get(`${import.meta.env.VITE_AUTH_API}/auth/cas/callback-clockwork`, {
       params: { code: casToken },
     });
   },
