@@ -24,7 +24,12 @@
     "report": "Problem melden",
     "send": "senden",
     "approve": "genehmigen",
-    "reject": "ablehnen"
+    "reject": "ablehnen",
+    "requestChange": "Änderung beantragen",
+    "back": "zurück",
+    "next": "weiter",
+    "accept": "akzeptieren",
+    "decline": "ablehnen"
   },
   "roleSelectionView": {
     "welcome": "Sie sind neu hier!",
@@ -34,6 +39,16 @@
     "studentTitle": "Student",
     "studentDescription": "Als Student können Sie Einstellungsanträge verwalten und für die Universität arbeiten."
   },
+  "instructionCard": {
+    "title": {
+      "student": "Anleitung zum Studenten-Dashboard",
+      "supervisor": "Anleitung zum Vorgesetzten-Dashboard"
+    },
+    "text": {
+      "student": "Here you can manage your petitions and work for the university.Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut sit voluptatum iusto vel, quia voluptates qui cumque dolore labore alias minima quod aliquid esse et modi, voluptas unde, voluptatibus nisi. Earum corporis quis rem suscipit. Voluptatem ipsa modi veritatis adipisci vel animi",
+      "supervisor": "Here you can hire and supervise student assistants.Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut sit voluptatum iusto vel, quia voluptates qui cumque dolore labore alias minima quod aliquid esse et modi, voluptas unde, voluptatibus nisi. Earum corporis quis rem suscipit. Voluptatem ipsa modi veritatis adipisci vel animi"
+    }
+  },
   "editCard": {
     "supervisor": {
       "title": "Vorgesetzten-Dashboard",
@@ -42,6 +57,10 @@
     "student": {
       "title": "Studenten-Dashboard",
       "action": "Dialog zur Studenten-Datenverwaltung öffnen"
+    },
+    "success": {
+      "acceptance": "Antrag erfolgreich akzeptiert",
+      "declination": "Antrag erfolgreich abgelehnt"
     },
     "noPetitionSelected": "Sie können einen Antrag aus der Übersichtstabelle auswählen, um die Details anzuzeigen.",
     "petitionFormDialog": "Dialog für das Antragsformular",
@@ -76,8 +95,9 @@
     },
     "content": {
       "personal": "Hier können Sie Ihre persönlichen Informationen einsehen und bearbeiten.",
-      "files": "Hier können Sie die von Ihnen hochgeladenen Dateien einsehen."
-    }
+      "files": "Hier können Sie die erforderlichen Dokumente hochladen. Jedes Dokument sollte eine einzelne PDF-Seite sein."
+    },
+    "saveSuccess": "Daten erfolgreich gespeichert"
   },
   "employeeDataForm": {
     "firstName": "Vorname",
@@ -99,7 +119,17 @@
   "filesUploadForm": {
     "elstam": "Elstam",
     "studienbescheinigung": "Studienbescheinigung",
-    "versicherungsbescheinigung": "Versicherungsbescheinigung"
+    "versicherungsbescheinigung": "Versicherungsbescheinigung",
+    "hint": {
+      "selected": "Ausgewählt: {filename}",
+      "existing": "Vorhanden: {filename}",
+      "noFile": "Keine Datei ausgewählt"
+    },
+    "status": {
+      "newDocument": "{document}: Ein neues Dokument wurde hochgeladen",
+      "existingDocument": "{document}: Dokument wurde bereits hochgeladen",
+      "noDocument": "{document}: Kein Dokument wurde hochgeladen"
+    }
   },
   "petition": {
     "id": "Antrags-ID",
@@ -115,7 +145,7 @@
     "budgetPositions": "Budgetpositionen",
     "budgetPosition": "Budgetposition",
     "budgetApprover": "E-Mail des Budgetgenehmigers",
-    "budgetPositionStatus": "Status der Budgetposition",
+    "budgetPositionApproved": " Budgetposition genehmigt",
     "percentage": "Prozentsatz",
     "timeExceCourse": "Zeitliche Ausnahme",
     "timeExceName": "Name der zeitlichen Ausnahme",
@@ -154,7 +184,7 @@
     "percentageTotal": "Die Gesamtsumme aller Prozents  muss 100% betragen. Aktuelle Gesamtsumme: {totalPercentage}%",
     "positiveNumber": "Muss eine positive Zahl sein",
     "endDateAfterStart": "Enddatum muss nach dem Startdatum liegen",
-    "eosNumber": "Muss eine 5-stellige Nummer sein",
+    "eosNumber": "Muss im Format 'FXXXXXX' sein, wobei 'X' eine beliebige Ziffer von 0 bis 9 ist",
     "postalCode": "Postleitzahl muss 5-stellig sein"
   },
   "footer": {
@@ -173,7 +203,18 @@
       "url": "https://github.com/ClockGU"
     }
   },
-  "reportIssue": {
+  "PetitionRevisionDialog": {
+    "sendToLabel": "Senden an {role} :",
+    "subjectLabel": "Betreff",
+    "subjectPlaceholder": "Betreff eingeben",
+    "messageLabel": "Detaillierte Nachricht",
+    "messagePlaceholder": "Beschreiben Sie das Problem im Detail",
+    "success": "E-Mail erfolgreich gesendet",
+    "instruction": {
+      "approver": "Sie können eine Änderung der Budgetposition eines Antrags an einen Vorgesetzten beantragen. Sie können Ihre Änderungen in der Nachrichtenbox unten eintragen. Der Vorgesetzte wird per E-Mail benachrichtigt, sobald Ihre Änderungen vorliegen.",
+      "clerk": "Sie können eine Änderung eines Antrags an einen Studenten beantragen. Sie können ein Thema in der Dropdown-Menü auswählen und dann Ihre Änderungen in der Nachrichtenbox unten eintragen. Der Student wird per E-Mail benachrichtigt, sobald Ihre Änderungen vorliegen.",
+      "student": "Sie können eine Änderung eines Antrags an einen Vorgesetzten beantragen. Sie können ein Thema in der Dropdown-Menü auswählen und dann Ihre Änderungen in der Nachrichtenbox unten eintragen. Der Vorgesetzte wird per E-Mail benachrichtigt, sobald Ihre Änderungen vorliegen."
+    },
     "studentSubjects": {
       "changeDates": "Änderung des Start-/Enddatums beantragen",
       "changeHours": "Änderung der Arbeitsstunden beantragen",
@@ -185,16 +226,13 @@
       "incorrectDocuments": "Falsche Dokumente ändern",
       "incorrectData": "Persönliche Daten korrigieren",
       "others": "Sonstiges"
-    },
-    "approverMessage": "Sie können ein Problem mit der Budgetposition dieses Antrags melden",
-    "title": "Problem melden",
-    "subjectLabel": "Betreff",
-    "subjectPlaceholder": "Betreff eingeben",
-    "messageLabel": "Detaillierte Nachricht",
-    "messagePlaceholder": "Beschreiben Sie das Problem im Detail",
-    "success": "E-Mail erfolgreich gesendet"
+    }
   },
   "errors": {
+    "roleSelection": {
+      "sessionExpired": "Sitzung abgelaufen. Bitte melden Sie sich erneut an.",
+      "updateFailed": "Fehler beim Aktualisieren der Benutzerrolle. Bitte versuchen Sie es erneut."
+    },
     "uploadedFilesClerk": {
       "loadingDocs": "Fehler beim Laden der Dokumente",
       "fetchingDocs": "Fehler beim Abrufen der Dokumente",
@@ -204,7 +242,7 @@
       "submission": "Fehler beim Einreichen des Antrags. Bitte versuchen Sie es erneut.",
       "saving": "Fehler beim Speichern des Antrags. Bitte versuchen Sie es erneut."
     },
-    "petitionIssueDialog": {
+    "PetitionRevisionDialog": {
       "sendingEmail": "Fehler beim Senden der E-Mail",
       "approverRevision": "Fehler bei der Genehmiger-Überprüfung"
     },
@@ -218,7 +256,10 @@
       "deletion": "Fehler beim Löschen des Antrags",
       "fetching": "Fehler beim Abrufen der Anträge",
       "rejection": "Antrag konnte nicht abgelehnt werden",
-      "approval": "Antrag konnte nicht genehmigt werden"
+      "approval": "Antrag konnte nicht genehmigt werden",
+      "declining": "Antrag konnte nicht abgelehnt werden",
+      "accepting": "Antrag konnte nicht akzeptiert werden",
+      "uploadDocument": "Bitte laden Sie die erforderlichen Daten und Dokumente hoch"
     },
     "approverView": {
       "loadPetitionError": "Fehler beim Laden des Antrags zur Überprüfung",
@@ -258,11 +299,6 @@
       "petitionForm": "Antragsformular",
       "submit": "Antragsformular einreichen",
       "save": "Antragsformular speichern"
-    },
-    "studentDataManagementDialog": {
-      "tabs": "Tabs für die Studentendatenverwaltung",
-      "personal": "Tab für persönliche Informationen",
-      "files": "Tab für hochgeladene Dateien"
     }
   }
 }

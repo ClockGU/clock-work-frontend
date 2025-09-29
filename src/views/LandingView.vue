@@ -7,33 +7,43 @@
       </v-col>
     </v-row>
 
-    <v-row align="center" justify="center" role="main" class="flex-column ma-0" style="width: 100%">
+    <v-row
+      align="center"
+      justify="center"
+      role="main"
+      class="flex-column ma-0"
+      style="width: 100%"
+    >
       <!-- Clock Icon Column (for mdAndUp) -->
-      <v-col v-if="mdAndUp" class="d-flex" cols="6" style="justify-content: end">
+      <v-col
+        v-if="mdAndUp"
+        class="d-flex"
+        cols="6"
+        style="justify-content: end"
+      >
         <ClockIcon size="600" aria-hidden="true" />
       </v-col>
 
       <!-- Cards Container -->
-      <div class="d-flex flex-column align-center" style="gap: 24px; max-width: 600px; width: 100%">
+      <div
+        class="d-flex flex-column align-center"
+        style="gap: 24px; max-width: 600px; width: 100%"
+      >
         <!-- Welcome Card -->
         <v-card width="100%" role="region" aria-label="Welcome Card">
           <v-card-text style="text-align: center">
-            <h2>{{ $t("welcome") }}</h2>
+            <h2>{{ $t('welcome') }}</h2>
           </v-card-text>
           <v-card-actions style="justify-content: center">
             <ButtonGoetheOAuth color="secondary">
-              {{ $t("login") }}
+              {{ $t('login') }}
             </ButtonGoetheOAuth>
           </v-card-actions>
         </v-card>
 
         <v-slide-y-transition>
-          <v-card
-            v-if="hasError"
-            width="100%"
-            color="error"
-          >
-            <v-card-text class="text-white text-center font-weight-bold ">
+          <v-card v-if="hasError" width="100%" color="error">
+            <v-card-text class="text-white text-center font-weight-bold">
               {{ error }}
             </v-card-text>
           </v-card>
@@ -44,19 +54,17 @@
 </template>
 
 <script setup>
-import ClockIcon from "@/components/landing/ClockIcon.vue";
-import ButtonGoetheOAuth from "@/components/landing/ButtonGoetheOAuth.vue";
-import { computed,onMounted } from "vue";
-import { useDisplay } from "vuetify";
-import {useStore} from "vuex"
+import ClockIcon from '@/components/landing/ClockIcon.vue';
+import ButtonGoetheOAuth from '@/components/landing/ButtonGoetheOAuth.vue';
+import { computed, onMounted } from 'vue';
+import { useDisplay } from 'vuetify';
+import { useStore } from 'vuex';
 
-const store= useStore()
-const error = computed(()=>store.getters["auth/loginError"]);
+const store = useStore();
+const error = computed(() => store.getters['auth/loginError']);
 const { mdAndUp } = useDisplay();
-const hasError = computed(() => error.value!=="");
+const hasError = computed(() => error.value !== '');
 onMounted(() => {
- store.dispatch("auth/clearError");
- })
+  store.dispatch('auth/clearError');
+});
 </script>
-
-

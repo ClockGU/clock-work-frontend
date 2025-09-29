@@ -1,21 +1,21 @@
 <template>
-    <div v-if="hasPermission">
-        <v-btn
-            :color="color"
-            :icon="icon"
-            :variant="variant"
-            :density="density"
-            :rounded="rounded"
-            :aria-label="tooltip"
-            @click="action"
-        />
-        <v-tooltip 
-            v-if="tooltip" 
-            activator="parent" 
-            :location="tooltipLocation" 
-            :text="tooltip"
-        />
-    </div>
+  <div v-if="hasPermission">
+    <v-btn
+      :color="color"
+      :icon="icon"
+      :variant="variant"
+      :density="density"
+      :rounded="rounded"
+      :aria-label="tooltip"
+      @click="action"
+    />
+    <v-tooltip
+      v-if="tooltip"
+      activator="parent"
+      :location="tooltipLocation"
+      :text="tooltip"
+    />
+  </div>
 </template>
 <script setup>
 import { computed } from 'vue';
@@ -24,40 +24,40 @@ import { useStore } from 'vuex';
 const props = defineProps({
   roles: {
     type: Array,
-    required: true
+    required: true,
   },
   color: {
     type: String,
-    default: 'primary'
+    default: 'primary',
   },
   icon: {
     type: String,
-    required: true
+    required: true,
   },
   density: {
     type: String,
-    default: 'default'
+    default: 'default',
   },
   variant: {
     type: String,
-    default: 'elevated'
+    default: 'elevated',
   },
   rounded: {
     type: String,
-    default: 'sm'
+    default: 'sm',
   },
   tooltip: {
     type: String,
-    default: ''
+    default: '',
   },
   tooltipLocation: {
     type: String,
-    default: 'top'
+    default: 'top',
   },
   action: {
     type: Function,
-    default: () => {}
-  }
+    default: () => {},
+  },
 });
 
 const store = useStore();

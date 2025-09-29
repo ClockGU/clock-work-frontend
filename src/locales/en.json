@@ -23,8 +23,13 @@
     "confirm": "confirm",
     "report": "report an issue",
     "send": "send",
-    "approve":"approve",
-    "reject":"reject"
+    "approve": "approve",
+    "reject": "reject",
+    "requestChange": "request change",
+    "back": "back",
+    "next": "next",
+    "accept": "accept",
+    "decline": "decline"
   },
   "roleSelectionView": {
     "welcome": "You are new here!",
@@ -34,6 +39,16 @@
     "studentTitle": "Student",
     "studentDescription": "As a student you can manage hire petitions and work for the university"
   },
+  "instructionCard": {
+    "title": {
+      "student": "Student Dashboard Instructions",
+      "supervisor": "Supervisor Dashboard Instructions"
+    },
+    "text": {
+      "student": "Here you can manage your petitions and work for the university.Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut sit voluptatum iusto vel, quia voluptates qui cumque dolore labore alias minima quod aliquid esse et modi, voluptas unde, voluptatibus nisi. Earum corporis quis rem suscipit. Voluptatem ipsa modi veritatis adipisci vel animi",
+      "supervisor": "Here you can hire and supervise student assistants.Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut sit voluptatum iusto vel, quia voluptates qui cumque dolore labore alias minima quod aliquid esse et modi, voluptas unde, voluptatibus nisi. Earum corporis quis rem suscipit. Voluptatem ipsa modi veritatis adipisci vel animi"
+    }
+  },
   "editCard": {
     "supervisor": {
       "title": "Supervisor Dashboard",
@@ -42,6 +57,10 @@
     "student": {
       "title": "Student Dashboard",
       "action": "Open Student Data Management Dialog"
+    },
+    "success": {
+      "acceptance": "Petition accepted successfully",
+      "declination": "Petition declined successfully"
     },
     "noPetitionSelected": "You can select a petition from the overview table to view its details.",
     "petitionFormDialog": "Petition Form Dialog",
@@ -54,16 +73,16 @@
       "value": "Value"
     }
   },
-  "petitionsOverviewTable":{
-      "title": "Overview Table",
-      "noPetitions":"currently there are no petitions available",
-      "exceptions": {
-        "true": "There is an exception",
-        "false": "No exception"
-      }
-    },
+  "petitionsOverviewTable": {
+    "title": "Overview Table",
+    "noPetitions": "currently there are no petitions available",
+    "exceptions": {
+      "true": "There is an exception",
+      "false": "No exception"
+    }
+  },
   "confirmationDialog": {
-      "PetitionDeletion": "Are you sure you want to delete this petition? This action cannot be undone."
+    "PetitionDeletion": "Are you sure you want to delete this petition? This action cannot be undone."
   },
   "petitionFormDialog": {
     "title": "Create New Petition"
@@ -76,9 +95,10 @@
     },
     "content": {
       "personal": "Here you can view and edit your personal information.",
-      "files": "Here you can view the files you've uploaded."
-    }
-  }, 
+      "files": "Here you can upload the required files.each document should be a single PDF page."
+    },
+    "saveSuccess": "Data saved successfully"
+  },
   "employeeDataForm": {
     "firstName": "First Name",
     "lastName": "Last Name",
@@ -97,9 +117,19 @@
     "duration": "Duration"
   },
   "filesUploadForm": {
-    "elstam": "Elstam",
-    "studienbescheinigung": "Studienbescheinigung",
-    "versicherungsbescheinigung": "Versicherungsbescheinigung"
+    "elstam": "Eligibility Document",
+    "studienbescheinigung": "University Certificate",
+    "versicherungsbescheinigung": "Insurance Certificate",
+    "hint": {
+      "selected": "Selected: {filename}",
+      "existing": "Existing: {filename}",
+      "noFile": "No file selected"
+    },
+    "status": {
+      "newDocument": "{document}: A new document has been uploaded",
+      "existingDocument": "{document}: Document has already been uploaded",
+      "noDocument": "{document}: No document was uploaded"
+    }
   },
   "petition": {
     "id": "Petition ID",
@@ -115,7 +145,7 @@
     "budgetPositions": "Budget Positions",
     "budgetPosition": "Budget Position",
     "budgetApprover": "Budget Approver Email",
-    "budgetPositionStatus": "Budget Position Status",
+    "budgetPositionApproved": " Budgetposition Approved",
     "percentage": "Percentage",
     "timeExceCourse": "Time Exception",
     "timeExceName": "Time Exception Name",
@@ -128,7 +158,7 @@
     "durationException": "Duration Exception",
     "exceptions": "Exceptions"
   },
-  "petitionDataDisplay":{
+  "petitionDataDisplay": {
     "title": "Petition Data Display"
   },
   "uploadedFiles": {
@@ -142,8 +172,8 @@
     "defaultFilename": "document",
     "retry": "Retry"
   },
-  "freeFormData":{
-    "title":"Free Form Data"
+  "freeFormData": {
+    "title": "Free Form Data"
   },
   "validationRule": {
     "required": "This field is required",
@@ -154,8 +184,8 @@
     "percentageTotal": "Total percentage must equal 100%. Current total: {totalPercentage}%",
     "positiveNumber": "Must be a positive number",
     "endDateAfterStart": "End date must be after start date",
-    "eosNumber": "Must be a 5 digit number ",
-    "postalCode":"Postal code must be 5 digits"
+    "eosNumber": "Must be in the format 'FXXXXXX' where 'X' is any digit from 0 to 9",
+    "postalCode": "Postal code must be 5 digits"
   },
   "footer": {
     "links": {
@@ -173,7 +203,18 @@
       "url": "https://github.com/ClockGU"
     }
   },
-  "reportIssue": {
+  "PetitionRevisionDialog": {
+    "sendToLabel": "Send to {role} :",
+    "subjectLabel": "Subject",
+    "subjectPlaceholder": "Enter subject line",
+    "messageLabel": "Detailed Message",
+    "messagePlaceholder": "Describe the issue in detail",
+    "success": "Email sent successfully",
+    "instruction": {
+      "approver": "You can request a change to the budget position of a petition to a supervisor. you can write your changes in the message box below.The supervisor will receive an email with your requested changes.",
+      "clerk": "You can request a change of a petition to a student.You can select a subject in the dropdown menu and then write your changes in the message box below. The student will receive an email with your requested changes.",
+      "student": "You can request a change of a petition to a supervisor. You can select a subject in the dropdown menu and then write your changes in the message box below. The supervisor will receive an email with your requested changes."
+    },
     "studentSubjects": {
       "changeDates": "Request changing start/end date",
       "changeHours": "Request changing working hours",
@@ -185,41 +226,41 @@
       "incorrectDocuments": "Request changing incorrect documents",
       "incorrectData": "Request correcting personal data",
       "others": "Others"
-    },
-    "approverMessage": "You can report an issue with the budget position of this petition",
-    "title": "Report an Issue",
-    "subjectLabel": "Subject",
-    "subjectPlaceholder": "Enter subject line",
-    "messageLabel": "Detailed Message",
-    "messagePlaceholder": "Describe the issue in detail",
-    "success":"Email sent successfully"
+    }
   },
-  "errors":{
-    "uploadedFilesClerk":{
-      "loadingDocs":"Error loading documents",
-      "fetchingDocs":"Error fetching documents",
-      "pdfRender":"Error rendering PDF"
+  "errors": {
+    "roleSelection": {
+      "sessionExpired": "Session expired. Please login again.",
+      "updateFailed": "Error updating user role. Please try again."
     },
-    "petitionFormDialog":{
-      "submission":"Error submitting petition.Please try again ",
-      "saving":"Error saving petition.Please try again "
+    "uploadedFilesClerk": {
+      "loadingDocs": "Error loading documents",
+      "fetchingDocs": "Error fetching documents",
+      "pdfRender": "Error rendering PDF"
     },
-    "petitionIssueDialog":{
+    "petitionFormDialog": {
+      "submission": "Error submitting petition.Please try again ",
+      "saving": "Error saving petition.Please try again "
+    },
+    "PetitionRevisionDialog": {
       "sendingEmail": "Error sending email",
       "approverRevision": "Error with approver Revision"
     },
-  
-    "studentData":{
-      "savingData":"Error saving employee data",
-      "savingFiles":"Error saving files",
-      "fetchingData":"Error fetching employee data",
+
+    "studentData": {
+      "savingData": "Error saving employee data",
+      "savingFiles": "Error saving files",
+      "fetchingData": "Error fetching employee data",
       "fetchingDocs": "Error fetching documents"
     },
-    "petition":{
+    "petition": {
       "deletion": "Error deleting the petition",
       "fetching": "Error fetching petitions",
       "rejection": "petition could not be rejected",
-      "approval": "petition could not be approved"
+      "approval": "petition could not be approved",
+      "declining": "petition could not be declined",
+      "accepting": "petition could not be accepted",
+      "uploadDocument": "please upload the required data and documents"
     },
     "approverView": {
       "loadPetitionError": "Failed to load petition for review",
@@ -235,35 +276,30 @@
     "noPetitionComplete": "This petition has already been processed. Thank you for your review.",
     "approveSuccess": "Petition approved successfully",
     "rejectSuccess": "Petition rejected successfully"
-},
-    "budgetPositionStatus":{
-      "approved":"The Budget has been approved",
-      "rejected":"The Budget has been rejected",
-      "approver revision":"The Budget is under revision by the approver",
-      "waiting approver action":"The Budget is waiting for the approver's action"
-    },
-"ariaLabel": {
-    "navigation":{
-      "appBar":"Main navigation bar",
-      "navDrawer":"Main navigation drawer",
-      "toggleDrawer":"Toggle navigation drawer",
-      "dashboard":"Go to Dashboard",
-      "roles":"Go to Roles Selection",
-      "avatar":"User avatar",
+  },
+  "budgetPositionStatus": {
+    "approved": "The Budget has been approved",
+    "rejected": "The Budget has been rejected",
+    "approver revision": "The Budget is under revision by the approver",
+    "waiting approver action": "The Budget is waiting for the approver's action"
+  },
+  "ariaLabel": {
+    "navigation": {
+      "appBar": "Main navigation bar",
+      "navDrawer": "Main navigation drawer",
+      "toggleDrawer": "Toggle navigation drawer",
+      "dashboard": "Go to Dashboard",
+      "roles": "Go to Roles Selection",
+      "avatar": "User avatar",
       "menu": "User menu",
-      "toggleMenu":"Toggle user menu",
-      "menuOptions":"User menu options"
+      "toggleMenu": "Toggle user menu",
+      "menuOptions": "User menu options"
     },
     "petitionFormDialog": {
       "dialog": "Petition Dialog",
       "petitionForm": "Petition Form",
       "submit": "Submit Petition Form",
       "save": "Save Petition Form"
-    },
-    "studentDataManagementDialog": {
-      "tabs": "Tabs for student data management",
-      "personal": "Tab for personal information",
-      "files": "Tab for uploaded files"
     }
   }
 }

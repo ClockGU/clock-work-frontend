@@ -1,29 +1,35 @@
 <template>
-  <v-btn :color="color" :loading="loading" v-bind="$attrs" @click="startOAuthFlow">
+  <v-btn
+    :color="color"
+    :loading="isLoading"
+    v-bind="$attrs"
+    @click="startOAuthFlow"
+  >
     <slot>Login</slot>
   </v-btn>
 </template>
 
 <script setup>
-import AuthApiService from "@/services/authApiService";
-import {computed} from "vue";
-import { useStore } from "vuex";
-import { useRouter } from "vue-router";
+import AuthApiService from '@/services/authApiService';
+import { ref } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 const props = defineProps({
   color: {
     type: String,
-    default: "primary darken-1",
+    default: 'primary darken-1',
   },
 });
 
 const store = useStore();
-const router= useRouter();
-const loading = computed(() => store.getters["auth/isLoading"]);
+const router = useRouter();
+
+const isLoading = ref(false);
 
 const startOAuthFlow = async () => {
-  store.dispatch("auth/setIsLoading")
-  store.dispatch("auth/clearError")
+  isLoading.value = true;
+  store.dispatch('auth/clearError');
 
   try {
     // Fetch the authorization URL from the backend
@@ -33,13 +39,15 @@ const startOAuthFlow = async () => {
     window.location.href = authorization_url;
   } catch (error) {
     console.error(error);
-    store.dispatch("auth/setError","Error while connecting to the Goethe University Single Sign On. Please try again later.")
-    store.dispatch("auth/logout");
-    router.push({ name: "landing" });
-    return ;
-  }
-  finally {
-    store.dispatch("auth/unsetLoading")
+    AuthApiService.logout();
+    store.dispatch(
+      'auth/setLoginError',
+      'Error while connecting to the Goethe University Single Sign On. Please try again later.'
+    );
+    router.push({ name: 'landing' });
+    return;
+  } finally {
+    isLoading.value = false;
   }
 };
 </script>

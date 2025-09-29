@@ -26,7 +26,9 @@
         />
       </v-col>
       <v-col cols="12" md="6">
-        <label for="formOfAddress">{{ $t('employeeDataForm.formOfAddress') }}</label>
+        <label for="formOfAddress">{{
+          $t('employeeDataForm.formOfAddress')
+        }}</label>
         <v-select
           id="formOfAddress"
           v-model="formData.form_of_address"
@@ -52,20 +54,22 @@
         />
       </v-col>
       <v-col cols="12" md="6">
-        <label for="dateOfBirth">{{ $t('employeeDataForm.dateOfBirth') }}</label>
-        <v-text-field
+        <label for="dateOfBirth">{{
+          $t('employeeDataForm.dateOfBirth')
+        }}</label>
+        <v-date-input
           id="dateOfBirth"
           v-model="formData.date_of_birth"
-          type="date"
-          outlined
-          dense
-          :prepend-icon="icons.mdiCalendar"
+          placeholder="DD.MM.YYYY"
+          :display-format="formatDate"
           :aria-label="$t('employeeDataForm.dateOfBirth')"
           :rules="[requiredRule]"
         />
       </v-col>
       <v-col cols="12" md="6">
-        <label for="cityOfBirth">{{ $t('employeeDataForm.cityOfBirth') }}</label>
+        <label for="cityOfBirth">{{
+          $t('employeeDataForm.cityOfBirth')
+        }}</label>
         <v-text-field
           id="cityOfBirth"
           v-model="formData.city_of_birth"
@@ -101,7 +105,9 @@
         />
       </v-col>
       <v-col cols="12" md="6">
-        <label for="nationality">{{ $t('employeeDataForm.nationality') }}</label>
+        <label for="nationality">{{
+          $t('employeeDataForm.nationality')
+        }}</label>
         <v-text-field
           id="nationality"
           v-model="formData.nationality"
@@ -113,7 +119,9 @@
         />
       </v-col>
       <v-col cols="12" md="6">
-        <label for="telephoneNumber">{{ $t('employeeDataForm.telephoneNumber') }}</label>
+        <label for="telephoneNumber">{{
+          $t('employeeDataForm.telephoneNumber')
+        }}</label>
         <v-text-field
           id="telephoneNumber"
           v-model="formData.telephone_number"
@@ -125,7 +133,9 @@
         />
       </v-col>
       <v-col cols="12" md="6">
-        <label for="healthInsurance">{{ $t('employeeDataForm.healthInsurance') }}</label>
+        <label for="healthInsurance">{{
+          $t('employeeDataForm.healthInsurance')
+        }}</label>
         <v-text-field
           id="healthInsurance"
           v-model="formData.health_insurance"
@@ -162,19 +172,21 @@
           v-model="formData.previous_employment"
           :label="$t('employeeDataForm.previousEmployment')"
           :aria-label="$t('employeeDataForm.previousEmployment')"
+          @update:model-value="handlePreviousEmploymentChange"
         />
       </v-col>
       <v-col v-if="formData.previous_employment" cols="12" md="6">
-        <label for="prevEmpDuration">{{ $t('employeeDataForm.duration') }}</label>
-        <v-text-field
+        <label for="prevEmpDuration">{{
+          $t('employeeDataForm.duration')
+        }}</label>
+        <v-date-input
           id="prevEmpDuration"
           v-model="formData.prev_emp_duration"
-          outlined
-          dense
-          :prepend-icon="icons.mdiClock"
+          multiple="range"
+          placeholder="DD.MM.YYYY – DD.MM.YYYY"
+          :display-format="formatDate"
           :aria-label="$t('employeeDataForm.duration')"
           :rules="formData.previous_employment ? [requiredRule] : []"
-          placeholder="DD.MM.YYYY – DD.MM.YYYY"
         />
       </v-col>
     </v-row>
@@ -182,11 +194,26 @@
 </template>
 
 <script setup>
-import { ref,onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
-import { mdiAccount, mdiGenderMaleFemale, mdiCity, mdiHomeMapMarker, mdiNumeric, mdiFlag, mdiPhone, mdiHospital, mdiBank, mdiCalendar, mdiClock, mdiAccountBox } from '@mdi/js';
+import {
+  mdiAccount,
+  mdiGenderMaleFemale,
+  mdiCity,
+  mdiHomeMapMarker,
+  mdiNumeric,
+  mdiFlag,
+  mdiPhone,
+  mdiHospital,
+  mdiBank,
+  mdiCalendar,
+  mdiClock,
+  mdiAccountBox,
+} from '@mdi/js';
 import ContentApiService from '@/services/contentApiService';
+import { VDateInput } from 'vuetify/labs/VDateInput';
+import { format } from 'date-fns';
 
 const icons = {
   mdiAccount,
@@ -200,7 +227,7 @@ const icons = {
   mdiBank,
   mdiClock,
   mdiCalendar,
-  mdiAccountBox
+  mdiAccountBox,
 };
 
 const store = useStore();
@@ -220,52 +247,98 @@ const initialFormData = {
   telephone_number: '',
   health_insurance: '',
   previous_employment: false,
-  prev_emp_duration: '',
+  prev_emp_duration: null,
   iban: '',
 };
 
 const formData = ref({ ...initialFormData });
 const isFormValid = ref(false);
+
 // Validation Rules
 const requiredRule = (v) => !!v || t('validationRule.required');
-const postalCodeRule = (v) => /^\d{5}$/.test(v) || t('validationRule.postalCode');
-const phoneRule = (v) => /^\d{10,15}$/.test(v) || t('validationRule.invalidPhone');
-const ibanRule = (v) => /^[A-Z]{2}\d{2}[A-Z0-9]{11,30}$/.test(v) || t('validationRule.invalidIban');
+const postalCodeRule = (v) =>
+  /^\d{5}$/.test(v) || t('validationRule.postalCode');
+const phoneRule = (v) =>
+  /^\d{10,15}$/.test(v) || t('validationRule.invalidPhone');
+const ibanRule = (v) =>
+  /^[A-Z]{2}\d{2}[A-Z0-9]{11,30}$/.test(v) || t('validationRule.invalidIban');
+
+const formatDate = (date) => {
+  if (!date) return null;
+  return format(new Date(date), 'dd.MM.yyyy');
+};
+
+const handlePreviousEmploymentChange = (value) => {
+  if (!value) {
+    formData.value.prev_emp_duration = null;
+  } else {
+    formData.value.prev_emp_duration = [];
+  }
+  formData.value.previous_employment = value;
+};
 
 const fetchEmployeeData = async () => {
-  try{
+  try {
     const response = await ContentApiService.get('/employees');
     if (response.data) {
-      formData.value = { ...initialFormData, ...response.data };
+      const employeeData = { ...initialFormData, ...response.data };
+
+      // If prev_emp_duration is a string, convert it to array
+      if (
+        employeeData.prev_emp_duration &&
+        typeof employeeData.prev_emp_duration === 'string'
+      ) {
+        // Parse the string format "DD.MM.YYYY – DD.MM.YYYY" back to date array
+        const dates = employeeData.prev_emp_duration.split(' – ');
+        if (dates.length === 2) {
+          try {
+            employeeData.prev_emp_duration = [
+              new Date(dates[0].split('.').reverse().join('-')), // Convert DD.MM.YYYY to YYYY-MM-DD
+              new Date(dates[1].split('.').reverse().join('-')),
+            ];
+          } catch {
+            // If parsing fails, keep as null
+            employeeData.prev_emp_duration = null;
+            employeeData.previous_employment = false;
+          }
+        }
+      } else if (!employeeData.prev_emp_duration) {
+        // If no duration data, ensure checkbox reflects this
+        employeeData.previous_employment = false;
       }
-    } catch (error) {
-      if (error.response?.status !== 404) {
-        console.error('Error fetching employee data:', error);
-        store.dispatch('snackbar/setErrorSnacks', {
-          message: t("errors.studentData.fetchingData"),
-        });
-      }
+
+      formData.value = employeeData;
     }
-}
+  } catch (error) {
+    if (error.response?.status !== 404) {
+      console.error('Error fetching employee data:', error);
+      store.dispatch('snackbar/setErrorSnacks', {
+        message: t('errors.studentData.fetchingData'),
+      });
+    }
+  }
+};
 
 onMounted(() => {
   fetchEmployeeData();
 });
 
-defineExpose({ formData,isFormValid });
-
+defineExpose({
+  formData,
+  isFormValid,
+});
 </script>
+
 <style scoped>
 label {
   font-weight: 500;
-  font-size: 1rem; 
-  margin-left: 2.5rem; 
+  font-size: 1rem;
+  margin-left: 2.5rem;
 }
 .v-checkbox :deep(.v-label) {
-  opacity: 1;      
+  opacity: 1;
   font-weight: normal;
-  margin-left: 0;   
-  font-size: inherit; 
+  margin-left: 0;
+  font-size: inherit;
 }
 </style>
-
