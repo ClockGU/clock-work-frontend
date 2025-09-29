@@ -55,6 +55,7 @@
         <v-date-input
           id="startDate"
           v-model="formData.start_date"
+          placeholder="DD.MM.YYYY"
           :display-format="formatDate"
           :aria-label="$t('petition.startDate')"
           :rules="[requiredRule]"
@@ -65,6 +66,7 @@
         <v-date-input
           id="endDate"
           v-model="formData.end_date"
+          placeholder="DD.MM.YYYY"
           :display-format="formatDate"
           :aria-label="$t('petition.endDate')"
           :rules="[requiredRule, endDateRule]"
@@ -129,6 +131,7 @@
           <v-date-input
             id="timeExceStart"
             v-model="formData.time_exce_start"
+            placeholder="DD.MM.YYYY"
             :display-format="formatDate"
             :aria-label="$t('petition.timeExceStart')"
             :rules="[requiredRule]"
@@ -139,6 +142,7 @@
           <v-date-input
             id="timeExceEnd"
             v-model="formData.time_exce_end"
+            placeholder="DD.MM.YYYY"
             :display-format="formatDate"
             :aria-label="$t('petition.timeExceEnd')"
             :rules="[requiredRule]"
@@ -171,6 +175,7 @@
           <v-date-input
             id="durationExceStart"
             v-model="formData.duration_exce_start"
+            placeholder="DD.MM.YYYY"
             :display-format="formatDate"
             :aria-label="$t('petition.durationExceStart')"
             :rules="[requiredRule]"
@@ -181,6 +186,7 @@
           <v-date-input
             id="durationExceEnd"
             v-model="formData.duration_exce_end"
+            placeholder="DD.MM.YYYY"
             :display-format="formatDate"
             :aria-label="$t('petition.durationExceEnd')"
             :rules="[requiredRule]"

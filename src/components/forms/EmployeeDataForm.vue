@@ -60,6 +60,7 @@
         <v-date-input
           id="dateOfBirth"
           v-model="formData.date_of_birth"
+          placeholder="DD.MM.YYYY"
           :display-format="formatDate"
           :aria-label="$t('employeeDataForm.dateOfBirth')"
           :rules="[requiredRule]"
@@ -171,21 +172,21 @@
           v-model="formData.previous_employment"
           :label="$t('employeeDataForm.previousEmployment')"
           :aria-label="$t('employeeDataForm.previousEmployment')"
+          @update:model-value="handlePreviousEmploymentChange"
         />
       </v-col>
       <v-col v-if="formData.previous_employment" cols="12" md="6">
         <label for="prevEmpDuration">{{
           $t('employeeDataForm.duration')
         }}</label>
-        <v-text-field
+        <v-date-input
           id="prevEmpDuration"
           v-model="formData.prev_emp_duration"
-          outlined
-          dense
-          :prepend-icon="icons.mdiClock"
+          multiple="range"
+          placeholder="DD.MM.YYYY – DD.MM.YYYY"
+          :display-format="formatDate"
           :aria-label="$t('employeeDataForm.duration')"
           :rules="formData.previous_employment ? [requiredRule] : []"
-          placeholder="DD.MM.YYYY – DD.MM.YYYY"
         />
       </v-col>
     </v-row>
@@ -246,12 +247,13 @@ const initialFormData = {
   telephone_number: '',
   health_insurance: '',
   previous_employment: false,
-  prev_emp_duration: '',
+  prev_emp_duration: null,
   iban: '',
 };
 
 const formData = ref({ ...initialFormData });
 const isFormValid = ref(false);
+
 // Validation Rules
 const requiredRule = (v) => !!v || t('validationRule.required');
 const postalCodeRule = (v) =>
@@ -265,11 +267,47 @@ const formatDate = (date) => {
   if (!date) return null;
   return format(new Date(date), 'dd.MM.yyyy');
 };
+
+const handlePreviousEmploymentChange = (value) => {
+  if (!value) {
+    formData.value.prev_emp_duration = null;
+  } else {
+    formData.value.prev_emp_duration = [];
+  }
+  formData.value.previous_employment = value;
+};
+
 const fetchEmployeeData = async () => {
   try {
     const response = await ContentApiService.get('/employees');
     if (response.data) {
-      formData.value = { ...initialFormData, ...response.data };
+      const employeeData = { ...initialFormData, ...response.data };
+
+      // If prev_emp_duration is a string, convert it to array
+      if (
+        employeeData.prev_emp_duration &&
+        typeof employeeData.prev_emp_duration === 'string'
+      ) {
+        // Parse the string format "DD.MM.YYYY – DD.MM.YYYY" back to date array
+        const dates = employeeData.prev_emp_duration.split(' – ');
+        if (dates.length === 2) {
+          try {
+            employeeData.prev_emp_duration = [
+              new Date(dates[0].split('.').reverse().join('-')), // Convert DD.MM.YYYY to YYYY-MM-DD
+              new Date(dates[1].split('.').reverse().join('-')),
+            ];
+          } catch {
+            // If parsing fails, keep as null
+            employeeData.prev_emp_duration = null;
+            employeeData.previous_employment = false;
+          }
+        }
+      } else if (!employeeData.prev_emp_duration) {
+        // If no duration data, ensure checkbox reflects this
+        employeeData.previous_employment = false;
+      }
+
+      formData.value = employeeData;
     }
   } catch (error) {
     if (error.response?.status !== 404) {
@@ -285,8 +323,12 @@ onMounted(() => {
   fetchEmployeeData();
 });
 
-defineExpose({ formData, isFormValid });
+defineExpose({
+  formData,
+  isFormValid,
+});
 </script>
+
 <style scoped>
 label {
   font-weight: 500;
