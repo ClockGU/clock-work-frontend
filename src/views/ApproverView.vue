@@ -108,7 +108,7 @@
       :petition="petition"
       v-model="showPetitionRevisionDialog"
       @close="handleDialogClose"
-      @refresh="fetchPetition"
+      @refresh="markPetitionRevisionAsComplete"
     />
   </v-container>
 </template>
@@ -150,7 +150,10 @@ const user = computed(() => store.getters['auth/user']);
 const isBudgetPositionPending = (budgetPosition) => {
   return budgetPosition.budget_position_approved === false;
 };
-
+const markPetitionRevisionAsComplete = () => {
+  actionCompleted.value = true;
+  petition.value = null;
+}
 const fetchPetition = async () => {
   try {
     isLoading.value = true;
