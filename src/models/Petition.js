@@ -9,7 +9,8 @@ const DATE_KEYS = [
   'duration_exce_end',
 ];
 
-class Petition { // 👈 Model name is now correctly 'Petition'
+class Petition {
+  // 👈 Model name is now correctly 'Petition'
 
   constructor(data = {}) {
     this.id = data.id || '';
@@ -39,12 +40,12 @@ class Petition { // 👈 Model name is now correctly 'Petition'
     ];
 
     // Convert date strings (from API: YYYY-MM-DD) to Date objects (for v-date-input)
-    DATE_KEYS.forEach(key => {
-        if (data[key]) {
-            this[key] = new Date(data[key]);
-        } else {
-            this[key] = '';
-        }
+    DATE_KEYS.forEach((key) => {
+      if (data[key]) {
+        this[key] = new Date(data[key]);
+      } else {
+        this[key] = '';
+      }
     });
   }
 
@@ -52,7 +53,8 @@ class Petition { // 👈 Model name is now correctly 'Petition'
    * Static method to map raw API data (with ISO date strings) into a Petition instance
    * where date fields are Date objects for use in the frontend forms.
    */
-  static fromBackendResponse(data) { // 👈 Keeping the requested name: fromBackendResponse
+  static fromBackendResponse(data) {
+    // 👈 Keeping the requested name: fromBackendResponse
     return new Petition(data);
   }
 
@@ -63,14 +65,14 @@ class Petition { // 👈 Model name is now correctly 'Petition'
     const formattedData = { ...this };
 
     // Format all relevant date fields to ISO date string (YYYY-MM-DD)
-    DATE_KEYS.forEach(key => {
+    DATE_KEYS.forEach((key) => {
       if (formattedData[key]) {
         // Ensure date is a Date object before formatting
         formattedData[key] = formatISO(new Date(formattedData[key]), {
           representation: 'date',
         });
       } else {
-         formattedData[key] = ''; 
+        formattedData[key] = '';
       }
     });
     // Filter out properties that are empty strings or null values before submission

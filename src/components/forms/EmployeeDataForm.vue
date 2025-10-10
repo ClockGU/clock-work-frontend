@@ -214,7 +214,7 @@ import {
 import ContentApiService from '@/services/contentApiService';
 import { VDateInput } from 'vuetify/labs/VDateInput';
 import { format } from 'date-fns';
-import EmployeeData from '@/models/EmployeeData'; 
+import EmployeeData from '@/models/EmployeeData';
 
 const icons = {
   mdiAccount,
@@ -234,7 +234,7 @@ const icons = {
 const store = useStore();
 const { t } = useI18n();
 
-const formData = ref(new EmployeeData()); 
+const formData = ref(new EmployeeData());
 const isFormValid = ref(false);
 
 // Validation Rules
@@ -265,7 +265,7 @@ const fetchEmployeeData = async () => {
     const response = await ContentApiService.get('/employees');
     if (response.data) {
       // Use the static method to parse and load the backend data into the model
-      formData.value = EmployeeData.fromBackendResponse(response.data); 
+      formData.value = EmployeeData.fromBackendResponse(response.data);
     }
   } catch (error) {
     if (error.response?.status !== 404) {

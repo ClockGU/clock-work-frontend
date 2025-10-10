@@ -72,7 +72,7 @@ const submit = async () => {
   if (isFormValid.value) {
     const formData = petitionFormRef.value.formData;
     try {
-    // Use the Petition model's toBackendFormat method for proper date formatting
+      // Use the Petition model's toBackendFormat method for proper date formatting
       const dataToSend = formData.toBackendFormat();
       await ContentApiService.post('/supervisor/petitions/', dataToSend);
       emit('refresh');
@@ -90,7 +90,7 @@ const submit = async () => {
 const save = async () => {
   if (isFormValid.value) {
     const formData = petitionFormRef.value.formData;
-    
+
     try {
       const role = userRole.value === 2 ? 'clerk' : 'supervisor';
       // Use the Petition model's toBackendFormat method for proper date formatting

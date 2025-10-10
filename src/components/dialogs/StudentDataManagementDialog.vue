@@ -73,7 +73,6 @@ const filesUploadFormRef = ref(null);
 const step = ref(1);
 const isSaving = ref(false);
 
-
 const saveEmployeeData = async () => {
   try {
     isSaving.value = true;
