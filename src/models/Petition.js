@@ -35,8 +35,7 @@ class Petition {
       },
     ];
 
-    // Simple date conversion - just use parseISO
-    DATE_KEYS.forEach(key => {
+    DATE_KEYS.forEach((key) => {
       if (data[key]) {
         const parsedDate = parseISO(data[key]);
         this[key] = isValid(parsedDate) ? parsedDate : '';
@@ -53,9 +52,11 @@ class Petition {
   toBackendFormat() {
     const formattedData = { ...this };
 
-    DATE_KEYS.forEach(key => {
+    DATE_KEYS.forEach((key) => {
       if (formattedData[key] && isValid(formattedData[key])) {
-        formattedData[key] = formatISO(formattedData[key], { representation: 'date' });
+        formattedData[key] = formatISO(formattedData[key], {
+          representation: 'date',
+        });
       } else {
         formattedData[key] = '';
       }
