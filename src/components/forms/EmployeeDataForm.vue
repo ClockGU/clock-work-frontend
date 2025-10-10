@@ -214,6 +214,7 @@ import {
 import ContentApiService from '@/services/contentApiService';
 import { VDateInput } from 'vuetify/labs/VDateInput';
 import { format } from 'date-fns';
+import EmployeeData from '@/models/EmployeeData'; 
 
 const icons = {
   mdiAccount,
@@ -232,26 +233,8 @@ const icons = {
 
 const store = useStore();
 const { t } = useI18n();
-const initialFormData = {
-  id: '',
-  first_name: '',
-  last_name: '',
-  form_of_address: '',
-  gender: '',
-  date_of_birth: '',
-  city_of_birth: '',
-  address: '',
-  postal_code: '',
-  married: false,
-  nationality: '',
-  telephone_number: '',
-  health_insurance: '',
-  previous_employment: false,
-  prev_emp_duration: null,
-  iban: '',
-};
 
-const formData = ref({ ...initialFormData });
+const formData = ref(new EmployeeData()); 
 const isFormValid = ref(false);
 
 // Validation Rules
@@ -281,33 +264,8 @@ const fetchEmployeeData = async () => {
   try {
     const response = await ContentApiService.get('/employees');
     if (response.data) {
-      const employeeData = { ...initialFormData, ...response.data };
-
-      // If prev_emp_duration is a string, convert it to array
-      if (
-        employeeData.prev_emp_duration &&
-        typeof employeeData.prev_emp_duration === 'string'
-      ) {
-        // Parse the string format "DD.MM.YYYY – DD.MM.YYYY" back to date array
-        const dates = employeeData.prev_emp_duration.split(' – ');
-        if (dates.length === 2) {
-          try {
-            employeeData.prev_emp_duration = [
-              new Date(dates[0].split('.').reverse().join('-')), // Convert DD.MM.YYYY to YYYY-MM-DD
-              new Date(dates[1].split('.').reverse().join('-')),
-            ];
-          } catch {
-            // If parsing fails, keep as null
-            employeeData.prev_emp_duration = null;
-            employeeData.previous_employment = false;
-          }
-        }
-      } else if (!employeeData.prev_emp_duration) {
-        // If no duration data, ensure checkbox reflects this
-        employeeData.previous_employment = false;
-      }
-
-      formData.value = employeeData;
+      // Use the static method to parse and load the backend data into the model
+      formData.value = EmployeeData.fromBackendResponse(response.data); 
     }
   } catch (error) {
     if (error.response?.status !== 404) {
