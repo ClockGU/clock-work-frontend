@@ -8,7 +8,6 @@ class EmployeeData {
     this.last_name = data.last_name || '';
     this.form_of_address = data.form_of_address || '';
     this.gender = data.gender || '';
-    // date_of_birth from backend is an ISO string, convert to Date object for v-date-input
     this.date_of_birth = data.date_of_birth
       ? new Date(data.date_of_birth)
       : null;

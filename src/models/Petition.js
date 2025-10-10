@@ -10,8 +10,6 @@ const DATE_KEYS = [
 ];
 
 class Petition {
-  // 👈 Model name is now correctly 'Petition'
-
   constructor(data = {}) {
     this.id = data.id || '';
     this.user_account = data.user_account || '';
@@ -27,8 +25,6 @@ class Petition {
     this.duration_exce_course = data.duration_exce_course ?? false;
     this.time_exce_name = data.time_exce_name || '';
     this.duration_exce_name = data.duration_exce_name || '';
-
-    // Initialize budget_positions with the data or the default structure
     this.budget_positions = data.budget_positions || [
       {
         id: '',
@@ -54,7 +50,6 @@ class Petition {
    * where date fields are Date objects for use in the frontend forms.
    */
   static fromBackendResponse(data) {
-    // 👈 Keeping the requested name: fromBackendResponse
     return new Petition(data);
   }
 
