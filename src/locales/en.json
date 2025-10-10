@@ -209,7 +209,11 @@
     "subjectPlaceholder": "Enter subject line",
     "messageLabel": "Detailed Message",
     "messagePlaceholder": "Describe the issue in detail",
-    "success": "Email sent successfully",
+    "success": {
+      "approverRevision": "Budget position revision request was sent successfully to supervisor",
+      "studentRevision": "Petition revision request was sent successfully to supervisor",
+      "clerkRevision": "Petition revision request was sent successfully to student"
+    },
     "instruction": {
       "approver": "You can request a change to the budget position of a petition to a supervisor. you can write your changes in the message box below.The supervisor will receive an email with your requested changes.",
       "clerk": "You can request a change of a petition to a student.You can select a subject in the dropdown menu and then write your changes in the message box below. The student will receive an email with your requested changes.",
@@ -243,8 +247,10 @@
       "saving": "Error saving petition.Please try again "
     },
     "PetitionRevisionDialog": {
-      "sendingEmail": "Error sending email",
-      "approverRevision": "Error with approver Revision"
+      "approverRevision": "Error sending budget position revision request to supervisor",
+      "studentRevision": "Error sending petition revision request to supervisor",
+      "clerkRevision": "Error sending petition revision request to student",
+      "unhandledRole": "You do not have permission to request a revision"
     },
 
     "studentData": {

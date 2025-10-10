@@ -153,47 +153,87 @@ const RevisionDialogInstruction = computed(() => {
   return '';
 });
 
-// handle Revisions and sending email .approver uses a seperate endpoint then other roles
-const handleRevision = async () => {
-  const isApprover = userRole.value === 3;
-  const apiMethod = isApprover ? 'patch' : 'post';
-
-  const apiEndpoint = isApprover
-    ? `/approver/petitions/${route.query.petition_id}/${route.query.signature}/${route.query.budget_position_id}`
-    : '/send-email';
-
-  const apiData = isApprover
-    ? {
-        message: reportText.value,
-        budget_position_approved: false,
-        revision_requested: true,
-      }
-    : {
-        recipient: recipientMail.value,
-        subject: reportSubject.value,
-        body: reportText.value,
-      };
-
+const handleClerkRevision = async () => {
+  const petitionId = props.petition.id;
+  const apiEndpoint = `/clerk/petitions/${petitionId}/request-revision`;
+  const apiData = {
+    message: reportText.value,
+  };
   try {
-    await ContentApiService[apiMethod](apiEndpoint, apiData);
+    await ContentApiService.patch(apiEndpoint, apiData);
     store.dispatch('snackbar/setSnack', {
-      message: t('PetitionRevisionDialog.success'),
+      message: t('PetitionRevisionDialog.success.clerkRevision'),
     });
     emit('refresh');
   } catch (error) {
-    console.error('Error handling report issue:', error);
-    const errorMessage = isApprover
-      ? t('errors.PetitionRevisionDialog.approverRevision')
-      : t('errors.PetitionRevisionDialog.sendingEmail');
-
+    console.error('Error handling Clerk revision:', error);
     store.dispatch('snackbar/setErrorSnacks', {
-      message: errorMessage,
+      message: t('errors.PetitionRevisionDialog.clerkRevision'),
     });
-  } finally {
-    reportSubject.value = '';
-    reportText.value = '';
-    emit('close');
   }
+};
+
+const handleApproverRevision = async () => {
+  const apiEndpoint = `/approver/petitions/${route.query.petition_id}/${route.query.signature}/${route.query.budget_position_id}`;
+  const apiData = {
+    message: reportText.value,
+    budget_position_approved: false,
+    revision_requested: true,
+  };
+
+  try {
+    await ContentApiService.patch(apiEndpoint, apiData);
+    store.dispatch('snackbar/setSnack', {
+      message: t('PetitionRevisionDialog.success.approverRevision'),
+    });
+    emit('refresh');
+  } catch (error) {
+    console.error('Error handling Approver revision:', error);
+    store.dispatch('snackbar/setErrorSnacks', {
+      message: t('errors.PetitionRevisionDialog.approverRevision'),
+    });
+  }
+};
+
+const handleStudentRevision = async () => {
+  const apiEndpoint = '/send-email';
+  const apiData = {
+    recipient: recipientMail.value,
+    subject: reportSubject.value,
+    body: reportText.value,
+  };
+
+  try {
+    await ContentApiService.post(apiEndpoint, apiData);
+    store.dispatch('snackbar/setSnack', {
+      message: t('PetitionRevisionDialog.success.studentRevision'),
+    });
+    emit('refresh');
+  } catch (error) {
+    console.error('Error handling Student revision :', error);
+    store.dispatch('snackbar/setErrorSnacks', {
+      message: t('errors.PetitionRevisionDialog.studentRevision'),
+    });
+  }
+};
+const handleRevision = async () => {
+  if (userRole.value === 3) {
+    await handleApproverRevision();
+  } else if (userRole.value === 2) {
+    await handleClerkRevision();
+  } else if (userRole.value === 0) {
+    await handleStudentRevision();
+  } else {
+    console.error(
+      `User with role ${userRole.value} has no permission to revision`
+    );
+    store.dispatch('snackbar/setErrorSnacks', {
+      message: t('errors.PetitionRevisionDialog.unhandledRole'),
+    });
+  }
+  reportSubject.value = '';
+  reportText.value = '';
+  emit('close');
 };
 </script>
 
