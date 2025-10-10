@@ -1,4 +1,4 @@
-import { parse, formatISO, isValid } from 'date-fns';
+import { parseISO, formatISO, isValid } from 'date-fns';
 
 const DATE_KEYS = [
   'start_date',
@@ -35,11 +35,10 @@ class Petition {
       },
     ];
 
-    // Convert date strings from API to Date objects using date-fns
+    // Simple date conversion - just use parseISO
     DATE_KEYS.forEach(key => {
       if (data[key]) {
-        // Parse DD.MM.YYYY format
-        const parsedDate = parse(data[key], 'dd.MM.yyyy', new Date());
+        const parsedDate = parseISO(data[key]);
         this[key] = isValid(parsedDate) ? parsedDate : '';
       } else {
         this[key] = '';
@@ -47,24 +46,21 @@ class Petition {
     });
   }
 
-  //Creates a new Petition object from the given backend response data.
   static fromBackendResponse(data) {
     return new Petition(data);
   }
 
-  // Converts the Petition instance to a format suitable for backend submission.
   toBackendFormat() {
     const formattedData = { ...this };
 
     DATE_KEYS.forEach(key => {
       if (formattedData[key] && isValid(formattedData[key])) {
-        // Use formatISO to get YYYY-MM-DD format for backend
         formattedData[key] = formatISO(formattedData[key], { representation: 'date' });
       } else {
         formattedData[key] = '';
       }
     });
-    // Filter out empty properties
+
     const filteredFormData = Object.fromEntries(
       Object.entries(formattedData).filter(
         ([, value]) => value !== '' && value !== null
