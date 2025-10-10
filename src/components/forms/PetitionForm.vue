@@ -198,7 +198,7 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import {
   mdiAccount,
   mdiEmail,
@@ -319,6 +319,12 @@ const endDateRule = (v) => {
 };
 const eosRule = (v) => /^F\d{6}$/.test(v) || t('validationRule.eosNumber');
 
+onMounted(() => {
+  // Set supervisor email if user is a supervisor
+  if (user.value.user_role === 1) {
+    formData.value.supervisor_mail = supervisorMail.value;
+  }
+})
 defineExpose({ formData, isAllValid });
 </script>
 
