@@ -212,6 +212,7 @@ import {
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import BudgetPositionsFields from './BudgetPositionsFields.vue';
+import Petition from '@/models/Petition';
 import { VDateInput } from 'vuetify/labs/VDateInput';
 import { format } from 'date-fns';
 
@@ -251,39 +252,8 @@ const degreeOptions = [
   { text: 'Student does not have a Bachelor Degree', value: false },
 ];
 
-const initialFormData = {
-  supervisor_mail: supervisorMail,
-  student_mail: '',
-  start_date: '',
-  end_date: '',
-  minutes: 0,
-  time_exce_name: '',
-  time_exce_start: '',
-  time_exce_end: '',
-  duration_exce_name: '',
-  duration_exce_start: '',
-  duration_exce_end: '',
-  id: '',
-  user_account: '',
-  org_unit: '',
-  eos_number: '',
-  ba_degree: false,
-  status: '',
-  time_exce_student: false,
-  time_exce_course: false,
-  duration_exce_course: false,
-  budget_positions: [
-    {
-      id: '',
-      budget_position: '',
-      budget_approver: '',
-      budget_position_approved: false,
-      percentage: 0,
-    },
-  ],
-};
-
-const formData = ref({ ...initialFormData });
+// Initialize form data with Petition model
+const formData = ref(new Petition());
 const form = ref(null);
 const budgetPositionsRef = ref(null);
 
@@ -302,37 +272,11 @@ watch(
   () => props.petition,
   (newPetition) => {
     if (newPetition) {
-      const cleanData = {
-        ...initialFormData,
-        ...newPetition,
-        time_exce_course: newPetition.time_exce_course ?? false,
-        duration_exce_course: newPetition.duration_exce_course ?? false,
-      };
-
-      if (!cleanData.time_exce_course) {
-        cleanData.time_exce_name = '';
-        cleanData.time_exce_start = '';
-        cleanData.time_exce_end = '';
-      }
-      if (!cleanData.duration_exce_course) {
-        cleanData.duration_exce_name = '';
-        cleanData.duration_exce_start = '';
-        cleanData.duration_exce_end = '';
-      }
-
-      // Reset budget_positions to the initial state when editing a petition
-      cleanData.budget_positions = [
-        {
-          id: '',
-          budget_position: '',
-          budget_approver: '',
-          budget_position_approved: false,
-          percentage: 0,
-        },
-      ];
-      formData.value = cleanData;
+      // Use the Petition model to convert API data to form-ready format
+      formData.value = Petition.fromBackendResponse(newPetition);
     } else {
-      formData.value = { ...initialFormData };
+      // Reset to empty Petition instance
+      formData.value = new Petition();
     }
   },
   { immediate: true }
