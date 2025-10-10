@@ -216,18 +216,13 @@ import Petition from '@/models/Petition';
 import { VDateInput } from 'vuetify/labs/VDateInput';
 import { format } from 'date-fns';
 
-const { t } = useI18n();
-const store = useStore();
-
-const formatDate = (date) => {
-  if (!date) return null;
-  return format(new Date(date), 'dd.MM.yyyy');
-};
-
-const user = computed(() => store.getters['auth/user']);
-const supervisorMail = computed(() =>
-  user.value.user_role === 1 ? user.value.email : ''
-);
+const props = defineProps({
+  petition: {
+    type: [Object, null],
+    required: false,
+    default: null,
+  },
+});
 
 const icons = {
   mdiAccount,
@@ -240,25 +235,19 @@ const icons = {
   mdiSchool,
 };
 
-const props = defineProps({
-  petition: {
-    type: [Object, null],
-    required: false,
-    default: null,
-  },
-});
-const degreeOptions = [
-  { text: 'Student has a Bachelor Degree', value: true },
-  { text: 'Student does not have a Bachelor Degree', value: false },
-];
+const { t } = useI18n();
+const store = useStore();
 
-// Initialize form data with Petition model
 const formData = ref(new Petition());
 const form = ref(null);
 const budgetPositionsRef = ref(null);
-
 const isFormValid = ref(false);
 
+const user = computed(() => store.getters['auth/user']);
+const degreeOptions = computed(() => [
+  { text: t('petitionFormDialog.bachlor.yes'), value: true },
+  { text: t('petitionFormDialog.bachlor.no'), value: false },
+]);
 // Combine the form validity and the budget position validation
 const isAllValid = computed(() => {
   const isBudgetValid = budgetPositionsRef.value?.percentageTotalRule === true;
@@ -282,6 +271,10 @@ watch(
   { immediate: true }
 );
 
+const formatDate = (date) => {
+  if (!date) return null;
+  return format(new Date(date), 'dd.MM.yyyy');
+};
 // Clear time exception fields when checkbox is unchecked
 const handleTimeExceptionChange = (value) => {
   if (!value) {
@@ -322,9 +315,9 @@ const eosRule = (v) => /^F\d{6}$/.test(v) || t('validationRule.eosNumber');
 onMounted(() => {
   // Set supervisor email if user is a supervisor
   if (user.value.user_role === 1) {
-    formData.value.supervisor_mail = supervisorMail.value;
+    formData.value.supervisor_mail = user.value.email;
   }
-})
+});
 defineExpose({ formData, isAllValid });
 </script>
 

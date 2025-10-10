@@ -85,7 +85,11 @@
     "PetitionDeletion": "Sind Sie sicher, dass Sie diesen Antrag löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden."
   },
   "petitionFormDialog": {
-    "title": "Neuen Antrag erstellen"
+    "title": "Neuen Antrag erstellen",
+    "bachlor": {
+      "yes": "Student hat einen Bachelor-Abschluss",
+      "no": "Student hat keinen Bachelor-Abschluss"
+    }
   },
   "studentDataManagementDialog": {
     "title": "Studentendaten verwalten",

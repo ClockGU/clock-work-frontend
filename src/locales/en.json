@@ -85,7 +85,11 @@
     "PetitionDeletion": "Are you sure you want to delete this petition? This action cannot be undone."
   },
   "petitionFormDialog": {
-    "title": "Create New Petition"
+    "title": "Create New Petition",
+    "bachlor": {
+      "yes": "Student has a Bachelor Degree",
+      "no": "Student does not have a Bachelor Degree"
+    }
   },
   "studentDataManagementDialog": {
     "title": "Manage Student Data",
