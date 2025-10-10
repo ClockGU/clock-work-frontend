@@ -11,9 +11,8 @@
 
 <script setup>
 import AuthApiService from '@/services/authApiService';
+import loginErrorHandler from '@/utils/loginErrorHandler';
 import { ref } from 'vue';
-import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
 
 const props = defineProps({
   color: {
@@ -22,30 +21,22 @@ const props = defineProps({
   },
 });
 
-const store = useStore();
-const router = useRouter();
-
 const isLoading = ref(false);
 
 const startOAuthFlow = async () => {
   isLoading.value = true;
-  store.dispatch('auth/clearError');
+  loginErrorHandler.clearLoginError();
 
   try {
-    // Fetch the authorization URL from the backend
     const response = await AuthApiService.getAuthorizationUrl();
     const { authorization_url } = response.data;
-    // Redirect to the CAS login page
     window.location.href = authorization_url;
   } catch (error) {
     console.error(error);
     AuthApiService.logout();
-    store.dispatch(
-      'auth/setLoginError',
+    loginErrorHandler.setLoginError(
       'Error while connecting to the Goethe University Single Sign On. Please try again later.'
     );
-    router.push({ name: 'landing' });
-    return;
   } finally {
     isLoading.value = false;
   }

@@ -4,7 +4,6 @@ const initialState = () => ({
   accessToken: undefined,
   refreshToken: undefined,
   user: undefined,
-  loginError: '',
 });
 
 const state = initialState;
@@ -15,7 +14,6 @@ const getters = {
   user: (state) => state.user,
   userRole: (state) => (state.user ? state.user.user_role : undefined),
   isLoggedIn: (state) => !!state.accessToken,
-  loginError: (state) => state.loginError,
 };
 
 const mutations = {
@@ -24,8 +22,6 @@ const mutations = {
   setUser: (state, value) => {
     state.user = value;
   },
-  setLoginError: (state, value) => (state.loginError = value),
-  clearError: (state) => (state.loginError = ''),
   resetState: (state) => {
     Object.assign(state, initialState());
   },

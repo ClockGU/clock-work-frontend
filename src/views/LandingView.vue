@@ -42,7 +42,7 @@
         </v-card>
 
         <v-slide-y-transition>
-          <v-card v-if="hasError" width="100%" color="error">
+          <v-card v-if="error" width="100%" color="error">
             <v-card-text class="text-white text-center font-weight-bold">
               {{ error }}
             </v-card-text>
@@ -56,15 +56,15 @@
 <script setup>
 import ClockIcon from '@/components/landing/ClockIcon.vue';
 import ButtonGoetheOAuth from '@/components/landing/ButtonGoetheOAuth.vue';
-import { computed, onMounted } from 'vue';
+import loginErrorHandler from '@/utils/loginErrorHandler';
+import { ref, onMounted } from 'vue';
 import { useDisplay } from 'vuetify';
-import { useStore } from 'vuex';
 
-const store = useStore();
-const error = computed(() => store.getters['auth/loginError']);
 const { mdAndUp } = useDisplay();
-const hasError = computed(() => error.value !== '');
+const error = ref('');
 onMounted(() => {
-  store.dispatch('auth/clearError');
+  // Get any existing error and clear it for future use
+  error.value = loginErrorHandler.getLoginError();
+  loginErrorHandler.clearLoginError();
 });
 </script>
