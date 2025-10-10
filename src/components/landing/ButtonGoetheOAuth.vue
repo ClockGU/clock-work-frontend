@@ -13,6 +13,7 @@
 import AuthApiService from '@/services/authApiService';
 import loginErrorHandler from '@/utils/loginErrorHandler';
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
   color: {
@@ -20,6 +21,8 @@ const props = defineProps({
     default: 'primary darken-1',
   },
 });
+
+const { t } = useI18n();
 
 const isLoading = ref(false);
 
@@ -34,9 +37,7 @@ const startOAuthFlow = async () => {
   } catch (error) {
     console.error(error);
     AuthApiService.logout();
-    loginErrorHandler.setLoginError(
-      'Error while connecting to the Goethe University Single Sign On. Please try again later.'
-    );
+    loginErrorHandler.setLoginError(t('errors.buttonGoethe.UrlFetch'));
   } finally {
     isLoading.value = false;
   }

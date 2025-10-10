@@ -62,7 +62,7 @@ const redirectToDashboard = async (role) => {
       store.dispatch('auth/login', { access_token: newAccessToken });
     }
     store.dispatch('auth/setUser', response.data);
-    router.push({ path: `/dashboard/${role}` }); 
+    router.push({ path: `/dashboard/${role}` });
   } catch (error) {
     console.error('Error updating user role:', error);
     if (error.response?.status === 401) {

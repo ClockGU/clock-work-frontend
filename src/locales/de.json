@@ -237,6 +237,14 @@
     }
   },
   "errors": {
+    "loggingin": {
+      "NoCasToken": "Kein CAS-Token in den URL-Parametern gefunden",
+      "NoAccessToken": "Kein Zugriffstoken in der Authentifizierungsantwortung",
+      "generic": "Ein Fehler ist während des Anmeldevorgangs aufgetreten. Bitte versuchen Sie es erneut."
+    },
+    "buttonGoethe": {
+      "urlFetch": "Fehler beim Abrufen der Autorisierungs-URL. Bitte versuchen Sie es erneut."
+    },
     "roleSelection": {
       "sessionExpired": "Sitzung abgelaufen. Bitte melden Sie sich erneut an.",
       "updateFailed": "Fehler beim Aktualisieren der Benutzerrolle. Bitte versuchen Sie es erneut."

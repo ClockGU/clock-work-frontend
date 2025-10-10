@@ -21,19 +21,21 @@ import { useStore } from 'vuex';
 import AuthApiService from '@/services/authApiService';
 import loginErrorHandler from '@/utils/loginErrorHandler';
 import { setLocale } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 
 const route = useRoute();
 const router = useRouter();
 const store = useStore();
+const { t } = useI18n();
 
 onMounted(async () => {
   // Clean the browser address bar by removing auth code from URL
   window.history.replaceState({}, null, '/');
-  
+
   try {
     const casToken = route.query.code;
     if (!casToken) {
-      loginErrorHandler.setLoginError('No CAS token found in URL parameters');
+      loginErrorHandler.setLoginError(t('errors.loggingin.NoCasToken'));
       return;
     }
 
@@ -41,7 +43,7 @@ onMounted(async () => {
     const loginResponse = await AuthApiService.login(casToken);
 
     if (!loginResponse.data?.access_token) {
-      loginErrorHandler.setLoginError('No access token in authentication response');
+      loginErrorHandler.setLoginError(t('errors.loggingin.NoAccessToken'));
       return;
     }
 
@@ -59,18 +61,18 @@ onMounted(async () => {
 
     // Authentication flow complete - redirect based on user_role
     const userRole = userResponse.data.user_role;
-     if (userRole === 2) {
-        router.push({ path: '/clerk' });
-      } else if (userRole === 1) {
-        router.push({ path: '/dashboard/supervisor' });
-      } else if (userRole === 0) {
-        router.push({ path: '/dashboard/student' });
-      } else {
-        router.push({ name: 'roles' });
+    if (userRole === 2) {
+      router.push({ path: '/clerk' });
+    } else if (userRole === 1) {
+      router.push({ path: '/dashboard/supervisor' });
+    } else if (userRole === 0) {
+      router.push({ path: '/dashboard/student' });
+    } else {
+      router.push({ name: 'roles' });
     }
   } catch (error) {
-    console.error('Login error:', error);
-    loginErrorHandler.setLoginError(error.message);
+    console.error('Login error:', error.message);
+    loginErrorHandler.setLoginError(t('errors.loggingin.generic'));
   }
 });
 </script>

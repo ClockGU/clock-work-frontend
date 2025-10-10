@@ -57,14 +57,9 @@
 import ClockIcon from '@/components/landing/ClockIcon.vue';
 import ButtonGoetheOAuth from '@/components/landing/ButtonGoetheOAuth.vue';
 import loginErrorHandler from '@/utils/loginErrorHandler';
-import { ref, onMounted } from 'vue';
 import { useDisplay } from 'vuetify';
 
 const { mdAndUp } = useDisplay();
-const error = ref('');
-onMounted(() => {
-  // Get any existing error and clear it for future use
-  error.value = loginErrorHandler.getLoginError();
-  loginErrorHandler.clearLoginError();
-});
+// Get the reactive error reference
+const error = loginErrorHandler.getErrorRef();
 </script>

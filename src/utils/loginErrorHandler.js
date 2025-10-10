@@ -1,24 +1,28 @@
-// Simple utility for handling login errors
+import { ref } from 'vue';
+import router from '@/router/index';
+// Simple reactive utility for handling login errors
 class LoginErrorHandler {
   constructor() {
-    this.currentLoginError = '';
+    this.currentLoginError = ref('');
   }
 
   setLoginError(errorMessage) {
     console.error('Login Error:', errorMessage);
-    this.currentLoginError = errorMessage;
+    this.currentLoginError.value = errorMessage;
     // Always route to landing page when error occurs
-    if (window.location.pathname !== '/') {
-      window.location.href = '/';
-    }
+    router.push({ name: 'landing' });
   }
 
   getLoginError() {
-    return this.currentLoginError;
+    return this.currentLoginError.value;
   }
 
   clearLoginError() {
-    this.currentLoginError = '';
+    this.currentLoginError.value = '';
+  }
+  // Helper method to get the reactive state
+  getErrorRef() {
+    return this.currentLoginError;
   }
 }
 
