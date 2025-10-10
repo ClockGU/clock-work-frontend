@@ -47,11 +47,10 @@ import { useI18n } from 'vue-i18n';
 import PetitionForm from '@/components/forms/PetitionForm.vue';
 import CustomDialog from '@/components/dialogs/CustomDialog.vue';
 import ContentApiService from '@/services/contentApiService';
-import Petition from '@/models/Petition';
 
 const props = defineProps({
   petition: {
-    type: [Petition, null],
+    type: [Object, null],
     required: false,
     default: null,
   },
