@@ -19,67 +19,60 @@ import { onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import AuthApiService from '@/services/authApiService';
+import loginErrorHandler from '@/utils/loginErrorHandler';
 import { setLocale } from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
 
 const route = useRoute();
 const router = useRouter();
 const store = useStore();
-
-const handleError = (error) => {
-  AuthApiService.logout();
-  store.dispatch('auth/setLoginError', error);
-  router.push({ name: 'landing' });
-  return;
-};
+const { t } = useI18n();
 
 onMounted(async () => {
   // Clean the browser address bar by removing auth code from URL
   window.history.replaceState({}, null, '/');
+
   try {
     const casToken = route.query.code;
-    if (!casToken) return handleError('No CAS token found in URL parameters');
+    if (!casToken) {
+      loginErrorHandler.setLoginError(t('errors.loggingin.NoCasToken'));
+      return;
+    }
 
     // Step 1: Authenticate with CAS token
     const loginResponse = await AuthApiService.login(casToken);
 
     if (!loginResponse.data?.access_token) {
-      return handleError('No access token in authentication response');
+      loginErrorHandler.setLoginError(t('errors.loggingin.NoAccessToken'));
+      return;
     }
 
     // Step 2: Store authentication tokens in Vuex
-    try {
-      await store.dispatch('auth/login', {
-        access_token: loginResponse.data.access_token,
-        refresh_token: null,
-      });
-    } catch (error) {
-      return handleError(
-        `Failed to store authentication tokens: ${error.message}`
-      );
-    }
+    await store.dispatch('auth/login', {
+      access_token: loginResponse.data.access_token,
+      refresh_token: null,
+    });
+
     // Step 3: Fetch user profile data and set language
-    try {
-      const userResponse = await AuthApiService.getUser();
-      await store.dispatch('auth/setUser', userResponse.data);
-      const locale = userResponse.data.language || 'de';
-      setLocale(locale);
-      // Authentication flow complete - redirect based on user_role
-      const userRole = userResponse.data.user_role;
-      if (userRole === 2) {
-        router.push({ path: '/clerk' });
-      } else if (userRole === 1) {
-        router.push({ path: '/dashboard/supervisor' });
-      } else if (userRole === 0) {
-        router.push({ path: '/dashboard/student' });
-      } else {
-        router.push({ name: 'roles' });
-      }
-    } catch (error) {
-      return handleError(`Failed to fetch user profile: ${error.message}`);
+    const userResponse = await AuthApiService.getUser();
+    await store.dispatch('auth/setUser', userResponse.data);
+    const locale = userResponse.data.language || 'de';
+    setLocale(locale);
+
+    // Authentication flow complete - redirect based on user_role
+    const userRole = userResponse.data.user_role;
+    if (userRole === 2) {
+      router.push({ path: '/clerk' });
+    } else if (userRole === 1) {
+      router.push({ path: '/dashboard/supervisor' });
+    } else if (userRole === 0) {
+      router.push({ path: '/dashboard/student' });
+    } else {
+      router.push({ name: 'roles' });
     }
   } catch (error) {
-    console.error(JSON.stringify(error));
-    return handleError(error.message);
+    console.error('Login error:', error.message);
+    loginErrorHandler.setLoginError(t('errors.loggingin.generic'));
   }
 });
 </script>

@@ -85,7 +85,11 @@
     "PetitionDeletion": "Sind Sie sicher, dass Sie diesen Antrag löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden."
   },
   "petitionFormDialog": {
-    "title": "Neuen Antrag erstellen"
+    "title": "Neuen Antrag erstellen",
+    "bachlor": {
+      "yes": "Student hat einen Bachelor-Abschluss",
+      "no": "Student hat keinen Bachelor-Abschluss"
+    }
   },
   "studentDataManagementDialog": {
     "title": "Studentendaten verwalten",
@@ -209,7 +213,11 @@
     "subjectPlaceholder": "Betreff eingeben",
     "messageLabel": "Detaillierte Nachricht",
     "messagePlaceholder": "Beschreiben Sie das Problem im Detail",
-    "success": "E-Mail erfolgreich gesendet",
+    "success": {
+      "approverRevision": "Budgetposition-Änderungsanfrage wurde erfolgreich an den Vorgesetzten gesendet",
+      "studentRevision": "Antrags-Änderungsanfrage wurde erfolgreich an den Vorgesetzten gesendet",
+      "clerkRevision": "Antrags-Änderungsanfrage wurde erfolgreich an den Studenten gesendet"
+    },
     "instruction": {
       "approver": "Sie können eine Änderung der Budgetposition eines Antrags an einen Vorgesetzten beantragen. Sie können Ihre Änderungen in der Nachrichtenbox unten eintragen. Der Vorgesetzte wird per E-Mail benachrichtigt, sobald Ihre Änderungen vorliegen.",
       "clerk": "Sie können eine Änderung eines Antrags an einen Studenten beantragen. Sie können ein Thema in der Dropdown-Menü auswählen und dann Ihre Änderungen in der Nachrichtenbox unten eintragen. Der Student wird per E-Mail benachrichtigt, sobald Ihre Änderungen vorliegen.",
@@ -229,6 +237,14 @@
     }
   },
   "errors": {
+    "loggingin": {
+      "NoCasToken": "Kein CAS-Token in den URL-Parametern gefunden",
+      "NoAccessToken": "Kein Zugriffstoken in der Authentifizierungsantwortung",
+      "generic": "Ein Fehler ist während des Anmeldevorgangs aufgetreten. Bitte versuchen Sie es erneut."
+    },
+    "buttonGoethe": {
+      "UrlFetch": "Fehler beim Abrufen der Autorisierungs-URL. Bitte versuchen Sie es erneut."
+    },
     "roleSelection": {
       "sessionExpired": "Sitzung abgelaufen. Bitte melden Sie sich erneut an.",
       "updateFailed": "Fehler beim Aktualisieren der Benutzerrolle. Bitte versuchen Sie es erneut."
@@ -243,8 +259,10 @@
       "saving": "Fehler beim Speichern des Antrags. Bitte versuchen Sie es erneut."
     },
     "PetitionRevisionDialog": {
-      "sendingEmail": "Fehler beim Senden der E-Mail",
-      "approverRevision": "Fehler bei der Genehmiger-Überprüfung"
+      "approverRevision": "Fehler beim Senden der Budgetposition-Änderungsanfrage an den Vorgesetzten",
+      "studentRevision": "Fehler beim Senden der Antrags-Änderungsanfrage an den Vorgesetzten",
+      "clerkRevision": "Fehler beim Senden der Antrags-Änderungsanfrage an den Studenten",
+      "unhandledRole": "Sie haben keine Berechtigung, eine Änderung anzufordern"
     },
     "studentData": {
       "savingData": "Fehler beim Speichern der Mitarbeiterdaten",

@@ -198,7 +198,7 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import {
   mdiAccount,
   mdiEmail,
@@ -212,21 +212,17 @@ import {
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import BudgetPositionsFields from './BudgetPositionsFields.vue';
+import Petition from '@/models/Petition';
 import { VDateInput } from 'vuetify/labs/VDateInput';
 import { format } from 'date-fns';
 
-const { t } = useI18n();
-const store = useStore();
-
-const formatDate = (date) => {
-  if (!date) return null;
-  return format(new Date(date), 'dd.MM.yyyy');
-};
-
-const user = computed(() => store.getters['auth/user']);
-const supervisorMail = computed(() =>
-  user.value.user_role === 1 ? user.value.email : ''
-);
+const props = defineProps({
+  petition: {
+    type: [Object, null],
+    required: false,
+    default: null,
+  },
+});
 
 const icons = {
   mdiAccount,
@@ -239,56 +235,19 @@ const icons = {
   mdiSchool,
 };
 
-const props = defineProps({
-  petition: {
-    type: [Object, null],
-    required: false,
-    default: null,
-  },
-});
-const degreeOptions = [
-  { text: 'Student has a Bachelor Degree', value: true },
-  { text: 'Student does not have a Bachelor Degree', value: false },
-];
+const { t } = useI18n();
+const store = useStore();
 
-const initialFormData = {
-  supervisor_mail: supervisorMail,
-  student_mail: '',
-  start_date: '',
-  end_date: '',
-  minutes: 0,
-  time_exce_name: '',
-  time_exce_start: '',
-  time_exce_end: '',
-  duration_exce_name: '',
-  duration_exce_start: '',
-  duration_exce_end: '',
-  id: '',
-  user_account: '',
-  org_unit: '',
-  eos_number: '',
-  ba_degree: false,
-  status: '',
-  time_exce_student: false,
-  time_exce_course: false,
-  duration_exce_course: false,
-  budget_positions: [
-    {
-      id: '',
-      budget_position: '',
-      budget_approver: '',
-      budget_position_approved: false,
-      percentage: 0,
-    },
-  ],
-};
-
-const formData = ref({ ...initialFormData });
+const formData = ref(new Petition());
 const form = ref(null);
 const budgetPositionsRef = ref(null);
-
 const isFormValid = ref(false);
 
+const user = computed(() => store.getters['auth/user']);
+const degreeOptions = computed(() => [
+  { text: t('petitionFormDialog.bachlor.yes'), value: true },
+  { text: t('petitionFormDialog.bachlor.no'), value: false },
+]);
 // Combine the form validity and the budget position validation
 const isAllValid = computed(() => {
   const isBudgetValid = budgetPositionsRef.value?.percentageTotalRule === true;
@@ -302,42 +261,20 @@ watch(
   () => props.petition,
   (newPetition) => {
     if (newPetition) {
-      const cleanData = {
-        ...initialFormData,
-        ...newPetition,
-        time_exce_course: newPetition.time_exce_course ?? false,
-        duration_exce_course: newPetition.duration_exce_course ?? false,
-      };
-
-      if (!cleanData.time_exce_course) {
-        cleanData.time_exce_name = '';
-        cleanData.time_exce_start = '';
-        cleanData.time_exce_end = '';
-      }
-      if (!cleanData.duration_exce_course) {
-        cleanData.duration_exce_name = '';
-        cleanData.duration_exce_start = '';
-        cleanData.duration_exce_end = '';
-      }
-
-      // Reset budget_positions to the initial state when editing a petition
-      cleanData.budget_positions = [
-        {
-          id: '',
-          budget_position: '',
-          budget_approver: '',
-          budget_position_approved: false,
-          percentage: 0,
-        },
-      ];
-      formData.value = cleanData;
+      // Use the Petition model to convert API data to form-ready format
+      formData.value = Petition.fromBackendResponse(newPetition);
     } else {
-      formData.value = { ...initialFormData };
+      // Reset to empty Petition instance
+      formData.value = new Petition();
     }
   },
   { immediate: true }
 );
 
+const formatDate = (date) => {
+  if (!date) return null;
+  return format(new Date(date), 'dd.MM.yyyy');
+};
 // Clear time exception fields when checkbox is unchecked
 const handleTimeExceptionChange = (value) => {
   if (!value) {
@@ -375,6 +312,12 @@ const endDateRule = (v) => {
 };
 const eosRule = (v) => /^F\d{6}$/.test(v) || t('validationRule.eosNumber');
 
+onMounted(() => {
+  // Set supervisor email if user is a supervisor
+  if (user.value.user_role === 1) {
+    formData.value.supervisor_mail = user.value.email;
+  }
+});
 defineExpose({ formData, isAllValid });
 </script>
 

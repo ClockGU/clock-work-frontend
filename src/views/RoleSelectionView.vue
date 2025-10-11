@@ -41,6 +41,7 @@ import RoleCardButton from '@/components/ui/RoleCardButton.vue';
 import StudentImg from '@/assets/student.jpg';
 import SupervisorImg from '@/assets/supervisor.png';
 import AuthApiService from '@/services/authApiService';
+import loginErrorHandler from '@/utils/loginErrorHandler';
 
 const router = useRouter();
 const store = useStore();
@@ -66,17 +67,9 @@ const redirectToDashboard = async (role) => {
     console.error('Error updating user role:', error);
     if (error.response?.status === 401) {
       AuthApiService.logout();
-      store.dispatch(
-        'auth/setLoginError',
-        t('errors.roleSelection.sessionExpired')
-      );
-      router.push({ name: 'landing' });
+      loginErrorHandler.setLoginError(t('errors.roleSelection.sessionExpired'));
     } else {
-      store.dispatch(
-        'auth/setLoginError',
-        t('errors.roleSelection.updateFailed')
-      );
-      router.push({ name: 'landing' });
+      loginErrorHandler.setLoginError(t('errors.roleSelection.updateFailed'));
     }
   }
 };

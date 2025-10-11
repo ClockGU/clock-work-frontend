@@ -63,7 +63,6 @@ import { ref, computed } from 'vue';
 import ContentApiService from '@/services/contentApiService';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
-import { formatISO, format } from 'date-fns';
 
 const emit = defineEmits(['close']);
 const store = useStore();
@@ -74,47 +73,11 @@ const filesUploadFormRef = ref(null);
 const step = ref(1);
 const isSaving = ref(false);
 
-// Helper function to format dates for the backend
-const formatDatesForBackend = (data) => {
-  const formattedData = { ...data };
-
-  // Format date_of_birth
-  if (formattedData.date_of_birth) {
-    formattedData.date_of_birth = formatISO(
-      new Date(formattedData.date_of_birth),
-      {
-        representation: 'date',
-      }
-    );
-  }
-
-  // Format prev_emp_duration as string "DD.MM.YYYY – DD.MM.YYYY"
-  if (
-    formattedData.prev_emp_duration &&
-    Array.isArray(formattedData.prev_emp_duration)
-  ) {
-    // Get only the first and last dates from the array (start and end of range)
-    const dates = formattedData.prev_emp_duration;
-    if (dates.length >= 2) {
-      const startDate = dates[0];
-      const endDate = dates[dates.length - 1];
-      if (startDate && endDate) {
-        formattedData.prev_emp_duration = `${format(new Date(startDate), 'dd.MM.yyyy')} – ${format(new Date(endDate), 'dd.MM.yyyy')}`;
-        formattedData.previous_employment = true;
-      }
-    } else {
-      formattedData.prev_emp_duration = '';
-      formattedData.previous_employment = false;
-    }
-  }
-  return formattedData;
-};
-
 const saveEmployeeData = async () => {
   try {
     isSaving.value = true;
-    const formData = employeeDataFormRef.value.formData;
-    const formattedData = formatDatesForBackend(formData);
+    const employeeData = employeeDataFormRef.value.formData;
+    const formattedData = employeeData.toBackendFormat();
     await ContentApiService.patch('/employees', formattedData);
     return true; // Success
   } catch (error) {
