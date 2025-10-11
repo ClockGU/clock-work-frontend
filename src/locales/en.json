@@ -243,7 +243,7 @@
       "generic": "An error occurred during login. Please try again."
     },
     "buttonGoethe": {
-      "urlFetch": "Error fetching authorization URL. Please try again."
+      "UrlFetch": "Error fetching authorization URL. Please try again."
     },
     "roleSelection": {
       "sessionExpired": "Session expired. Please login again.",
