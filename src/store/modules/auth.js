@@ -38,8 +38,6 @@ const actions = {
     window.location = 'https://cas.rz.uni-frankfurt.de/cas/logout';
   },
   setUser: ({ commit }, payload) => commit('setUser', payload),
-  setLoginError: ({ commit }, error) => commit('setLoginError', error),
-  clearError: ({ commit }) => commit('clearError'),
   async refreshTokens({ dispatch, getters }) {
     try {
       const response = await AuthApiService.refreshToken(getters.refreshToken);
