@@ -42,7 +42,7 @@ const petitions = ref([]);
 
 const fetchPetitions = async () => {
   try {
-    const response = await ContentApiService.get('/clerk/petitions/pending');
+    const response = await ContentApiService.get('/clerk/petitions');
     petitions.value = response.data;
   } catch (error) {
     if (error.response?.status !== 404) {
