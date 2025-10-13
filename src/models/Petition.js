@@ -61,7 +61,7 @@ class Petition {
         formattedData[key] = '';
       }
     });
-
+    // Exclude 'status' and any empty or null fields
     const filteredFormData = Object.fromEntries(
       Object.entries(formattedData).filter(
         ([key, value]) => key !== 'status' && value !== '' && value !== null

@@ -147,9 +147,6 @@ const noPetitionMessage = computed(() =>
 );
 const user = computed(() => store.getters['auth/user']);
 
-const isBudgetPositionPending = (budgetPosition) => {
-  return budgetPosition.budget_position_approved === false;
-};
 const markPetitionRevisionAsComplete = () => {
   actionCompleted.value = true;
   petition.value = null;
@@ -166,7 +163,8 @@ const fetchPetition = async () => {
     // Check if the petition exists and has a budget position that matches
     // the budgetPositionId from the query and is awaiting action.
     const hasPendingBudgetPosition = fetchedPetition.budget_positions.some(
-      (pos) => pos.id === budgetPositionId && isBudgetPositionPending(pos)
+      (pos) =>
+        pos.id === budgetPositionId && pos.budget_position_approved === false
     );
 
     if (hasPendingBudgetPosition) {
