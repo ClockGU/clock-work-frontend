@@ -286,6 +286,9 @@
     },
     "clerkView": {
       "unauthorized": "Sie sind nicht berechtigt, den Clerk-Ansicht zu öffnen"
+    },
+    "RoleDashboardView": {
+      "unauthorized": "Sie sind nicht berechtigt, diesen Ansicht zu öffnen. Bitte wählen Sie eine gültige Rolle aus."
     }
   },
   "approverView": {

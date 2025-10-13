@@ -287,6 +287,9 @@
     },
     "clerkView": {
       "unauthorized": "You are not authorized to access the clerk view"
+    },
+    "RoleDashboardView": {
+      "unauthorized": "You are not authorized to access this view. Please select a valid role."
     }
   },
   "approverView": {

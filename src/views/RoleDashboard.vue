@@ -33,9 +33,10 @@ import EditCard from '@/components/dashboard/EditCard.vue';
 import OverviewCard from '@/components/dashboard/OverviewCard.vue';
 import InstructionCard from '@/components/dashboard/InstructionCard.vue';
 
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
+import loginErrorHandler from '@/utils/loginErrorHandler';
 
 const store = useStore();
 const { t } = useI18n();
@@ -59,6 +60,11 @@ const instructionCardText = computed(() =>
 const selectPetition = (petition) => (selectedPetition.value = petition);
 const deselectPetition = () => (selectedPetition.value = null);
 
+const checkRoleAuthorization = (role) => {
+  if (role !== 0 && role !== 1) {
+    loginErrorHandler.setLoginError(t('errors.RoleDashboardView.unauthorized'));
+  }
+};
 const fetchPetitions = async () => {
   isLoading.value = true;
   try {
@@ -100,7 +106,11 @@ const handleRefresh = (payload) => {
   }
   fetchPetitions();
 };
+watch(userRole, (newRole) => {
+  checkRoleAuthorization(newRole);
+});
 onMounted(() => {
+  checkRoleAuthorization(userRole.value);
   fetchPetitions();
 });
 </script>
