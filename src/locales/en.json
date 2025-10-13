@@ -284,6 +284,9 @@
       "loadPetitionError": "Failed to load petition for review",
       "approveError": "Error approving petition",
       "rejectError": "Error rejecting petition"
+    },
+    "clerkView": {
+      "unauthorized": "You are not authorized to access the clerk view"
     }
   },
   "approverView": {

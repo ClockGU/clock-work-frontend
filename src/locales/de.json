@@ -283,6 +283,9 @@
       "loadPetitionError": "Fehler beim Laden des Antrags zur Überprüfung",
       "approveError": "Fehler beim Genehmigen des Antrags",
       "rejectError": "Fehler beim Ablehnen des Antrags"
+    },
+    "clerkView": {
+      "unauthorized": "Sie sind nicht berechtigt, den Clerk-Ansicht zu öffnen"
     }
   },
   "approverView": {

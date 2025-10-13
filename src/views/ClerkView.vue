@@ -28,18 +28,20 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import ContentApiService from '@/services/contentApiService';
 import PetitionDataDisplay from '@/components/clerk/PetitionDataDisplay.vue';
 import ClerkPetitionTable from '@/components/tables/ClerkPetitionTable.vue';
+import loginErrorHandler from '@/utils/loginErrorHandler';
 
 const store = useStore();
 const { t } = useI18n();
 const selectedPetition = ref(null);
 const petitions = ref([]);
 
+const userRole = computed(() => store.getters['auth/userRole']);
 const fetchPetitions = async () => {
   try {
     const response = await ContentApiService.get('/clerk/petitions');
@@ -53,7 +55,11 @@ const fetchPetitions = async () => {
     }
   }
 };
-
+const checkClerkAuthorization = (role) => {
+  if (role !== 2) {
+    loginErrorHandler.setLoginError(t('errors.clerkView.unauthorized'));
+  }
+};
 const selectPetition = (petition) => {
   selectedPetition.value = petition;
 };
@@ -91,8 +97,12 @@ const handleRefresh = (payload) => {
   }
   fetchPetitions();
 };
+watch(userRole, (newRole) => {
+  checkClerkAuthorization(newRole);
+});
 
 onMounted(() => {
+  checkClerkAuthorization(userRole.value);
   fetchPetitions();
 });
 </script>

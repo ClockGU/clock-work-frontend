@@ -67,7 +67,9 @@ const headers = computed(() => [
 ]);
 const searchableFields = computed(() => {
   return headers.value.filter((header) =>
-    ['supervisor_mail', 'student_mail', 'org_unit', 'status'].includes(header.key)
+    ['supervisor_mail', 'student_mail', 'org_unit', 'status'].includes(
+      header.key
+    )
   );
 });
 
