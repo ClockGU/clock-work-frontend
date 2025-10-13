@@ -1,6 +1,6 @@
 <template>
   <v-card flat class="my-4">
-    <v-card-title class="d-flex align-center justify-center ga-6 py-0">
+    <v-card-title class="d-flex align-center ga-6 py-0">
       <v-select
         v-model="searchField"
         :items="searchableFields"
@@ -13,9 +13,16 @@
         v-model="searchTerm"
         :placeholder="$t('search')"
         :prepend-inner-icon="icons.mdiMagnify"
+        :style="{ maxWidth: '400px' }"
         clearable
         single-line
       ></v-text-field>
+      <v-checkbox
+        v-model="showCompleted"
+        :label="$t('clerkPetitionTable.showCompletedPetitions')"
+        hide-details
+        class="mr-4 flex-shrink-0"
+      ></v-checkbox>
     </v-card-title>
     <v-card-text>
       <PetitionsOverviewTable
@@ -52,6 +59,7 @@ const { t } = useI18n();
 
 const searchTerm = ref('');
 const searchField = ref('supervisor_mail');
+const showCompleted = ref(false);
 
 const headers = computed(() => [
   { title: t('petition.supervisorMail'), key: 'supervisor_mail' },
@@ -74,10 +82,20 @@ const searchableFields = computed(() => {
 });
 
 const filteredItems = computed(() => {
-  if (!searchTerm.value) return props.items;
-  return props.items.filter((item) => {
-    // Get the value of the selected field from the current item and check if the field value includes the search term
-    const fieldValue = String(item[searchField.value]).toLowerCase();
+  let itemsToFilter = props.items;
+  // 1. Filter out completed petitions if the checkbox is not checked.
+  if (!showCompleted.value) {
+    itemsToFilter = itemsToFilter.filter(
+      (item) => item.status?.toLowerCase() !== 'completed'
+    );
+  }
+  // 2. If there's no search term, return the list .
+  if (!searchTerm.value) {
+    return itemsToFilter;
+  }
+  // 3. Apply the text search on the already filtered list.
+  return itemsToFilter.filter((item) => {
+    const fieldValue = String(item[searchField.value] ?? '').toLowerCase();
     return fieldValue.includes(searchTerm.value.toLowerCase());
   });
 });

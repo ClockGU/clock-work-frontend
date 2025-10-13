@@ -81,6 +81,9 @@
       "false": "Keine Ausnahme"
     }
   },
+  "clerkPetitionTable": {
+    "showCompletedPetitions": "Abgeschlossene Anträge anzeigen"
+  },
   "confirmationDialog": {
     "PetitionDeletion": "Sind Sie sicher, dass Sie diesen Antrag löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden."
   },
