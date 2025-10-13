@@ -56,6 +56,7 @@ const searchField = ref('supervisor_mail');
 const headers = computed(() => [
   { title: t('petition.supervisorMail'), key: 'supervisor_mail' },
   { title: t('petition.studentMail'), key: 'student_mail' },
+  { title: t('petition.status'), key: 'status' },
   { title: t('petition.startDate'), key: 'start_date' },
   { title: t('petition.endDate'), key: 'end_date' },
   { title: t('petition.minutes'), key: 'minutes' },
@@ -66,7 +67,7 @@ const headers = computed(() => [
 ]);
 const searchableFields = computed(() => {
   return headers.value.filter((header) =>
-    ['supervisor_mail', 'student_mail', 'org_unit'].includes(header.key)
+    ['supervisor_mail', 'student_mail', 'org_unit', 'status'].includes(header.key)
   );
 });
 

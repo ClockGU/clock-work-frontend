@@ -61,7 +61,6 @@ const handleApproval = async (petitionId) => {
   try {
     await ContentApiService.patch(`/clerk/petitions/${petitionId}`, {
       approved: true,
-      status: 'approved',
     });
     selectedPetition.value = null;
     store.dispatch('snackbar/setSnack', {
