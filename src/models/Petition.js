@@ -64,12 +64,10 @@ class Petition {
 
     const filteredFormData = Object.fromEntries(
       Object.entries(formattedData).filter(
-        ([, value]) => value !== '' && value !== null
+        ([key, value]) => key !== 'status' && value !== '' && value !== null
       )
     );
-
     return filteredFormData;
   }
 }
-
 export default Petition;
