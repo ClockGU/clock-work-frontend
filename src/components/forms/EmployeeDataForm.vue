@@ -61,7 +61,6 @@
           id="dateOfBirth"
           v-model="formData.date_of_birth"
           placeholder="DD.MM.YYYY"
-          :display-format="formatDateForDisplay"
           :aria-label="$t('employeeDataForm.dateOfBirth')"
           :rules="[requiredRule]"
         />
@@ -184,7 +183,6 @@
           v-model="formData.prev_emp_duration"
           multiple="range"
           placeholder="DD.MM.YYYY – DD.MM.YYYY"
-          :display-format="formatDateForDisplay"
           :aria-label="$t('employeeDataForm.duration')"
           :rules="formData.previous_employment ? [requiredRule] : []"
         />
@@ -213,7 +211,6 @@ import {
 } from '@mdi/js';
 import ContentApiService from '@/services/contentApiService';
 import { VDateInput } from 'vuetify/labs/VDateInput';
-import { format } from 'date-fns';
 import EmployeeData from '@/models/EmployeeData';
 
 const icons = {
@@ -245,11 +242,6 @@ const phoneRule = (v) =>
   /^\d{10,15}$/.test(v) || t('validationRule.invalidPhone');
 const ibanRule = (v) =>
   /^[A-Z]{2}\d{2}[A-Z0-9]{11,30}$/.test(v) || t('validationRule.invalidIban');
-
-const formatDateForDisplay = (date) => {
-  if (!date) return null;
-  return format(new Date(date), 'dd.MM.yyyy');
-};
 
 const handlePreviousEmploymentChange = (value) => {
   if (!value) {

@@ -56,7 +56,6 @@
           id="startDate"
           v-model="formData.start_date"
           placeholder="DD.MM.YYYY"
-          :display-format="formatDateForDisplay"
           :aria-label="$t('petition.startDate')"
           :rules="[requiredRule]"
         />
@@ -67,7 +66,6 @@
           id="endDate"
           v-model="formData.end_date"
           placeholder="DD.MM.YYYY"
-          :display-format="formatDateForDisplay"
           :aria-label="$t('petition.endDate')"
           :rules="[requiredRule, endDateRule]"
         />
@@ -132,7 +130,6 @@
             id="timeExceStart"
             v-model="formData.time_exce_start"
             placeholder="DD.MM.YYYY"
-            :display-format="formatDateForDisplay"
             :aria-label="$t('petition.timeExceStart')"
             :rules="[requiredRule]"
           />
@@ -143,7 +140,6 @@
             id="timeExceEnd"
             v-model="formData.time_exce_end"
             placeholder="DD.MM.YYYY"
-            :display-format="formatDateForDisplay"
             :aria-label="$t('petition.timeExceEnd')"
             :rules="[requiredRule]"
           />
@@ -176,7 +172,6 @@
             id="durationExceStart"
             v-model="formData.duration_exce_start"
             placeholder="DD.MM.YYYY"
-            :display-format="formatDateForDisplay"
             :aria-label="$t('petition.durationExceStart')"
             :rules="[requiredRule]"
           />
@@ -187,7 +182,6 @@
             id="durationExceEnd"
             v-model="formData.duration_exce_end"
             placeholder="DD.MM.YYYY"
-            :display-format="formatDateForDisplay"
             :aria-label="$t('petition.durationExceEnd')"
             :rules="[requiredRule]"
           />
@@ -270,10 +264,7 @@ watch(
   { immediate: true }
 );
 
-const formatDateForDisplay = (date) => {
-  if (!date) return null;
-  return format(new Date(date), 'dd.MM.yyyy');
-};
+
 
 // Clear time exception fields when checkbox is unchecked
 const handleTimeExceptionChange = (value) => {
