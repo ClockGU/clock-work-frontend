@@ -267,7 +267,7 @@ watch(
       formData.value = new Petition();
     }
   },
-  { immediate: true}
+  { immediate: true }
 );
 
 const formatDateForDisplay = (date) => {

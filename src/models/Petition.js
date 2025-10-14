@@ -45,22 +45,21 @@ class Petition {
   }
 
   parseDate(dateValue) {
-  if (!dateValue) return null;
+    if (!dateValue) return null;
 
-  if (dateValue instanceof Date && isValid(dateValue)) {
-    return dateValue;
+    if (dateValue instanceof Date && isValid(dateValue)) {
+      return dateValue;
+    }
+    if (typeof dateValue === 'string') {
+      const dateObj = new Date(dateValue);
+      if (isValid(dateObj)) return dateObj;
+
+      const parsedDate = parse(dateValue, 'dd.MM.yyyy', new Date());
+      if (isValid(parsedDate)) return parsedDate;
+    }
+
+    return null;
   }
-  if (typeof dateValue === 'string') {
-
-    const dateObj = new Date(dateValue);
-    if (isValid(dateObj)) return dateObj;
-
-    const parsedDate = parse(dateValue, 'dd.MM.yyyy', new Date());
-    if (isValid(parsedDate)) return parsedDate;
-  }
-
-  return null;
-}
 
   static fromBackendResponse(data) {
     return new Petition(data);
