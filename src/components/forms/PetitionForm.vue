@@ -56,7 +56,7 @@
           id="startDate"
           v-model="formData.start_date"
           placeholder="DD.MM.YYYY"
-          :display-format="formatDate"
+          :display-format="formatDateForDisplay"
           :aria-label="$t('petition.startDate')"
           :rules="[requiredRule]"
         />
@@ -67,7 +67,7 @@
           id="endDate"
           v-model="formData.end_date"
           placeholder="DD.MM.YYYY"
-          :display-format="formatDate"
+          :display-format="formatDateForDisplay"
           :aria-label="$t('petition.endDate')"
           :rules="[requiredRule, endDateRule]"
         />
@@ -132,7 +132,7 @@
             id="timeExceStart"
             v-model="formData.time_exce_start"
             placeholder="DD.MM.YYYY"
-            :display-format="formatDate"
+            :display-format="formatDateForDisplay"
             :aria-label="$t('petition.timeExceStart')"
             :rules="[requiredRule]"
           />
@@ -143,7 +143,7 @@
             id="timeExceEnd"
             v-model="formData.time_exce_end"
             placeholder="DD.MM.YYYY"
-            :display-format="formatDate"
+            :display-format="formatDateForDisplay"
             :aria-label="$t('petition.timeExceEnd')"
             :rules="[requiredRule]"
           />
@@ -176,7 +176,7 @@
             id="durationExceStart"
             v-model="formData.duration_exce_start"
             placeholder="DD.MM.YYYY"
-            :display-format="formatDate"
+            :display-format="formatDateForDisplay"
             :aria-label="$t('petition.durationExceStart')"
             :rules="[requiredRule]"
           />
@@ -187,7 +187,7 @@
             id="durationExceEnd"
             v-model="formData.duration_exce_end"
             placeholder="DD.MM.YYYY"
-            :display-format="formatDate"
+            :display-format="formatDateForDisplay"
             :aria-label="$t('petition.durationExceEnd')"
             :rules="[requiredRule]"
           />
@@ -248,6 +248,7 @@ const degreeOptions = computed(() => [
   { text: t('petitionFormDialog.bachlor.yes'), value: true },
   { text: t('petitionFormDialog.bachlor.no'), value: false },
 ]);
+
 // Combine the form validity and the budget position validation
 const isAllValid = computed(() => {
   const isBudgetValid = budgetPositionsRef.value?.percentageTotalRule === true;
@@ -261,20 +262,19 @@ watch(
   () => props.petition,
   (newPetition) => {
     if (newPetition) {
-      // Use the Petition model to convert API data to form-ready format
       formData.value = Petition.fromBackendResponse(newPetition);
     } else {
-      // Reset to empty Petition instance
       formData.value = new Petition();
     }
   },
-  { immediate: true }
+  { immediate: true}
 );
 
-const formatDate = (date) => {
+const formatDateForDisplay = (date) => {
   if (!date) return null;
   return format(new Date(date), 'dd.MM.yyyy');
 };
+
 // Clear time exception fields when checkbox is unchecked
 const handleTimeExceptionChange = (value) => {
   if (!value) {
@@ -305,19 +305,19 @@ const emailRule = (v) =>
 const positiveNumberRule = (v) => v > 0 || t('validationRule.positiveNumber');
 const endDateRule = (v) => {
   if (!formData.value.start_date || !v) return true;
-  return (
-    new Date(v) >= new Date(formData.value.start_date) ||
-    t('validationRule.endDateAfterStart')
-  );
+  const startDate = new Date(formData.value.start_date);
+  const endDate = new Date(v);
+  return endDate > startDate || t('validationRule.endDateAfterStart');
 };
 const eosRule = (v) => /^F\d{6}$/.test(v) || t('validationRule.eosNumber');
 
 onMounted(() => {
   // Set supervisor email if user is a supervisor
-  if (user.value.user_role === 1) {
+  if (user.value?.user_role === 1) {
     formData.value.supervisor_mail = user.value.email;
   }
 });
+
 defineExpose({ formData, isAllValid });
 </script>
 

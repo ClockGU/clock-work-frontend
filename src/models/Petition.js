@@ -1,4 +1,4 @@
-import { parseISO, formatISO, isValid } from 'date-fns';
+import { parse, format, isValid } from 'date-fns';
 
 const DATE_KEYS = [
   'start_date',
@@ -37,13 +37,30 @@ class Petition {
 
     DATE_KEYS.forEach((key) => {
       if (data[key]) {
-        const parsedDate = parseISO(data[key]);
-        this[key] = isValid(parsedDate) ? parsedDate : '';
+        this[key] = this.parseDate(data[key]);
       } else {
-        this[key] = '';
+        this[key] = null;
       }
     });
   }
+
+  parseDate(dateValue) {
+  if (!dateValue) return null;
+
+  if (dateValue instanceof Date && isValid(dateValue)) {
+    return dateValue;
+  }
+  if (typeof dateValue === 'string') {
+
+    const dateObj = new Date(dateValue);
+    if (isValid(dateObj)) return dateObj;
+
+    const parsedDate = parse(dateValue, 'dd.MM.yyyy', new Date());
+    if (isValid(parsedDate)) return parsedDate;
+  }
+
+  return null;
+}
 
   static fromBackendResponse(data) {
     return new Petition(data);
@@ -54,20 +71,21 @@ class Petition {
 
     DATE_KEYS.forEach((key) => {
       if (formattedData[key] && isValid(formattedData[key])) {
-        formattedData[key] = formatISO(formattedData[key], {
-          representation: 'date',
-        });
+        formattedData[key] = format(formattedData[key], 'yyyy-MM-dd');
       } else {
-        formattedData[key] = '';
+        formattedData[key] = null;
       }
     });
+
     // Exclude 'status' and any empty or null fields
     const filteredFormData = Object.fromEntries(
       Object.entries(formattedData).filter(
         ([key, value]) => key !== 'status' && value !== '' && value !== null
       )
     );
+
     return filteredFormData;
   }
 }
+
 export default Petition;

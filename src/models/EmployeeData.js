@@ -1,5 +1,4 @@
-// EmployeeDataModel.js
-import { formatISO, format, parse } from 'date-fns';
+import {format, parse } from 'date-fns';
 
 class EmployeeData {
   constructor(data = {}) {
@@ -60,12 +59,11 @@ class EmployeeData {
   toBackendFormat() {
     const formattedData = { ...this };
 
-    // Format date_of_birth to ISO date string (DD-MM-YYYY)
     if (formattedData.date_of_birth) {
-      formattedData.date_of_birth = formatISO(
-        new Date(formattedData.date_of_birth),
-        { representation: 'date' }
-      );
+      formattedData.date_of_birth = format(
+  new Date(formattedData.date_of_birth),
+  'yyyy-MM-dd'
+);
     }
 
     // Format prev_emp_duration array to string "DD.MM.YYYY – DD.MM.YYYY"
