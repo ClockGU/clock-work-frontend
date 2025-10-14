@@ -277,25 +277,18 @@ const formatDateForDisplay = (date) => {
 
 // Clear time exception fields when checkbox is unchecked
 const handleTimeExceptionChange = (value) => {
-  if (!value) {
-    formData.value.time_exce_course = false;
-    formData.value.time_exce_name = '';
-    formData.value.time_exce_start = '';
-    formData.value.time_exce_end = '';
-  } else {
-    formData.value.time_exce_course = true;
-  }
+  formData.value.time_exce_course = value;
+  // Always reset the fields when the checkbox state changes
+  formData.value.time_exce_name = '';
+  formData.value.time_exce_start = null;
+  formData.value.time_exce_end = null;
 };
 
 const handleDurationExceptionChange = (value) => {
-  if (!value) {
-    formData.value.duration_exce_course = false;
-    formData.value.duration_exce_name = '';
-    formData.value.duration_exce_start = '';
-    formData.value.duration_exce_end = '';
-  } else {
-    formData.value.duration_exce_course = true;
-  }
+  formData.value.duration_exce_course = value;
+  formData.value.duration_exce_name = '';
+  formData.value.duration_exce_start = null;
+  formData.value.duration_exce_end = null;
 };
 
 // Validation rules
