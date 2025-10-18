@@ -10,6 +10,7 @@
       <v-col cols="12" md="6">
         <EditCard
           :selectedPetition="selectedPetition"
+          :petitions="petitions"
           @refresh="handleRefresh"
           @deselect-petition="deselectPetition"
         />

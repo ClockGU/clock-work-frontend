@@ -9,8 +9,9 @@
   <StudentDataManagementDialog
     v-if="userRole === 0"
     v-model="showStudentDialog"
-    :petition="selectedPetition"
+    :petitions="petitions"
     @close="showStudentDialog = false"
+    @refresh="refresh"
   />
   <v-card
     class="py-4 pl-2"
@@ -100,6 +101,10 @@ const props = defineProps({
   selectedPetition: {
     type: Object,
     default: null,
+  },
+  petitions: {
+    type: Array,
+    default: () => [],
   },
 });
 

@@ -65,12 +65,12 @@ import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
-  petition: {
-    type: Object,
-    required: false,
+  petitions: {
+    type: Array,
+    default: () => [],
   },
 });
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'refresh']);
 
 const store = useStore();
 const { t } = useI18n();
@@ -125,7 +125,7 @@ const saveDocuments = async () => {
     store.dispatch('snackbar/setSnack', {
       message: t('studentDataManagementDialog.saveSuccess'),
     });
-    completeClerkRevision();
+    notifyClerkOfCompletion();
     emit('close');
   } catch (error) {
     console.error('Error saving files:', error);
@@ -136,20 +136,26 @@ const saveDocuments = async () => {
     isSaving.value = false;
   }
 };
-// informs the clerk of students changes via the socket
-const completeClerkRevision = async () => {
-  if (props.petition && props.petition.status === 'clerk_revision') {
-    try {
-      await ContentApiService.patch(
-        `/students/petitions/${props.petition.id}/revision-done`
-      );
-    } catch (error) {
-      console.error('Error informing clerk about student changes:', error);
-      store.dispatch('snackbar/setErrorSnacks', {
-        message: t('errors.studentData.notifyingClerk'),
-      });
-    }
-  }
+// Notify clerk about changes in petitions that were under clerk revision 
+const notifyClerkOfCompletion = async () => {
+  try {
+    const petitionsUnderClerkRevision = props.petitions.filter(
+      (petition) => petition.status === 'clerk_revision'
+    );
+    await Promise.all(
+      petitionsUnderClerkRevision.map(
+        (petition) => ContentApiService.patch(
+          `/students/petitions/${petition.id}/revision-done`
+        )
+      )
+    );
+    emit('refresh');
+  } catch (error) {
+    console.error('Error informing clerk about student changes:', error);
+    store.dispatch('snackbar/setErrorSnacks', {
+      message: t('errors.studentData.notifyingClerk'),
+    });
+};
 };
 
 const isPersonalFormValid = computed(() => {
