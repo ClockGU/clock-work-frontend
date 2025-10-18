@@ -231,7 +231,7 @@ const handleRevision = async () => {
   reportSubject.value = '';
   reportText.value = '';
   emit('close');
-  emit('refresh',{ type: 'update', data: props.petition });
+  emit('refresh', { type: 'update', data: props.petition });
 };
 </script>
 

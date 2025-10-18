@@ -271,7 +271,8 @@
       "savingData": "Fehler beim Speichern der Mitarbeiterdaten",
       "savingFiles": "Fehler beim Speichern der Dateien",
       "fetchingData": "Fehler beim Abrufen der Mitarbeiterdaten",
-      "fetchingDocs": "Fehler beim Abrufen der Dokumente"
+      "fetchingDocs": "Fehler beim Abrufen der Dokumente",
+      "notifyingClerk": "Fehler beim Benachrichtigen des Clerks über die aktualisierten Daten"
     },
     "petition": {
       "deletion": "Fehler beim Löschen des Antrags",

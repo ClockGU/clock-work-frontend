@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted,onUnmounted, ref, watch } from 'vue';
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import ContentApiService from '@/services/contentApiService';
@@ -36,8 +36,10 @@ import PetitionDataDisplay from '@/components/clerk/PetitionDataDisplay.vue';
 import ClerkPetitionTable from '@/components/tables/ClerkPetitionTable.vue';
 import loginErrorHandler from '@/utils/loginErrorHandler';
 import { log } from '@/utils/log';
+
 const store = useStore();
 const { t } = useI18n();
+
 let socket = null;
 
 const selectedPetition = ref(null);
@@ -46,7 +48,7 @@ const petitions = ref([]);
 const userRole = computed(() => store.getters['auth/userRole']);
 const connectWebSocket = () => {
   //this is temporary clerk id for testing
-  const clerkId = 1234; 
+  const clerkId = 1234;
   const wsUrl = `ws://localhost:8030/ws/${clerkId}`;
 
   socket = new WebSocket(wsUrl);
@@ -57,22 +59,25 @@ const connectWebSocket = () => {
   socket.onmessage = (event) => {
     const message = JSON.parse(event.data);
     log('WebSocket message received:', message);
-    if (message.type === 'new_petition' || message.type === 'updated_petitions') {
-      const updatedPetition = message.data.find((petition) => petition.id === selectedPetition.value?.id);
+    if (
+      message.type === 'new_petition' ||
+      message.type === 'updated_petitions'
+    ) {
+      const updatedPetition = message.data.find(
+        (petition) => petition.id === selectedPetition.value?.id
+      );
       if (updatedPetition) {
-        log('Received updated petition:', updatedPetition);
         handleRefresh({ type: 'update', data: updatedPetition });
       }
     }
-};
-socket.onerror = (error) => {
+  };
+  socket.onerror = (error) => {
     console.error('WebSocket error:', error);
   };
 
   socket.onclose = () => {
     log('WebSocket disconnected');
   };
-
 };
 const disconnectWebSocket = () => {
   if (socket) {
@@ -107,7 +112,7 @@ const handleApproval = async (petitionId) => {
     });
     selectedPetition.value = null;
     store.dispatch('snackbar/setSnack', {
-      message: 'Petition approved successfully',
+      message: t('approverView.approveSuccess'),
     });
     handleRefresh();
   } catch (error) {
@@ -150,7 +155,7 @@ onMounted(() => {
     connectWebSocket();
   }
 });
-onUnmounted(() => { 
+onUnmounted(() => {
   disconnectWebSocket();
 });
 </script>

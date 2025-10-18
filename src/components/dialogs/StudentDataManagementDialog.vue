@@ -140,7 +140,9 @@ const saveDocuments = async () => {
 const completeClerkRevision = async () => {
   if (props.petition && props.petition.status === 'clerk_revision') {
     try {
-      await ContentApiService.patch(`/students/petitions/${props.petition.id}/revision-done`);
+      await ContentApiService.patch(
+        `/students/petitions/${props.petition.id}/revision-done`
+      );
     } catch (error) {
       console.error('Error informing clerk about student changes:', error);
       store.dispatch('snackbar/setErrorSnacks', {
@@ -148,7 +150,7 @@ const completeClerkRevision = async () => {
       });
     }
   }
-}
+};
 
 const isPersonalFormValid = computed(() => {
   return employeeDataFormRef.value?.isFormValid ?? false;

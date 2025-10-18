@@ -272,7 +272,8 @@
       "savingData": "Error saving employee data",
       "savingFiles": "Error saving files",
       "fetchingData": "Error fetching employee data",
-      "fetchingDocs": "Error fetching documents"
+      "fetchingDocs": "Error fetching documents",
+      "notifyingClerk": "Error notifying clerk about updated data"
     },
     "petition": {
       "deletion": "Error deleting the petition",
