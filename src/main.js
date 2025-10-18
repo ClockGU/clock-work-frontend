@@ -42,7 +42,6 @@ initializeToken();
 store.subscribe((mutation, state) => {
   switch (mutation.type) {
     case 'auth/setAccessToken':
-    case 'auth/login':
       if (state.auth.accessToken) {
         AuthApiService.setAccessToken(state.auth.accessToken);
         log('Token synchronized from mutation:', mutation.type);
