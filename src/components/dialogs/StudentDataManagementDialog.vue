@@ -142,6 +142,7 @@ const notifyClerkOfCompletion = async () => {
     const petitionsUnderClerkRevision = props.petitions.filter(
       (petition) => petition.status === 'clerk_revision'
     );
+    if (petitionsUnderClerkRevision.length === 0) return;
     await Promise.all(
       petitionsUnderClerkRevision.map(
         (petition) => ContentApiService.patch(
