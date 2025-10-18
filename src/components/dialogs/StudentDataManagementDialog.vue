@@ -136,7 +136,7 @@ const saveDocuments = async () => {
     isSaving.value = false;
   }
 };
-// Notify clerk about changes in petitions that were under clerk revision 
+// Notify clerk about changes in petitions that were under clerk revision
 const notifyClerkOfCompletion = async () => {
   try {
     const petitionsUnderClerkRevision = props.petitions.filter(
@@ -144,8 +144,8 @@ const notifyClerkOfCompletion = async () => {
     );
     if (petitionsUnderClerkRevision.length === 0) return;
     await Promise.all(
-      petitionsUnderClerkRevision.map(
-        (petition) => ContentApiService.patch(
+      petitionsUnderClerkRevision.map((petition) =>
+        ContentApiService.patch(
           `/students/petitions/${petition.id}/revision-done`
         )
       )
@@ -156,7 +156,7 @@ const notifyClerkOfCompletion = async () => {
     store.dispatch('snackbar/setErrorSnacks', {
       message: t('errors.studentData.notifyingClerk'),
     });
-};
+  }
 };
 
 const isPersonalFormValid = computed(() => {
