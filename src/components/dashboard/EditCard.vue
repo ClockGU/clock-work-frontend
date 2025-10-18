@@ -9,6 +9,7 @@
   <StudentDataManagementDialog
     v-if="userRole === 0"
     v-model="showStudentDialog"
+    :petition="selectedPetition"
     @close="showStudentDialog = false"
   />
   <v-card

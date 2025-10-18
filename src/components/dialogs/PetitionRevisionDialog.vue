@@ -164,7 +164,6 @@ const handleClerkRevision = async () => {
     store.dispatch('snackbar/setSnack', {
       message: t('PetitionRevisionDialog.success.clerkRevision'),
     });
-    emit('refresh');
   } catch (error) {
     console.error('Error handling Clerk revision:', error);
     store.dispatch('snackbar/setErrorSnacks', {
@@ -186,7 +185,6 @@ const handleApproverRevision = async () => {
     store.dispatch('snackbar/setSnack', {
       message: t('PetitionRevisionDialog.success.approverRevision'),
     });
-    emit('refresh');
   } catch (error) {
     console.error('Error handling Approver revision:', error);
     store.dispatch('snackbar/setErrorSnacks', {
@@ -208,7 +206,6 @@ const handleStudentRevision = async () => {
     store.dispatch('snackbar/setSnack', {
       message: t('PetitionRevisionDialog.success.studentRevision'),
     });
-    emit('refresh');
   } catch (error) {
     console.error('Error handling Student revision :', error);
     store.dispatch('snackbar/setErrorSnacks', {
@@ -234,6 +231,7 @@ const handleRevision = async () => {
   reportSubject.value = '';
   reportText.value = '';
   emit('close');
+  emit('refresh',{ type: 'update', data: props.petition });
 };
 </script>
 
