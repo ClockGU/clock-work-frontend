@@ -125,7 +125,7 @@ const saveDocuments = async () => {
     store.dispatch('snackbar/setSnack', {
       message: t('studentDataManagementDialog.saveSuccess'),
     });
-    notifyClerkOfCompletion();
+    notifyClerkOfChanges();
     emit('close');
   } catch (error) {
     console.error('Error saving files:', error);
@@ -137,7 +137,7 @@ const saveDocuments = async () => {
   }
 };
 // Notify clerk about changes in petitions that were under clerk revision
-const notifyClerkOfCompletion = async () => {
+const notifyClerkOfChanges = async () => {
   try {
     const petitionsUnderClerkRevision = props.petitions.filter(
       (petition) => petition.status === 'clerk_revision'
