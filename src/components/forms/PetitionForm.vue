@@ -264,8 +264,6 @@ watch(
   { immediate: true }
 );
 
-
-
 // Clear time exception fields when checkbox is unchecked
 const handleTimeExceptionChange = (value) => {
   formData.value.time_exce_course = value;

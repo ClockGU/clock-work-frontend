@@ -28,7 +28,7 @@ const mutations = {
 };
 
 const actions = {
-  login: ({ commit }, payload) => {
+  setTokens: ({ commit }, payload) => {
     commit('setAccessToken', payload.access_token);
     commit('setRefreshToken', payload.refresh_token);
   },
@@ -41,7 +41,7 @@ const actions = {
   async refreshTokens({ dispatch, getters }) {
     try {
       const response = await AuthApiService.refreshToken(getters.refreshToken);
-      await dispatch('login', {
+      await dispatch('setTokens', {
         access_token: response.data.access,
         refresh_token: response.data.refresh,
       });

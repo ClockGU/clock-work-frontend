@@ -59,7 +59,7 @@ const redirectToDashboard = async (role) => {
     const newAccessToken = response.data.new_jwt_token;
     if (newAccessToken) {
       AuthApiService.setAccessToken(newAccessToken);
-      store.dispatch('auth/login', { access_token: newAccessToken });
+      store.dispatch('auth/setTokens', { access_token: newAccessToken });
     }
     store.dispatch('auth/setUser', response.data);
     router.push({ path: `/dashboard/${role}` });
