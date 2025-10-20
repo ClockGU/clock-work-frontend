@@ -74,7 +74,6 @@ const connectWebSocket = () => {
       const updatedPetition = incomingPetitions.find(
         (petition) => petition.id === selectedPetition.value.id
       );
-
       // If the selected petition is in the new data, update its details
       if (updatedPetition) {
         selectedPetition.value = updatedPetition;
@@ -93,19 +92,6 @@ const connectWebSocket = () => {
 const disconnectWebSocket = () => {
   if (socket) {
     socket.close();
-  }
-};
-const fetchPetitions = async () => {
-  try {
-    const response = await ContentApiService.get('/clerk/petitions');
-    petitions.value = response.data;
-  } catch (error) {
-    if (error.response?.status !== 404) {
-      console.error('Error fetching petitions:', error);
-      store.dispatch('snackbar/setErrorSnacks', {
-        message: t('errors.petition.fetching'),
-      });
-    }
   }
 };
 const checkClerkAuthorization = (role) => {
@@ -148,7 +134,6 @@ const handleRefresh = (payload) => {
         break;
     }
   }
-  fetchPetitions();
 };
 watch(userRole, (newRole) => {
   checkClerkAuthorization(newRole);
@@ -161,10 +146,7 @@ watch(userRole, (newRole) => {
 
 onMounted(() => {
   checkClerkAuthorization(userRole.value);
-  fetchPetitions();
-  if (userRole.value === 2) {
-    connectWebSocket();
-  }
+  connectWebSocket();
 });
 onUnmounted(() => {
   disconnectWebSocket();

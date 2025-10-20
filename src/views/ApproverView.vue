@@ -159,18 +159,10 @@ const fetchPetition = async () => {
       `/approver/petitions/${petitionId}`
     );
     const fetchedPetition = response.data;
-
-    // Check if the petition exists and has a budget position that matches
-    // the budgetPositionId from the query and is awaiting action.
-    const hasPendingBudgetPosition = fetchedPetition.budget_positions.some(
-      (pos) =>
-        pos.id === budgetPositionId && pos.budget_position_approved === false
-    );
-
-    if (hasPendingBudgetPosition) {
+    if (fetchedPetition.status ==="approver_action") {
       petition.value = fetchedPetition;
     } else {
-      // If the petition is not pending, clear the petition data
+      // If the petition is approved rejected or under revision, clear the petition da
       petition.value = null;
       actionCompleted.value = true;
     }
