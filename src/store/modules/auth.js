@@ -35,7 +35,6 @@ const actions = {
   logout: ({ commit }) => {
     commit('resetState');
     AuthApiService.logout();
-    window.location = 'https://cas.rz.uni-frankfurt.de/cas/logout';
   },
   setUser: ({ commit }, payload) => commit('setUser', payload),
   async refreshTokens({ dispatch, getters }) {

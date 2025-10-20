@@ -49,6 +49,9 @@ const actions = {
   removeSnack({ commit }, uuid) {
     commit('removeSnack', uuid);
   },
+  removeAllSnacks({ commit }) {
+    commit('removeAllSnacks');
+  },
 };
 const mutations = {
   setSnack(state, payload) {
@@ -56,6 +59,9 @@ const mutations = {
   },
   removeSnack(state, uuid) {
     state.snacks = state.snacks.filter((snack) => snack.uuid !== uuid);
+  },
+  removeAllSnacks(state) {
+    state.snacks = [];
   },
 };
 

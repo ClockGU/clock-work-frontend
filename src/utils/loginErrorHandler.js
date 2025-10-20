@@ -11,6 +11,9 @@ class LoginErrorHandler {
     this.currentLoginError.value = errorMessage;
     // Always route to landing page when error occurs
     router.push({ name: 'landing' });
+
+
+
   }
 
   getLoginError() {
