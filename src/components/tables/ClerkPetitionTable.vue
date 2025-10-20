@@ -82,8 +82,7 @@ const searchableFields = computed(() => {
 });
 
 const filteredItems = computed(() => {
-  let itemsToFilter = props.items;
-  // 1. Filter out completed petitions if the checkbox is not checked.
+let itemsToFilter = Array.isArray(props.items) ? props.items : [];  // 1. Filter out completed petitions if the checkbox is not checked.
   if (!showCompleted.value) {
     itemsToFilter = itemsToFilter.filter(
       (item) => item.status?.toLowerCase() !== 'completed'

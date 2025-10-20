@@ -57,20 +57,31 @@ const connectWebSocket = () => {
     log('WebSocket connected');
   };
   socket.onmessage = (event) => {
-    const message = JSON.parse(event.data);
-    log('WebSocket message received:', message);
-    if (
-      message.type === 'new_petition' ||
-      message.type === 'updated_petitions'
-    ) {
-      const updatedPetition = message.data.find(
-        (petition) => petition.id === selectedPetition.value?.id
+  const message = JSON.parse(event.data);
+  log('WebSocket message received:', message);
+
+  if (
+    message.type === 'new_petition' ||
+    message.type === 'updated_petitions'
+  ) {
+    const incomingPetitions = message.data;
+    
+    // 1. Update the main table list immediately
+    petitions.value = incomingPetitions;
+
+    // 2. Check if the currently selected petition was updated
+    if (selectedPetition.value) {
+      const updatedPetition = incomingPetitions.find(
+        (petition) => petition.id === selectedPetition.value.id
       );
+
+      // If the selected petition is in the new data, update its details
       if (updatedPetition) {
-        handleRefresh({ type: 'update', data: updatedPetition });
-      }
+        selectedPetition.value = updatedPetition;
+      } 
     }
-  };
+  }
+};
   socket.onerror = (error) => {
     console.error('WebSocket error:', error);
   };
