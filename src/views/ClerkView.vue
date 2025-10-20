@@ -112,24 +112,14 @@ const handleApproval = async (petitionId) => {
     await ContentApiService.patch(`/clerk/petitions/${petitionId}`, {
       approved: true,
     });
+    selectedPetition.value = null;
     // Force refresh the data after approval
     await handleRefresh({ type: 'refresh' });
-    if (selectedPetition.value?.status === 'awaiting_signature') {
-      store.dispatch('snackbar/setSnack', {
-        message: t('approverView.approveSuccess.awaitingSignature'),
-      });
-    } else {
-      store.dispatch('snackbar/setSnack', {
-        message: t('approverView.approveSuccess.completed'),
-      });
-    }
   } catch (error) {
     console.error('Error accepting petition:', error);
     store.dispatch('snackbar/setErrorSnacks', {
       message: t('errors.petition.approval'),
     });
-  } finally {
-    selectedPetition.value = null;
   }
 };
 
@@ -180,6 +170,17 @@ watch(
   { immediate: true }
 );
 
+watch (
+  petitions,
+  (newPetitions) => {
+    const updatedSelectedPetition = newPetitions.find(
+      (petition) => petition.id === selectedPetition.value?.id
+    );
+    if (updatedSelectedPetition) {
+      selectedPetition.value = updatedSelectedPetition;
+    }
+  }
+)
 onMounted(() => {
   checkClerkAuthorization(userRole.value);
   if (userRole.value === 2) {
