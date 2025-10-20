@@ -302,7 +302,10 @@
     "petitionData": "Petition Data",
     "noPetition": "No petition available for review at this time.",
     "noPetitionComplete": "This petition has already been processed. Thank you for your review.",
-    "approveSuccess": "Petition approved successfully",
+    "approveSuccess": {
+      "awaitingSignature": "Petition approved successfully. Waiting for student signature.",
+      "completed": "Petition approved successfully."
+    },
     "rejectSuccess": "Petition rejected successfully"
   },
   "budgetPositionStatus": {

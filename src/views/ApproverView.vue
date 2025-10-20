@@ -159,7 +159,7 @@ const fetchPetition = async () => {
       `/approver/petitions/${petitionId}`
     );
     const fetchedPetition = response.data;
-    if (fetchedPetition.status ==="approver_action") {
+    if (fetchedPetition.status === 'approver_action') {
       petition.value = fetchedPetition;
     } else {
       // If the petition is approved rejected or under revision, clear the petition da

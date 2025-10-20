@@ -301,7 +301,10 @@
     "petitionData": "Antragsdaten",
     "noPetition": "Derzeit ist kein Antrag zur Überprüfung verfügbar.",
     "noPetitionComplete": "Dieser Antrag wurde bereits bearbeitet. Vielen Dank für Ihre Überprüfung.",
-    "approveSuccess": "Antrag erfolgreich genehmigt",
+    "approveSuccess": {
+      "awaitingSignature": "Antrag erfolgreich genehmigt. Erwartet die Unterschrift des Studenten.",
+      "completed": "Antrag erfolgreich genehmigt."
+    },
     "rejectSuccess": "Antrag erfolgreich abgelehnt"
   },
   "budgetPositionStatus": {

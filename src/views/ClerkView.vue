@@ -41,13 +41,13 @@ const store = useStore();
 const { t } = useI18n();
 
 let socket = null;
-
 const selectedPetition = ref(null);
 const petitions = ref([]);
 
 const userRole = computed(() => store.getters['auth/userRole']);
+
 const connectWebSocket = () => {
-  //this is temporary clerk id for testing
+  // this is temporary clerk id for testing
   const clerkId = 1234;
   const wsUrl = `ws://localhost:8030/ws/${clerkId}`;
 
@@ -56,31 +56,31 @@ const connectWebSocket = () => {
   socket.onopen = () => {
     log('WebSocket connected');
   };
+
   socket.onmessage = (event) => {
-  const message = JSON.parse(event.data);
-  log('WebSocket message received:', message);
+    const message = JSON.parse(event.data);
+    log('WebSocket message received:', message);
 
-  if (
-    message.type === 'new_petition' ||
-    message.type === 'updated_petitions'
-  ) {
-    const incomingPetitions = message.data;
-    
-    // 1. Update the main table list immediately
-    petitions.value = incomingPetitions;
-
-    // 2. Check if the currently selected petition was updated
-    if (selectedPetition.value) {
-      const updatedPetition = incomingPetitions.find(
-        (petition) => petition.id === selectedPetition.value.id
-      );
-      // If the selected petition is in the new data, update its details
-      if (updatedPetition) {
-        selectedPetition.value = updatedPetition;
-      } 
+    if (
+      message.type === 'new_petition' ||
+      message.type === 'updated_petitions'
+    ) {
+      const incomingPetitions = message.data;
+      petitions.value = incomingPetitions;
+      // Update the selected petition if it exists in the new data
+      if (selectedPetition.value) {
+        const updatedSelectedPetition = incomingPetitions.find(
+          (petition) => petition.id === selectedPetition.value.id
+        );
+        if (updatedSelectedPetition) {
+          selectedPetition.value = updatedSelectedPetition;
+        } else {
+          selectedPetition.value = null;
+        }
+      }
     }
-  }
-};
+  };
+
   socket.onerror = (error) => {
     console.error('WebSocket error:', error);
   };
@@ -89,65 +89,104 @@ const connectWebSocket = () => {
     log('WebSocket disconnected');
   };
 };
+
 const disconnectWebSocket = () => {
   if (socket) {
     socket.close();
+    socket = null;
   }
 };
+
 const checkClerkAuthorization = (role) => {
   if (role !== 2) {
     loginErrorHandler.setLoginError(t('errors.clerkView.unauthorized'));
   }
 };
+
 const selectPetition = (petition) => {
   selectedPetition.value = petition;
 };
+
 const handleApproval = async (petitionId) => {
   try {
     await ContentApiService.patch(`/clerk/petitions/${petitionId}`, {
       approved: true,
     });
-    selectedPetition.value = null;
-    store.dispatch('snackbar/setSnack', {
-      message: t('approverView.approveSuccess'),
-    });
-    handleRefresh();
+    // Force refresh the data after approval
+    await handleRefresh({ type: 'refresh' });
+    if (selectedPetition.value?.status === 'awaiting_signature') {
+      store.dispatch('snackbar/setSnack', {
+        message: t('approverView.approveSuccess.awaitingSignature'),
+      });
+    } else {
+      store.dispatch('snackbar/setSnack', {
+        message: t('approverView.approveSuccess.completed'),
+      });
+    }
   } catch (error) {
     console.error('Error accepting petition:', error);
     store.dispatch('snackbar/setErrorSnacks', {
       message: t('errors.petition.approval'),
     });
+  } finally {
+    selectedPetition.value = null;
   }
 };
-const handleRefresh = (payload) => {
-  if (payload) {
-    switch (payload.type) {
-      case 'update':
-        if (selectedPetition.value?.id === payload.data.id) {
-          selectedPetition.value = payload.data;
-        }
-        break;
-      case 'delete':
-        if (selectedPetition.value?.id === payload.data) {
-          selectedPetition.value = null;
-        }
-        break;
+
+const handleRefresh = async (payload) => {
+  try {
+    // Force a complete data refresh from the server
+    if (payload?.type === 'refresh' || payload?.type === 'update') {
+      try {
+        const response = await ContentApiService.get('/clerk/petitions');
+        petitions.value = response.data;
+      } catch (error) {
+        console.error('Error fetching petitions:', error);
+        store.dispatch('snackbar/setErrorSnacks', {
+          message: t('errors.petition.fetching'),
+        });
+      }
+      // If we have a selected petition that was updated, ensure it's synchronized
+      if (
+        payload.type === 'update' &&
+        payload.data &&
+        selectedPetition.value?.id === payload.data.id
+      ) {
+        selectedPetition.value = { ...payload.data };
+      }
     }
+
+    if (
+      payload?.type === 'delete' &&
+      selectedPetition.value?.id === payload.data
+    ) {
+      selectedPetition.value = null;
+    }
+  } catch (error) {
+    console.error('Refresh error:', error);
   }
 };
-watch(userRole, (newRole) => {
-  checkClerkAuthorization(newRole);
-  if (newRole === 2) {
-    connectWebSocket();
-  } else {
-    disconnectWebSocket();
-  }
-});
+
+watch(
+  userRole,
+  (newRole) => {
+    checkClerkAuthorization(newRole);
+    if (newRole === 2) {
+      connectWebSocket();
+    } else {
+      disconnectWebSocket();
+    }
+  },
+  { immediate: true }
+);
 
 onMounted(() => {
   checkClerkAuthorization(userRole.value);
-  connectWebSocket();
+  if (userRole.value === 2) {
+    connectWebSocket();
+  }
 });
+
 onUnmounted(() => {
   disconnectWebSocket();
 });
