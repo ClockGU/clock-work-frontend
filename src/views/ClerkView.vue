@@ -136,16 +136,7 @@ const handleRefresh = async (payload) => {
           message: t('errors.petition.fetching'),
         });
       }
-      // If we have a selected petition that was updated, ensure it's synchronized
-      if (
-        payload.type === 'update' &&
-        payload.data &&
-        selectedPetition.value?.id === payload.data.id
-      ) {
-        selectedPetition.value = { ...payload.data };
-      }
     }
-
     if (
       payload?.type === 'delete' &&
       selectedPetition.value?.id === payload.data
@@ -169,7 +160,7 @@ watch(
   },
   { immediate: true }
 );
-
+// Update selectedPetition when petitions change
 watch (
   petitions,
   (newPetitions) => {
