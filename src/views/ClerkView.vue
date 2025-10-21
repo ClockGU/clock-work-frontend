@@ -67,17 +67,6 @@ const connectWebSocket = () => {
     ) {
       const incomingPetitions = message.data;
       petitions.value = incomingPetitions;
-      // Update the selected petition if it exists in the new data
-      if (selectedPetition.value) {
-        const updatedSelectedPetition = incomingPetitions.find(
-          (petition) => petition.id === selectedPetition.value.id
-        );
-        if (updatedSelectedPetition) {
-          selectedPetition.value = updatedSelectedPetition;
-        } else {
-          selectedPetition.value = null;
-        }
-      }
     }
   };
 
@@ -114,7 +103,7 @@ const handleApproval = async (petitionId) => {
     });
     selectedPetition.value = null;
     // Force refresh the data after approval
-    await handleRefresh({ type: 'refresh' });
+    await handleRefresh();
   } catch (error) {
     console.error('Error accepting petition:', error);
     store.dispatch('snackbar/setErrorSnacks', {
@@ -122,29 +111,16 @@ const handleApproval = async (petitionId) => {
     });
   }
 };
-
-const handleRefresh = async (payload) => {
+//refresh by fetching all petitions
+const handleRefresh = async () => {
   try {
-    // Force a complete data refresh from the server
-    if (payload?.type === 'refresh' || payload?.type === 'update') {
-      try {
-        const response = await ContentApiService.get('/clerk/petitions');
-        petitions.value = response.data;
-      } catch (error) {
-        console.error('Error fetching petitions:', error);
-        store.dispatch('snackbar/setErrorSnacks', {
-          message: t('errors.petition.fetching'),
-        });
-      }
-    }
-    if (
-      payload?.type === 'delete' &&
-      selectedPetition.value?.id === payload.data
-    ) {
-      selectedPetition.value = null;
-    }
+    const response = await ContentApiService.get('/clerk/petitions');
+    petitions.value = response.data;
   } catch (error) {
-    console.error('Refresh error:', error);
+    console.error('Error fetching petitions:', error);
+    store.dispatch('snackbar/setErrorSnacks', {
+      message: t('errors.petition.fetching'),
+    });
   }
 };
 
@@ -160,18 +136,18 @@ watch(
   },
   { immediate: true }
 );
-// Update selectedPetition when petitions change
-watch (
-  petitions,
-  (newPetitions) => {
-    const updatedSelectedPetition = newPetitions.find(
-      (petition) => petition.id === selectedPetition.value?.id
-    );
-    if (updatedSelectedPetition) {
-      selectedPetition.value = updatedSelectedPetition;
-    }
+// sync selectedPetition with petitions
+watch(petitions, (newPetitions) => {
+  const updatedSelectedPetition = newPetitions.find(
+    (petition) => petition.id === selectedPetition.value?.id
+  );
+  if (updatedSelectedPetition) {
+    selectedPetition.value = updatedSelectedPetition;
+  } else {
+    selectedPetition.value = null;
   }
-)
+});
+
 onMounted(() => {
   checkClerkAuthorization(userRole.value);
   if (userRole.value === 2) {

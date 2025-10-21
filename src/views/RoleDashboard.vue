@@ -90,15 +90,15 @@ const handleRefresh = (payload) => {
   if (payload) {
     switch (payload.type) {
       case 'update':
-        // Update the selected petition's data if it's the one that was updated
+        // optimistic update of selected petition's data if it's the one that was edited
         if (selectedPetition.value?.id === payload.data.id) {
-          selectPetition(payload.data);
+          selectedPetition.value = payload.data;
         }
         break;
       case 'delete':
-        // Deselect the petition if it's the one being deleted
+        // optimistic deselection of petition if it's the one being deleted
         if (selectedPetition.value?.id === payload.data) {
-          deselectPetition();
+          selectedPetition.value = null;
         }
         // Immediately update the local petitions array to remove the deleted item
         petitions.value = petitions.value.filter((p) => p.id !== payload.data);
@@ -109,6 +109,17 @@ const handleRefresh = (payload) => {
 };
 watch(userRole, (newRole) => {
   checkRoleAuthorization(newRole);
+});
+// sync selectedPetition with petitions
+watch(petitions, (newPetitions) => {
+  const updatedSelectedPetition = newPetitions.find(
+    (petition) => petition.id === selectedPetition.value?.id
+  );
+  if (updatedSelectedPetition) {
+    selectedPetition.value = updatedSelectedPetition;
+  } else {
+    selectedPetition.value = null;
+  }
 });
 onMounted(() => {
   checkRoleAuthorization(userRole.value);
