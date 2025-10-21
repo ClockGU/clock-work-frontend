@@ -66,6 +66,5 @@ const store = useStore();
 const error = loginErrorHandler.getErrorRef();
 onMounted(() => {
   store.dispatch('clearAllStates');
-
 });
 </script>
