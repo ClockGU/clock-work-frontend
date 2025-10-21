@@ -58,8 +58,13 @@ import ClockIcon from '@/components/landing/ClockIcon.vue';
 import ButtonGoetheOAuth from '@/components/landing/ButtonGoetheOAuth.vue';
 import loginErrorHandler from '@/utils/loginErrorHandler';
 import { useDisplay } from 'vuetify';
-
+import { useStore } from 'vuex';
+import { onMounted } from 'vue';
 const { mdAndUp } = useDisplay();
+const store = useStore();
 // Get the reactive error reference
 const error = loginErrorHandler.getErrorRef();
+onMounted(() => {
+  store.dispatch('clearAllStates');
+});
 </script>

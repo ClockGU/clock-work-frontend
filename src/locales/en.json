@@ -305,12 +305,6 @@
     "approveSuccess": "Petition approved successfully.",
     "rejectSuccess": "Petition rejected successfully"
   },
-  "clerkView": {
-    "success": {
-      "awaitingSignature": "Petition approved successfully. Waiting for student signature.",
-      "completed": "Petition approved successfully."
-    }
-  },
   "budgetPositionStatus": {
     "approved": "The Budget has been approved",
     "rejected": "The Budget has been rejected",

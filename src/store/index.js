@@ -10,6 +10,16 @@ export default createStore({
     snackbar,
     auth,
   },
+  actions: {
+    clearAllStates({ dispatch }) {
+      commit('snackbar/setResetting', true, { root: true });
+      dispatch('auth/logout');
+      dispatch('snackbar/removeAllSnacks');
+      setTimeout(() => {
+        commit('snackbar/setResetting', false, { root: true });
+      }, 100);
+    },
+  },
   strict: debug,
   plugins: debug
     ? [createLogger(), createPersistedState()]
