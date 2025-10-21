@@ -65,7 +65,7 @@ const store = useStore();
 // Get the reactive error reference
 const error = loginErrorHandler.getErrorRef();
 onMounted(() => {
-  store.dispatch('auth/logout');
-  store.dispatch('snackbar/removeAllSnacks');
+  store.dispatch('clearAllStates');
+
 });
 </script>

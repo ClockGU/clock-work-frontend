@@ -100,7 +100,7 @@ const handleRefresh = (payload) => {
         if (selectedPetition.value?.id === payload.data) {
           selectedPetition.value = null;
         }
-        // Immediately update the local petitions array to remove the deleted item
+        // optimistic deletion of petition
         petitions.value = petitions.value.filter((p) => p.id !== payload.data);
         break;
     }

@@ -10,6 +10,12 @@ export default createStore({
     snackbar,
     auth,
   },
+  actions: {
+    clearAllStates({ dispatch }) {
+      dispatch('auth/logout'); 
+      dispatch('snackbar/removeAllSnacks');
+    },
+  },
   strict: debug,
   plugins: debug
     ? [createLogger(), createPersistedState()]
