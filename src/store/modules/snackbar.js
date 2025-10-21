@@ -11,6 +11,7 @@ const state = {
     ...defaultState,
   },
   snacks: [],
+  isResetting: false,
 };
 
 const getters = {
@@ -26,6 +27,7 @@ const defaultSnackPayload = {
 
 const actions = {
   setSnack({ commit }, payload) {
+    if (state.isResetting) return;
     payload.uuid = uuidv4();
     commit('setSnack', { ...defaultSnackPayload, ...payload });
   },
@@ -34,6 +36,7 @@ const actions = {
     errorPayload,
     options = { timeout: 4000, color: 'error', timePassed: 0, show: true }
   ) {
+    if (state.isResetting) return;
     for (const [key, value] of Object.entries(errorPayload)) {
       let snackMsg =
         key !== 'non_field_errors' ? `Field ${key}:` : `Context Errors:`;
@@ -52,6 +55,9 @@ const actions = {
   removeAllSnacks({ commit }) {
     commit('removeAllSnacks');
   },
+  setResetting({ commit }, isResetting) {
+    commit('setResetting', isResetting);
+  },
 };
 const mutations = {
   setSnack(state, payload) {
@@ -62,6 +68,9 @@ const mutations = {
   },
   removeAllSnacks(state) {
     state.snacks = [];
+  },
+  setResetting(state, isResetting) {
+    state.isResetting = isResetting;
   },
 };
 

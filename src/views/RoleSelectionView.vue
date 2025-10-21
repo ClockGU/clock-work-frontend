@@ -51,7 +51,7 @@ const user = computed(() => store.getters['auth/user']);
 
 const redirectToDashboard = async (role) => {
   try {
-    const roleValue = role === 'supervisor' ? 1 : 0;
+    const roleValue = role === 'supervisor' ? 2 : 0;
     const response = await AuthApiService.updateUserPartially(
       { user_role: roleValue },
       user.value.id
