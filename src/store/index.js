@@ -11,7 +11,7 @@ export default createStore({
     auth,
   },
   actions: {
-    clearAllStates({ dispatch }) {
+    clearAllStates({ dispatch, commit }) {
       commit('snackbar/setResetting', true, { root: true });
       dispatch('auth/logout');
       dispatch('snackbar/removeAllSnacks');
