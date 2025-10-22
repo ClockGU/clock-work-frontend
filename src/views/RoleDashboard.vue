@@ -74,9 +74,9 @@ const fetchPetitions = async () => {
     );
     petitions.value = response.data;
   } catch (err) {
-    //404 is supposed to be when there are no petitions
-    // so we don't want to show an error in that case
-    if (err.response?.status !== 404) {
+    if (err.response?.status === 404) {
+      petitions.value = [];
+    } else {
       console.error('Error fetching petitions:', err);
       store.dispatch('snackbar/setErrorSnacks', {
         message: t('errors.petition.fetching'),

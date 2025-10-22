@@ -117,10 +117,14 @@ const handleRefresh = async () => {
     const response = await ContentApiService.get('/clerk/petitions');
     petitions.value = response.data;
   } catch (error) {
-    console.error('Error fetching petitions:', error);
-    store.dispatch('snackbar/setErrorSnacks', {
-      message: t('errors.petition.fetching'),
-    });
+    if (error.response?.status === 404) {
+      petitions.value = [];
+    } else {
+      console.error('Error fetching petitions:', error);
+      store.dispatch('snackbar/setErrorSnacks', {
+        message: t('errors.petition.fetching'),
+      });
+    }
   }
 };
 
