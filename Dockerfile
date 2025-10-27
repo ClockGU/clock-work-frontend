@@ -1,6 +1,9 @@
 # Setup stage
 FROM node:20.19.5-alpine3.21 AS build-stage
 
+ENV VITE_ALLOWED_HOST=${VITE_ALLOWED_HOST} VITE_AUTH_API=${VITE_AUTH_API} VITE_CONTENT_API=${VITE_CONTENT_API} VITE_PUBLIC_URL=${VITE_PUBLIC_URL}
+
+
 RUN addgroup -S app --gid 32767 \
     && adduser -G app --uid 32767 -h /app -D app
 
