@@ -45,10 +45,10 @@ const selectedPetition = ref(null);
 const petitions = ref([]);
 
 const userRole = computed(() => store.getters['auth/userRole']);
+const user = computed(() => store.getters['auth/user']);
 
 const connectWebSocket = () => {
-  // this is temporary clerk id for testing
-  const clerkId = 1234;
+  const clerkId = user.value.id;
   const wsUrl = `ws://localhost:8030/ws/${clerkId}`;
 
   socket = new WebSocket(wsUrl);
