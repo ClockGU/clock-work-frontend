@@ -103,7 +103,9 @@ const showPetitionFormDialog = ref(false);
 
 const userRole = computed(() => store.getters['auth/userRole']);
 const canEditPetition = computed(() => {
-  return ['approver_action', 'approver_revision', 'student_revision'].some(status => props.petition.status.includes(status));
+  return ['approver_action', 'approver_revision', 'student_revision'].some(
+    (status) => props.petition.status.includes(status)
+  );
 });
 
 const deletePetition = async () => {

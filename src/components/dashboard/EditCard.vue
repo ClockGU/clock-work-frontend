@@ -13,6 +13,12 @@
     @close="showStudentDialog = false"
     @refresh="refresh"
   />
+  <PetitionRevisionDialog
+    v-model="showRevisionDialog"
+    :petition="selectedPetition"
+    @close="showRevisionDialog = false"
+    @refresh="refresh"
+  />
   <v-card
     class="py-4 pl-2"
     role="region"
@@ -61,6 +67,14 @@
               {{ $t('actions.decline') }}
             </v-btn>
             <v-btn
+              color="warning"
+              size="large"
+              class="px-6"
+              @click="showRevisionDialog = true"
+            >
+              {{ $t('actions.requestChange') }}
+            </v-btn>
+            <v-btn
               color="success"
               size="large"
               class="px-5"
@@ -96,6 +110,7 @@ import PetitionFormDialog from '@/components/dialogs/PetitionFormDialog.vue';
 import StudentDataManagementDialog from '../dialogs/StudentDataManagementDialog.vue';
 import PetitionTableWithActions from '../tables/PetitionTableWithActions.vue';
 import ContentApiService from '@/services/contentApiService';
+import PetitionRevisionDialog from '../dialogs/PetitionRevisionDialog.vue';
 
 const props = defineProps({
   selectedPetition: {
@@ -115,6 +130,7 @@ const { t } = useI18n();
 
 const showPetitionForm = ref(false);
 const showStudentDialog = ref(false);
+const showRevisionDialog = ref(false);
 
 const userRole = computed(() => store.getters['auth/userRole']);
 const buttonLabel = computed(() => {
