@@ -9,6 +9,8 @@
     v-if="userRole === 0"
     v-model="showStudentDialog"
     :petitions="petitions"
+    :employee-data="employeeData"
+    :document-data="documentData"
     @close="showStudentDialog = false"
     @refresh="refresh"
   />
@@ -141,8 +143,8 @@ const { t } = useI18n();
 const showPetitionForm = ref(false);
 const showStudentDialog = ref(false);
 const showRevisionDialog = ref(false);
-const isPersonalDataComplete = ref(false);
-const isDocumentsComplete = ref(false);
+const employeeData = ref(null);
+const documentData = ref(null);
 
 const userRole = computed(() => store.getters['auth/userRole']);
 const buttonLabel = computed(() => {
@@ -150,13 +152,22 @@ const buttonLabel = computed(() => {
     ? t('editCard.supervisor.action')
     : t('editCard.student.action');
 });
+const isPersonalDataComplete = computed(() => {
+  return (
+    employeeData.value !== null && Object.keys(employeeData.value).length > 0
+  );
+});
+const isDocumentsComplete = computed(() => {
+  return (
+    documentData.value !== null &&
+    !!documentData.value.elstam_url &&
+    !!documentData.value.studienbescheinigung_url &&
+    !!documentData.value.versicherungsbescheinigung_url
+  );
+});
 // Show action buttons for students only if he filled both forms (personal data and documents)
 const showStudentActionButtons = computed(() => {
-  return (
-    userRole.value === 0 &&
-    isPersonalDataComplete.value &&
-    isDocumentsComplete.value
-  );
+  return isPersonalDataComplete.value && isDocumentsComplete.value;
 });
 
 const openNewPetitionDialog = () => {
@@ -165,61 +176,50 @@ const openNewPetitionDialog = () => {
 };
 const openStudentDialog = () => (showStudentDialog.value = true);
 const refresh = (payload) => {
-  fetchStudentDataValidity();
+  fetchStudentData();
   emit('refresh', payload);
 };
 
-// Checks if all required personal data is present
-const fetchEmployeeDataValidity = async () => {
+const fetchEmployeeData = async () => {
   try {
     const response = await ContentApiService.get('/employees');
-    isPersonalDataComplete.value =
-      !!response.data && Object.keys(response.data).length > 0;
+    employeeData.value = response.data;
   } catch (error) {
-    if (error.response?.status === 404) {
-      isPersonalDataComplete.value = false;
-    } else {
+    employeeData.value = null;
+    if (error.response?.status !== 404) {
       console.error('Error fetching employee data validity:', error);
       store.dispatch('snackbar/setErrorSnacks', {
         message: t('errors.studentData.fetchingData'),
       });
-      isPersonalDataComplete.value = false;
     }
   }
 };
-const fetchDocumentsValidity = async () => {
+const fetchDocuments = async () => {
   try {
     const response = await ContentApiService.get('/documents');
     const data = response.data;
-    // Check if all three document URLs exist
-    isDocumentsComplete.value =
-      !!data.elstam_url &&
-      !!data.studienbescheinigung_url &&
-      !!data.versicherungsbescheinigung_url;
+    documentData.value = data;
   } catch (error) {
-    if (error.response?.status === 404) {
-      isDocumentsComplete.value = false;
-    } else {
+    documentData.value = null;
+    if (error.response?.status !== 404) {
       console.error('Error fetching documents validity:', error);
       store.dispatch('snackbar/setErrorSnacks', {
         message: t('errors.studentData.fetchingDocs'),
       });
-      isDocumentsComplete.value = false;
     }
   }
 };
-
-const fetchStudentDataValidity = () => {
+const fetchStudentData = () => {
   if (userRole.value === 0) {
     // Only fetch if the user is a student
-    fetchEmployeeDataValidity();
-    fetchDocumentsValidity();
+    fetchEmployeeData();
+    fetchDocuments();
   }
 };
 
-onMounted(fetchStudentDataValidity);
+onMounted(fetchStudentData);
 
-watch(userRole, fetchStudentDataValidity);
+watch(userRole, fetchStudentData);
 
 const handleDeclination = async () => {
   try {

@@ -192,8 +192,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useStore } from 'vuex';
+import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import {
   mdiAccount,
@@ -209,7 +208,6 @@ import {
   mdiClock,
   mdiAccountBox,
 } from '@mdi/js';
-import ContentApiService from '@/services/contentApiService';
 import { VDateInput } from 'vuetify/labs/VDateInput';
 import EmployeeData from '@/models/EmployeeData';
 
@@ -227,13 +225,27 @@ const icons = {
   mdiCalendar,
   mdiAccountBox,
 };
-
-const store = useStore();
+const props = defineProps({
+  initialData: {
+    type: Object,
+    default: null,
+  },
+});
 const { t } = useI18n();
-
 const formData = ref(new EmployeeData());
 const isFormValid = ref(false);
 
+watch(
+  () => props.initialData,
+  (newData) => {
+    if (newData) {
+      formData.value = EmployeeData.fromBackendResponse(newData);
+    }else {
+      formData.value = new EmployeeData();
+    }
+  },
+  { immediate: true }
+);
 // Validation Rules
 const requiredRule = (v) => !!v || t('validationRule.required');
 const postalCodeRule = (v) =>
@@ -251,27 +263,6 @@ const handlePreviousEmploymentChange = (value) => {
   }
   formData.value.previous_employment = value;
 };
-
-const fetchEmployeeData = async () => {
-  try {
-    const response = await ContentApiService.get('/employees');
-    if (response.data) {
-      // Use the static method to parse and load the backend data into the model
-      formData.value = EmployeeData.fromBackendResponse(response.data);
-    }
-  } catch (error) {
-    if (error.response?.status !== 404) {
-      console.error('Error fetching employee data:', error);
-      store.dispatch('snackbar/setErrorSnacks', {
-        message: t('errors.studentData.fetchingData'),
-      });
-    }
-  }
-};
-
-onMounted(() => {
-  fetchEmployeeData();
-});
 
 defineExpose({
   formData,

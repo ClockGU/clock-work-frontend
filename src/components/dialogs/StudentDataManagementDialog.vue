@@ -10,7 +10,11 @@
                   {{ $t('studentDataManagementDialog.tabs.personal') }}
                 </h2>
                 <p>{{ $t('studentDataManagementDialog.content.personal') }}</p>
-                <EmployeeDataForm ref="employeeDataFormRef" class="mt-8" />
+                <EmployeeDataForm
+                  ref="employeeDataFormRef"
+                  :initial-data="employeeData"
+                  class="mt-8"
+                />
               </v-card-text>
             </v-card>
           </v-window-item>
@@ -21,7 +25,11 @@
                   {{ $t('studentDataManagementDialog.tabs.files') }}
                 </h2>
                 <p>{{ $t('studentDataManagementDialog.content.files') }}</p>
-                <FilesUploadForm ref="filesUploadFormRef" class="mt-6" />
+                <FilesUploadForm
+                  ref="filesUploadFormRef"
+                  :initial-documents="documentData"
+                  class="mt-6"
+                />
               </v-card-text>
             </v-card>
           </v-window-item>
@@ -63,11 +71,22 @@ import { ref, computed } from 'vue';
 import ContentApiService from '@/services/contentApiService';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
+import EmployeeDataForm from '@/components/forms/EmployeeDataForm.vue';
+import FilesUploadForm from '@/components/forms/FilesUploadForm.vue';
+import CustomDialog from '@/components/dialogs/CustomDialog.vue';
 
 const props = defineProps({
   petitions: {
     type: Array,
     default: () => [],
+  },
+  employeeData: {
+    type: Object,
+    default: null,
+  },
+  documentData: {
+    type: Object,
+    default: null,
   },
 });
 const emit = defineEmits(['close', 'refresh']);
@@ -121,11 +140,12 @@ const saveDocuments = async () => {
       );
 
     await ContentApiService.patch('/documents', formData);
-    await filesUploadFormRef.value.fetchDocuments();
     store.dispatch('snackbar/setSnack', {
       message: t('studentDataManagementDialog.saveSuccess'),
     });
     notifyClerkOfChanges();
+    // this refresh handles both the document update and clerk notification updates
+    emit('refresh');
     emit('close');
   } catch (error) {
     console.error('Error saving files:', error);
@@ -150,7 +170,6 @@ const notifyClerkOfChanges = async () => {
         )
       )
     );
-    emit('refresh');
   } catch (error) {
     console.error('Error informing clerk about student changes:', error);
     store.dispatch('snackbar/setErrorSnacks', {
