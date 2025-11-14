@@ -1,5 +1,4 @@
 <template>
-  <!-- Dialogs -->
   <PetitionFormDialog
     v-model="showPetitionForm"
     :petition="selectedPetition"
@@ -35,7 +34,6 @@
       </h2>
     </v-card-title>
     <v-card-text>
-      <!-- Main button - behavior differs by role -->
       <v-btn
         color="primary"
         class="mb-4"
@@ -53,9 +51,12 @@
         @close="emit('deselect-petition')"
         @refresh="refresh"
       >
-        <!-- Action buttons for students to accept/reject petitions -->
+        <!-- Action buttons for students to accept/reject or revision of a petition -->
         <template #bottom v-if="userRole === 0">
-          <div class="d-flex justify-space-between">
+          <div
+            v-if="showStudentActionButtons"
+            class="d-flex justify-space-between"
+          >
             <v-btn
               color="error"
               size="large"
@@ -70,6 +71,7 @@
               color="warning"
               size="large"
               class="px-6"
+              :aria-label="$t('actions.requestChange')"
               @click="showRevisionDialog = true"
             >
               {{ $t('actions.requestChange') }}
@@ -85,9 +87,17 @@
               {{ $t('actions.accept') }}
             </v-btn>
           </div>
+          <v-alert
+            v-else
+            type="warning"
+            variant="tonal"
+            density="comfortable"
+            tabindex="0"
+          >
+            {{ $t('editCard.student.completeStudentData') }}
+          </v-alert>
         </template>
       </PetitionTableWithActions>
-
       <!-- Placeholder when no petition is selected -->
       <v-alert
         v-else
@@ -103,7 +113,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import PetitionFormDialog from '@/components/dialogs/PetitionFormDialog.vue';
@@ -131,12 +141,22 @@ const { t } = useI18n();
 const showPetitionForm = ref(false);
 const showStudentDialog = ref(false);
 const showRevisionDialog = ref(false);
+const isPersonalDataComplete = ref(false);
+const isDocumentsComplete = ref(false);
 
 const userRole = computed(() => store.getters['auth/userRole']);
 const buttonLabel = computed(() => {
   return userRole.value === 1
     ? t('editCard.supervisor.action')
     : t('editCard.student.action');
+});
+// Show action buttons for students only if he filled both forms (personal data and documents)
+const showStudentActionButtons = computed(() => {
+  return (
+    userRole.value === 0 &&
+    isPersonalDataComplete.value &&
+    isDocumentsComplete.value
+  );
 });
 
 const openNewPetitionDialog = () => {
@@ -145,8 +165,61 @@ const openNewPetitionDialog = () => {
 };
 const openStudentDialog = () => (showStudentDialog.value = true);
 const refresh = (payload) => {
+  fetchStudentDataValidity();
   emit('refresh', payload);
 };
+
+// Checks if all required personal data is present
+const fetchEmployeeDataValidity = async () => {
+  try {
+    const response = await ContentApiService.get('/employees');
+    isPersonalDataComplete.value =
+      !!response.data && Object.keys(response.data).length > 0;
+  } catch (error) {
+    if (error.response?.status === 404) {
+      isPersonalDataComplete.value = false;
+    } else {
+      console.error('Error fetching employee data validity:', error);
+      store.dispatch('snackbar/setErrorSnacks', {
+        message: t('errors.studentData.fetchingData'),
+      });
+      isPersonalDataComplete.value = false;
+    }
+  }
+};
+const fetchDocumentsValidity = async () => {
+  try {
+    const response = await ContentApiService.get('/documents');
+    const data = response.data;
+    // Check if all three document URLs exist
+    isDocumentsComplete.value =
+      !!data.elstam_url &&
+      !!data.studienbescheinigung_url &&
+      !!data.versicherungsbescheinigung_url;
+  } catch (error) {
+    if (error.response?.status === 404) {
+      isDocumentsComplete.value = false;
+    } else {
+      console.error('Error fetching documents validity:', error);
+      store.dispatch('snackbar/setErrorSnacks', {
+        message: t('errors.studentData.fetchingDocs'),
+      });
+      isDocumentsComplete.value = false;
+    }
+  }
+};
+
+const fetchStudentDataValidity = () => {
+  if (userRole.value === 0) {
+    // Only fetch if the user is a student
+    fetchEmployeeDataValidity();
+    fetchDocumentsValidity();
+  }
+};
+
+onMounted(fetchStudentDataValidity);
+
+watch(userRole, fetchStudentDataValidity);
 
 const handleDeclination = async () => {
   try {

@@ -56,7 +56,8 @@
     },
     "student": {
       "title": "Studenten-Dashboard",
-      "action": "Dialog zur Studenten-Datenverwaltung öffnen"
+      "action": "Dialog zur Studenten-Datenverwaltung öffnen",
+      "completeStudentData": "Bitte füllen Sie Ihre persönlichen Daten aus und laden Sie die erforderlichen Dokumente hoch, um fortzufahren"
     },
     "success": {
       "acceptance": "Antrag erfolgreich akzeptiert",

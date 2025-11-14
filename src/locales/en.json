@@ -56,7 +56,8 @@
     },
     "student": {
       "title": "Student Dashboard",
-      "action": "Open Student Data Management Dialog"
+      "action": "Open Student Data Management Dialog",
+      "completeStudentData": "please fill in your personal data and upload the required documents to proceed"
     },
     "success": {
       "acceptance": "Petition accepted successfully",
