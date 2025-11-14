@@ -55,15 +55,12 @@
       >
         <!-- Action buttons for students to accept/reject or revision of a petition -->
         <template #bottom v-if="userRole === 0">
-          <div
-            v-if="showStudentActionButtons"
-            class="d-flex justify-space-between"
-          >
+          <div class="d-flex justify-space-between">
             <v-btn
               color="error"
               size="large"
               class="px-5"
-              :disabled="selectedPetition.status !== 'student_action'"
+              :disabled="!isStudentDataComplete"
               :aria-label="$t('actions.decline')"
               @click="handleDeclination"
             >
@@ -73,6 +70,7 @@
               color="warning"
               size="large"
               class="px-6"
+              :disabled="!isStudentDataComplete"
               :aria-label="$t('actions.requestChange')"
               @click="showRevisionDialog = true"
             >
@@ -82,7 +80,7 @@
               color="success"
               size="large"
               class="px-5"
-              :disabled="selectedPetition.status !== 'student_action'"
+              :disabled="!isStudentDataComplete"
               :aria-label="$t('actions.accept')"
               @click="handleAcceptance"
             >
@@ -90,9 +88,10 @@
             </v-btn>
           </div>
           <v-alert
-            v-else
+            v-if="!isStudentDataComplete"
             type="warning"
             variant="tonal"
+            class="mt-4"
             density="comfortable"
             tabindex="0"
           >
@@ -165,9 +164,9 @@ const isDocumentsComplete = computed(() => {
     !!documentData.value.versicherungsbescheinigung_url
   );
 });
-// Show action buttons for students only if he filled both forms (personal data and documents)
-const showStudentActionButtons = computed(() => {
-  return isPersonalDataComplete.value && isDocumentsComplete.value;
+// Check if student data is complete if the selected petition requires student action
+const isStudentDataComplete = computed(() => {
+  return props.selectedPetition.status === 'student_action' && isPersonalDataComplete.value && isDocumentsComplete.value ;
 });
 
 const openNewPetitionDialog = () => {
@@ -216,11 +215,6 @@ const fetchStudentData = () => {
     fetchDocuments();
   }
 };
-
-onMounted(fetchStudentData);
-
-watch(userRole, fetchStudentData);
-
 const handleDeclination = async () => {
   try {
     await ContentApiService.patch(
@@ -277,4 +271,7 @@ const handleAcceptance = async () => {
     }
   }
 };
+onMounted(fetchStudentData);
+
+watch(userRole, fetchStudentData);
 </script>
