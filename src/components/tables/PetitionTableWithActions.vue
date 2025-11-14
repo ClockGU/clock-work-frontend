@@ -32,7 +32,7 @@
             :roles="[0, 1, 2]"
             :icon="icons.mdiClose"
             :tooltip="$t('actions.close')"
-            :action="() => $emit('close')"
+            @click="emit('close')"
           />
           <div class="d-flex align-center ga-3 ml-1">
             <RoleActionButton
@@ -40,21 +40,22 @@
               :roles="[0, 2, 3]"
               :icon="icons.mdiAlertCircleOutline"
               :tooltip="$t('actions.requestChange')"
-              :action="() => (showPetitionRevisionDialog = true)"
+              @click="showPetitionRevisionDialog = true"
             />
             <RoleActionButton
               color="primary"
               :roles="[1]"
               :icon="icons.mdiPencil"
+              :disabled="!canEditPetition"
               :tooltip="$t('actions.edit')"
-              :action="() => (showPetitionFormDialog = true)"
+              @click="showPetitionFormDialog = true"
             />
             <RoleActionButton
               color="error"
               :roles="[1]"
               :icon="icons.mdiTrashCan"
               :tooltip="$t('actions.delete')"
-              :action="() => (showDeleteConfirmationDialog = true)"
+              @click="showDeleteConfirmationDialog = true"
             />
           </div>
         </div>
@@ -99,7 +100,11 @@ const icons = { mdiClose, mdiPencil, mdiTrashCan, mdiAlertCircleOutline };
 const showDeleteConfirmationDialog = ref(false);
 const showPetitionRevisionDialog = ref(false);
 const showPetitionFormDialog = ref(false);
+
 const userRole = computed(() => store.getters['auth/userRole']);
+const canEditPetition = computed(() => {
+  return ['approver_action', 'approver_revision', 'student_revision'].some(status => props.petition.status.includes(status));
+});
 
 const deletePetition = async () => {
   try {

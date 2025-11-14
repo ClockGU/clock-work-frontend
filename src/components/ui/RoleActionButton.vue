@@ -1,16 +1,17 @@
 <template>
-  <div v-if="hasPermission">
+  <div v-if="hasPermission" role="button">
     <v-btn
       :color="color"
       :icon="icon"
       :variant="variant"
       :density="density"
       :rounded="rounded"
+      :disabled="disabled"
       :aria-label="tooltip"
-      @click="action"
+      @click="emit('click')"
     />
     <v-tooltip
-      v-if="tooltip"
+      v-if="tooltip && !disabled"
       activator="parent"
       :location="tooltipLocation"
       :text="tooltip"
@@ -54,12 +55,12 @@ const props = defineProps({
     type: String,
     default: 'top',
   },
-  action: {
-    type: Function,
-    default: () => {},
+  disabled: {
+    type: Boolean,
+    default: false,
   },
 });
-
+const emit = defineEmits(['click']);
 const store = useStore();
 const userRole = computed(() => store.getters['auth/userRole']);
 const hasPermission = computed(() => props.roles.includes(userRole.value));
