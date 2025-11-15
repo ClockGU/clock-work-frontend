@@ -55,7 +55,17 @@
       >
         <!-- Action buttons for students to accept/reject or revision of a petition -->
         <template #bottom v-if="userRole === 0">
-          <div class="d-flex justify-space-between">
+            <v-alert
+            v-if="!isStudentDataComplete"
+            type="warning"
+            variant="tonal"
+            class="mt-4"
+            density="comfortable"
+            tabindex="0"
+          >
+            {{ $t('editCard.student.completeStudentData') }}
+          </v-alert>
+          <div class="d-flex py-4" :class="{ 'justify-space-between': lgAndUp, 'flex-column ga-4': !lgAndUp }">
             <v-btn
               color="error"
               size="large"
@@ -69,7 +79,7 @@
             <v-btn
               color="warning"
               size="large"
-              class="px-6"
+              class="px-5"
               :disabled="!isStudentDataComplete"
               :aria-label="$t('actions.requestChange')"
               @click="showRevisionDialog = true"
@@ -87,16 +97,7 @@
               {{ $t('actions.accept') }}
             </v-btn>
           </div>
-          <v-alert
-            v-if="!isStudentDataComplete"
-            type="warning"
-            variant="tonal"
-            class="mt-4"
-            density="comfortable"
-            tabindex="0"
-          >
-            {{ $t('editCard.student.completeStudentData') }}
-          </v-alert>
+
         </template>
       </PetitionTableWithActions>
       <!-- Placeholder when no petition is selected -->
@@ -117,6 +118,7 @@
 import { ref, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
+import { useDisplay } from 'vuetify';
 import PetitionFormDialog from '@/components/dialogs/PetitionFormDialog.vue';
 import StudentDataManagementDialog from '../dialogs/StudentDataManagementDialog.vue';
 import PetitionTableWithActions from '../tables/PetitionTableWithActions.vue';
@@ -138,6 +140,7 @@ const emit = defineEmits(['refresh', 'deselect-petition']);
 
 const store = useStore();
 const { t } = useI18n();
+const { lgAndUp } = useDisplay();
 
 const showPetitionForm = ref(false);
 const showStudentDialog = ref(false);
@@ -275,7 +278,10 @@ const handleAcceptance = async () => {
     }
   }
 };
-onMounted(fetchStudentData);
+onMounted(
+console.log('lgAndUp:', lgAndUp.value),
+fetchStudentData
+);
 
 watch(userRole, fetchStudentData);
 </script>
