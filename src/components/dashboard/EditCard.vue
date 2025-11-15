@@ -166,7 +166,11 @@ const isDocumentsComplete = computed(() => {
 });
 // Check if student data is complete if the selected petition requires student action
 const isStudentDataComplete = computed(() => {
-  return props.selectedPetition.status === 'student_action' && isPersonalDataComplete.value && isDocumentsComplete.value ;
+  return (
+    props.selectedPetition.status === 'student_action' &&
+    isPersonalDataComplete.value &&
+    isDocumentsComplete.value
+  );
 });
 
 const openNewPetitionDialog = () => {

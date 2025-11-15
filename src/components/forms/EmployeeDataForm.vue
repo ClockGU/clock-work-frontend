@@ -60,9 +60,10 @@
         <v-date-input
           id="dateOfBirth"
           v-model="formData.date_of_birth"
-          placeholder="DD.MM.YYYY"
           :aria-label="$t('employeeDataForm.dateOfBirth')"
           :rules="[requiredRule]"
+          input-format="dd-MM-yyyy"
+          output-format="dd-MM-yyyy"
         />
       </v-col>
       <v-col cols="12" md="6">
@@ -181,6 +182,8 @@
         <v-date-input
           id="prevEmpDuration"
           v-model="formData.prev_emp_duration"
+          input-format="dd-MM-yyyy"
+          output-format="dd-MM-yyyy"
           multiple="range"
           placeholder="DD.MM.YYYY – DD.MM.YYYY"
           :aria-label="$t('employeeDataForm.duration')"
@@ -208,7 +211,6 @@ import {
   mdiClock,
   mdiAccountBox,
 } from '@mdi/js';
-import { VDateInput } from 'vuetify/labs/VDateInput';
 import EmployeeData from '@/models/EmployeeData';
 
 const icons = {
@@ -240,7 +242,7 @@ watch(
   (newData) => {
     if (newData) {
       formData.value = EmployeeData.fromBackendResponse(newData);
-    }else {
+    } else {
       formData.value = new EmployeeData();
     }
   },

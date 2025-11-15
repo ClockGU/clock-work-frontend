@@ -55,7 +55,8 @@
         <v-date-input
           id="startDate"
           v-model="formData.start_date"
-          placeholder="DD.MM.YYYY"
+          input-format="dd-MM-yyyy"
+          output-format="dd-MM-yyyy"
           :aria-label="$t('petition.startDate')"
           :rules="[requiredRule]"
         />
@@ -65,7 +66,8 @@
         <v-date-input
           id="endDate"
           v-model="formData.end_date"
-          placeholder="DD.MM.YYYY"
+          input-format="dd-MM-yyyy"
+          output-format="dd-MM-yyyy"
           :aria-label="$t('petition.endDate')"
           :rules="[requiredRule, endDateRule]"
         />
@@ -129,7 +131,8 @@
           <v-date-input
             id="timeExceStart"
             v-model="formData.time_exce_start"
-            placeholder="DD.MM.YYYY"
+            input-format="dd-MM-yyyy"
+            output-format="dd-MM-yyyy"
             :aria-label="$t('petition.timeExceStart')"
             :rules="[requiredRule]"
           />
@@ -139,7 +142,8 @@
           <v-date-input
             id="timeExceEnd"
             v-model="formData.time_exce_end"
-            placeholder="DD.MM.YYYY"
+            input-format="dd-MM-yyyy"
+            output-format="dd-MM-yyyy"
             :aria-label="$t('petition.timeExceEnd')"
             :rules="[requiredRule]"
           />
@@ -171,7 +175,8 @@
           <v-date-input
             id="durationExceStart"
             v-model="formData.duration_exce_start"
-            placeholder="DD.MM.YYYY"
+            input-format="dd-MM-yyyy"
+            output-format="dd-MM-yyyy"
             :aria-label="$t('petition.durationExceStart')"
             :rules="[requiredRule]"
           />
@@ -181,7 +186,8 @@
           <v-date-input
             id="durationExceEnd"
             v-model="formData.duration_exce_end"
-            placeholder="DD.MM.YYYY"
+            input-format="dd-MM-yyyy"
+            output-format="dd-MM-yyyy"
             :aria-label="$t('petition.durationExceEnd')"
             :rules="[requiredRule]"
           />
@@ -207,7 +213,6 @@ import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import BudgetPositionsFields from './BudgetPositionsFields.vue';
 import Petition from '@/models/Petition';
-import { VDateInput } from 'vuetify/labs/VDateInput';
 import { format } from 'date-fns';
 
 const props = defineProps({
