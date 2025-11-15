@@ -143,7 +143,7 @@ const saveDocuments = async () => {
     store.dispatch('snackbar/setSnack', {
       message: t('studentDataManagementDialog.saveSuccess'),
     });
-    notifyClerkOfChanges();
+    await notifyClerkOfChanges();
     // this refresh handles both the document update and clerk notification updates
     emit('refresh');
     emit('close');
@@ -163,6 +163,7 @@ const notifyClerkOfChanges = async () => {
       (petition) => petition.status === 'clerk_revision'
     );
     if (petitionsUnderClerkRevision.length === 0) return;
+    
     await Promise.all(
       petitionsUnderClerkRevision.map((petition) =>
         ContentApiService.patch(
@@ -181,6 +182,7 @@ const notifyClerkOfChanges = async () => {
 const isPersonalFormValid = computed(() => {
   return employeeDataFormRef.value?.isFormValid ?? false;
 });
+
 const isFilesFormValid = computed(() => {
   return filesUploadFormRef.value?.isFormValid ?? false;
 });

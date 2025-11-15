@@ -70,7 +70,7 @@
               color="error"
               size="large"
               class="px-5"
-              :disabled="!isStudentDataComplete"
+              :disabled="isStudentActionDisabled"
               :aria-label="$t('actions.decline')"
               @click="handleDeclination"
             >
@@ -80,7 +80,7 @@
               color="warning"
               size="large"
               class="px-5"
-              :disabled="!isStudentDataComplete"
+              :disabled="isStudentActionDisabled"
               :aria-label="$t('actions.requestChange')"
               @click="showRevisionDialog = true"
             >
@@ -90,7 +90,7 @@
               color="success"
               size="large"
               class="px-5"
-              :disabled="!isStudentDataComplete"
+              :disabled="isStudentActionDisabled"
               :aria-label="$t('actions.accept')"
               @click="handleAcceptance"
             >
@@ -145,8 +145,11 @@ const { lgAndUp } = useDisplay();
 const showPetitionForm = ref(false);
 const showStudentDialog = ref(false);
 const showRevisionDialog = ref(false);
+
 const employeeData = ref(null);
 const documentData = ref(null);
+const isLoadingEmployeeData = ref(false);
+const isLoadingDocumentData = ref(false);
 
 const userRole = computed(() => store.getters['auth/userRole']);
 const buttonLabel = computed(() => {
@@ -154,11 +157,11 @@ const buttonLabel = computed(() => {
     ? t('editCard.supervisor.action')
     : t('editCard.student.action');
 });
+
 const isPersonalDataComplete = computed(() => {
-  return (
-    employeeData.value !== null && Object.keys(employeeData.value).length > 0
-  );
+  return employeeData.value !== null && Object.keys(employeeData.value).length > 0;
 });
+
 const isDocumentsComplete = computed(() => {
   return (
     documentData.value !== null &&
@@ -170,58 +173,80 @@ const isDocumentsComplete = computed(() => {
 // Check if student data is complete if the selected petition requires student action
 const isStudentDataComplete = computed(() => {
   return (
-    props.selectedPetition.status === 'student_action' &&
     isPersonalDataComplete.value &&
     isDocumentsComplete.value
   );
 });
+// Determine if student action buttons should be disabled based on petition status and data completeness
+const isStudentActionDisabled = computed(() => {
+  return props.selectedPetition.status !== 'student_action' || !isStudentDataComplete.value; 
+});
 
 const openNewPetitionDialog = () => {
-  emit('deselect-petition'); // Clear any selected petition
+  emit('deselect-petition');
   showPetitionForm.value = true;
 };
-const openStudentDialog = () => (showStudentDialog.value = true);
+
+const openStudentDialog = () => showStudentDialog.value = true;
+
 const refresh = (payload) => {
   fetchStudentData();
   emit('refresh', payload);
 };
 
 const fetchEmployeeData = async () => {
+  if (isLoadingEmployeeData.value) return;
+  
+  isLoadingEmployeeData.value = true;
   try {
     const response = await ContentApiService.get('/employees');
-    employeeData.value = response.data;
+    if (response.data) {
+      employeeData.value = response.data;
+    }
   } catch (error) {
-    employeeData.value = null;
-    if (error.response?.status !== 404) {
-      console.error('Error fetching employee data validity:', error);
+    if (error.response?.status === 404) {
+      employeeData.value = null;
+    } else if (error.response?.status !== 404) {
+      console.error('Error fetching employee data:', error);
       store.dispatch('snackbar/setErrorSnacks', {
         message: t('errors.studentData.fetchingData'),
       });
     }
+  } finally {
+    isLoadingEmployeeData.value = false;
   }
 };
+
 const fetchDocuments = async () => {
+  if (isLoadingDocumentData.value) return;
+  
+  isLoadingDocumentData.value = true;
   try {
     const response = await ContentApiService.get('/documents');
     const data = response.data;
-    documentData.value = data;
+    if (data) {
+      documentData.value = data;
+    }
   } catch (error) {
-    documentData.value = null;
-    if (error.response?.status !== 404) {
-      console.error('Error fetching documents validity:', error);
+    if (error.response?.status === 404) {
+      documentData.value = null;
+    } else if (error.response?.status !== 404) {
+      console.error('Error fetching documents:', error);
       store.dispatch('snackbar/setErrorSnacks', {
         message: t('errors.studentData.fetchingDocs'),
       });
     }
+  } finally {
+    isLoadingDocumentData.value = false;
   }
 };
-const fetchStudentData = () => {
+
+const fetchStudentData = async () => {
   if (userRole.value === 0) {
-    // Only fetch if the user is a student
-    fetchEmployeeData();
-    fetchDocuments();
+    await Promise.all([fetchEmployeeData(), fetchDocuments()]);
   }
 };
+
 const handleDeclination = async () => {
   try {
     await ContentApiService.patch(
@@ -237,7 +262,7 @@ const handleDeclination = async () => {
     });
   } catch (error) {
     if (error.response?.status !== 404) {
-      console.error('Error accepting petition:', error);
+      console.error('Error declining petition:', error);
       if (error.response?.status === 400) {
         store.dispatch('snackbar/setErrorSnacks', {
           message: t('errors.petition.uploadDocument'),
@@ -250,6 +275,7 @@ const handleDeclination = async () => {
     }
   }
 };
+
 const handleAcceptance = async () => {
   try {
     await ContentApiService.patch(
@@ -278,10 +304,10 @@ const handleAcceptance = async () => {
     }
   }
 };
-onMounted(
-console.log('lgAndUp:', lgAndUp.value),
-fetchStudentData
-);
+
+onMounted(() => {
+  fetchStudentData();
+});
 
 watch(userRole, fetchStudentData);
 </script>
