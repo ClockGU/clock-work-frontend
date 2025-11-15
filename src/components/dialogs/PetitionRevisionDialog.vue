@@ -194,15 +194,14 @@ const handleApproverRevision = async () => {
 };
 
 const handleStudentRevision = async () => {
-  const apiEndpoint = '/send-email';
+  const petitionId = props.petition.id;
+  const apiEndpoint = `/students/petitions/${petitionId}/request-revision`;
   const apiData = {
-    recipient: recipientMail.value,
-    subject: reportSubject.value,
     body: reportText.value,
   };
 
   try {
-    await ContentApiService.post(apiEndpoint, apiData);
+    await ContentApiService.patch(apiEndpoint, apiData);
     store.dispatch('snackbar/setSnack', {
       message: t('PetitionRevisionDialog.success.studentRevision'),
     });
