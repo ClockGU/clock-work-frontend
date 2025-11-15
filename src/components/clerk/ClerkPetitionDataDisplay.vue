@@ -51,8 +51,8 @@
 <script setup>
 import { ref } from 'vue';
 import PetitionRevisionDialog from '../dialogs/PetitionRevisionDialog.vue';
-import FreeFormData from './FreeFormData.vue';
-import UploadedFiles from './UploadedFiles.vue';
+import FreeFormData from './ClerkFreeFormData.vue';
+import UploadedFiles from './ClerkUploadedFiles.vue';
 
 const props = defineProps({
   petition: {
