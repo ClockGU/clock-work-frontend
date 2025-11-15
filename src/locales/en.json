@@ -29,7 +29,8 @@
     "back": "back",
     "next": "next",
     "accept": "accept",
-    "decline": "decline"
+    "decline": "decline",
+    "download": "download"
   },
   "roleSelectionView": {
     "welcome": "You are new here!",
@@ -256,7 +257,8 @@
     "uploadedFilesClerk": {
       "loadingDocs": "Error loading documents",
       "fetchingDocs": "Error fetching documents",
-      "pdfRender": "Error rendering PDF"
+      "pdfRender": "Error rendering PDF",
+      "pdfDownload": "Error downloading PDF"
     },
     "petitionFormDialog": {
       "submission": "Error submitting petition.Please try again ",

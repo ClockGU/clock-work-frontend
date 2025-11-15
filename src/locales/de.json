@@ -29,7 +29,8 @@
     "back": "zurück",
     "next": "weiter",
     "accept": "akzeptieren",
-    "decline": "ablehnen"
+    "decline": "ablehnen",
+    "download": "herunterladen"
   },
   "roleSelectionView": {
     "welcome": "Sie sind neu hier!",
@@ -256,7 +257,8 @@
     "uploadedFilesClerk": {
       "loadingDocs": "Fehler beim Laden der Dokumente",
       "fetchingDocs": "Fehler beim Abrufen der Dokumente",
-      "pdfRender": "Fehler beim Rendern des PDFs"
+      "pdfRender": "Fehler beim Rendern des PDFs",
+      "pdfDownload": "Fehler beim Herunterladen des PDFs"
     },
     "petitionFormDialog": {
       "submission": "Fehler beim Einreichen des Antrags. Bitte versuchen Sie es erneut.",
