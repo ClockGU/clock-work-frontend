@@ -29,8 +29,6 @@ const store = useStore();
 const { t } = useI18n();
 
 onMounted(async () => {
-  // Clean the browser address bar by removing auth code from URL
-  window.history.replaceState({}, null, '/');
 
   try {
     const casToken = route.query.code;
@@ -40,8 +38,10 @@ onMounted(async () => {
     }
 
     // Step 1: Authenticate with CAS token
-    const loginResponse = await AuthApiService.login(casToken);
-
+    // const loginResponse = await AuthApiService.login(window.location.search);
+    const loginResponse = await AuthApiService.login(window.location.search);
+    // Clean the browser address bar by removing auth code from URL
+    window.history.replaceState({}, null, '/');
     if (!loginResponse.data?.access_token) {
       loginErrorHandler.setLoginError(t('errors.loggingin.NoAccessToken'));
       return;
