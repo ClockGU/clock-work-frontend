@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+
 const AuthApiService = {
   /**
    * Set a custom header.
@@ -32,12 +33,9 @@ const AuthApiService = {
   /**
    * Login using the provided CAS token.
    */
-  login(casToken) {
+  login(searchString) {
     return axios.get(
-      `${import.meta.env.VITE_AUTH_API}/auth/cas/callback-clockwork`,
-      {
-        params: { code: casToken },
-      }
+      `${import.meta.env.VITE_AUTH_API}/auth/cas/callback-clockwork` + searchString,{withCredentials: true}
     );
   },
 
@@ -107,6 +105,7 @@ const AuthApiService = {
   getAuthorizationUrl() {
     const REDIRECT_URI = `${import.meta.env.VITE_PUBLIC_URL}/logging-in`;
     return axios.get(`${import.meta.env.VITE_AUTH_API}/authorize`, {
+      withCredentials: true,
       params: {
         redirect_uri: REDIRECT_URI,
       },
