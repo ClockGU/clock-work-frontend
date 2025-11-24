@@ -60,9 +60,10 @@
         <v-date-input
           id="dateOfBirth"
           v-model="formData.date_of_birth"
-          placeholder="DD.MM.YYYY"
           :aria-label="$t('employeeDataForm.dateOfBirth')"
           :rules="[requiredRule]"
+          input-format="dd-MM-yyyy"
+          output-format="dd-MM-yyyy"
         />
       </v-col>
       <v-col cols="12" md="6">
@@ -181,6 +182,8 @@
         <v-date-input
           id="prevEmpDuration"
           v-model="formData.prev_emp_duration"
+          input-format="dd-MM-yyyy"
+          output-format="dd-MM-yyyy"
           multiple="range"
           placeholder="DD.MM.YYYY – DD.MM.YYYY"
           :aria-label="$t('employeeDataForm.duration')"
@@ -192,8 +195,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useStore } from 'vuex';
+import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import {
   mdiAccount,
@@ -209,8 +211,6 @@ import {
   mdiClock,
   mdiAccountBox,
 } from '@mdi/js';
-import ContentApiService from '@/services/contentApiService';
-import { VDateInput } from 'vuetify/labs/VDateInput';
 import EmployeeData from '@/models/EmployeeData';
 
 const icons = {
@@ -227,13 +227,27 @@ const icons = {
   mdiCalendar,
   mdiAccountBox,
 };
-
-const store = useStore();
+const props = defineProps({
+  initialData: {
+    type: Object,
+    default: null,
+  },
+});
 const { t } = useI18n();
-
 const formData = ref(new EmployeeData());
 const isFormValid = ref(false);
 
+watch(
+  () => props.initialData,
+  (newData) => {
+    if (newData) {
+      formData.value = EmployeeData.fromBackendResponse(newData);
+    } else {
+      formData.value = new EmployeeData();
+    }
+  },
+  { immediate: true }
+);
 // Validation Rules
 const requiredRule = (v) => !!v || t('validationRule.required');
 const postalCodeRule = (v) =>
@@ -251,27 +265,6 @@ const handlePreviousEmploymentChange = (value) => {
   }
   formData.value.previous_employment = value;
 };
-
-const fetchEmployeeData = async () => {
-  try {
-    const response = await ContentApiService.get('/employees');
-    if (response.data) {
-      // Use the static method to parse and load the backend data into the model
-      formData.value = EmployeeData.fromBackendResponse(response.data);
-    }
-  } catch (error) {
-    if (error.response?.status !== 404) {
-      console.error('Error fetching employee data:', error);
-      store.dispatch('snackbar/setErrorSnacks', {
-        message: t('errors.studentData.fetchingData'),
-      });
-    }
-  }
-};
-
-onMounted(() => {
-  fetchEmployeeData();
-});
 
 defineExpose({
   formData,

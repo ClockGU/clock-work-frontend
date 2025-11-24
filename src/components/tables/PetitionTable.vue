@@ -66,9 +66,22 @@ const { t } = useI18n();
 const store = useStore();
 
 //Formats a given value for display in the table.
+//Formats a given value for display in the table.
 const formatValue = (value, key) => {
   if (value === null || value === undefined || value === '') {
     return '-';
+  }
+  // Special handling for the status field
+  if (key === t('petition.status')) {
+    if (typeof value === 'string' && value.includes('_')) {
+      // Transform 'role_action' to 'Role Action'
+      return value
+        .split('_')
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+    }
+    // If it's the status field but not in the expected format, return as is.
+    return value;
   }
 
   // Check if this is a date field and format it as dd.mm.yyyy

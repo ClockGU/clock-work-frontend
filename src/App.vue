@@ -18,7 +18,7 @@
     >
       <v-container
         class="d-flex flex-column align-center justify-center pt-0 pb-0"
-        style="min-height: 100vh; max-width: 1400px"
+        style="min-height: 100vh"
       >
         <router-view />
       </v-container>

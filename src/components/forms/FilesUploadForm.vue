@@ -92,19 +92,23 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, reactive } from 'vue';
-import ContentApiService from '@/services/contentApiService';
-import { useStore } from 'vuex';
+import { ref, computed, reactive, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import StatusIndicator from '@/components/ui/StatusIndicator.vue';
 
-const store = useStore();
+const props = defineProps({
+  initialDocuments: {
+    type: Object,
+    default: null,
+  },
+});
 const { t } = useI18n();
 
 const elstamFile = ref(null);
 const studienbescheinigungFile = ref(null);
 const versicherungsbescheinigungFile = ref(null);
 
+// Local state for existing document URLs
 const existingDocuments = reactive({
   elstam_url: null,
   studienbescheinigung_url: null,
@@ -138,7 +142,30 @@ const isFormValid = computed(() => {
     hasVersicherungsbescheinigungDocument.value
   );
 });
+// Computed files object for parent component
+const files = computed(() => ({
+  elstam: elstamFile.value ? [elstamFile.value] : [],
+  studienbescheinigung: studienbescheinigungFile.value
+    ? [studienbescheinigungFile.value]
+    : [],
+  versicherungsbescheinigung: versicherungsbescheinigungFile.value
+    ? [versicherungsbescheinigungFile.value]
+    : [],
+}));
 
+// Initialize existing document URLs from props
+const initializeDocuments = (data) => {
+  if (data) {
+    Object.assign(existingDocuments, data);
+  } else {
+    // Clear all URLs if the prop is null
+    Object.assign(existingDocuments, {
+      elstam_url: null,
+      studienbescheinigung_url: null,
+      versicherungsbescheinigung_url: null,
+    });
+  }
+};
 const getHintMessage = (field) => {
   let file = null;
   let existingUrl = null;
@@ -157,16 +184,13 @@ const getHintMessage = (field) => {
       existingUrl = existingDocuments.versicherungsbescheinigung_url;
       break;
   }
-
   if (file) {
     return t('filesUploadForm.hint.selected', { filename: file.name });
   }
-
   if (existingUrl) {
     const filename = existingUrl.split('/').pop();
     return t('filesUploadForm.hint.existing', { filename });
   }
-
   return t('filesUploadForm.hint.noFile');
 };
 
@@ -199,49 +223,27 @@ const getStatusMessage = (documentType) => {
       document: t(`filesUploadForm.${documentKey}`),
     });
   }
-
   if (existingUrl) {
     return t('filesUploadForm.status.existingDocument', {
       document: t(`filesUploadForm.${documentKey}`),
     });
   }
-
   return t('filesUploadForm.status.noDocument', {
     document: t(`filesUploadForm.${documentKey}`),
   });
 };
 
-// Computed files object for parent component
-const files = computed(() => ({
-  elstam: elstamFile.value ? [elstamFile.value] : [],
-  studienbescheinigung: studienbescheinigungFile.value
-    ? [studienbescheinigungFile.value]
-    : [],
-  versicherungsbescheinigung: versicherungsbescheinigungFile.value
-    ? [versicherungsbescheinigungFile.value]
-    : [],
-}));
-
-const fetchDocuments = async () => {
-  try {
-    const response = await ContentApiService.get('/documents');
-    Object.assign(existingDocuments, response.data);
-  } catch (error) {
-    if (error.response?.status !== 404) {
-      console.error('Error fetching documents:', error);
-      store.dispatch('snackbar/setErrorSnacks', {
-        message: t('errors.studentData.fetchingDocs'),
-      });
-    }
-  }
-};
-
-onMounted(fetchDocuments);
+watch(
+  () => props.initialDocuments,
+  (newDocs) => {
+    initializeDocuments(newDocs);
+  },
+  { immediate: true }
+);
 
 defineExpose({
   files,
   isFormValid,
-  fetchDocuments,
 });
 </script>
 

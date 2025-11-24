@@ -1,5 +1,4 @@
 <template>
-  <!-- Dialogs -->
   <PetitionFormDialog
     v-model="showPetitionForm"
     :petition="selectedPetition"
@@ -10,7 +9,15 @@
     v-if="userRole === 0"
     v-model="showStudentDialog"
     :petitions="petitions"
+    :employee-data="employeeData"
+    :document-data="documentData"
     @close="showStudentDialog = false"
+    @refresh="refresh"
+  />
+  <PetitionRevisionDialog
+    v-model="showRevisionDialog"
+    :petition="selectedPetition"
+    @close="showRevisionDialog = false"
     @refresh="refresh"
   />
   <v-card
@@ -29,7 +36,6 @@
       </h2>
     </v-card-title>
     <v-card-text>
-      <!-- Main button - behavior differs by role -->
       <v-btn
         color="primary"
         class="mb-4"
@@ -47,33 +53,53 @@
         @close="emit('deselect-petition')"
         @refresh="refresh"
       >
-        <!-- Action buttons for students to accept/reject petitions -->
+        <!-- Action buttons for students to accept/reject or revision of a petition -->
         <template #bottom v-if="userRole === 0">
-          <div class="d-flex justify-space-between">
+            <v-alert
+            v-if="!isStudentDataComplete"
+            type="warning"
+            variant="tonal"
+            class="mt-4"
+            density="comfortable"
+            tabindex="0"
+          >
+            {{ $t('editCard.student.completeStudentData') }}
+          </v-alert>
+          <div class="d-flex py-4" :class="{ 'justify-space-between': lgAndUp, 'flex-column ga-4': !lgAndUp }">
             <v-btn
               color="error"
               size="large"
               class="px-5"
-              :disabled="selectedPetition.status !== 'student_action'"
+              :disabled="isStudentActionDisabled"
               :aria-label="$t('actions.decline')"
               @click="handleDeclination"
             >
               {{ $t('actions.decline') }}
             </v-btn>
             <v-btn
+              color="warning"
+              size="large"
+              class="px-5"
+              :disabled="isStudentActionDisabled"
+              :aria-label="$t('actions.requestChange')"
+              @click="showRevisionDialog = true"
+            >
+              {{ $t('actions.requestChange') }}
+            </v-btn>
+            <v-btn
               color="success"
               size="large"
               class="px-5"
-              :disabled="selectedPetition.status !== 'student_action'"
+              :disabled="isStudentActionDisabled"
               :aria-label="$t('actions.accept')"
               @click="handleAcceptance"
             >
               {{ $t('actions.accept') }}
             </v-btn>
           </div>
+
         </template>
       </PetitionTableWithActions>
-
       <!-- Placeholder when no petition is selected -->
       <v-alert
         v-else
@@ -89,13 +115,15 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
+import { useDisplay } from 'vuetify';
 import PetitionFormDialog from '@/components/dialogs/PetitionFormDialog.vue';
 import StudentDataManagementDialog from '../dialogs/StudentDataManagementDialog.vue';
 import PetitionTableWithActions from '../tables/PetitionTableWithActions.vue';
 import ContentApiService from '@/services/contentApiService';
+import PetitionRevisionDialog from '../dialogs/PetitionRevisionDialog.vue';
 
 const props = defineProps({
   selectedPetition: {
@@ -112,9 +140,16 @@ const emit = defineEmits(['refresh', 'deselect-petition']);
 
 const store = useStore();
 const { t } = useI18n();
+const { lgAndUp } = useDisplay();
 
 const showPetitionForm = ref(false);
 const showStudentDialog = ref(false);
+const showRevisionDialog = ref(false);
+
+const employeeData = ref(null);
+const documentData = ref(null);
+const isLoadingEmployeeData = ref(false);
+const isLoadingDocumentData = ref(false);
 
 const userRole = computed(() => store.getters['auth/userRole']);
 const buttonLabel = computed(() => {
@@ -123,13 +158,93 @@ const buttonLabel = computed(() => {
     : t('editCard.student.action');
 });
 
+const isPersonalDataComplete = computed(() => {
+  return employeeData.value !== null && Object.keys(employeeData.value).length > 0;
+});
+
+const isDocumentsComplete = computed(() => {
+  return (
+    documentData.value !== null &&
+    !!documentData.value.elstam_url &&
+    !!documentData.value.studienbescheinigung_url &&
+    !!documentData.value.versicherungsbescheinigung_url
+  );
+});
+// Check if student data is complete if the selected petition requires student action
+const isStudentDataComplete = computed(() => {
+  return (
+    isPersonalDataComplete.value &&
+    isDocumentsComplete.value
+  );
+});
+// Determine if student action buttons should be disabled based on petition status and data completeness
+const isStudentActionDisabled = computed(() => {
+  return props.selectedPetition.status !== 'student_action' || !isStudentDataComplete.value; 
+});
+
 const openNewPetitionDialog = () => {
-  emit('deselect-petition'); // Clear any selected petition
+  emit('deselect-petition');
   showPetitionForm.value = true;
 };
-const openStudentDialog = () => (showStudentDialog.value = true);
+
+const openStudentDialog = () => showStudentDialog.value = true;
+
 const refresh = (payload) => {
+  fetchStudentData();
   emit('refresh', payload);
+};
+
+const fetchEmployeeData = async () => {
+  if (isLoadingEmployeeData.value) return;
+  
+  isLoadingEmployeeData.value = true;
+  try {
+    const response = await ContentApiService.get('/employees');
+    if (response.data) {
+      employeeData.value = response.data;
+    }
+  } catch (error) {
+    if (error.response?.status === 404) {
+      employeeData.value = null;
+    } else if (error.response?.status !== 404) {
+      console.error('Error fetching employee data:', error);
+      store.dispatch('snackbar/setErrorSnacks', {
+        message: t('errors.studentData.fetchingData'),
+      });
+    }
+  } finally {
+    isLoadingEmployeeData.value = false;
+  }
+};
+
+const fetchDocuments = async () => {
+  if (isLoadingDocumentData.value) return;
+  
+  isLoadingDocumentData.value = true;
+  try {
+    const response = await ContentApiService.get('/documents');
+    const data = response.data;
+    if (data) {
+      documentData.value = data;
+    }
+  } catch (error) {
+    if (error.response?.status === 404) {
+      documentData.value = null;
+    } else if (error.response?.status !== 404) {
+      console.error('Error fetching documents:', error);
+      store.dispatch('snackbar/setErrorSnacks', {
+        message: t('errors.studentData.fetchingDocs'),
+      });
+    }
+  } finally {
+    isLoadingDocumentData.value = false;
+  }
+};
+
+const fetchStudentData = async () => {
+  if (userRole.value === 0) {
+    await Promise.all([fetchEmployeeData(), fetchDocuments()]);
+  }
 };
 
 const handleDeclination = async () => {
@@ -147,7 +262,7 @@ const handleDeclination = async () => {
     });
   } catch (error) {
     if (error.response?.status !== 404) {
-      console.error('Error accepting petition:', error);
+      console.error('Error declining petition:', error);
       if (error.response?.status === 400) {
         store.dispatch('snackbar/setErrorSnacks', {
           message: t('errors.petition.uploadDocument'),
@@ -160,6 +275,7 @@ const handleDeclination = async () => {
     }
   }
 };
+
 const handleAcceptance = async () => {
   try {
     await ContentApiService.patch(
@@ -188,4 +304,10 @@ const handleAcceptance = async () => {
     }
   }
 };
+
+onMounted(() => {
+  fetchStudentData();
+});
+
+watch(userRole, fetchStudentData);
 </script>

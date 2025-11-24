@@ -48,6 +48,19 @@
                 @error="(err) => handlePdfError(err, item.type)"
               />
             </div>
+
+            <!-- Download Button -->
+            <v-btn
+              v-if="!loadingStates[item.type] && !pdfErrors[item.type] && item.blobUrl"
+              color="primary"
+              variant="outlined"
+              class="mt-4"
+              :loading="downloadStates[item.type]"
+              @click="downloadDocument(item)"
+            >
+              <v-icon start>{{ icons.mdiDownload }}</v-icon>
+              {{ $t('actions.download') }}
+            </v-btn>
           </div>
         </v-carousel-item>
       </v-carousel>
@@ -61,6 +74,7 @@ import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import ContentApiService from '@/services/contentApiService';
 import VuePdfEmbed from 'vue-pdf-embed';
+import { mdiDownload } from '@mdi/js';
 
 const props = defineProps({
   petition: {
@@ -68,7 +82,7 @@ const props = defineProps({
     required: true,
   },
 });
-
+const icons = {mdiDownload}
 const { t } = useI18n();
 const store = useStore();
 
@@ -81,6 +95,11 @@ const loadingStates = ref({
   versicherung: false,
 });
 const pdfErrors = ref({
+  elstam: false,
+  studienbescheinigung: false,
+  versicherung: false,
+});
+const downloadStates = ref({
   elstam: false,
   studienbescheinigung: false,
   versicherung: false,
@@ -102,6 +121,7 @@ const pdfItems = computed(() => {
         title: t(`uploadedFiles.${type}`),
         url: documents.value[urlProp],
         blobUrl: documents.value[`${type}_blobUrl`],
+        fileName: getFileName(documents.value[urlProp], type)
       });
     }
   }
@@ -109,6 +129,92 @@ const pdfItems = computed(() => {
 });
 
 const hasDocuments = computed(() => pdfItems.value.length > 0);
+
+// Download function for carousel items
+const downloadDocument = async (item) => {
+  try {
+    downloadStates.value[item.type] = true;
+    
+    let downloadUrl = item.blobUrl;
+    let shouldRevokeUrl = false;
+
+    // If no blob URL exists, create one from the original URL
+    if (!downloadUrl && item.url) {
+      const response = await ContentApiService.get('/download-file/', {
+        params: { file_url: item.url },
+        responseType: 'blob',
+      });
+      
+      const blob = new Blob([response.data], { 
+        type: response.headers['content-type'] || 'application/pdf' 
+      });
+      downloadUrl = URL.createObjectURL(blob);
+      shouldRevokeUrl = true; // Mark for cleanup since we created it
+    }
+
+    if (!downloadUrl) {
+      throw new Error('No download source available');
+    }
+
+    triggerDownload(downloadUrl, item.fileName);
+
+    // Clean up temporary URL if we created it
+    if (shouldRevokeUrl) {
+      setTimeout(() => URL.revokeObjectURL(downloadUrl), 100);
+    }
+    
+  } catch (error) {
+    console.error('Download failed:', error);
+    
+    // Fallback: try direct download
+    if (item.url) {
+      const directLink = document.createElement('a');
+      directLink.href = item.url;
+      directLink.download = item.fileName;
+      directLink.target = '_blank';
+      directLink.style.display = 'none';
+      document.body.appendChild(directLink);
+      directLink.click();
+      document.body.removeChild(directLink);
+    }
+    
+    store.dispatch('snackbar/setErrorSnacks', {
+      message: t('errors.uploadedFilesClerk.pdfDownload'),
+    });
+  } finally {
+    downloadStates.value[item.type] = false;
+  }
+};
+
+const triggerDownload = (url, fileName) => {
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = fileName;
+  link.style.display = 'none';
+  
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
+// Generate filename from URL or type
+const getFileName = (url, type) => {
+  if (url && url.includes('/')) {
+    const parts = url.split('/');
+    const fileName = parts[parts.length - 1];
+    if (fileName && fileName.includes('.')) {
+      return fileName;
+    }
+  }
+  
+  const typeNames = {
+    elstam: 'eltsam',
+    studienbescheinigung: 'study_certificate', 
+    versicherung: 'insurance_certificate'
+  };
+  return `${typeNames[type] || type}.pdf`;
+};
+
 const loadPdfDocument = async (type, url) => {
   try {
     loadingStates.value[type] = true;
@@ -140,6 +246,7 @@ const retryLoad = (type) => {
   const url = documents.value[`${type}_url`];
   if (url) loadPdfDocument(type, url);
 };
+
 const handlePdfError = (error, type) => {
   console.error('PDF render error:', error);
   store.dispatch('snackbar/setErrorSnacks', {
@@ -156,7 +263,7 @@ const fetchDocuments = async () => {
     return;
   }
   try {
-    // Fetch document URLs
+        // Fetch document URLs
     const response = await ContentApiService.get('/clerk/documents-by-email/', {
       params: { email: props.petition.student_mail },
     });
@@ -185,6 +292,7 @@ const fetchDocuments = async () => {
     });
   }
 };
+
 // Cleanup
 onBeforeUnmount(() => {
   blobUrls.value.forEach((url) => URL.revokeObjectURL(url));
