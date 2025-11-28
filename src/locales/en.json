@@ -1,5 +1,5 @@
 {
-  "welcome": "Welcome to the portal of CLOCK Work",
+  "welcome": "Welcome to the CLOCK Work portal",
   "login": "Login",
   "logout": "Logout",
   "search": "Search",
@@ -34,11 +34,11 @@
   },
   "roleSelectionView": {
     "welcome": "You are new here!",
-    "roleSelection": "Tell us what role you are going to play here:",
+    "roleSelection": "Select your role:",
     "supervisorTitle": "Supervisor",
-    "supervisorDescription": "As a supervisor you hire and supervise student assistants",
+    "supervisorDescription": "As a supervisor, you hire and supervise student assistants.",
     "studentTitle": "Student",
-    "studentDescription": "As a student you can manage hire petitions and work for the university"
+    "studentDescription": "As a student, you can manage hire applications and work for the university."
   },
   "instructionCard": {
     "title": {
@@ -46,54 +46,54 @@
       "supervisor": "Supervisor Dashboard Instructions"
     },
     "text": {
-      "student": "Here you can manage your petitions and work for the university.Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut sit voluptatum iusto vel, quia voluptates qui cumque dolore labore alias minima quod aliquid esse et modi, voluptas unde, voluptatibus nisi. Earum corporis quis rem suscipit. Voluptatem ipsa modi veritatis adipisci vel animi",
-      "supervisor": "Here you can hire and supervise student assistants.Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut sit voluptatum iusto vel, quia voluptates qui cumque dolore labore alias minima quod aliquid esse et modi, voluptas unde, voluptatibus nisi. Earum corporis quis rem suscipit. Voluptatem ipsa modi veritatis adipisci vel animi"
+      "student": "Here you can manage your contracts and enter or upload data\\n\\nPlease ensure that you have all the necessary data and documents ready, otherwise you will not be able to submit the relevant forms. In addition to your personal data (address, bank details), you will need the following documents: current certificate of enrollment, ELStAM form, and social security form.\\n\\nPlease note that it is not possible to save your entries temporarily.",
+      "supervisor": "Here you can start an application to hire a new student assistant and view current applications.\\n\\nPlease ensure that you have all the necessary information ready before starting an application. In addition to the usual contract information, you will need the S-number (HRZ account) of the student assistant and the email address of the person responsible for the cost center.\\n\\nAn application cannot be saved if mandatory fields are left blank!"
     }
   },
   "editCard": {
     "supervisor": {
       "title": "Supervisor Dashboard",
-      "action": "Create New Petition"
+      "action": "Create New application"
     },
     "student": {
       "title": "Student Dashboard",
-      "action": "Open Student Data Management Dialog",
-      "completeStudentData": "please fill in your personal data and upload the required documents to proceed"
+      "action": "Manage Data",
+      "completeStudentData": "please fill in your personal data and upload the required documents to proceed."
     },
     "success": {
-      "acceptance": "Petition accepted successfully",
-      "declination": "Petition declined successfully"
+      "acceptance": "Application accepted successfully",
+      "declination": "Application declined successfully"
     },
-    "noPetitionSelected": "You can select a petition from the overview table to view its details.",
-    "petitionFormDialog": "Petition Form Dialog",
+    "noPetitionSelected": "Select a application from the overview table to view details.",
+    "petitionFormDialog": "Application Form Dialog",
     "studentDataManagementDialog": "Student Data Management Dialog"
   },
   "petitionTable": {
-    "title": "Petition  Table",
+    "title": "Application Table",
     "headers": {
-      "petitionField": "Petition Field",
+      "petitionField": "Application Field",
       "value": "Value"
     }
   },
   "petitionsOverviewTable": {
     "title": "Overview Table",
-    "noPetitions": "currently there are no petitions available",
+    "noPetitions": "Currently, there are no applications available.",
     "exceptions": {
       "true": "There is an exception",
       "false": "No exception"
     }
   },
   "clerkPetitionTable": {
-    "showCompletedPetitions": "Show Completed Petitions"
+    "showCompletedPetitions": "Show completed applications"
   },
   "confirmationDialog": {
-    "PetitionDeletion": "Are you sure you want to delete this petition? This action cannot be undone."
+    "petitionDeletion": "Are you sure you want to delete this application? This action cannot be undone."
   },
   "petitionFormDialog": {
-    "title": "Create New Petition",
+    "title": "Create new application",
     "bachlor": {
-      "yes": "Student has a Bachelor Degree",
-      "no": "Student does not have a Bachelor Degree"
+      "yes": "Bachelor's Degree",
+      "no": "No Bachelor's Degree"
     }
   },
   "studentDataManagementDialog": {
@@ -104,7 +104,7 @@
     },
     "content": {
       "personal": "Here you can view and edit your personal information.",
-      "files": "Here you can upload the required files.each document should be a single PDF page."
+      "files": "Here you can upload the required files. Each document should be a single PDF page."
     },
     "saveSuccess": "Data saved successfully"
   },
@@ -123,12 +123,13 @@
     "iban": "IBAN",
     "married": "Married",
     "previousEmployment": "Previous Employment at Universities",
-    "duration": "Duration"
+    "duration": "Duration of Employment"
   },
   "filesUploadForm": {
-    "elstam": "Eligibility Document",
-    "studienbescheinigung": "University Certificate",
-    "versicherungsbescheinigung": "Insurance Certificate",
+    "elstam": "ELStAM Self-Disclosure Form",
+    "studienbescheinigung": "Enrolment Certificate",
+    "sozialversicherungsbogen": "Social Security Questionnaire",
+    "versicherungsbescheinigung": "Health Insurance Membership Certificate",
     "hint": {
       "selected": "Selected: {filename}",
       "existing": "Existing: {filename}",
@@ -141,52 +142,55 @@
     }
   },
   "petition": {
-    "id": "Petition ID",
+    "id": "Application ID",
     "status": "Status",
     "supervisorMail": "Supervisor Mail",
-    "studentMail": "Student Mail",
+    "studentMail": "Student Mail Address",
+    "studentAccount": "Student Account (s-Number)",
     "orgUnit": "Org Unit",
     "eosNumber": "EOS Number",
-    "startDate": "Start Date",
-    "endDate": "End Date",
-    "minutes": "Minutes (h/Month)",
+    "startDate": "Contract Start Date",
+    "endDate": "Contract End Date",
+    "minutes": "Contract hours (h/Month)",
     "baDegree": "Bachelor Degree",
     "budgetPositions": "Budget Positions",
     "budgetPosition": "Budget Position",
     "budgetApprover": "Budget Approver Email",
     "budgetPositionApproved": " Budgetposition Approved",
     "percentage": "Percentage",
-    "timeExceCourse": "Time Exception",
-    "timeExceName": "Time Exception Name",
-    "timeExceStart": "Time Exception Start Date",
-    "timeExceEnd": "Time Exception End Date",
-    "durationExceCourse": "Duration Exception",
-    "durationExceName": "Duration Exception Name",
-    "durationExceStart": "Duration Exception Start Date",
-    "durationExceEnd": "Duration Exception End Date",
-    "durationException": "Duration Exception",
+    "timeExceCourse": "Minimum Contract Term Deviation (10 h/week | 44 h/month)",
+    "timeExceName": "Description",
+    "timeExceStart": "Deviation from",
+    "timeExceEnd": "Deviation until",
+    "durationExceCourse": "Minimum Hours Deviation",
+    "durationExceName": "Description",
+    "durationExceStart": "Deviation from",
+    "durationExceEnd": "Deviation until",
+    "durationException": "Deviation",
     "exceptions": "Exceptions"
   },
   "petitionDataDisplay": {
-    "title": "Petition Data Display"
+    "title": "petition Data Display"
   },
   "uploadedFiles": {
     "title": "Uploaded Files",
     "noFiles": "No files have been uploaded yet",
-    "elstam": "ELSTAM",
+    "elstam": "ELStAM form",
     "studienbescheinigung": "Study Certificate",
-    "versicherung": "Insurance",
+    "sozialversicherung": "Social Security form",
+    "versicherung": "Health Insurance Certificate",
     "pageCounter": "Page {current} of {total}",
     "pdfLoadError": "Failed to load PDF. You can try downloading it instead.",
     "defaultFilename": "document",
     "retry": "Retry"
   },
   "freeFormData": {
-    "title": "Free Form Data"
+    "title": "Additional Information"
   },
   "validationRule": {
     "required": "This field is required",
     "invalidEmail": "Invalid email address",
+    "invalidAccount": "Invalid Format",
     "invalidPhone": "Invalid phone number",
     "invalidIban": "Invalid IBAN",
     "percentage": "Must be between 0-100",
@@ -198,7 +202,7 @@
   },
   "footer": {
     "links": {
-      "Datenschutz": "Privacy",
+      "Datenschutz": "Privacy Policy",
       "Impressum": "Imprint"
     },
     "acknowledgeGU": {
@@ -212,33 +216,33 @@
       "url": "https://github.com/ClockGU"
     }
   },
-  "PetitionRevisionDialog": {
-    "sendToLabel": "Send to {role} :",
+  "petitionRevisionDialog": {
+    "sendToLabel": "Send to {role}:",
     "subjectLabel": "Subject",
     "subjectPlaceholder": "Enter subject line",
     "messageLabel": "Detailed Message",
-    "messagePlaceholder": "Describe the issue in detail",
+    "messagePlaceholder": "Describe the request in detail",
     "success": {
       "approverRevision": "Budget position revision request was sent successfully to supervisor",
-      "studentRevision": "Petition revision request was sent successfully to supervisor",
-      "clerkRevision": "Petition revision request was sent successfully to student"
+      "studentRevision": "Application revision request was sent successfully to supervisor",
+      "clerkRevision": "Application revision request was sent successfully to student"
     },
     "instruction": {
-      "approver": "You can request a change to the budget position of a petition to a supervisor. you can write your changes in the message box below.The supervisor will receive an email with your requested changes.",
-      "clerk": "You can request a change of a petition to a student.You can select a subject in the dropdown menu and then write your changes in the message box below. The student will receive an email with your requested changes.",
-      "student": "You can request a change of a petition to a supervisor. You can select a subject in the dropdown menu and then write your changes in the message box below. The supervisor will receive an email with your requested changes."
+      "approver": "You can request a change to the budget position of an application to the applicant. Please write your changes in the message box below. The applicant will receive an email with your requested changes.",
+      "clerk": "You can request a change of an application to a student assistant.Please select the subject in the dropdown menu and write your changes in the message box below. The student will receive an email with your requested changes.",
+      "student": "You can request a change of an application to the supervisor. Please select a subject in the dropdown menu and then write your changes in the message box below. The supervisor will receive an email with your requested changes."
     },
     "studentSubjects": {
       "changeDates": "Request changing start/end date",
       "changeHours": "Request changing working hours",
-      "exceptionHours": "Request an exception to the working hours",
-      "others": "Others"
+      "exceptionHours": "Request a deviation from the working hours",
+      "others": "Other"
     },
     "clerkSubjects": {
       "missingDocuments": "Request uploading missing documents",
       "incorrectDocuments": "Request changing incorrect documents",
       "incorrectData": "Request correcting personal data",
-      "others": "Others"
+      "others": "Other"
     }
   },
   "errors": {
@@ -248,7 +252,7 @@
       "generic": "An error occurred during login. Please try again."
     },
     "buttonGoethe": {
-      "UrlFetch": "Error fetching authorization URL. Please try again."
+      "UrlFetch": "Error fetching authorisation URL. Please try again."
     },
     "roleSelection": {
       "sessionExpired": "Session expired. Please login again.",
@@ -261,13 +265,13 @@
       "pdfDownload": "Error downloading PDF"
     },
     "petitionFormDialog": {
-      "submission": "Error submitting petition.Please try again ",
-      "saving": "Error saving petition.Please try again "
+      "submission": "Error submitting application. Please try again ",
+      "saving": "Error saving application. Please try again "
     },
-    "PetitionRevisionDialog": {
+    "petitionRevisionDialog": {
       "approverRevision": "Error sending budget position revision request to supervisor",
-      "studentRevision": "Error sending petition revision request to supervisor",
-      "clerkRevision": "Error sending petition revision request to student",
+      "studentRevision": "Error sending application revision request to supervisor",
+      "clerkRevision": "Error sending application revision request to student",
       "unhandledRole": "You do not have permission to request a revision"
     },
 
@@ -276,61 +280,61 @@
       "savingFiles": "Error saving files",
       "fetchingData": "Error fetching employee data",
       "fetchingDocs": "Error fetching documents",
-      "notifyingClerk": "Error notifying clerk about updated data"
+      "notifyingClerk": "Error notifying HR administrator about updated data"
     },
     "petition": {
-      "deletion": "Error deleting the petition",
-      "fetching": "Error fetching petitions",
-      "rejection": "petition could not be rejected",
-      "approval": "petition could not be approved",
-      "declining": "petition could not be declined",
-      "accepting": "petition could not be accepted",
-      "uploadDocument": "please upload the required data and documents"
+      "deletion": "Error deleting the application",
+      "fetching": "Error fetching applications",
+      "rejection": "Application could not be rejected",
+      "approval": "Application could not be approved",
+      "declining": "Application could not be declined",
+      "accepting": "Application could not be accepted",
+      "uploadDocument": "Please upload the required data and documents."
     },
     "approverView": {
-      "loadPetitionError": "Failed to load petition for review",
-      "approveError": "Error approving petition",
-      "rejectError": "Error rejecting petition"
+      "loadPetitionError": "Failed to load application for review",
+      "approveError": "Error approving application",
+      "rejectError": "Error rejecting application"
     },
     "clerkView": {
-      "unauthorized": "You are not authorized to access the clerk view"
+      "unauthorized": "You are not authorized to access the HR administration view."
     },
     "RoleDashboardView": {
       "unauthorized": "You are not authorized to access this view. Please select a valid role."
     }
   },
   "approverView": {
-    "header": "You have been requested to approve the following hire petition",
-    "headerComplete": "Petition Review Completed",
-    "petitionData": "Petition Data",
-    "noPetition": "No petition available for review at this time.",
-    "noPetitionComplete": "This petition has already been processed. Thank you for your review.",
-    "approveSuccess": "Petition approved successfully.",
-    "rejectSuccess": "Petition rejected successfully"
+    "header": "You have been requested to approve the following hire application.",
+    "headerComplete": "Application Review Completed",
+    "petitionData": "Application Data",
+    "noPetition": "No Application available for review at this time.",
+    "noPetitionComplete": "This Application has already been processed. Thank you for your review.",
+    "approveSuccess": "Application approved successfully.",
+    "rejectSuccess": "Application rejected successfully"
   },
   "budgetPositionStatus": {
-    "approved": "The Budget has been approved",
-    "rejected": "The Budget has been rejected",
-    "approver revision": "The Budget is under revision by the approver",
-    "waiting approver action": "The Budget is waiting for the approver's action"
+    "approved": "The budget has been approved",
+    "rejected": "The budget has been rejected",
+    "approver revision": "The budget is under revision by the approver",
+    "waiting approver action": "The budget is waiting for the approver's action"
   },
   "ariaLabel": {
     "navigation": {
-      "appBar": "Main navigation bar",
-      "navDrawer": "Main navigation drawer",
-      "toggleDrawer": "Toggle navigation drawer",
+      "appBar": "Main Navigation Bar",
+      "navDrawer": "Main Navigation Drawer",
+      "toggleDrawer": "Toggle Navigation Drawer",
       "dashboard": "Go to Dashboard",
-      "roles": "Go to Roles Selection",
-      "avatar": "User avatar",
-      "menu": "User menu",
-      "toggleMenu": "Toggle user menu",
-      "menuOptions": "User menu options"
+      "roles": "Go to Role Selection",
+      "avatar": "User Avatar",
+      "menu": "User Menu",
+      "toggleMenu": "Toggle User Menu",
+      "menuOptions": "User Menu Options"
     },
     "petitionFormDialog": {
-      "dialog": "Petition Dialog",
-      "petitionForm": "Petition Form",
-      "submit": "Submit Petition Form",
-      "save": "Save Petition Form"
+      "dialog": "Application Dialog",
+      "petitionForm": "Application Form",
+      "submit": "Submit Application Form",
+      "save": "Save Application Form"
     }
   }
 }

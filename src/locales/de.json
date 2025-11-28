@@ -5,13 +5,13 @@
   "search": "Suchen",
   "searchBy": "Suchen nach",
   "download": "Herunterladen",
-  "supervisor": "Vorgesetzter",
-  "student": "Student",
+  "supervisor": "Vorgesetzte*r",
+  "student": "Student*in",
   "yes": "Ja",
   "no": "Nein",
   "app": {
-    "loggingin": "Anmelden läuft...",
-    "loading": "Laden..."
+    "loggingin": "Anmeldung läuft...",
+    "loading": "Lade Daten..."
   },
   "actions": {
     "cancel": "abbrechen",
@@ -25,7 +25,7 @@
     "send": "senden",
     "approve": "genehmigen",
     "reject": "ablehnen",
-    "requestChange": "Änderung beantragen",
+    "requestChange": "Änderung anfordern",
     "back": "zurück",
     "next": "weiter",
     "accept": "akzeptieren",
@@ -35,38 +35,38 @@
   "roleSelectionView": {
     "welcome": "Sie sind neu hier!",
     "roleSelection": "Wählen Sie Ihre Rolle aus:",
-    "supervisorTitle": "Vorgesetzter",
-    "supervisorDescription": "Als Vorgesetzter stellen Sie studentische Hilfskräfte ein und betreuen diese.",
-    "studentTitle": "Student",
-    "studentDescription": "Als Student können Sie Einstellungsanträge verwalten und für die Universität arbeiten."
+    "supervisorTitle": "Vorgesetzte*r",
+    "supervisorDescription": "Als Vorgesetzte*r (Supervisor) stellen Sie studentische Hilfskräfte ein und betreuen diese.",
+    "studentTitle": "Student*in",
+    "studentDescription": "Als Student*in können Sie Ihre Einstellungsanträge verwalten und Ihre Daten einreichen."
   },
   "instructionCard": {
     "title": {
-      "student": "Anleitung zum Studenten-Dashboard",
-      "supervisor": "Anleitung zum Vorgesetzten-Dashboard"
+      "student": "Anleitung zum Dashboard für Studierende",
+      "supervisor": "Anleitung zum Dashboard für Vorgesetzte"
     },
     "text": {
-      "student": "Here you can manage your petitions and work for the university.Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut sit voluptatum iusto vel, quia voluptates qui cumque dolore labore alias minima quod aliquid esse et modi, voluptas unde, voluptatibus nisi. Earum corporis quis rem suscipit. Voluptatem ipsa modi veritatis adipisci vel animi",
-      "supervisor": "Here you can hire and supervise student assistants.Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut sit voluptatum iusto vel, quia voluptates qui cumque dolore labore alias minima quod aliquid esse et modi, voluptas unde, voluptatibus nisi. Earum corporis quis rem suscipit. Voluptatem ipsa modi veritatis adipisci vel animi"
+      "student": "Hier können Sie Ihre Verträge managen und Daten eingeben bzw. hochladen.\\n\\nBitte achten Sie darauf, dass Sie alle notwendigen Daten und Unterlagen bereit haben, sonst können Sie die jeweiligen Formulare nicht absenden. Sie benötigen neben Ihren persönlichen Daten (Adresse, Bankverbindung) folgende Unterlagen: aktuelle Studienbescheinigung (nicht Semesterbescheinigung), ELStAM-Formular und das Sozialversicherungsformular sowie die Mitgliedsbescheinigung Ihrer Krankenkasse.\\n\\nBitte beachten Sie, dass ein Zwischenspeichern nicht möglich ist.",
+      "supervisor": "Hier können Sie einen Antrag auf Einstellung einer neuen Hilfskraft starten und laufende Anträge überblicken.\\n\\nBitte stellen Sie sicher, dass Sie vor dem Start eines Antrags alle notwendigen Informationen parat haben. Neben den üblichen Vertragsinformationen benötigen Sie die S-Nummer (HRZ-Account) der studentischen Hilfskraft sowie die Mailadresse der*des Kostenstellenverantwortlichen.\\n\\nEin Antrag kann nicht gespeichert werden, wenn Pflichtfelder leer sind!"
     }
   },
   "editCard": {
     "supervisor": {
-      "title": "Vorgesetzten-Dashboard",
-      "action": "Neuen Antrag erstellen"
+      "title": "Supervisor Dashboard",
+      "action": "Neuen Antrag stellen"
     },
     "student": {
-      "title": "Studenten-Dashboard",
-      "action": "Dialog zur Studenten-Datenverwaltung öffnen",
-      "completeStudentData": "Bitte füllen Sie Ihre persönlichen Daten aus und laden Sie die erforderlichen Dokumente hoch, um fortzufahren"
+      "title": "Dashboard für Studierende",
+      "action": "Daten verwalten",
+      "completeStudentData": "Bitte geben Sie Ihre persönlichen Daten an und laden Sie die erforderlichen Dokumente hoch, um fortzufahren."
     },
     "success": {
       "acceptance": "Antrag erfolgreich akzeptiert",
       "declination": "Antrag erfolgreich abgelehnt"
     },
-    "noPetitionSelected": "Sie können einen Antrag aus der Übersichtstabelle auswählen, um die Details anzuzeigen.",
+    "noPetitionSelected": "Wählen Sie einen Antrag aus der Übersichtstabelle, um Details anzuzeigen.",
     "petitionFormDialog": "Dialog für das Antragsformular",
-    "studentDataManagementDialog": "Dialog für die Studenten-Datenverwaltung"
+    "studentDataManagementDialog": "Dialog für die Datenverwaltung"
   },
   "petitionTable": {
     "title": "Antragstabelle",
@@ -77,7 +77,7 @@
   },
   "petitionsOverviewTable": {
     "title": "Übersichtstabelle",
-    "noPetitions": "derzeit sind keine Anträge verfügbar",
+    "noPetitions": "Derzeit sind keine Anträge verfügbar.",
     "exceptions": {
       "true": "Es liegt eine Ausnahme vor",
       "false": "Keine Ausnahme"
@@ -87,17 +87,17 @@
     "showCompletedPetitions": "Abgeschlossene Anträge anzeigen"
   },
   "confirmationDialog": {
-    "PetitionDeletion": "Sind Sie sicher, dass Sie diesen Antrag löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden."
+    "PetitionDeletion": "Sind Sie sicher, dass Sie diesen Antrag löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden!"
   },
   "petitionFormDialog": {
-    "title": "Neuen Antrag erstellen",
+    "title": "Neuen Antrag stellen",
     "bachlor": {
-      "yes": "Student hat einen Bachelor-Abschluss",
-      "no": "Student hat keinen Bachelor-Abschluss"
+      "yes": "Bachelor-Abschluss",
+      "no": "kein Bachelor-Abschluss"
     }
   },
   "studentDataManagementDialog": {
-    "title": "Studentendaten verwalten",
+    "title": "Studierendendaten verwalten",
     "tabs": {
       "personal": "Persönliche Informationen",
       "files": "Hochgeladene Dateien"
@@ -112,7 +112,7 @@
     "firstName": "Vorname",
     "lastName": "Nachname",
     "formOfAddress": "Anrede",
-    "gender": "Geschlecht",
+    "gender": "Geschlecht/Gender",
     "dateOfBirth": "Geburtsdatum",
     "cityOfBirth": "Geburtsort",
     "address": "Adresse",
@@ -123,47 +123,49 @@
     "iban": "IBAN",
     "married": "Verheiratet",
     "previousEmployment": "Frühere Beschäftigung an Universitäten",
-    "duration": "Dauer"
+    "duration": "Dauer der Beschäftigung"
   },
   "filesUploadForm": {
-    "elstam": "Elstam",
+    "elstam": "ELStAM Selbstauskunft",
     "studienbescheinigung": "Studienbescheinigung",
-    "versicherungsbescheinigung": "Versicherungsbescheinigung",
+    "sozialversicherungsbogen": "Fragebogen zur Sozialversicherung",
+    "versicherungsbescheinigung": "Mitgliedsbescheinigung der Krankenkasse",
     "hint": {
       "selected": "Ausgewählt: {filename}",
       "existing": "Vorhanden: {filename}",
       "noFile": "Keine Datei ausgewählt"
     },
     "status": {
-      "newDocument": "{document}: Ein neues Dokument wurde hochgeladen",
-      "existingDocument": "{document}: Dokument wurde bereits hochgeladen",
-      "noDocument": "{document}: Kein Dokument wurde hochgeladen"
+      "newDocument": "{document}: Ein neues Dokument wurde hochgeladen.",
+      "existingDocument": "{document}: Dokument wurde bereits hochgeladen.",
+      "noDocument": "{document}: Es wurde kein Dokument hochgeladen."
     }
   },
   "petition": {
     "id": "Antrags-ID",
     "status": "Status",
-    "supervisorMail": "E-Mail des Vorgesetzten",
-    "studentMail": "E-Mail des Studenten",
+    "supervisorMail": "E-Mail Supervisor",
+    "studentMail": "E-Mail Student*in",
+    "studentAccount": "Studierenden-Account (s-Nummer)",
     "orgUnit": "Organisationseinheit",
     "eosNumber": "EOS-Nummer",
-    "startDate": "Startdatum",
-    "endDate": "Enddatum",
-    "minutes": "Minuten (h/Monat)",
+    "startDate": "Vertragsbeginn",
+    "endDate": "Vertragsende",
+    "minutes": "Vertragsumfang (h/Monat)",
     "baDegree": "Bachelorabschluss",
-    "budgetPositions": "Budgetpositionen",
-    "budgetPosition": "Budgetposition",
-    "budgetApprover": "E-Mail des Budgetgenehmigers",
-    "budgetPositionApproved": " Budgetposition genehmigt",
+    "budgetPositions": "Kostenstellen",
+    "budgetPosition": "Kostenstelle",
+    "budgetApprover": "E-Mail der*des Kostenstellenverantwortlichen",
+    "budgetPositionApproved": "Kostenstelle genehmigt",
     "percentage": "Prozentsatz",
-    "timeExceCourse": "Zeitliche Ausnahme",
-    "timeExceName": "Name der zeitlichen Ausnahme",
-    "timeExceStart": "Startdatum der zeitlichen Ausnahme",
-    "timeExceEnd": "Enddatum der zeitlichen Ausnahme",
-    "durationExceCourse": "Ausnahmedauer",
-    "durationExceName": "Name der Ausnahmedauer",
-    "durationExceStart": "Startdatum der Ausnahmedauer",
-    "durationExceEnd": "Enddatum der Ausnahmedauer",
+    "timeExceCourse": "Ausnahmen vom Mindestumfang (10 h/Woche | 40 h/Monat)",
+    "timeExceName": "Beschreibung",
+    "timeExceStart": "Startdatum der Abweichung",
+    "timeExceEnd": "Enddatum der Abweichung",
+    "durationExceCourse": "Abweichung von der Mindestvertragslaufzeit",
+    "durationExceName": "Bezeichnung der Abweichung",
+    "durationExceStart": "Startdatum der Abweichung",
+    "durationExceEnd": "Enddatum der Abweichung",
     "durationException": "Ausnahmedauer",
     "exceptions": "Ausnahmen"
   },
@@ -173,24 +175,26 @@
   "uploadedFiles": {
     "title": "Hochgeladene Dateien",
     "noFiles": "Es wurden noch keine Dateien hochgeladen.",
-    "elstam": "ELSTAM",
+    "elstam": "ELStAM-Formular",
     "studienbescheinigung": "Studienbescheinigung",
-    "versicherung": "Versicherung",
+    "sozialversicherung": "Sozialversicherungsbogen",
+    "versicherung": "Krankenversicherung",
     "pageCounter": "Seite {current} von {total}",
     "pdfLoadError": "PDF konnte nicht geladen werden. Sie können versuchen, es stattdessen herunterzuladen.",
     "defaultFilename": "Dokument",
     "retry": "Erneut versuchen"
   },
   "freeFormData": {
-    "title": "Freiform-Daten"
+    "title": "Weitere Angaben"
   },
   "validationRule": {
     "required": "Dieses Feld ist erforderlich",
     "invalidEmail": "Ungültige E-Mail-Adresse",
+    "invalidAccount": "Ungültiges Format",
     "invalidPhone": "Ungültige Telefonnummer",
     "invalidIban": "Ungültige IBAN",
     "percentage": "Muss zwischen 0-100 liegen",
-    "percentageTotal": "Die Gesamtsumme aller Prozents  muss 100% betragen. Aktuelle Gesamtsumme: {totalPercentage}%",
+    "percentageTotal": "Die Gesamtsumme aller Anteile muss 100% betragen. Aktuelle Gesamtsumme: {totalPercentage}%",
     "positiveNumber": "Muss eine positive Zahl sein",
     "endDateAfterStart": "Enddatum muss nach dem Startdatum liegen",
     "eosNumber": "Muss im Format 'FXXXXXX' sein, wobei 'X' eine beliebige Ziffer von 0 bis 9 ist",
@@ -198,7 +202,7 @@
   },
   "footer": {
     "links": {
-      "Datenschutz": "Datenschutz",
+      "Datenschutz": "Datenschutzerklärung",
       "Impressum": "Impressum"
     },
     "acknowledgeGU": {
@@ -213,30 +217,30 @@
     }
   },
   "PetitionRevisionDialog": {
-    "sendToLabel": "Senden an {role} :",
+    "sendToLabel": "Senden an {role}:",
     "subjectLabel": "Betreff",
     "subjectPlaceholder": "Betreff eingeben",
     "messageLabel": "Detaillierte Nachricht",
-    "messagePlaceholder": "Beschreiben Sie das Problem im Detail",
+    "messagePlaceholder": "Beschreiben Sie die Anforderung im Detail",
     "success": {
-      "approverRevision": "Budgetposition-Änderungsanfrage wurde erfolgreich an den Vorgesetzten gesendet",
-      "studentRevision": "Antrags-Änderungsanfrage wurde erfolgreich an den Vorgesetzten gesendet",
-      "clerkRevision": "Antrags-Änderungsanfrage wurde erfolgreich an den Studenten gesendet"
+      "approverRevision": "Die Änderungsanfrage der*des Kostenstellenverantwortlichen wurde erfolgreich an den*die Antragsteller*in gesendet.",
+      "studentRevision": "Die Änderungsanfrage der*des Studierenden wurde erfolgreich an den Supervisor gesendet.",
+      "clerkRevision": "Die Änderungsanfrage der Sachbearbeitung wurde erfolgreich an den*die Studierenden gesendet."
     },
     "instruction": {
-      "approver": "Sie können eine Änderung der Budgetposition eines Antrags an einen Vorgesetzten beantragen. Sie können Ihre Änderungen in der Nachrichtenbox unten eintragen. Der Vorgesetzte wird per E-Mail benachrichtigt, sobald Ihre Änderungen vorliegen.",
-      "clerk": "Sie können eine Änderung eines Antrags an einen Studenten beantragen. Sie können ein Thema in der Dropdown-Menü auswählen und dann Ihre Änderungen in der Nachrichtenbox unten eintragen. Der Student wird per E-Mail benachrichtigt, sobald Ihre Änderungen vorliegen.",
-      "student": "Sie können eine Änderung eines Antrags an einen Vorgesetzten beantragen. Sie können ein Thema in der Dropdown-Menü auswählen und dann Ihre Änderungen in der Nachrichtenbox unten eintragen. Der Vorgesetzte wird per E-Mail benachrichtigt, sobald Ihre Änderungen vorliegen."
+      "approver": "Sie können eine Änderung des Antrags anfordern. Bitte geben Sie Ihre Änderungswünsche im Textfeld unten an. Der*die Antragsteller*in wird per E-Mail über die Anforderung benachrichtigt.",
+      "clerk": "Sie können eine Korrektur/Ergänzung der angegebenen Daten anfordern. Wählen Sie das entsprechende Thema im Dropdown-Menü und geben Sie Ihre Änderungswünsche im Textfeld an. Der*die Student*in wird per E-Mail übder die Anforderung benachrichtigt.",
+      "student": "Sie können eine Änderung des Antrags anfordern. Wählen Sie das entsprechende Thema im Dropdown-Menü und geben Sie Ihre Änderungswünsche im Textfeld an. Der*die Antragsteller*in wird per E-Mail über die Anforderung benachrichtigt."
     },
     "studentSubjects": {
-      "changeDates": "Änderung des Start-/Enddatums beantragen",
-      "changeHours": "Änderung der Arbeitsstunden beantragen",
-      "exceptionHours": "Eine Ausnahme der Arbeitsstunden beantragen",
+      "changeDates": "Änderung des Start-/Enddatums anfordern",
+      "changeHours": "Änderung des Vertragsumfangs anfordern",
+      "exceptionHours": "Abweichung von der Arbeitszeit anfordern",
       "others": "Sonstiges"
     },
     "clerkSubjects": {
       "missingDocuments": "Fehlende Dokumente nachreichen",
-      "incorrectDocuments": "Falsche Dokumente ändern",
+      "incorrectDocuments": "Fehlerhafte Dokumente anpassen",
       "incorrectData": "Persönliche Daten korrigieren",
       "others": "Sonstiges"
     }
@@ -244,7 +248,7 @@
   "errors": {
     "loggingin": {
       "NoCasToken": "Kein CAS-Token in den URL-Parametern gefunden",
-      "NoAccessToken": "Kein Zugriffstoken in der Authentifizierungsantwortung",
+      "NoAccessToken": "Kein Zugriffstoken in der Rückgabe vom Authentifizierungsdienst",
       "generic": "Ein Fehler ist während des Anmeldevorgangs aufgetreten. Bitte versuchen Sie es erneut."
     },
     "buttonGoethe": {
@@ -257,25 +261,25 @@
     "uploadedFilesClerk": {
       "loadingDocs": "Fehler beim Laden der Dokumente",
       "fetchingDocs": "Fehler beim Abrufen der Dokumente",
-      "pdfRender": "Fehler beim Rendern des PDFs",
-      "pdfDownload": "Fehler beim Herunterladen des PDFs"
+      "pdfRender": "Fehler beim Rendern der PDF-Datei",
+      "pdfDownload": "Fehler beim Herunterladen der PDF-Datei"
     },
     "petitionFormDialog": {
       "submission": "Fehler beim Einreichen des Antrags. Bitte versuchen Sie es erneut.",
       "saving": "Fehler beim Speichern des Antrags. Bitte versuchen Sie es erneut."
     },
     "PetitionRevisionDialog": {
-      "approverRevision": "Fehler beim Senden der Budgetposition-Änderungsanfrage an den Vorgesetzten",
-      "studentRevision": "Fehler beim Senden der Antrags-Änderungsanfrage an den Vorgesetzten",
-      "clerkRevision": "Fehler beim Senden der Antrags-Änderungsanfrage an den Studenten",
+      "approverRevision": "Fehler beim Senden der Änderungsanfrage zur Kostenstelle an den*die Antragsteller*in",
+      "studentRevision": "Fehler beim Senden der Änderungsanfrage an den*die Antragsteller*in",
+      "clerkRevision": "Fehler beim Senden der Antrags-Änderungsanfrage an die*den Student*in",
       "unhandledRole": "Sie haben keine Berechtigung, eine Änderung anzufordern"
     },
     "studentData": {
-      "savingData": "Fehler beim Speichern der Mitarbeiterdaten",
-      "savingFiles": "Fehler beim Speichern der Dateien",
-      "fetchingData": "Fehler beim Abrufen der Mitarbeiterdaten",
+      "savingData": "Fehler beim Speichern der persönlichen Daten",
+      "savingFiles": "Fehler beim Speichern der Dokumente",
+      "fetchingData": "Fehler beim Abrufen der persönlichen Daten",
       "fetchingDocs": "Fehler beim Abrufen der Dokumente",
-      "notifyingClerk": "Fehler beim Benachrichtigen des Clerks über die aktualisierten Daten"
+      "notifyingClerk": "Fehler beim Benachrichtigen der Sachbearbeitung"
     },
     "petition": {
       "deletion": "Fehler beim Löschen des Antrags",
@@ -292,15 +296,15 @@
       "rejectError": "Fehler beim Ablehnen des Antrags"
     },
     "clerkView": {
-      "unauthorized": "Sie sind nicht berechtigt, den Clerk-Ansicht zu öffnen"
+      "unauthorized": "Sie sind nicht berechtigt, die Sachbearbeitenden-Ansicht zu öffnen-"
     },
     "RoleDashboardView": {
-      "unauthorized": "Sie sind nicht berechtigt, diesen Ansicht zu öffnen. Bitte wählen Sie eine gültige Rolle aus."
+      "unauthorized": "Sie sind nicht berechtigt, diese Ansicht zu öffnen. Bitte wählen Sie eine gültige Rolle aus."
     }
   },
   "approverView": {
-    "header": "Sie wurden gebeten, den folgenden Einstellungsantrag zu genehmigen",
-    "headerComplete": "Antragüberprüfung abgeschlossen",
+    "header": "Sie wurden gebeten, den folgenden Einstellungsantrag für eine Hilfskraft zu genehmigen",
+    "headerComplete": "Überprüfung des Antrags abgeschlossen",
     "petitionData": "Antragsdaten",
     "noPetition": "Derzeit ist kein Antrag zur Überprüfung verfügbar.",
     "noPetitionComplete": "Dieser Antrag wurde bereits bearbeitet. Vielen Dank für Ihre Überprüfung.",
@@ -308,16 +312,16 @@
     "rejectSuccess": "Antrag erfolgreich abgelehnt."
   },
   "budgetPositionStatus": {
-    "approved": "Das Budget wurde genehmigt",
-    "rejected": "Das Budget wurde abgelehnt",
-    "approver revision": "Das Budget wird vom Genehmiger geprüft",
-    "waiting approver action": "Das Budget wartet auf die Aktion des Genehmigers"
+    "approved": "Die Kostenstelle wurde freigegeben.",
+    "rejected": "Die Kostenstelle wurde nicht freigegeben.",
+    "approver revision": "Die Freigabe der Kostenstelle wird von der verantwortlichen Person geprüft.",
+    "waiting approver action": "Warten auf die Freigabe der Kostenstelle."
   },
   "ariaLabel": {
     "navigation": {
       "appBar": "Hauptnavigationsleiste",
-      "navDrawer": "Hauptnavigationsschublade",
-      "toggleDrawer": "Navigationsschublade umschalten",
+      "navDrawer": "Hauptnavigationsmenü",
+      "toggleDrawer": "Navigationsmenü umschalten",
       "dashboard": "Zum Dashboard wechseln",
       "roles": "Zur Rollenauswahl wechseln",
       "avatar": "Benutzer-Avatar",
