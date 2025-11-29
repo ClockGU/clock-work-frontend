@@ -47,6 +47,22 @@
           :hint="getHintMessage('versicherungsbescheinigung')"
         />
       </v-col>
+      <v-col cols="12">
+        <label for="sozialversicherungsbogen">{{
+            $t('filesUploadForm.sozialversicherungsbogen')
+          }}</label>
+        <v-file-input
+          id="sozialversicherungsbogen"
+          v-model="sozialversicherungsbogenFile"
+          outlined
+          dense
+          show-size
+          persistent-hint
+          accept=".pdf,application/pdf"
+          :aria-label="$t('filesUploadForm.sozialversicherungsbogen')"
+          :hint="getHintMessage('sozialversicherungsbogen')"
+        />
+      </v-col>
     </v-row>
 
     <!-- visual clue for missing and uploaded documents -->
@@ -85,6 +101,17 @@
               getStatusMessage('versicherungsbescheinigung')
             }}</v-list-item-title>
           </v-list-item>
+          <v-list-item>
+            <template v-slot:prepend>
+              <StatusIndicator
+                :status="hasSozialversicherungsbogenDocument"
+                aria-hidden="true"
+              />
+            </template>
+            <v-list-item-title class="ml-2">{{
+                getStatusMessage('sozialversicherungsbogen')
+              }}</v-list-item-title>
+          </v-list-item>
         </v-list>
       </v-card-text>
     </v-card>
@@ -107,12 +134,14 @@ const { t } = useI18n();
 const elstamFile = ref(null);
 const studienbescheinigungFile = ref(null);
 const versicherungsbescheinigungFile = ref(null);
+const sozialversicherungsbogenFile = ref(null);
 
 // Local state for existing document URLs
 const existingDocuments = reactive({
   elstam_url: null,
   studienbescheinigung_url: null,
   versicherungsbescheinigung_url: null,
+  sozialversicherungsbogen_url: null,
 });
 
 // Computed properties for document status
@@ -134,12 +163,20 @@ const hasVersicherungsbescheinigungDocument = computed(() => {
   );
 });
 
+const hasSozialversicherungsbogenDocument = computed(() => {
+  return (
+    !!sozialversicherungsbogenFile.value ||
+    !!existingDocuments.sozialversicherungsbogen_url
+  );
+});
+
 // Validation: All three files must be present (either existing or new)
 const isFormValid = computed(() => {
   return (
     hasElstamDocument.value &&
     hasStudienbescheinigungDocument.value &&
-    hasVersicherungsbescheinigungDocument.value
+    hasVersicherungsbescheinigungDocument.value &&
+    hasSozialversicherungsbogenDocument.value
   );
 });
 // Computed files object for parent component
@@ -150,6 +187,9 @@ const files = computed(() => ({
     : [],
   versicherungsbescheinigung: versicherungsbescheinigungFile.value
     ? [versicherungsbescheinigungFile.value]
+    : [],
+  sozialversierungsbogen: sozialversicherungsbogenFile.value
+    ? [sozialversicherungsbogenFile.value]
     : [],
 }));
 
@@ -163,6 +203,7 @@ const initializeDocuments = (data) => {
       elstam_url: null,
       studienbescheinigung_url: null,
       versicherungsbescheinigung_url: null,
+      sozialversicherungsbogen_url: null,
     });
   }
 };
@@ -182,6 +223,10 @@ const getHintMessage = (field) => {
     case 'versicherungsbescheinigung':
       file = versicherungsbescheinigungFile.value;
       existingUrl = existingDocuments.versicherungsbescheinigung_url;
+      break;
+    case 'sozialversicherungsbogen':
+      file = sozialversicherungsbogenFile.value;
+      existingUrl = existingDocuments.sozialversicherungsbogen_url;
       break;
   }
   if (file) {
@@ -215,6 +260,11 @@ const getStatusMessage = (documentType) => {
       file = versicherungsbescheinigungFile.value;
       existingUrl = existingDocuments.versicherungsbescheinigung_url;
       documentKey = 'versicherungsbescheinigung';
+      break;
+    case 'sozialversicherungsbogen':
+      file = sozialversicherungsbogenFile.value;
+      existingUrl = existingDocuments.sozialversicherungsbogen_url;
+      documentKey = 'sozialversicherungsbogen';
       break;
   }
 
