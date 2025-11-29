@@ -14,16 +14,16 @@
         />
       </v-col>
       <v-col cols="12" md="6">
-        <label for="studentMail">{{ $t('petition.studentMail') }}</label>
+        <label for="studentUserAccount">{{ $t('petition.studentAccount') }}</label>
         <v-text-field
-          id="studentMail"
-          v-model="formData.student_mail"
+          id="studentUserAccount"
+          v-model="formData.student_username"
           type="email"
           outlined
           dense
-          :prepend-icon="icons.mdiEmail"
-          :aria-label="$t('petition.studentMail')"
-          :rules="[requiredRule, emailRule]"
+          :prepend-icon="icons.mdiAccountCog"
+          :aria-label="$t('petition.studentAccount')"
+          :rules="[requiredRule]"
         />
       </v-col>
       <v-col cols="12" md="6">
@@ -208,6 +208,7 @@ import {
   mdiCalendar,
   mdiClock,
   mdiCurrencyUsd,
+  mdiAccountCog
 } from '@mdi/js';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
@@ -224,6 +225,7 @@ const props = defineProps({
 });
 
 const icons = {
+  mdiAccountCog,
   mdiAccount,
   mdiEmail,
   mdiOfficeBuilding,
