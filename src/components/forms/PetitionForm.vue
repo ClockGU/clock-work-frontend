@@ -288,8 +288,8 @@ const handleTimeExceptionChange = (value) => {
   // Always reset the fields when the checkbox state changes
   formData.value.time_exce_name = '';
   formData.value.time_exce_time = '';
-  formData.value.time_exce_start = null;
-  formData.value.time_exce_end = null;
+  // formData.value.time_exce_start = null;
+  // formData.value.time_exce_end = null;
 };
 
 const handleDurationExceptionChange = (value) => {
