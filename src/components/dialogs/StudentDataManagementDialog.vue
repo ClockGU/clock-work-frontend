@@ -124,6 +124,7 @@ const saveAndContinue = async () => {
   }
 };
 
+
 const saveDocuments = async () => {
   try {
     isSaving.value = true;
@@ -137,6 +138,11 @@ const saveDocuments = async () => {
       formData.append(
         'versicherungsbescheinigung',
         files.versicherungsbescheinigung[0]
+      );
+    if (files.sozialversierungsbogen.length)
+      formData.append(
+        'sozialversicherungsbogen',
+        files.sozialversierungsbogen[0]
       );
 
     await ContentApiService.patch('/documents', formData);
@@ -163,7 +169,7 @@ const notifyClerkOfChanges = async () => {
       (petition) => petition.status === 'clerk_revision'
     );
     if (petitionsUnderClerkRevision.length === 0) return;
-    
+
     await Promise.all(
       petitionsUnderClerkRevision.map((petition) =>
         ContentApiService.patch(

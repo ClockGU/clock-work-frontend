@@ -84,7 +84,7 @@ const formattedItems = computed(() => {
         );
       }
     });
-
+    formattedItem["student_mail"] = `${formattedItem["student_username"]}@stud.uni-frankfurt.de`;
     return formattedItem;
   });
 });

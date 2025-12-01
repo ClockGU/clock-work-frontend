@@ -44,10 +44,6 @@
     "title": {
       "student": "Student Dashboard Instructions",
       "supervisor": "Supervisor Dashboard Instructions"
-    },
-    "text": {
-      "student": "Here you can manage your contracts and enter or upload data\\n\\nPlease ensure that you have all the necessary data and documents ready, otherwise you will not be able to submit the relevant forms. In addition to your personal data (address, bank details), you will need the following documents: current certificate of enrollment, ELStAM form, and social security form.\\n\\nPlease note that it is not possible to save your entries temporarily.",
-      "supervisor": "Here you can start an application to hire a new student assistant and view current applications.\\n\\nPlease ensure that you have all the necessary information ready before starting an application. In addition to the usual contract information, you will need the S-number (HRZ account) of the student assistant and the email address of the person responsible for the cost center.\\n\\nAn application cannot be saved if mandatory fields are left blank!"
     }
   },
   "editCard": {
@@ -162,6 +158,7 @@
     "timeExceName": "Description",
     "timeExceStart": "Deviation from",
     "timeExceEnd": "Deviation until",
+    "timeExecActualTime": "Duration of the event (h/month)",
     "durationExceCourse": "Minimum Hours Deviation",
     "durationExceName": "Description",
     "durationExceStart": "Deviation from",

@@ -44,10 +44,6 @@
     "title": {
       "student": "Anleitung zum Dashboard für Studierende",
       "supervisor": "Anleitung zum Dashboard für Vorgesetzte"
-    },
-    "text": {
-      "student": "Hier können Sie Ihre Verträge managen und Daten eingeben bzw. hochladen.\\n\\nBitte achten Sie darauf, dass Sie alle notwendigen Daten und Unterlagen bereit haben, sonst können Sie die jeweiligen Formulare nicht absenden. Sie benötigen neben Ihren persönlichen Daten (Adresse, Bankverbindung) folgende Unterlagen: aktuelle Studienbescheinigung (nicht Semesterbescheinigung), ELStAM-Formular und das Sozialversicherungsformular sowie die Mitgliedsbescheinigung Ihrer Krankenkasse.\\n\\nBitte beachten Sie, dass ein Zwischenspeichern nicht möglich ist.",
-      "supervisor": "Hier können Sie einen Antrag auf Einstellung einer neuen Hilfskraft starten und laufende Anträge überblicken.\\n\\nBitte stellen Sie sicher, dass Sie vor dem Start eines Antrags alle notwendigen Informationen parat haben. Neben den üblichen Vertragsinformationen benötigen Sie die S-Nummer (HRZ-Account) der studentischen Hilfskraft sowie die Mailadresse der*des Kostenstellenverantwortlichen.\\n\\nEin Antrag kann nicht gespeichert werden, wenn Pflichtfelder leer sind!"
     }
   },
   "editCard": {
@@ -162,6 +158,7 @@
     "timeExceName": "Beschreibung",
     "timeExceStart": "Startdatum der Abweichung",
     "timeExceEnd": "Enddatum der Abweichung",
+    "timeExecActualTime": "Zeitlicher Umfang der Veranstaltung (h/Monat)",
     "durationExceCourse": "Abweichung von der Mindestvertragslaufzeit",
     "durationExceName": "Bezeichnung der Abweichung",
     "durationExceStart": "Startdatum der Abweichung",
