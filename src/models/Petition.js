@@ -22,6 +22,7 @@ class Petition {
     this.status = data.status || '';
     this.time_exce_student = data.time_exce_student ?? false;
     this.time_exce_course = data.time_exce_course ?? false;
+    this.time_exce_time = data.time_exce_time || '';
     this.duration_exce_course = data.duration_exce_course ?? false;
     this.time_exce_name = data.time_exce_name || '';
     this.duration_exce_name = data.duration_exce_name || '';

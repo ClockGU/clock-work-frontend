@@ -125,28 +125,39 @@
             :aria-label="$t('petition.timeExceName')"
             :rules="[requiredRule]"
           />
-          <label for="timeExceStart" class="ml-0">{{
-            $t('petition.timeExceStart')
-          }}</label>
-          <v-date-input
-            id="timeExceStart"
-            v-model="formData.time_exce_start"
-            input-format="dd-MM-yyyy"
-            output-format="dd-MM-yyyy"
-            :aria-label="$t('petition.timeExceStart')"
-            :rules="[requiredRule]"
+          <label for="minutes">{{ $t('petition.timeExecActualTime') }}</label>
+          <v-text-field
+            id="minutes"
+            v-model="formData.time_exec_time"
+            type="number"
+            outlined
+            dense
+            :prepend-icon="icons.mdiClock"
+            :aria-label="$t('petition.timeExecActualTime')"
+            :rules="[requiredRule, positiveNumberRule]"
           />
-          <label for="timeExceEnd" class="ml-0">{{
-            $t('petition.timeExceEnd')
-          }}</label>
-          <v-date-input
-            id="timeExceEnd"
-            v-model="formData.time_exce_end"
-            input-format="dd-MM-yyyy"
-            output-format="dd-MM-yyyy"
-            :aria-label="$t('petition.timeExceEnd')"
-            :rules="[requiredRule]"
-          />
+<!--          <label for="timeExceStart" class="ml-0">{{-->
+<!--            $t('petition.timeExceStart')-->
+<!--          }}</label>-->
+<!--          <v-date-input-->
+<!--            id="timeExceStart"-->
+<!--            v-model="formData.time_exce_start"-->
+<!--            input-format="dd-MM-yyyy"-->
+<!--            output-format="dd-MM-yyyy"-->
+<!--            :aria-label="$t('petition.timeExceStart')"-->
+<!--            :rules="[requiredRule]"-->
+<!--          />-->
+<!--          <label for="timeExceEnd" class="ml-0">{{-->
+<!--            $t('petition.timeExceEnd')-->
+<!--          }}</label>-->
+<!--          <v-date-input-->
+<!--            id="timeExceEnd"-->
+<!--            v-model="formData.time_exce_end"-->
+<!--            input-format="dd-MM-yyyy"-->
+<!--            output-format="dd-MM-yyyy"-->
+<!--            :aria-label="$t('petition.timeExceEnd')"-->
+<!--            :rules="[requiredRule]"-->
+<!--          />-->
         </div>
       </v-col>
       <v-col cols="12">

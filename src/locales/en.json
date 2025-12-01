@@ -158,6 +158,7 @@
     "timeExceName": "Description",
     "timeExceStart": "Deviation from",
     "timeExceEnd": "Deviation until",
+    "timeExecActualTime": "Actual working hours (h/month)",
     "durationExceCourse": "Minimum Hours Deviation",
     "durationExceName": "Description",
     "durationExceStart": "Deviation from",
