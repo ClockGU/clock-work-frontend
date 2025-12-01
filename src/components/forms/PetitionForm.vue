@@ -128,7 +128,7 @@
           <label for="minutes">{{ $t('petition.timeExecActualTime') }}</label>
           <v-text-field
             id="minutes"
-            v-model="formData.time_exec_time"
+            v-model="formData.time_exce_time"
             type="number"
             outlined
             dense
@@ -287,6 +287,7 @@ const handleTimeExceptionChange = (value) => {
   formData.value.time_exce_course = value;
   // Always reset the fields when the checkbox state changes
   formData.value.time_exce_name = '';
+  formData.value.time_exce_time = '';
   formData.value.time_exce_start = null;
   formData.value.time_exce_end = null;
 };
