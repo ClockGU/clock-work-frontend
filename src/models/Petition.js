@@ -14,7 +14,7 @@ class Petition {
     this.id = data.id || '';
     this.user_account = data.user_account || '';
     this.supervisor_mail = data.supervisor_mail || '';
-    this.student_mail = data.student_mail || '';
+    this.student_username = data.student_username || '';
     this.org_unit = data.org_unit || '';
     this.eos_number = data.eos_number || '';
     this.minutes = data.minutes || 0;
