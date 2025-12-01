@@ -125,9 +125,9 @@
             :aria-label="$t('petition.timeExceName')"
             :rules="[requiredRule]"
           />
-          <label for="minutes">{{ $t('petition.timeExecActualTime') }}</label>
+          <label for="timeExecActualTime">{{ $t('petition.timeExecActualTime') }}</label>
           <v-text-field
-            id="minutes"
+            id="timeExecActualTime"
             v-model="formData.time_exce_time"
             type="number"
             outlined
