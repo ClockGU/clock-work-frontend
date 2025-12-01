@@ -158,7 +158,7 @@
     "timeExceName": "Beschreibung",
     "timeExceStart": "Startdatum der Abweichung",
     "timeExceEnd": "Enddatum der Abweichung",
-    "timeExecActualTime": "Tatsächlicher Umfang (h/Monat)",
+    "timeExecActualTime": "Zeitlicher Umfang der Veranstaltung (h/Monat)",
     "durationExceCourse": "Abweichung von der Mindestvertragslaufzeit",
     "durationExceName": "Bezeichnung der Abweichung",
     "durationExceStart": "Startdatum der Abweichung",
