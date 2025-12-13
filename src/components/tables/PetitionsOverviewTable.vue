@@ -13,10 +13,10 @@
         tabindex="0"
         style="cursor: pointer"
         :class="{ 'selected-row': selectedItem && selectedItem.id === item.id }"
-        @click="handleRowClick(item)"
-        @keydown.enter="handleRowClick(item)"
-        @keydown.space.prevent="handleRowClick(item)"
         :aria-label="getAriaLabel(item)"
+        @click="handleRowClick(item)"
+        @keydown.enter.prevent
+        @keydown.space.prevent
       >
         <td v-for="header in headers" :key="header.key" role="cell">
           <template v-if="header.key === 'exceptions'">
@@ -84,7 +84,8 @@ const formattedItems = computed(() => {
         );
       }
     });
-    formattedItem["student_mail"] = `${formattedItem["student_username"]}@stud.uni-frankfurt.de`;
+    formattedItem['student_mail'] =
+      `${formattedItem['student_username']}@stud.uni-frankfurt.de`;
     return formattedItem;
   });
 });

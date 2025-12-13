@@ -2,9 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <InstructionCard
-          :role="userRole"
-        />
+        <InstructionCard :role="userRole" />
       </v-col>
       <v-col cols="12" md="6">
         <EditCard

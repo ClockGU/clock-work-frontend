@@ -14,7 +14,9 @@
         />
       </v-col>
       <v-col cols="12" md="6">
-        <label for="studentUserAccount">{{ $t('petition.studentAccount') }}</label>
+        <label for="studentUserAccount">{{
+          $t('petition.studentAccount')
+        }}</label>
         <v-text-field
           id="studentUserAccount"
           v-model="formData.student_username"
@@ -125,7 +127,9 @@
             :aria-label="$t('petition.timeExceName')"
             :rules="[requiredRule]"
           />
-          <label for="timeExecActualTime">{{ $t('petition.timeExecActualTime') }}</label>
+          <label for="timeExecActualTime">{{
+            $t('petition.timeExecActualTime')
+          }}</label>
           <v-text-field
             id="timeExecActualTime"
             v-model="formData.time_exce_time"
@@ -136,28 +140,28 @@
             :aria-label="$t('petition.timeExecActualTime')"
             :rules="[requiredRule, positiveNumberRule]"
           />
-<!--          <label for="timeExceStart" class="ml-0">{{-->
-<!--            $t('petition.timeExceStart')-->
-<!--          }}</label>-->
-<!--          <v-date-input-->
-<!--            id="timeExceStart"-->
-<!--            v-model="formData.time_exce_start"-->
-<!--            input-format="dd-MM-yyyy"-->
-<!--            output-format="dd-MM-yyyy"-->
-<!--            :aria-label="$t('petition.timeExceStart')"-->
-<!--            :rules="[requiredRule]"-->
-<!--          />-->
-<!--          <label for="timeExceEnd" class="ml-0">{{-->
-<!--            $t('petition.timeExceEnd')-->
-<!--          }}</label>-->
-<!--          <v-date-input-->
-<!--            id="timeExceEnd"-->
-<!--            v-model="formData.time_exce_end"-->
-<!--            input-format="dd-MM-yyyy"-->
-<!--            output-format="dd-MM-yyyy"-->
-<!--            :aria-label="$t('petition.timeExceEnd')"-->
-<!--            :rules="[requiredRule]"-->
-<!--          />-->
+          <!--          <label for="timeExceStart" class="ml-0">{{-->
+          <!--            $t('petition.timeExceStart')-->
+          <!--          }}</label>-->
+          <!--          <v-date-input-->
+          <!--            id="timeExceStart"-->
+          <!--            v-model="formData.time_exce_start"-->
+          <!--            input-format="dd-MM-yyyy"-->
+          <!--            output-format="dd-MM-yyyy"-->
+          <!--            :aria-label="$t('petition.timeExceStart')"-->
+          <!--            :rules="[requiredRule]"-->
+          <!--          />-->
+          <!--          <label for="timeExceEnd" class="ml-0">{{-->
+          <!--            $t('petition.timeExceEnd')-->
+          <!--          }}</label>-->
+          <!--          <v-date-input-->
+          <!--            id="timeExceEnd"-->
+          <!--            v-model="formData.time_exce_end"-->
+          <!--            input-format="dd-MM-yyyy"-->
+          <!--            output-format="dd-MM-yyyy"-->
+          <!--            :aria-label="$t('petition.timeExceEnd')"-->
+          <!--            :rules="[requiredRule]"-->
+          <!--          />-->
         </div>
       </v-col>
       <v-col cols="12">
@@ -219,7 +223,7 @@ import {
   mdiCalendar,
   mdiClock,
   mdiCurrencyUsd,
-  mdiAccountCog
+  mdiAccountCog,
 } from '@mdi/js';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';

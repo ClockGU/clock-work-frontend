@@ -29,7 +29,6 @@ const store = useStore();
 const { t } = useI18n();
 
 onMounted(async () => {
-
   try {
     const casToken = route.query.code;
     if (!casToken) {

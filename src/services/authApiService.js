@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-
 const AuthApiService = {
   /**
    * Set a custom header.
@@ -35,7 +34,9 @@ const AuthApiService = {
    */
   login(searchString) {
     return axios.get(
-      `${import.meta.env.VITE_AUTH_API}/auth/cas/callback-clockwork` + searchString,{withCredentials: true}
+      `${import.meta.env.VITE_AUTH_API}/auth/cas/callback-clockwork` +
+        searchString,
+      { withCredentials: true }
     );
   },
 

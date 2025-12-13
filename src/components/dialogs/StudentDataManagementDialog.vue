@@ -124,7 +124,6 @@ const saveAndContinue = async () => {
   }
 };
 
-
 const saveDocuments = async () => {
   try {
     isSaving.value = true;

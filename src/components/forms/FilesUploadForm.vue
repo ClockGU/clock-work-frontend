@@ -49,8 +49,8 @@
       </v-col>
       <v-col cols="12">
         <label for="sozialversicherungsbogen">{{
-            $t('filesUploadForm.sozialversicherungsbogen')
-          }}</label>
+          $t('filesUploadForm.sozialversicherungsbogen')
+        }}</label>
         <v-file-input
           id="sozialversicherungsbogen"
           v-model="sozialversicherungsbogenFile"
@@ -109,8 +109,8 @@
               />
             </template>
             <v-list-item-title class="ml-2">{{
-                getStatusMessage('sozialversicherungsbogen')
-              }}</v-list-item-title>
+              getStatusMessage('sozialversicherungsbogen')
+            }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-card-text>

@@ -56,6 +56,7 @@ const userRole = computed(() => store.getters['auth/userRole']);
 
 const headers = computed(() => {
   const baseHeaders = [
+    { title: t('petition.status'), key: 'status' },
     { title: t('petition.startDate'), key: 'start_date' },
     { title: t('petition.endDate'), key: 'end_date' },
     { title: t('petition.minutes'), key: 'minutes' },

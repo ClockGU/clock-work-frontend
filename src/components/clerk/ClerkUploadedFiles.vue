@@ -51,7 +51,11 @@
 
             <!-- Download Button -->
             <v-btn
-              v-if="!loadingStates[item.type] && !pdfErrors[item.type] && item.blobUrl"
+              v-if="
+                !loadingStates[item.type] &&
+                !pdfErrors[item.type] &&
+                item.blobUrl
+              "
               color="primary"
               variant="outlined"
               class="mt-4"
@@ -82,7 +86,7 @@ const props = defineProps({
     required: true,
   },
 });
-const icons = {mdiDownload}
+const icons = { mdiDownload };
 const { t } = useI18n();
 const store = useStore();
 
@@ -121,7 +125,7 @@ const pdfItems = computed(() => {
         title: t(`uploadedFiles.${type}`),
         url: documents.value[urlProp],
         blobUrl: documents.value[`${type}_blobUrl`],
-        fileName: getFileName(documents.value[urlProp], type)
+        fileName: getFileName(documents.value[urlProp], type),
       });
     }
   }
@@ -134,7 +138,7 @@ const hasDocuments = computed(() => pdfItems.value.length > 0);
 const downloadDocument = async (item) => {
   try {
     downloadStates.value[item.type] = true;
-    
+
     let downloadUrl = item.blobUrl;
     let shouldRevokeUrl = false;
 
@@ -144,9 +148,9 @@ const downloadDocument = async (item) => {
         params: { file_url: item.url },
         responseType: 'blob',
       });
-      
-      const blob = new Blob([response.data], { 
-        type: response.headers['content-type'] || 'application/pdf' 
+
+      const blob = new Blob([response.data], {
+        type: response.headers['content-type'] || 'application/pdf',
       });
       downloadUrl = URL.createObjectURL(blob);
       shouldRevokeUrl = true; // Mark for cleanup since we created it
@@ -162,10 +166,9 @@ const downloadDocument = async (item) => {
     if (shouldRevokeUrl) {
       setTimeout(() => URL.revokeObjectURL(downloadUrl), 100);
     }
-    
   } catch (error) {
     console.error('Download failed:', error);
-    
+
     // Fallback: try direct download
     if (item.url) {
       const directLink = document.createElement('a');
@@ -177,7 +180,7 @@ const downloadDocument = async (item) => {
       directLink.click();
       document.body.removeChild(directLink);
     }
-    
+
     store.dispatch('snackbar/setErrorSnacks', {
       message: t('errors.uploadedFilesClerk.pdfDownload'),
     });
@@ -191,7 +194,7 @@ const triggerDownload = (url, fileName) => {
   link.href = url;
   link.download = fileName;
   link.style.display = 'none';
-  
+
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -206,11 +209,11 @@ const getFileName = (url, type) => {
       return fileName;
     }
   }
-  
+
   const typeNames = {
     elstam: 'eltsam',
-    studienbescheinigung: 'study_certificate', 
-    versicherung: 'insurance_certificate'
+    studienbescheinigung: 'study_certificate',
+    versicherung: 'insurance_certificate',
   };
   return `${typeNames[type] || type}.pdf`;
 };
@@ -263,7 +266,7 @@ const fetchDocuments = async () => {
     return;
   }
   try {
-        // Fetch document URLs
+    // Fetch document URLs
     const response = await ContentApiService.get('/clerk/documents-by-email/', {
       params: { email: props.petition.student_mail },
     });
