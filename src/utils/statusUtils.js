@@ -1,6 +1,6 @@
 import i18n from '@/plugins/i18n';
 
-const STATUS_I18N_PATH = 'petition.statusOption';
+const STATUS_I18N_PATH = 'petition.statusDisplay';
 // enums for petition status
 export const PETITION_STATUS = Object.freeze({
   STUDENT_ACTION: 'student_action',

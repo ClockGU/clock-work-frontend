@@ -138,7 +138,7 @@
     }
   },
   "petition": {
-    "statusOption": {
+    "statusDisplay": {
       "approved": "Approved",
       "rejected": "Rejected",
       "approver_revision": "Revision by budget approver",
