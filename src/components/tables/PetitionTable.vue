@@ -54,6 +54,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { format, parseISO } from 'date-fns';
+import { getStatusDisplay } from '@/utils/statusUtils';
 
 const props = defineProps({
   petition: {
@@ -73,15 +74,7 @@ const formatValue = (value, key) => {
   }
   // Special handling for the status field
   if (key === t('petition.status')) {
-    if (typeof value === 'string' && value.includes('_')) {
-      // Transform 'role_action' to 'Role Action'
-      return value
-        .split('_')
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
-    }
-    // If it's the status field but not in the expected format, return as is.
-    return value;
+    return getStatusDisplay(value);
   }
 
   // Check if this is a date field and format it as dd.mm.yyyy

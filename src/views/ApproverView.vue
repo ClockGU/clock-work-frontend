@@ -114,6 +114,7 @@
 </template>
 
 <script setup>
+import { PETITION_STATUS } from '@/utils/statusUtils';
 import { ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
@@ -159,7 +160,7 @@ const fetchPetition = async () => {
       `/approver/petitions/${petitionId}`
     );
     const fetchedPetition = response.data;
-    if (fetchedPetition.status === 'approver_action') {
+    if (fetchedPetition.status === PETITION_STATUS.APPROVER_ACTION) {
       petition.value = fetchedPetition;
     } else {
       // If the petition is approved rejected or under revision, clear the petition da

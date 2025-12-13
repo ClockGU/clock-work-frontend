@@ -67,6 +67,7 @@
 </template>
 
 <script setup>
+import { PETITION_STATUS } from '@/utils/statusUtils';
 import { ref, computed } from 'vue';
 import ContentApiService from '@/services/contentApiService';
 import { useStore } from 'vuex';
@@ -165,7 +166,7 @@ const saveDocuments = async () => {
 const notifyClerkOfChanges = async () => {
   try {
     const petitionsUnderClerkRevision = props.petitions.filter(
-      (petition) => petition.status === 'clerk_revision'
+      (petition) => petition.status === PETITION_STATUS.CLERK_REVISION
     );
     if (petitionsUnderClerkRevision.length === 0) return;
 

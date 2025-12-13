@@ -68,6 +68,7 @@
 </template>
 
 <script setup>
+import { PETITION_STATUS } from '@/utils/statusUtils';
 import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
@@ -103,9 +104,11 @@ const showPetitionFormDialog = ref(false);
 
 const userRole = computed(() => store.getters['auth/userRole']);
 const canEditPetition = computed(() => {
-  return ['approver_action', 'approver_revision', 'student_revision'].some(
-    (status) => props.petition.status.includes(status)
-  );
+  return [
+    PETITION_STATUS.PETITIONEER_ACTION,
+    PETITION_STATUS.APPROVER_REVISION,
+    PETITION_STATUS.STUDENT_REVISION,
+  ].some((status) => props.petition.status.includes(status));
 });
 
 const deletePetition = async () => {

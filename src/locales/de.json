@@ -138,6 +138,18 @@
     }
   },
   "petition": {
+    "statusOption": {
+      "approved": "Genehmigt",
+      "rejected": "Abgelehnt",
+      "approver_revision": "Überarbeitung durch Kostenstellenverantwortliche*n",
+      "clerk_revision": "Überarbeitung durch Sachbearbeitung",
+      "student revision": "Überarbeitung durch Student*in",
+      "student_action": "Aktion durch Student*in",
+      "petitioneer_action": "Aktion durch Antragsteller*in",
+      "approver_action": "Aktion durch Kostenstellenverantwortliche*n",
+      "clerk_action": "Aktion durch Sachbearbeitung",
+      "awaiting_signiture": "Warten auf Unterschrift"
+    },
     "id": "Antrags-ID",
     "status": "Status",
     "supervisorMail": "E-Mail Supervisor",

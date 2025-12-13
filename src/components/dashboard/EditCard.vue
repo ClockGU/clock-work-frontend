@@ -120,6 +120,7 @@
 </template>
 
 <script setup>
+import { PETITION_STATUS } from '@/utils/statusUtils';
 import { ref, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
@@ -184,7 +185,7 @@ const isStudentDataComplete = computed(() => {
 // Determine if student action buttons should be disabled based on petition status and data completeness
 const isStudentActionDisabled = computed(() => {
   return (
-    props.selectedPetition.status !== 'student_action' ||
+    props.selectedPetition.status !== PETITION_STATUS.STUDENT_ACTION ||
     !isStudentDataComplete.value
   );
 });

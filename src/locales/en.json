@@ -138,6 +138,18 @@
     }
   },
   "petition": {
+    "statusOption": {
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "approver_revision": "Revision by budget approver",
+      "clerk_revision": "Revision by HR administrator",
+      "student revision": "Revision by student",
+      "student_action": "Action by student",
+      "petitioneer_action": "Action by applicant",
+      "approver_action": "Action by budget approver",
+      "clerk_action": "Action by HR administrator",
+      "awaiting_signiture": "Awaiting signature"
+    },
     "id": "Application ID",
     "status": "Status",
     "supervisorMail": "Supervisor Mail",
