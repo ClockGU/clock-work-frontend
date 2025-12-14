@@ -13,6 +13,7 @@
           :aria-label="$t('petition.supervisorMail')"
         />
       </v-col>
+
       <v-col cols="12" md="6">
         <label for="studentUserAccount">{{
           $t('petition.studentAccount')
@@ -28,6 +29,7 @@
           :rules="[requiredRule]"
         />
       </v-col>
+
       <v-col cols="12" md="6">
         <label for="orgUnit">{{ $t('petition.orgUnit') }}</label>
         <v-text-field
@@ -40,6 +42,7 @@
           :rules="[requiredRule]"
         />
       </v-col>
+
       <v-col cols="12" md="6">
         <label for="eosNumber">{{ $t('petition.eosNumber') }}</label>
         <v-text-field
@@ -52,28 +55,43 @@
           :rules="[requiredRule, eosRule]"
         />
       </v-col>
+
       <v-col cols="12" md="6">
         <label for="startDate">{{ $t('petition.startDate') }}</label>
+
+        <!-- FIX:
+             - display-format makes sure the field really shows DD.MM.YYYY (via localizedFormat)
+             - input-format enables manual typing; uses Vuetify tokens dd.mm.yyyy (NOT date-fns)
+        -->
         <v-date-input
           id="startDate"
           v-model="formData.start_date"
-          input-format="dd-MM-yyyy"
+          :prepend-icon="icons.mdiCalendar"
+          :display-format="displayDate"
+          input-format="dd.mm.yyyy"
           output-format="dd-MM-yyyy"
+          placeholder="DD.MM.YYYY"
           :aria-label="$t('petition.startDate')"
           :rules="[requiredRule]"
         />
       </v-col>
+
       <v-col cols="12" md="6">
         <label for="endDate">{{ $t('petition.endDate') }}</label>
+
         <v-date-input
           id="endDate"
           v-model="formData.end_date"
-          input-format="dd-MM-yyyy"
+          :prepend-icon="icons.mdiCalendar"
+          :display-format="displayDate"
+          input-format="dd.mm.yyyy"
           output-format="dd-MM-yyyy"
+          placeholder="DD.MM.YYYY"
           :aria-label="$t('petition.endDate')"
           :rules="[requiredRule, endDateRule]"
         />
       </v-col>
+
       <v-col cols="12" md="6">
         <label for="minutes">{{ $t('petition.minutes') }}</label>
         <v-text-field
@@ -87,6 +105,7 @@
           :rules="[requiredRule, positiveNumberRule]"
         />
       </v-col>
+
       <v-col cols="12" md="6">
         <label for="baDegree">{{ $t('petition.baDegree') }}</label>
         <v-select
@@ -101,12 +120,14 @@
           :aria-label="$t('petition.baDegree')"
         />
       </v-col>
+
       <v-col cols="12">
         <BudgetPositionsFields
           v-model="formData.budget_positions"
           ref="budgetPositionsRef"
         />
       </v-col>
+
       <v-col cols="12">
         <v-checkbox
           id="timeExceCourse"
@@ -127,6 +148,7 @@
             :aria-label="$t('petition.timeExceName')"
             :rules="[requiredRule]"
           />
+
           <label for="timeExecActualTime">{{
             $t('petition.timeExecActualTime')
           }}</label>
@@ -140,30 +162,9 @@
             :aria-label="$t('petition.timeExecActualTime')"
             :rules="[requiredRule, positiveNumberRule]"
           />
-          <!--          <label for="timeExceStart" class="ml-0">{{-->
-          <!--            $t('petition.timeExceStart')-->
-          <!--          }}</label>-->
-          <!--          <v-date-input-->
-          <!--            id="timeExceStart"-->
-          <!--            v-model="formData.time_exce_start"-->
-          <!--            input-format="dd-MM-yyyy"-->
-          <!--            output-format="dd-MM-yyyy"-->
-          <!--            :aria-label="$t('petition.timeExceStart')"-->
-          <!--            :rules="[requiredRule]"-->
-          <!--          />-->
-          <!--          <label for="timeExceEnd" class="ml-0">{{-->
-          <!--            $t('petition.timeExceEnd')-->
-          <!--          }}</label>-->
-          <!--          <v-date-input-->
-          <!--            id="timeExceEnd"-->
-          <!--            v-model="formData.time_exce_end"-->
-          <!--            input-format="dd-MM-yyyy"-->
-          <!--            output-format="dd-MM-yyyy"-->
-          <!--            :aria-label="$t('petition.timeExceEnd')"-->
-          <!--            :rules="[requiredRule]"-->
-          <!--          />-->
         </div>
       </v-col>
+
       <v-col cols="12">
         <v-checkbox
           id="durationExceCourse"
@@ -172,6 +173,7 @@
           :aria-label="$t('petition.durationException')"
           @update:model-value="handleDurationExceptionChange"
         />
+
         <div v-if="formData.duration_exce_course" class="mx-4">
           <label for="durationExceName" class="ml-0">{{
             $t('petition.durationExceName')
@@ -184,25 +186,31 @@
             :aria-label="$t('petition.durationExceName')"
             :rules="[requiredRule]"
           />
+
           <label for="durationExceStart" class="ml-0">{{
             $t('petition.durationExceStart')
           }}</label>
           <v-date-input
             id="durationExceStart"
             v-model="formData.duration_exce_start"
-            input-format="dd-MM-yyyy"
+            :display-format="displayDate"
+            input-format="dd.mm.yyyy"
             output-format="dd-MM-yyyy"
+            placeholder="DD.MM.YYYY"
             :aria-label="$t('petition.durationExceStart')"
             :rules="[requiredRule]"
           />
+
           <label for="durationExceEnd" class="ml-0">{{
             $t('petition.durationExceEnd')
           }}</label>
           <v-date-input
             id="durationExceEnd"
             v-model="formData.duration_exce_end"
-            input-format="dd-MM-yyyy"
+            :display-format="displayDate"
+            input-format="dd.mm.yyyy"
             output-format="dd-MM-yyyy"
+            placeholder="DD.MM.YYYY"
             :aria-label="$t('petition.durationExceEnd')"
             :rules="[requiredRule]"
           />
@@ -228,8 +236,8 @@ import {
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import Petition from '@/models/Petition';
+import { makeDisplayDate, toDate } from '@/utils/date';
 import BudgetPositionsFields from '@/components/forms/fields/BudgetPositionsFields.vue';
-
 
 const props = defineProps({
   petition: {
@@ -269,7 +277,6 @@ const degreeOptions = computed(() => [
 const isAllValid = computed(() => {
   const isBudgetValid = budgetPositionsRef.value?.percentageTotalRule === true;
   const isOtherFieldsValid = isFormValid.value;
-
   return isOtherFieldsValid && isBudgetValid;
 });
 
@@ -292,8 +299,6 @@ const handleTimeExceptionChange = (value) => {
   // Always reset the fields when the checkbox state changes
   formData.value.time_exce_name = '';
   formData.value.time_exce_time = '';
-  // formData.value.time_exce_start = null;
-  // formData.value.time_exce_end = null;
 };
 
 const handleDurationExceptionChange = (value) => {
@@ -303,17 +308,25 @@ const handleDurationExceptionChange = (value) => {
   formData.value.duration_exce_end = null;
 };
 
+const displayDate = makeDisplayDate({
+  displayFormat: 'dd.MM.yyyy',
+  primaryParseFormat: 'dd-MM-yyyy',
+});
 // Validation rules
 const requiredRule = (v) => !!v || t('validationRule.required');
 const emailRule = (v) =>
   /.+@.+\..+/.test(v) || t('validationRule.invalidEmail');
 const positiveNumberRule = (v) => v > 0 || t('validationRule.positiveNumber');
+
 const endDateRule = (v) => {
-  if (!formData.value.start_date || !v) return true;
-  const startDate = new Date(formData.value.start_date);
-  const endDate = new Date(v);
-  return endDate > startDate || t('validationRule.endDateAfterStart');
+  const start = toDate(formData.value.start_date, {
+    primaryFormat: 'dd-MM-yyyy',
+  });
+  const end = toDate(v, { primaryFormat: 'dd-MM-yyyy' });
+  if (!start || !end) return true;
+  return end > start || t('validationRule.endDateAfterStart');
 };
+
 const eosRule = (v) => /^F\d{6}$/.test(v) || t('validationRule.eosNumber');
 
 onMounted(() => {

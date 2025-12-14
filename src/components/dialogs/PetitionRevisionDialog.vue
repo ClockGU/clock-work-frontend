@@ -77,7 +77,7 @@
 </template>
 
 <script setup>
-  import {
+import {
   mdiEmailOutline,
   mdiMessageTextOutline,
   mdiAccountOutline,

@@ -13,6 +13,7 @@
           :rules="[requiredRule]"
         />
       </v-col>
+
       <v-col cols="12" md="6">
         <label for="lastName">{{ $t('employeeData.lastName') }}</label>
         <v-text-field
@@ -25,6 +26,7 @@
           :rules="[requiredRule]"
         />
       </v-col>
+
       <v-col cols="12" md="6">
         <label for="formOfAddress">{{
           $t('employeeData.formOfAddress')
@@ -40,6 +42,7 @@
           :rules="[requiredRule]"
         />
       </v-col>
+
       <v-col cols="12" md="6">
         <label for="gender">{{ $t('employeeData.gender') }}</label>
         <v-select
@@ -53,17 +56,26 @@
           :rules="[requiredRule]"
         />
       </v-col>
+
       <v-col cols="12" md="6">
         <label for="dateOfBirth">{{ $t('employeeData.dateOfBirth') }}</label>
+
+        <!-- FIX:
+             - display-format ensures the field text is really DD.MM.YYYY (date-fns via localizedFormat)
+             - input-format controls MANUAL typing and uses Vuetify tokens: dd.mm.yyyy (NOT date-fns)
+        -->
         <v-date-input
           id="dateOfBirth"
           v-model="formData.date_of_birth"
+          :prepend-icon="icons.mdiCalendar"
+          :display-format="displayDate"
+          input-format="dd.mm.yyyy"
+          output-format="dd-MM-yyyy"
           :aria-label="$t('employeeData.dateOfBirth')"
           :rules="[requiredRule]"
-          input-format="dd-MM-yyyy"
-          output-format="dd-MM-yyyy"
         />
       </v-col>
+
       <v-col cols="12" md="6">
         <label for="cityOfBirth">{{ $t('employeeData.cityOfBirth') }}</label>
         <v-text-field
@@ -76,6 +88,7 @@
           :rules="[requiredRule]"
         />
       </v-col>
+
       <v-col cols="12" md="6">
         <label for="address">{{ $t('employeeData.address') }}</label>
         <v-text-field
@@ -88,6 +101,7 @@
           :rules="[requiredRule]"
         />
       </v-col>
+
       <v-col cols="12" md="6">
         <label for="postalCode">{{ $t('employeeData.postalCode') }}</label>
         <v-text-field
@@ -100,6 +114,7 @@
           :rules="[requiredRule, postalCodeRule]"
         />
       </v-col>
+
       <v-col cols="12" md="6">
         <label for="nationality">{{ $t('employeeData.nationality') }}</label>
         <v-text-field
@@ -112,6 +127,7 @@
           :rules="[requiredRule]"
         />
       </v-col>
+
       <v-col cols="12" md="6">
         <label for="telephoneNumber">{{
           $t('employeeData.telephoneNumber')
@@ -126,6 +142,7 @@
           :rules="[requiredRule, phoneRule]"
         />
       </v-col>
+
       <v-col cols="12" md="6">
         <label for="healthInsurance">{{
           $t('employeeData.healthInsurance')
@@ -140,6 +157,7 @@
           :rules="[requiredRule]"
         />
       </v-col>
+
       <v-col cols="12" md="6">
         <label for="iban">{{ $t('employeeData.iban') }}</label>
         <v-text-field
@@ -152,6 +170,7 @@
           :rules="[requiredRule, ibanRule]"
         />
       </v-col>
+
       <v-col cols="12">
         <v-checkbox
           id="married"
@@ -160,6 +179,7 @@
           :aria-label="$t('employeeData.married')"
         />
       </v-col>
+
       <v-col cols="12">
         <v-checkbox
           id="previousEmployment"
@@ -169,12 +189,20 @@
           @update:model-value="handlePreviousEmploymentChange"
         />
       </v-col>
+
       <v-col v-if="formData.previous_employment" cols="12" md="6">
         <label for="prevEmpDuration">{{ $t('employeeData.duration') }}</label>
+
+        <!-- FIX:
+             - Range display is formatted as "DD.MM.YYYY – DD.MM.YYYY" via displayDate()
+             - Manual typing uses input-format="dd.mm.yyyy"
+        -->
         <v-date-input
           id="prevEmpDuration"
           v-model="formData.prev_emp_duration"
-          input-format="dd-MM-yyyy"
+          :prepend-icon="icons.mdiCalendar"
+          :display-format="displayDate"
+          input-format="dd.mm.yyyy"
           output-format="dd-MM-yyyy"
           multiple="range"
           placeholder="DD.MM.YYYY – DD.MM.YYYY"
@@ -204,6 +232,7 @@ import {
   mdiAccountBox,
 } from '@mdi/js';
 import EmployeeData from '@/models/EmployeeData';
+import { makeDisplayDate } from '@/utils/date';
 
 const icons = {
   mdiAccount,
@@ -219,12 +248,14 @@ const icons = {
   mdiCalendar,
   mdiAccountBox,
 };
+
 const props = defineProps({
   initialData: {
     type: Object,
     default: null,
   },
 });
+
 const { t } = useI18n();
 const formData = ref(new EmployeeData());
 const isFormValid = ref(false);
@@ -240,6 +271,12 @@ watch(
   },
   { immediate: true }
 );
+
+const displayDate = makeDisplayDate({
+  displayFormat: 'dd.MM.yyyy',
+  primaryParseFormat: 'dd-MM-yyyy',
+});
+
 // Validation Rules
 const requiredRule = (v) => !!v || t('validationRule.required');
 const postalCodeRule = (v) =>
