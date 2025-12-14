@@ -77,17 +77,17 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { useStore } from 'vuex';
-import { useRoute } from 'vue-router';
-import {
+  import {
   mdiEmailOutline,
   mdiMessageTextOutline,
   mdiAccountOutline,
 } from '@mdi/js';
+import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
 import ContentApiService from '@/services/contentApiService.js';
-import CustomDialog from './CustomDialog.vue';
+import CustomDialog from '@/components/dialogs/base/CustomDialog.vue';
 
 const props = defineProps({
   petition: {

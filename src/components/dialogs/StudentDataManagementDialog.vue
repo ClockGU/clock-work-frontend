@@ -74,7 +74,7 @@ import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import EmployeeDataForm from '@/components/forms/EmployeeDataForm.vue';
 import FilesUploadForm from '@/components/forms/FilesUploadForm.vue';
-import CustomDialog from '@/components/dialogs/CustomDialog.vue';
+import CustomDialog from '@/components/dialogs/base/CustomDialog.vue';
 
 const props = defineProps({
   petitions: {
