@@ -227,9 +227,9 @@ import {
 } from '@mdi/js';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
-import BudgetPositionsFields from './BudgetPositionsFields.vue';
 import Petition from '@/models/Petition';
-import { format } from 'date-fns';
+import BudgetPositionsFields from '@/components/forms/fields/BudgetPositionsFields.vue';
+
 
 const props = defineProps({
   petition: {
