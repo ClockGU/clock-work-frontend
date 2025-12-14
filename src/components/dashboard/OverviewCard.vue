@@ -33,7 +33,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
-import PetitionsOverviewTable from '@/components/tables/PetitionsOverviewTable.vue';
+import PetitionsOverviewTable from '@/components/tables/base/PetitionsOverviewTable.vue';
 
 const props = defineProps({
   petitions: {

@@ -40,7 +40,7 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { mdiMagnify } from '@mdi/js';
-import PetitionsOverviewTable from '@/components/tables/PetitionsOverviewTable.vue';
+import PetitionsOverviewTable from '@/components/tables/base/PetitionsOverviewTable.vue';
 
 const icons = { mdiMagnify };
 const props = defineProps({

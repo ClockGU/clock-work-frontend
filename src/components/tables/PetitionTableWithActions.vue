@@ -79,7 +79,7 @@ import {
   mdiAlertCircleOutline,
 } from '@mdi/js';
 import ContentApiService from '@/services/contentApiService.js';
-import PetitionTable from './PetitionTable.vue';
+import PetitionTable from './base/PetitionTable.vue';
 import PetitionFormDialog from '@/components/dialogs/PetitionFormDialog.vue';
 import ConfirmationDialog from '@/components/dialogs/base/ConfirmationDialog.vue';
 import PetitionRevisionDialog from '@/components/dialogs/PetitionRevisionDialog.vue';

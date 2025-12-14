@@ -120,7 +120,7 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import ContentApiService from '@/services/contentApiService';
-import PetitionTable from '@/components/tables/PetitionTable.vue';
+import PetitionTable from '@/components/tables/base/PetitionTable.vue';
 import PetitionRevisionDialog from '@/components/dialogs/PetitionRevisionDialog.vue';
 
 const { t } = useI18n();
