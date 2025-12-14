@@ -64,11 +64,20 @@
     "petitionFormDialog": "Application Form Dialog",
     "studentDataManagementDialog": "Student Data Management Dialog"
   },
-  "petitionTable": {
-    "title": "Application Table",
-    "headers": {
-      "petitionField": "Application Field",
-      "value": "Value"
+  "dataDisplayTable": {
+    "petition": {
+      "title": "Application Table",
+      "headers": {
+        "field": "Application Field",
+        "value": "Value"
+      }
+    },
+    "employeeData": {
+      "title": "Employee Data ",
+      "headers": {
+        "field": "Employee data field",
+        "value": "Value"
+      }
     }
   },
   "petitionsOverviewTable": {
@@ -104,7 +113,7 @@
     },
     "saveSuccess": "Data saved successfully"
   },
-  "employeeDataForm": {
+  "employeeData": {
     "firstName": "First Name",
     "lastName": "Last Name",
     "formOfAddress": "Form of Address",
@@ -119,7 +128,11 @@
     "iban": "IBAN",
     "married": "Married",
     "previousEmployment": "Previous Employment at Universities",
-    "duration": "Duration of Employment"
+    "duration": "Duration of Employment",
+    "previouslyEmployeed": "previously employed ",
+    "prevEmpDuration": "Duration of previous employment",
+    "bic": "BIC",
+    "bankName": "Bank Name"
   },
   "filesUploadForm": {
     "elstam": "ELStAM Self-Disclosure Form",

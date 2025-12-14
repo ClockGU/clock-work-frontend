@@ -49,7 +49,7 @@
         v-if="selectedPetition"
         class="mt-4"
         :petition="selectedPetition"
-        :aria-label="$t('petitionTable.title')"
+        :aria-label="$t('dataDisplayTable.petition.title')"
         @close="emit('deselect-petition')"
         @refresh="refresh"
       >

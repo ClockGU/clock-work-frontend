@@ -64,11 +64,20 @@
     "petitionFormDialog": "Dialog für das Antragsformular",
     "studentDataManagementDialog": "Dialog für die Datenverwaltung"
   },
-  "petitionTable": {
-    "title": "Antragstabelle",
-    "headers": {
-      "petitionField": "Antragsfeld",
-      "value": "Wert"
+  "dataDisplayTable": {
+    "petition": {
+      "title": "Antragstabelle",
+      "headers": {
+        "field": "Antragsfeld",
+        "value": "Wert"
+      }
+    },
+    "employeeData": {
+      "title": "Mitarbeiterdaten",
+      "headers": {
+        "field": "Mitarbeiterdatenfeld",
+        "value": "Wert"
+      }
     }
   },
   "petitionsOverviewTable": {
@@ -104,22 +113,26 @@
     },
     "saveSuccess": "Daten erfolgreich gespeichert"
   },
-  "employeeDataForm": {
+  "employeeData": {
     "firstName": "Vorname",
     "lastName": "Nachname",
     "formOfAddress": "Anrede",
-    "gender": "Geschlecht/Gender",
+    "gender": "Geschlecht",
     "dateOfBirth": "Geburtsdatum",
     "cityOfBirth": "Geburtsort",
     "address": "Adresse",
     "postalCode": "Postleitzahl",
-    "nationality": "Nationalität",
+    "nationality": "Staatsangehörigkeit",
     "telephoneNumber": "Telefonnummer",
     "healthInsurance": "Krankenversicherung",
     "iban": "IBAN",
     "married": "Verheiratet",
-    "previousEmployment": "Frühere Beschäftigung an Universitäten",
-    "duration": "Dauer der Beschäftigung"
+    "previousEmployment": "Vorherige Beschäftigung an Universitäten",
+    "duration": "Beschäftigungsdauer",
+    "previouslyEmployeed": "zuvor beschäftigt",
+    "prevEmpDuration": "Dauer der vorherigen Beschäftigung",
+    "bic": "BIC",
+    "bankName": "Bankname"
   },
   "filesUploadForm": {
     "elstam": "ELStAM Selbstauskunft",
