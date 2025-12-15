@@ -3,329 +3,443 @@
     <v-card-title class="text-h6">
       {{ $t('uploadedFiles.title') }}
     </v-card-title>
+
     <v-card-text class="pa-4">
       <v-alert v-if="!hasDocuments" type="error" variant="tonal" color="error">
         {{ $t('uploadedFiles.noFiles') }}
       </v-alert>
 
-      <v-carousel
-        v-if="hasDocuments"
-        v-model="currentSlide"
-        show-arrows="hover"
-        hide-delimiters
-        height="auto"
-      >
-        <v-carousel-item v-for="(item, index) in pdfItems" :key="index">
-          <div class="d-flex flex-column align-center pa-4">
-            <p class="text-subtitle-1 font-weight-bold mb-4">
-              {{ item.title }}
-            </p>
+      <template v-else>
+        <v-carousel
+          v-model="state.currentSlide"
+          show-arrows="hover"
+          hide-delimiters
+          height="auto"
+        >
+          <v-carousel-item v-for="item in pdfItems" :key="item.type">
+            <div class="d-flex flex-column align-center pa-4">
+              <p class="text-subtitle-1 font-weight-bold mb-4">
+                {{ item.title }}
+              </p>
 
-            <!-- Loading State -->
-            <div v-if="loadingStates[item.type]" class="text-center">
-              <v-progress-circular
-                indeterminate
-                color="primary"
-                size="64"
-              ></v-progress-circular>
-              <p class="mt-2">{{ $t('app.loading') }}</p>
+              <!-- Loading -->
+              <div v-if="state.loading[item.type]" class="text-center">
+                <v-progress-circular indeterminate color="primary" size="64" />
+                <p class="mt-2">{{ $t('app.loading') }}</p>
+              </div>
+
+              <!-- Error -->
+              <div v-else-if="state.error[item.type]" class="text-center">
+                <p>{{ $t('uploadedFiles.pdfLoadError') }}</p>
+                <v-btn class="mt-2" @click="retryLoad(item.type)">
+                  {{ $t('uploadedFiles.retry') }}
+                </v-btn>
+              </div>
+
+              <!-- PDF Preview (page 1 only) -->
+              <div v-else class="w-100" style="max-width: 800px">
+                <v-hover v-slot="{ isHovering, props: hoverProps }">
+                  <div v-bind="hoverProps" class="position-relative">
+                    <vue-pdf-embed
+                      :source="state.blobUrl[item.type]"
+                      :page="1"
+                      :width="previewPdfWidth"
+                      @loaded="(pdf) => captureAspect(item.type, pdf)"
+                      @error="(err) => handlePdfError(err, item.type)"
+                    />
+
+                    <v-btn
+                      v-show="isHovering || display.smAndDown.value"
+                      icon
+                      variant="tonal"
+                      size="small"
+                      :aria-label="$t('actions.view')"
+                      style="position:absolute; top:8px; right:8px; z-index:2"
+                      @click="openViewer(item.type)"
+                    >
+                      <v-icon :icon="icons.mdiFullscreen" />
+                    </v-btn>
+                  </div>
+                </v-hover>
+              </div>
             </div>
+          </v-carousel-item>
+        </v-carousel>
 
-            <!-- Error State -->
-            <div v-else-if="pdfErrors[item.type]" class="text-center">
-              <p>{{ $t('uploadedFiles.pdfLoadError') }}</p>
-              <v-btn @click="retryLoad(item.type)" class="mt-2">
-                {{ $t('uploadedFiles.retry') }}
-              </v-btn>
-            </div>
-
-            <!-- PDF Display  -->
-            <div v-else class="pdf-container">
-              <vue-pdf-embed
-                :source="item.blobUrl"
-                :page="1"
-                class="pdf-embed"
-                @error="(err) => handlePdfError(err, item.type)"
-              />
-            </div>
-
-            <!-- Download Button -->
-            <v-btn
-              v-if="
-                !loadingStates[item.type] &&
-                !pdfErrors[item.type] &&
-                item.blobUrl
-              "
-              color="primary"
-              variant="outlined"
-              class="mt-4"
-              :loading="downloadStates[item.type]"
-              @click="downloadDocument(item)"
-            >
-              <v-icon start>{{ icons.mdiDownload }}</v-icon>
-              {{ $t('actions.download') }}
-            </v-btn>
-          </div>
-        </v-carousel-item>
-      </v-carousel>
+        <!-- Download all (centered) -->
+        <div class="d-flex justify-center mt-4">
+          <v-btn
+            color="primary"
+            variant="outlined"
+            :loading="state.downloadingAll"
+            :disabled="anyLoading || anyError"
+            @click="downloadAll"
+          >
+            <v-icon start :icon="icons.mdiDownloadMultiple" />
+            {{ $t('actions.downloadAll') }}
+          </v-btn>
+        </div>
+      </template>
     </v-card-text>
+
+    <!-- Viewer dialog: centered, tight to PDF, page 1 only -->
+    <v-dialog
+      v-model="state.viewer.open"
+      :fullscreen="display.smAndDown.value"
+      :max-width="dialogMaxWidth"
+      :max-height="dialogMaxHeight"
+      content-class="pa-0"
+      transition="slide-y-reverse-transition"
+    >
+      <div
+        class="position-relative"
+        :style="{
+          width: dialogBox.width + 'px',
+          height: dialogBox.height + 'px',
+          overflow: 'hidden',
+        }"
+      >
+        <v-btn
+          icon
+          variant="tonal"
+          size="small"
+          :aria-label="$t('actions.close')"
+          style="position:absolute; top:8px; right:8px; z-index:3"
+          @click="closeViewer"
+        >
+          <v-icon :icon="icons.mdiClose" />
+        </v-btn>
+
+        <vue-pdf-embed
+          v-if="viewerType"
+          :source="state.blobUrl[viewerType]"
+          :page="1"
+          :width="dialogBox.width"
+          :height="dialogBox.height"
+          @loaded="(pdf) => captureAspect(viewerType, pdf)"
+          @error="(err) => handlePdfError(err, viewerType)"
+        />
+      </div>
+    </v-dialog>
   </v-card>
 </template>
 
 <script setup>
-import { ref, watch, computed, onBeforeUnmount } from 'vue';
+import { computed, reactive, watch, onBeforeUnmount } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
+import { useDisplay } from 'vuetify';
 import ContentApiService from '@/services/contentApiService';
 import VuePdfEmbed from 'vue-pdf-embed';
-import { mdiDownload } from '@mdi/js';
+import { mdiDownloadMultiple, mdiFullscreen, mdiClose } from '@mdi/js';
 
 const props = defineProps({
-  petition: {
-    type: Object,
-    required: true,
-  },
+  petition: { type: Object, required: true },
 });
-const icons = { mdiDownload };
+
+const icons = { mdiDownloadMultiple, mdiFullscreen, mdiClose };
 const { t } = useI18n();
 const store = useStore();
+const display = useDisplay();
 
-const documents = ref({});
-const currentSlide = ref(0);
-const blobUrls = ref([]);
-const loadingStates = ref({
-  elstam: false,
-  studienbescheinigung: false,
-  versicherung: false,
-});
-const pdfErrors = ref({
-  elstam: false,
-  studienbescheinigung: false,
-  versicherung: false,
-});
-const downloadStates = ref({
-  elstam: false,
-  studienbescheinigung: false,
-  versicherung: false,
+/**
+ * Single source of truth for supported documents
+ */
+const DOCS = [
+  {
+    type: 'elstam',
+    urlProp: 'elstam_url',
+    i18nKey: 'uploadedFiles.elstam',
+    defaultName: 'elstam.pdf',
+  },
+  {
+    type: 'studienbescheinigung',
+    urlProp: 'studienbescheinigung_url',
+    i18nKey: 'uploadedFiles.studienbescheinigung',
+    defaultName: 'study_certificate.pdf',
+  },
+  {
+    type: 'versicherung',
+    urlProp: 'versicherungsbescheinigung_url',
+    i18nKey: 'uploadedFiles.versicherung',
+    defaultName: 'insurance_certificate.pdf',
+  },
+  {
+    type: 'sozialversicherungsbogen',
+    urlProp: 'sozialversicherungsbogen_url',
+    i18nKey: 'uploadedFiles.sozialversicherungsbogen',
+    defaultName: 'social_insurance_form.pdf',
+  },
+];
+
+const typeKeys = DOCS.map((d) => d.type);
+const makeTypeMap = (initial) => Object.fromEntries(typeKeys.map((k) => [k, initial]));
+
+const state = reactive({
+  documents: {},
+  currentSlide: 0,
+
+  blobUrl: makeTypeMap(null),
+  loading: makeTypeMap(false),
+  error: makeTypeMap(false),
+  aspect: makeTypeMap(null),
+
+  createdBlobUrls: [],
+  downloadingAll: false,
+
+  viewer: {
+    open: false,
+    type: null,
+  },
 });
 
-// PDF items calculation
-const pdfItems = computed(() => {
-  const items = [];
-  const types = {
-    elstam: 'elstam_url',
-    studienbescheinigung: 'studienbescheinigung_url',
-    versicherung: 'versicherungsbescheinigung_url',
-  };
-
-  for (const [type, urlProp] of Object.entries(types)) {
-    if (documents.value[urlProp]) {
-      items.push({
-        type,
-        title: t(`uploadedFiles.${type}`),
-        url: documents.value[urlProp],
-        blobUrl: documents.value[`${type}_blobUrl`],
-        fileName: getFileName(documents.value[urlProp], type),
-      });
-    }
-  }
-  return items;
-});
+const pdfItems = computed(() =>
+  DOCS.filter((d) => !!state.documents?.[d.urlProp]).map((d) => {
+    const url = state.documents[d.urlProp];
+    return {
+      type: d.type,
+      title: t(d.i18nKey),
+      url,
+      fileName: extractFileName(url) || d.defaultName,
+    };
+  })
+);
 
 const hasDocuments = computed(() => pdfItems.value.length > 0);
+const anyLoading = computed(() => Object.values(state.loading).some(Boolean));
+const anyError = computed(() => Object.values(state.error).some(Boolean));
+const viewerType = computed(() => state.viewer.type);
 
-// Download function for carousel items
-const downloadDocument = async (item) => {
+const previewPdfWidth = computed(() => {
+  const max = 800;
+  const padding = 96;
+  return Math.max(320, Math.min(max, display.width.value - padding));
+});
+
+function notifyError(i18nKey) {
+  store.dispatch('snackbar/setErrorSnacks', { message: t(i18nKey) });
+}
+
+function extractFileName(url) {
   try {
-    downloadStates.value[item.type] = true;
-
-    let downloadUrl = item.blobUrl;
-    let shouldRevokeUrl = false;
-
-    // If no blob URL exists, create one from the original URL
-    if (!downloadUrl && item.url) {
-      const response = await ContentApiService.get('/download-file/', {
-        params: { file_url: item.url },
-        responseType: 'blob',
-      });
-
-      const blob = new Blob([response.data], {
-        type: response.headers['content-type'] || 'application/pdf',
-      });
-      downloadUrl = URL.createObjectURL(blob);
-      shouldRevokeUrl = true; // Mark for cleanup since we created it
-    }
-
-    if (!downloadUrl) {
-      throw new Error('No download source available');
-    }
-
-    triggerDownload(downloadUrl, item.fileName);
-
-    // Clean up temporary URL if we created it
-    if (shouldRevokeUrl) {
-      setTimeout(() => URL.revokeObjectURL(downloadUrl), 100);
-    }
-  } catch (error) {
-    console.error('Download failed:', error);
-
-    // Fallback: try direct download
-    if (item.url) {
-      const directLink = document.createElement('a');
-      directLink.href = item.url;
-      directLink.download = item.fileName;
-      directLink.target = '_blank';
-      directLink.style.display = 'none';
-      document.body.appendChild(directLink);
-      directLink.click();
-      document.body.removeChild(directLink);
-    }
-
-    store.dispatch('snackbar/setErrorSnacks', {
-      message: t('errors.uploadedFilesClerk.pdfDownload'),
-    });
-  } finally {
-    downloadStates.value[item.type] = false;
+    const clean = url.split('?')[0];
+    const last = clean.split('/').pop();
+    return last && last.includes('.') ? last : null;
+  } catch {
+    return null;
   }
-};
+}
 
-const triggerDownload = (url, fileName) => {
+function triggerDownload(url, fileName) {
   const link = document.createElement('a');
   link.href = url;
-  link.download = fileName;
+  link.download = fileName || 'document.pdf';
   link.style.display = 'none';
-
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
-};
+}
 
-// Generate filename from URL or type
-const getFileName = (url, type) => {
-  if (url && url.includes('/')) {
-    const parts = url.split('/');
-    const fileName = parts[parts.length - 1];
-    if (fileName && fileName.includes('.')) {
-      return fileName;
-    }
+function revokeIfCreated(url) {
+  if (!url) return;
+  const idx = state.createdBlobUrls.indexOf(url);
+  if (idx !== -1) {
+    URL.revokeObjectURL(url);
+    state.createdBlobUrls.splice(idx, 1);
   }
+}
 
-  const typeNames = {
-    elstam: 'eltsam',
-    studienbescheinigung: 'study_certificate',
-    versicherung: 'insurance_certificate',
-  };
-  return `${typeNames[type] || type}.pdf`;
-};
+function getDocUrl(type) {
+  const doc = DOCS.find((d) => d.type === type);
+  return doc ? state.documents?.[doc.urlProp] : null;
+}
 
-const loadPdfDocument = async (type, url) => {
+/**
+ * The only loading function you need:
+ * - fetches ArrayBuffer
+ * - creates blob URL
+ * - caches it (and optionally replaces old one)
+ */
+async function ensureBlobUrl(type, { force = false } = {}) {
+  const url = getDocUrl(type);
+  if (!url) return null;
+  if (state.blobUrl[type] && !force) return state.blobUrl[type];
+
   try {
-    loadingStates.value[type] = true;
-    pdfErrors.value[type] = false;
+    state.loading[type] = true;
+    state.error[type] = false;
 
-    const response = await ContentApiService.get('/download-file/', {
+    const res = await ContentApiService.get('/download-file/', {
       params: { file_url: url },
       responseType: 'arraybuffer',
-      validateStatus: (status) => status === 200,
+      validateStatus: (s) => s === 200,
     });
-    const blob = new Blob([response.data], { type: 'application/pdf' });
+
+    const blob = new Blob([res.data], { type: 'application/pdf' });
     const blobUrl = URL.createObjectURL(blob);
-    blobUrls.value.push(blobUrl);
-    documents.value[`${type}_blobUrl`] = blobUrl;
-  } catch (error) {
-    console.error(`PDF load failed (${type}):`, error);
-    documents.value = {};
-    pdfErrors.value[type] = true;
-    store.dispatch('snackbar/setErrorSnacks', {
-      message: t('errors.uploadedFilesClerk.loadingDocs'),
-    });
+
+    // replace old blob URL if we had one
+    revokeIfCreated(state.blobUrl[type]);
+
+    state.blobUrl[type] = blobUrl;
+    state.createdBlobUrls.push(blobUrl);
+
+    return blobUrl;
+  } catch (err) {
+    console.error(`PDF load failed (${type}):`, err);
+    state.error[type] = true;
+    notifyError('errors.uploadedFilesClerk.loadingDocs');
+    return null;
   } finally {
-    loadingStates.value[type] = false;
+    state.loading[type] = false;
   }
-};
+}
 
-// Retry failed loads
-const retryLoad = (type) => {
-  const url = documents.value[`${type}_url`];
-  if (url) loadPdfDocument(type, url);
-};
+function retryLoad(type) {
+  ensureBlobUrl(type, { force: true });
+}
 
-const handlePdfError = (error, type) => {
+function handlePdfError(error, type) {
   console.error('PDF render error:', error);
-  store.dispatch('snackbar/setErrorSnacks', {
-    message: t('errors.uploadedFilesClerk.pdfRender'),
-  });
-  documents.value = {};
-  pdfErrors.value[type] = true;
-};
+  state.error[type] = true;
+  notifyError('errors.uploadedFilesClerk.pdfRender');
+}
 
-// Document fetching
-const fetchDocuments = async () => {
-  if (!props.petition?.student_mail) {
-    documents.value = {};
+function openViewer(type) {
+  state.viewer.type = type;
+  state.viewer.open = true;
+}
+
+function closeViewer() {
+  state.viewer.open = false;
+  state.viewer.type = null;
+}
+
+/**
+ * Capture page-1 aspect ratio so dialog can tightly wrap the PDF
+ */
+function captureAspect(type, pdf) {
+  if (!type || state.aspect[type]) return;
+  try {
+    if (!pdf?.getPage) return;
+    pdf.getPage(1).then((page) => {
+      const viewport = page.getViewport({ scale: 1 });
+      if (viewport?.width && viewport?.height) {
+        state.aspect[type] = viewport.width / viewport.height;
+      }
+    });
+  } catch {
+    // fallback aspect will be used
+  }
+}
+
+async function downloadAll() {
+  try {
+    state.downloadingAll = true;
+
+    for (const item of pdfItems.value) {
+      const blobUrl = await ensureBlobUrl(item.type);
+      if (blobUrl) triggerDownload(blobUrl, item.fileName);
+      await new Promise((r) => setTimeout(r, 150));
+    }
+  } catch (err) {
+    console.error('Download all failed:', err);
+    notifyError('errors.uploadedFilesClerk.pdfDownload');
+  } finally {
+    state.downloadingAll = false;
+  }
+}
+
+function resetCache() {
+  // revoke all created blob urls
+  state.createdBlobUrls.forEach((u) => URL.revokeObjectURL(u));
+  state.createdBlobUrls = [];
+
+  // reset per-type caches
+  for (const k of typeKeys) {
+    state.blobUrl[k] = null;
+    state.loading[k] = false;
+    state.error[k] = false;
+    state.aspect[k] = null;
+  }
+
+  state.currentSlide = 0;
+  closeViewer();
+}
+
+async function fetchDocuments(studentUsername) {
+  if (!studentUsername) {
+    resetCache();
+    state.documents = {};
     return;
   }
+
   try {
-    // Fetch document URLs
-    const response = await ContentApiService.get('/clerk/documents-by-username/', {
-      params: { student_username: props.petition.student_username },
+    resetCache();
+
+    const res = await ContentApiService.get('/clerk/documents-by-username/', {
+      params: { student_username: studentUsername },
     });
-    documents.value = response.data;
 
-    // Load PDFs in parallel
-    const loadTasks = [];
-    const types = {
-      elstam: 'elstam_url',
-      studienbescheinigung: 'studienbescheinigung_url',
-      versicherung: 'versicherungsbescheinigung_url',
-    };
+    state.documents = res.data || {};
 
-    for (const [type, urlProp] of Object.entries(types)) {
-      if (documents.value[urlProp]) {
-        loadTasks.push(loadPdfDocument(type, documents.value[urlProp]));
-      }
-    }
-
-    await Promise.all(loadTasks);
-  } catch (error) {
-    console.error('Document fetch failed:', error);
-    documents.value = {};
-    store.dispatch('snackbar/setErrorSnacks', {
-      message: t('errors.uploadedFilesClerk.fetchingDocs'),
-    });
+    // load all available docs in parallel
+    await Promise.all(
+      DOCS.map((d) => (state.documents?.[d.urlProp] ? ensureBlobUrl(d.type) : null))
+    );
+  } catch (err) {
+    console.error('Document fetch failed:', err);
+    state.documents = {};
+    notifyError('errors.uploadedFilesClerk.fetchingDocs');
   }
-};
+}
 
-// Cleanup
+/**
+ * Watch only the relevant value (simpler and avoids deep watch noise)
+ */
+watch(
+  () => props.petition?.student_username,
+  (username) => fetchDocuments(username),
+  { immediate: true }
+);
+
 onBeforeUnmount(() => {
-  blobUrls.value.forEach((url) => URL.revokeObjectURL(url));
+  resetCache();
 });
 
-// Watchers
-watch(() => props.petition, fetchDocuments, { immediate: true, deep: true });
+/**
+ * Dialog sizing (tight wrap)
+ */
+function fitBox(maxW, maxH, aspect) {
+  let h = maxH;
+  let w = Math.floor(h * aspect);
+  if (w > maxW) {
+    w = maxW;
+    h = Math.floor(w / aspect);
+  }
+  return { width: w, height: h };
+}
+
+const dialogBox = computed(() => {
+  if (display.smAndDown.value) {
+    return { width: Math.floor(display.width.value), height: Math.floor(display.height.value) };
+  }
+
+  const chrome = 32; // small gap to viewport edges
+  const maxW = Math.max(320, Math.floor(display.width.value - chrome));
+  const maxH = Math.max(320, Math.floor(display.height.value - chrome));
+
+  const type = viewerType.value;
+  const aspect = type && state.aspect[type] ? state.aspect[type] : (1 / Math.SQRT2); // A4-ish fallback
+
+  return fitBox(maxW, maxH, aspect);
+});
+
+const dialogMaxWidth = computed(() =>
+  display.smAndDown.value ? '100vw' : `${dialogBox.value.width}px`
+);
+
+const dialogMaxHeight = computed(() =>
+  display.smAndDown.value ? '100vh' : `${dialogBox.value.height}px`
+);
 </script>
-
-<style scoped>
-.pdf-container {
-  width: 100%;
-  max-width: 800px;
-  height: 75vh;
-  overflow: auto;
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
-}
-
-.pdf-embed {
-  width: 100%;
-  min-width: 600px;
-}
-
-:deep(.vue-pdf-embed__page) {
-  margin: 0 auto;
-}
-
-:deep(.vue-pdf-embed__container) {
-  display: flex;
-  justify-content: center;
-}
-</style>

@@ -30,7 +30,8 @@
     "next": "weiter",
     "accept": "akzeptieren",
     "decline": "ablehnen",
-    "download": "herunterladen"
+    "download": "herunterladen",
+    "downloadAll": "alle herunterladen"
   },
   "roleSelectionView": {
     "welcome": "Sie sind neu hier!",
@@ -199,8 +200,8 @@
     "noFiles": "Es wurden noch keine Dateien hochgeladen.",
     "elstam": "ELStAM-Formular",
     "studienbescheinigung": "Studienbescheinigung",
-    "sozialversicherung": "Sozialversicherungsbogen",
-    "versicherung": "Krankenversicherung",
+    "sozialversicherungsbogen": "Fragebogen zur Sozialversicherung",
+    "versicherungsbescheinigung": "Mitgliedsbescheinigung der Krankenkasse",
     "pageCounter": "Seite {current} von {total}",
     "pdfLoadError": "PDF konnte nicht geladen werden. Sie können versuchen, es stattdessen herunterzuladen.",
     "defaultFilename": "Dokument",

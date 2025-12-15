@@ -30,7 +30,8 @@
     "next": "next",
     "accept": "accept",
     "decline": "decline",
-    "download": "download"
+    "download": "download",
+    "downloadAll": "download all"
   },
   "roleSelectionView": {
     "welcome": "You are new here!",
@@ -92,7 +93,7 @@
     "showCompletedPetitions": "Show completed applications"
   },
   "confirmationDialog": {
-    "petitionDeletion": "Are you sure you want to delete this application? This action cannot be undone."
+    "PetitionDeletion": "Are you sure you want to delete this application? This action cannot be undone."
   },
   "petitionFormDialog": {
     "title": "Create new application",
@@ -199,8 +200,8 @@
     "noFiles": "No files have been uploaded yet",
     "elstam": "ELStAM form",
     "studienbescheinigung": "Study Certificate",
-    "sozialversicherung": "Social Security form",
-    "versicherung": "Health Insurance Certificate",
+    "sozialversicherungsbogen": "Social Security Questionnaire",
+    "versicherungsbescheinigung": "Health Insurance Membership Certificate",
     "pageCounter": "Page {current} of {total}",
     "pdfLoadError": "Failed to load PDF. You can try downloading it instead.",
     "defaultFilename": "document",
