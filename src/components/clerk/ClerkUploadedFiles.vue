@@ -267,8 +267,8 @@ const fetchDocuments = async () => {
   }
   try {
     // Fetch document URLs
-    const response = await ContentApiService.get('/clerk/documents-by-email/', {
-      params: { email: props.petition.student_mail },
+    const response = await ContentApiService.get('/clerk/documents-by-username/', {
+      params: { student_username: props.petition.student_username },
     });
     documents.value = response.data;
 
