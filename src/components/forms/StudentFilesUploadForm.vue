@@ -2,7 +2,7 @@
   <v-form v-model="isFormValid">
     <v-row>
       <v-col cols="12">
-        <label for="elstam">{{ $t('filesUploadForm.elstam') }}</label>
+        <label for="elstam">{{ $t('uploadedFiles.elstam') }}</label>
         <v-file-input
           id="elstam"
           v-model="elstamFile"
@@ -11,13 +11,13 @@
           show-size
           persistent-hint
           accept=".pdf,application/pdf"
-          :aria-label="$t('filesUploadForm.elstam')"
+          :aria-label="$t('uploadedFiles.elstam')"
           :hint="getHintMessage('elstam')"
         />
       </v-col>
       <v-col cols="12">
         <label for="studienbescheinigung">{{
-          $t('filesUploadForm.studienbescheinigung')
+          $t('uploadedFiles.studienbescheinigung')
         }}</label>
         <v-file-input
           id="studienbescheinigung"
@@ -27,13 +27,13 @@
           show-size
           persistent-hint
           accept=".pdf,application/pdf"
-          :aria-label="$t('filesUploadForm.studienbescheinigung')"
+          :aria-label="$t('uploadedFiles.studienbescheinigung')"
           :hint="getHintMessage('studienbescheinigung')"
         />
       </v-col>
       <v-col cols="12">
         <label for="versicherungsbescheinigung">{{
-          $t('filesUploadForm.versicherungsbescheinigung')
+          $t('uploadedFiles.versicherungsbescheinigung')
         }}</label>
         <v-file-input
           id="versicherungsbescheinigung"

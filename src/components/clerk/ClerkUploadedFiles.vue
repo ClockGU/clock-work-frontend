@@ -255,10 +255,10 @@ function getDocUrl(type) {
 }
 
 /**
- * The only loading function you need:
- * - fetches ArrayBuffer
+ * The only loading function for the carousel/viewer docs:
+ * - fetches ArrayBuffer via /download-file/
  * - creates blob URL
- * - caches it (and optionally replaces old one)
+ * - caches it per type
  */
 async function ensureBlobUrl(type, { force = false } = {}) {
   const url = getDocUrl(type);
@@ -278,7 +278,6 @@ async function ensureBlobUrl(type, { force = false } = {}) {
     const blob = new Blob([res.data], { type: 'application/pdf' });
     const blobUrl = URL.createObjectURL(blob);
 
-    // replace old blob URL if we had one
     revokeIfCreated(state.blobUrl[type]);
 
     state.blobUrl[type] = blobUrl;
@@ -333,15 +332,45 @@ function captureAspect(type, pdf) {
   }
 }
 
+async function fetchEmployeeStudentDataPdf() {
+
+  return ContentApiService.get('/employees/student-data-pdf', {
+    params: { petition_id: props.petition?.id }, 
+    responseType: 'arraybuffer'  
+  });
+}
+
+async function downloadEmployeeStudentDataPdf(studentUsername = 'student') {
+  try {
+    const res = await fetchEmployeeStudentDataPdf();
+
+    const contentType = res?.headers?.['content-type'] || 'application/pdf';
+    const blob = new Blob([res.data], { type: contentType });
+    const blobUrl = URL.createObjectURL(blob);
+
+    const fileName = `student_data_${studentUsername}.pdf`;
+    triggerDownload(blobUrl, fileName);
+
+    setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+  } catch (err) {
+    console.error('Employee student-data-pdf download failed:', err);
+    notifyError('errors.uploadedFilesClerk.pdfDownload');
+  }
+}
+
 async function downloadAll() {
   try {
     state.downloadingAll = true;
 
+    // 1) Download the uploaded documents (carousel docs)
     for (const item of pdfItems.value) {
       const blobUrl = await ensureBlobUrl(item.type);
       if (blobUrl) triggerDownload(blobUrl, item.fileName);
       await new Promise((r) => setTimeout(r, 150));
     }
+
+    // 2) Download the extra employee document
+    await downloadEmployeeStudentDataPdf(props.petition?.student_username);
   } catch (err) {
     console.error('Download all failed:', err);
     notifyError('errors.uploadedFilesClerk.pdfDownload');
@@ -382,7 +411,6 @@ async function fetchDocuments(studentUsername) {
     });
 
     state.documents = res.data || {};
-
     // load all available docs in parallel
     await Promise.all(
       DOCS.map((d) => (state.documents?.[d.urlProp] ? ensureBlobUrl(d.type) : null))
@@ -394,9 +422,6 @@ async function fetchDocuments(studentUsername) {
   }
 }
 
-/**
- * Watch only the relevant value (simpler and avoids deep watch noise)
- */
 watch(
   () => props.petition?.student_username,
   (username) => fetchDocuments(username),
@@ -422,15 +447,18 @@ function fitBox(maxW, maxH, aspect) {
 
 const dialogBox = computed(() => {
   if (display.smAndDown.value) {
-    return { width: Math.floor(display.width.value), height: Math.floor(display.height.value) };
+    return {
+      width: Math.floor(display.width.value),
+      height: Math.floor(display.height.value),
+    };
   }
 
-  const chrome = 32; // small gap to viewport edges
+  const chrome = 32;
   const maxW = Math.max(320, Math.floor(display.width.value - chrome));
   const maxH = Math.max(320, Math.floor(display.height.value - chrome));
 
   const type = viewerType.value;
-  const aspect = type && state.aspect[type] ? state.aspect[type] : (1 / Math.SQRT2); // A4-ish fallback
+  const aspect = type && state.aspect[type] ? state.aspect[type] : 1 / Math.SQRT2;
 
   return fitBox(maxW, maxH, aspect);
 });
