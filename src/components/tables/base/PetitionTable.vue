@@ -1,5 +1,5 @@
 <template>
-  <BaseDataDisplay
+  <BaseDataDisplayTable
     :rows="tableRows"
     :table-title="$t('dataDisplayTable.petition.title')"
     :header-key="$t('dataDisplayTable.petition.headers.field')"
@@ -13,9 +13,13 @@
     </template>
 
     <template #value-cell="{ row }">
-      {{ formatValue(row.value, row.key) }}
+      <PetitionStatusIcon 
+      v-if="row.key === $t('petition.status')"
+      :status="row.value"
+      />
+      <span v-else>{{ formatValue(row.value, row.key) }}</span>
     </template>
-  </BaseDataDisplay>
+  </BaseDataDisplayTable>
 </template>
 
 <script setup>
@@ -23,9 +27,8 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { format, parseISO } from 'date-fns';
-import { getStatusDisplay } from '@/utils/statusUtils';
-// Import the new base component
-import BaseDataDisplay from '@/components/tables/base/DataDisplayTable.vue';
+import PetitionStatusIcon from '@/components/ui/PetitionStatusIcon.vue';
+import BaseDataDisplayTable from '@/components/tables/base/DataDisplayTable.vue';
 
 const props = defineProps({
   petition: {
@@ -37,33 +40,16 @@ const props = defineProps({
 const { t } = useI18n();
 const store = useStore();
 
-/**
- * Formats a given value for display in the table.
- */
+// Formats various value types for display in the table.
 const formatValue = (value, key) => {
   if (value === null || value === undefined || value === '') {
     return '-';
   }
-  // Special handling for the status field
-  if (key === t('petition.status')) {
-    // NOTE: In the original component, t('petition.status') is the translated
-    // key, which might not match the raw value for getStatusDisplay.
-    // Assuming the original logic worked, we keep it, but this is a point
-    // to check if translation keys are used as status values.
-    return getStatusDisplay(value);
-  }
-
-  // Check if this is a date field and format it as dd.mm.yyyy
-  // NOTE: The check relies on the *translated* key name (e.g., "Start Date").
-  // This is fragile. A more robust solution would be to tag the row object
-  // with a type (e.g., { key: 'Start Date', value: '2023-01-01', type: 'date' })
-  // but for a direct refactor, we maintain the original logic.
   if (
     typeof value === 'string' &&
     (key.includes('Date') || key.includes('Start') || key.includes('End'))
   ) {
     try {
-      // Date-fns handles ISO strings naturally
       return format(parseISO(value), 'dd.MM.yyyy');
     } catch {
       return value;
@@ -75,9 +61,7 @@ const formatValue = (value, key) => {
   return value;
 };
 
-/**
- * Formats a snake_case key into a camelCase string for translation lookup.
- */
+// Converts snake_case keys to TitleCase for display.
 const formatKey = (key) => {
   return key
     .split('_')
@@ -131,7 +115,7 @@ const tableRows = computed(() => {
     }
   });
 
-  // don't show budget positions related data for student (userRole.value !== 0)
+  // don't show budget positions related data for student 
   if (userRole.value !== 0) {
     // Process the nested budget_positions array
     if (p.budget_positions && Array.isArray(p.budget_positions)) {
@@ -144,13 +128,9 @@ const tableRows = computed(() => {
           key: `${t('petition.budgetApprover', 'Budget Approver')} ${index + 1}`,
           value: position.budget_approver,
         });
-        // The original component formatted this boolean value inline,
-        // we must change it to be processed by formatValue, or keep it
-        // inline to avoid changing the formatting logic for existing fields.
-        // Keeping it inline for this specific field to match original behavior:
         rows.push({
           key: `${t('petition.budgetPositionApproved', 'Budget Position Approved')} ${index + 1}`,
-          value: position.budget_position_approved, // Pass boolean to formatValue
+          value: position.budget_position_approved,
         });
       });
     }

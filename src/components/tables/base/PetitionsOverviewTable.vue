@@ -33,7 +33,7 @@
             />
           </template>
           <template v-else-if="header.key === 'status'">
-            {{ getStatusDisplay(item[header.key]) }}
+            <PetitionStatusIcon :status="item.status" />
           </template>
           <template v-else>
             {{ item[header.key] }}
@@ -47,7 +47,7 @@
 <script setup>
 import { computed } from 'vue';
 import { format, parseISO } from 'date-fns';
-import { getStatusDisplay } from '@/utils/statusUtils';
+import PetitionStatusIcon from '@/components/ui/PetitionStatusIcon.vue';
 import StatusIndicator from '@/components/ui/StatusIndicator.vue';
 
 const props = defineProps({
