@@ -54,7 +54,12 @@
                       variant="tonal"
                       size="small"
                       :aria-label="$t('actions.view')"
-                      style="position:absolute; top:8px; right:8px; z-index:2"
+                      style="
+                        position: absolute;
+                        top: 8px;
+                        right: 8px;
+                        z-index: 2;
+                      "
                       @click="openViewer(item.type)"
                     >
                       <v-icon :icon="icons.mdiFullscreen" />
@@ -104,7 +109,7 @@
           variant="tonal"
           size="small"
           :aria-label="$t('actions.close')"
-          style="position:absolute; top:8px; right:8px; z-index:3"
+          style="position: absolute; top: 8px; right: 8px; z-index: 3"
           @click="closeViewer"
         >
           <v-icon :icon="icons.mdiClose" />
@@ -173,7 +178,8 @@ const DOCS = [
 ];
 
 const typeKeys = DOCS.map((d) => d.type);
-const makeTypeMap = (initial) => Object.fromEntries(typeKeys.map((k) => [k, initial]));
+const makeTypeMap = (initial) =>
+  Object.fromEntries(typeKeys.map((k) => [k, initial]));
 
 const state = reactive({
   documents: {},
@@ -255,7 +261,7 @@ function getDocUrl(type) {
 }
 
 /**
- * The only loading function for the carousel/viewer docs:
+ *  loading function for the carousel/viewer docs:
  * - fetches ArrayBuffer via /download-file/
  * - creates blob URL
  * - caches it per type
@@ -327,16 +333,13 @@ function captureAspect(type, pdf) {
         state.aspect[type] = viewport.width / viewport.height;
       }
     });
-  } catch {
-    // fallback aspect will be used
-  }
+  } catch {}
 }
 
 async function fetchEmployeeStudentDataPdf() {
-
   return ContentApiService.get('/employees/student-data-pdf', {
-    params: { petition_id: props.petition?.id }, 
-    responseType: 'arraybuffer'  
+    params: { petition_id: props.petition?.id },
+    responseType: 'arraybuffer',
   });
 }
 
@@ -413,7 +416,9 @@ async function fetchDocuments(studentUsername) {
     state.documents = res.data || {};
     // load all available docs in parallel
     await Promise.all(
-      DOCS.map((d) => (state.documents?.[d.urlProp] ? ensureBlobUrl(d.type) : null))
+      DOCS.map((d) =>
+        state.documents?.[d.urlProp] ? ensureBlobUrl(d.type) : null
+      )
     );
   } catch (err) {
     console.error('Document fetch failed:', err);
@@ -432,9 +437,7 @@ onBeforeUnmount(() => {
   resetCache();
 });
 
-/**
- * Dialog sizing (tight wrap)
- */
+// Dialog sizing (tight wrap)
 function fitBox(maxW, maxH, aspect) {
   let h = maxH;
   let w = Math.floor(h * aspect);
@@ -458,7 +461,8 @@ const dialogBox = computed(() => {
   const maxH = Math.max(320, Math.floor(display.height.value - chrome));
 
   const type = viewerType.value;
-  const aspect = type && state.aspect[type] ? state.aspect[type] : 1 / Math.SQRT2;
+  const aspect =
+    type && state.aspect[type] ? state.aspect[type] : 1 / Math.SQRT2;
 
   return fitBox(maxW, maxH, aspect);
 });
