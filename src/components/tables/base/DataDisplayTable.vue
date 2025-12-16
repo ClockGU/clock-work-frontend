@@ -43,9 +43,7 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
-
-defineProps({
+const props = defineProps({
   rows: {
     type: Array,
     required: true,

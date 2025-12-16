@@ -73,7 +73,7 @@ const submit = async () => {
     try {
       // Use the Petition model's toBackendFormat method for proper date formatting
       const dataToSend = formData.toBackendFormat();
-      await ContentApiService.post('/supervisor/petitions/user', dataToSend);
+      await ContentApiService.post('/supervisor/petitions', dataToSend);
       emit('refresh');
     } catch (error) {
       console.error('Failed to submit petition:', error);
