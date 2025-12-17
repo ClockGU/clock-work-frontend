@@ -16,6 +16,7 @@
       <PetitionStatusIcon
         v-if="row.key === $t('petition.status')"
         :status="row.value"
+        :tooltip-location="'right'"
       />
       <span v-else>{{ formatValue(row.value, row.key) }}</span>
     </template>
