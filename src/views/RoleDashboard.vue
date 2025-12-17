@@ -57,9 +57,7 @@ const fetchPetitions = async () => {
   isLoading.value = true;
   try {
     const response = await ContentApiService.get(
-      userRole.value === 0
-        ? '/students/petitions/'
-        : '/supervisor/petitions/'
+      userRole.value === 0 ? '/students/petitions/' : '/supervisor/petitions/'
     );
     petitions.value = response.data;
   } catch (err) {

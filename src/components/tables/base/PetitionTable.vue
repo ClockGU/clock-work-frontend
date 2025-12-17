@@ -13,9 +13,9 @@
     </template>
 
     <template #value-cell="{ row }">
-      <PetitionStatusIcon 
-      v-if="row.key === $t('petition.status')"
-      :status="row.value"
+      <PetitionStatusIcon
+        v-if="row.key === $t('petition.status')"
+        :status="row.value"
       />
       <span v-else>{{ formatValue(row.value, row.key) }}</span>
     </template>
@@ -115,7 +115,7 @@ const tableRows = computed(() => {
     }
   });
 
-  // don't show budget positions related data for student 
+  // don't show budget positions related data for student
   if (userRole.value !== 0) {
     // Process the nested budget_positions array
     if (p.budget_positions && Array.isArray(p.budget_positions)) {

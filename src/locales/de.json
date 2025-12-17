@@ -157,12 +157,12 @@
       "rejected": "Abgelehnt",
       "approver_revision": "Überarbeitung durch Kostenstellenverantwortliche*n",
       "clerk_revision": "Überarbeitung durch Sachbearbeitung",
-      "student revision": "Überarbeitung durch Student*in",
+      "student_revision": "Überarbeitung durch Student*in",
       "student_action": "Aktion durch Student*in",
       "petitioneer_action": "Aktion durch Antragsteller*in",
       "approver_action": "Aktion durch Kostenstellenverantwortliche*n",
       "clerk_action": "Aktion durch Sachbearbeitung",
-      "awaiting_signiture": "Warten auf Unterschrift"
+      "awaiting_signature": "Warten auf Unterschrift"
     },
     "id": "Antrags-ID",
     "status": "Status",
@@ -194,6 +194,21 @@
   },
   "petitionDataDisplay": {
     "title": "Anzeige der Antragsdaten"
+  },
+  "petitionStatusDisplayDialog": {
+    "title": "Legende zum Antragsstatus",
+    "description": {
+      "petitioneer_action": "Der*die Vorgesetzte füllt die Antragsdetails aus oder bearbeitet sie. Dies ist der erste Schritt, um einen neuen Antrag einzureichen.",
+      "approver_action": "Die*der Kostenstellenverantwortliche prüft die finanziellen Angaben. Sie können genehmigen, ablehnen oder Änderungen vom Vorgesetzten anfordern.",
+      "student_action": "Der*die Student*in gibt persönliche Informationen und erforderliche Dokumente an. Anschließend kann der Antrag akzeptiert, abgelehnt oder eine Änderung angefordert werden.",
+      "clerk_action": "Die Personalverwaltung prüft alle Daten und Dokumente der*des Studierenden. Sie kann genehmigen, ablehnen oder Aktualisierungen von der*dem Studierenden anfordern.",
+      "approver_revision": "Die*der Kostenstellenverantwortliche hat Änderungen zu den Kostenstellen angefordert. Der*die Vorgesetzte muss den Antrag entsprechend aktualisieren.",
+      "student_revision": "Der*die Student*in hat Änderungen am Antrag angefordert. Der*die Vorgesetzte muss die gewünschten Anpassungen vornehmen.",
+      "clerk_revision": "Die Personalverwaltung benötigt Aktualisierungen zu den Angaben oder Dokumenten der*des Studierenden. Die*der Student*in muss die gewünschten Informationen bereitstellen.",
+      "awaiting_signature": "Alle Genehmigungen sind abgeschlossen. Die Personalverwaltung wartet darauf, dass der*die Student*in den unterschriebenen Vertrag zurücksendet.",
+      "approved": "Der Antrag wurde vollständig genehmigt. Der Prozess ist abgeschlossen und der Antrag wird umgesetzt.",
+      "rejected": "Der Antrag wurde nicht genehmigt. Der Prozess ist beendet und es sind keine weiteren Schritte erforderlich."
+    }
   },
   "uploadedFiles": {
     "title": "Hochgeladene Dateien",
