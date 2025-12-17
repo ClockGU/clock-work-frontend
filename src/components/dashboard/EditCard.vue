@@ -44,6 +44,17 @@
       >
         {{ buttonLabel }}
       </v-btn>
+      <!-- Warning alert for students if their data is incomplete -->
+      <v-alert
+        v-if="selectedPetition && !isStudentDataComplete && userRole === 0"
+        type="warning"
+        variant="tonal"
+        class="mt-4"
+        density="comfortable"
+        tabindex="0"
+      >
+        {{ $t('editCard.student.completeStudentData') }}
+      </v-alert>
 
       <PetitionTableWithActions
         v-if="selectedPetition"
@@ -55,16 +66,6 @@
       >
         <!-- Action buttons for students to accept/reject or revision of a petition -->
         <template #bottom v-if="userRole === 0">
-          <v-alert
-            v-if="!isStudentDataComplete"
-            type="warning"
-            variant="tonal"
-            class="mt-4"
-            density="comfortable"
-            tabindex="0"
-          >
-            {{ $t('editCard.student.completeStudentData') }}
-          </v-alert>
           <div
             class="d-flex py-4"
             :class="{
