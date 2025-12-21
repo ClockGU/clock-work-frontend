@@ -217,6 +217,7 @@
     "studienbescheinigung": "Study Certificate",
     "sozialversicherungsbogen": "Social Security Questionnaire",
     "versicherungsbescheinigung": "Health Insurance Membership Certificate",
+    "ba_degree": "Bachelor's Degree Certificate",
     "pageCounter": "Page {current} of {total}",
     "pdfLoadError": "Failed to load PDF. You can try downloading it instead.",
     "defaultFilename": "document",

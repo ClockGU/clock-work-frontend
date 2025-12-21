@@ -217,6 +217,7 @@
     "studienbescheinigung": "Studienbescheinigung",
     "sozialversicherungsbogen": "Fragebogen zur Sozialversicherung",
     "versicherungsbescheinigung": "Mitgliedsbescheinigung der Krankenkasse",
+    "ba_degree": "Nachweis des Bachelor-Abschlusses",
     "pageCounter": "Seite {current} von {total}",
     "pdfLoadError": "PDF konnte nicht geladen werden. Sie können versuchen, es stattdessen herunterzuladen.",
     "defaultFilename": "Dokument",

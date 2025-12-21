@@ -27,8 +27,9 @@
                 <p>{{ $t('studentDataManagementDialog.content.files') }}</p>
                 <FilesUploadForm
                   ref="filesUploadFormRef"
-                  :initial-documents="documentData"
                   class="mt-6"
+                  :initial-documents="documentData"
+                  :showBaDegreeField="true"
                 />
               </v-card-text>
             </v-card>
@@ -89,6 +90,10 @@ const props = defineProps({
     type: Object,
     default: null,
   },
+  showBaDegreeField: {
+    type: Boolean,
+    default: false,
+  },
 });
 const emit = defineEmits(['close', 'refresh']);
 
@@ -99,6 +104,13 @@ const employeeDataFormRef = ref(null);
 const filesUploadFormRef = ref(null);
 const step = ref(1);
 const isSaving = ref(false);
+
+const isPersonalFormValid = computed(() => {
+  return employeeDataFormRef.value?.isFormValid ?? false;
+});
+const isFilesFormValid = computed(() => {
+  return filesUploadFormRef.value?.isFormValid ?? false;
+});
 
 const saveEmployeeData = async () => {
   try {
@@ -184,12 +196,4 @@ const notifyClerkOfChanges = async () => {
     });
   }
 };
-
-const isPersonalFormValid = computed(() => {
-  return employeeDataFormRef.value?.isFormValid ?? false;
-});
-
-const isFilesFormValid = computed(() => {
-  return filesUploadFormRef.value?.isFormValid ?? false;
-});
 </script>
