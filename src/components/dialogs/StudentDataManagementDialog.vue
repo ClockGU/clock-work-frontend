@@ -29,7 +29,7 @@
                   ref="filesUploadFormRef"
                   class="mt-6"
                   :initial-documents="documentData"
-                  :showBaDegreeField="true"
+                  :showBaDegreeField="showBaDegreeField"
                 />
               </v-card-text>
             </v-card>
@@ -70,9 +70,9 @@
 <script setup>
 import { PETITION_STATUS } from '@/utils/statusUtils';
 import { ref, computed } from 'vue';
-import ContentApiService from '@/services/contentApiService';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
+import ContentApiService from '@/services/contentApiService';
 import EmployeeDataForm from '@/components/forms/EmployeeDataForm.vue';
 import FilesUploadForm from '@/components/forms/StudentFilesUploadForm.vue';
 import CustomDialog from '@/components/dialogs/base/CustomDialog.vue';
@@ -156,6 +156,8 @@ const saveDocuments = async () => {
         'sozialversicherungsbogen',
         files.sozialversierungsbogen[0]
       );
+    if (files.ba_degree.length)
+      formData.append('ba_degree', files.ba_degree[0]);
 
     await ContentApiService.patch('/documents', formData);
     store.dispatch('snackbar/setSnack', {
