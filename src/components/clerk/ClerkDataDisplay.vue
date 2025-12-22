@@ -6,7 +6,7 @@
     <v-card-text>
       <v-row class="mb-6">
         <v-col cols="12" md="6" class="d-flex flex-column">
-          <FreeFormData
+          <ClerkFreeFormData
             class="flex-grow-1"
             style="overflow-y: auto"
             :petition="petition"
@@ -15,7 +15,7 @@
           />
         </v-col>
         <v-col cols="12" md="6" class="d-flex flex-column">
-          <UploadedFiles class="flex-grow-1" :petition="petition" />
+          <ClerkUploadedFiles class="flex-grow-1" :petition="petition" />
         </v-col>
       </v-row>
       <div class="d-flex justify-space-around mt-6">
@@ -51,9 +51,8 @@
 <script setup>
 import { ref } from 'vue';
 import PetitionRevisionDialog from '../dialogs/PetitionRevisionDialog.vue';
-import FreeFormData from './ClerkFreeFormData.vue';
-import UploadedFiles from './ClerkUploadedFiles.vue';
-
+import ClerkUploadedFiles from '@/components/clerk/ClerkUploadedFiles.vue';
+import ClerkFreeFormData from '@/components/clerk/ClerkFreeFormData.vue';
 const props = defineProps({
   petition: {
     type: [Object, null],

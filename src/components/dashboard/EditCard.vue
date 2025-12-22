@@ -49,13 +49,13 @@
         v-if="selectedPetition"
         class="mt-4"
         :petition="selectedPetition"
-        :aria-label="$t('petitionTable.title')"
+        :aria-label="$t('dataDisplayTable.petition.title')"
         @close="emit('deselect-petition')"
         @refresh="refresh"
       >
         <!-- Action buttons for students to accept/reject or revision of a petition -->
         <template #bottom v-if="userRole === 0">
-            <v-alert
+          <v-alert
             v-if="!isStudentDataComplete"
             type="warning"
             variant="tonal"
@@ -65,7 +65,13 @@
           >
             {{ $t('editCard.student.completeStudentData') }}
           </v-alert>
-          <div class="d-flex py-4" :class="{ 'justify-space-between': lgAndUp, 'flex-column ga-4': !lgAndUp }">
+          <div
+            class="d-flex py-4"
+            :class="{
+              'justify-space-between': lgAndUp,
+              'flex-column ga-4': !lgAndUp,
+            }"
+          >
             <v-btn
               color="error"
               size="large"
@@ -97,7 +103,6 @@
               {{ $t('actions.accept') }}
             </v-btn>
           </div>
-
         </template>
       </PetitionTableWithActions>
       <!-- Placeholder when no petition is selected -->
@@ -115,6 +120,7 @@
 </template>
 
 <script setup>
+import { PETITION_STATUS } from '@/utils/statusUtils';
 import { ref, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
@@ -159,7 +165,9 @@ const buttonLabel = computed(() => {
 });
 
 const isPersonalDataComplete = computed(() => {
-  return employeeData.value !== null && Object.keys(employeeData.value).length > 0;
+  return (
+    employeeData.value !== null && Object.keys(employeeData.value).length > 0
+  );
 });
 
 const isDocumentsComplete = computed(() => {
@@ -172,14 +180,14 @@ const isDocumentsComplete = computed(() => {
 });
 // Check if student data is complete if the selected petition requires student action
 const isStudentDataComplete = computed(() => {
-  return (
-    isPersonalDataComplete.value &&
-    isDocumentsComplete.value
-  );
+  return isPersonalDataComplete.value && isDocumentsComplete.value;
 });
 // Determine if student action buttons should be disabled based on petition status and data completeness
 const isStudentActionDisabled = computed(() => {
-  return props.selectedPetition.status !== 'student_action' || !isStudentDataComplete.value; 
+  return (
+    props.selectedPetition.status !== PETITION_STATUS.STUDENT_ACTION ||
+    !isStudentDataComplete.value
+  );
 });
 
 const openNewPetitionDialog = () => {
@@ -187,7 +195,7 @@ const openNewPetitionDialog = () => {
   showPetitionForm.value = true;
 };
 
-const openStudentDialog = () => showStudentDialog.value = true;
+const openStudentDialog = () => (showStudentDialog.value = true);
 
 const refresh = (payload) => {
   fetchStudentData();
@@ -196,7 +204,7 @@ const refresh = (payload) => {
 
 const fetchEmployeeData = async () => {
   if (isLoadingEmployeeData.value) return;
-  
+
   isLoadingEmployeeData.value = true;
   try {
     const response = await ContentApiService.get('/employees');
@@ -219,7 +227,7 @@ const fetchEmployeeData = async () => {
 
 const fetchDocuments = async () => {
   if (isLoadingDocumentData.value) return;
-  
+
   isLoadingDocumentData.value = true;
   try {
     const response = await ContentApiService.get('/documents');

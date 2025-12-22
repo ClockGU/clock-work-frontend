@@ -12,12 +12,18 @@ import { mdi, aliases } from 'vuetify/iconsets/mdi-svg';
 // Composables
 import { createVuetify } from 'vuetify';
 import { VDateInput } from 'vuetify/labs/VDateInput';
+import {
+  VStepperVertical,
+  VStepperVerticalItem,
+} from 'vuetify/labs/VStepperVertical';
 import * as components from 'vuetify/components';
 
 export default createVuetify({
   components: {
-    ...components,
     VDateInput,
+    VStepperVertical,
+    VStepperVerticalItem,
+    ...components,
   },
   icons: {
     defaultSet: 'mdi',
@@ -46,6 +52,10 @@ export default createVuetify({
           warning: '#FF9800', //amber-accent-4
           footerPrimary: '#0064BAFF',
           footerSecondary: '#51B0FFFF',
+          supervisor: '#512DA8',
+          clerk: '#00796B',
+          student: '#303F9F',
+          approver: '#0097A7',
         },
       },
     },

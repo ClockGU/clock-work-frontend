@@ -6,6 +6,7 @@
       :variant="variant"
       :density="density"
       :aria-label="tooltip"
+      readonly
       tabindex="-1"
     />
     <v-tooltip

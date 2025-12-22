@@ -30,7 +30,8 @@
     "next": "next",
     "accept": "accept",
     "decline": "decline",
-    "download": "download"
+    "download": "download",
+    "downloadAll": "download all"
   },
   "roleSelectionView": {
     "welcome": "You are new here!",
@@ -64,11 +65,20 @@
     "petitionFormDialog": "Application Form Dialog",
     "studentDataManagementDialog": "Student Data Management Dialog"
   },
-  "petitionTable": {
-    "title": "Application Table",
-    "headers": {
-      "petitionField": "Application Field",
-      "value": "Value"
+  "dataDisplayTable": {
+    "petition": {
+      "title": "Application Table",
+      "headers": {
+        "field": "Application Field",
+        "value": "Value"
+      }
+    },
+    "employeeData": {
+      "title": "Employee Data ",
+      "headers": {
+        "field": "Employee data field",
+        "value": "Value"
+      }
     }
   },
   "petitionsOverviewTable": {
@@ -83,7 +93,7 @@
     "showCompletedPetitions": "Show completed applications"
   },
   "confirmationDialog": {
-    "petitionDeletion": "Are you sure you want to delete this application? This action cannot be undone."
+    "PetitionDeletion": "Are you sure you want to delete this application? This action cannot be undone."
   },
   "petitionFormDialog": {
     "title": "Create new application",
@@ -104,7 +114,7 @@
     },
     "saveSuccess": "Data saved successfully"
   },
-  "employeeDataForm": {
+  "employeeData": {
     "firstName": "First Name",
     "lastName": "Last Name",
     "formOfAddress": "Form of Address",
@@ -119,7 +129,11 @@
     "iban": "IBAN",
     "married": "Married",
     "previousEmployment": "Previous Employment at Universities",
-    "duration": "Duration of Employment"
+    "duration": "Duration of Employment",
+    "previouslyEmployeed": "previously employed ",
+    "prevEmpDuration": "Duration of previous employment",
+    "bic": "BIC",
+    "bankName": "Bank Name"
   },
   "filesUploadForm": {
     "elstam": "ELStAM Self-Disclosure Form",
@@ -138,6 +152,18 @@
     }
   },
   "petition": {
+    "statusDisplay": {
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "approver_revision": "Revision by budget approver",
+      "clerk_revision": "Revision by HR administrator",
+      "student_revision": "Revision by student",
+      "student_action": "Action by student",
+      "petitioneer_action": "Action by applicant",
+      "approver_action": "Action by budget approver",
+      "clerk_action": "Action by HR administrator",
+      "awaiting_signature": "Awaiting signature"
+    },
     "id": "Application ID",
     "status": "Status",
     "supervisorMail": "Supervisor Mail",
@@ -169,13 +195,28 @@
   "petitionDataDisplay": {
     "title": "petition Data Display"
   },
+  "petitionStatusDisplayDialog": {
+    "title": "Petition Status Legend",
+    "description": {
+      "petitioneer_action": "Supervisor fills out or edits the petition details. This is the initial step to submit a new request.",
+      "approver_action": "Budget approver reviews the financial details. They can approve to continue, reject, or request changes from the supervisor.",
+      "student_action": "Student provides personal information and required documents. They can then accept, reject, or request changes to the petition.",
+      "clerk_action": "HR administrator verifies all student data and documents. They can approve, reject, or request updates from the student.",
+      "approver_revision": "Budget approver has requested budget-related changes. The supervisor needs to update the petition accordingly.",
+      "student_revision": "Student has requested changes to the petition. The supervisor needs to make the requested updates.",
+      "clerk_revision": "HR administrator needs updates to student information or documents. The student must provide the requested details.",
+      "awaiting_signature": "All approvals complete. HR is waiting for the student to return the signed contract before final acceptance.",
+      "approved": "Petition fully approved. The process is complete and the request will be implemented.",
+      "rejected": "Petition not approved. The process has ended and no further action will be taken."
+    }
+  },
   "uploadedFiles": {
     "title": "Uploaded Files",
     "noFiles": "No files have been uploaded yet",
     "elstam": "ELStAM form",
     "studienbescheinigung": "Study Certificate",
-    "sozialversicherung": "Social Security form",
-    "versicherung": "Health Insurance Certificate",
+    "sozialversicherungsbogen": "Social Security Questionnaire",
+    "versicherungsbescheinigung": "Health Insurance Membership Certificate",
     "pageCounter": "Page {current} of {total}",
     "pdfLoadError": "Failed to load PDF. You can try downloading it instead.",
     "defaultFilename": "document",

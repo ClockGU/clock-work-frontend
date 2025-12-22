@@ -114,12 +114,13 @@
 </template>
 
 <script setup>
+import { PETITION_STATUS } from '@/utils/statusUtils';
 import { ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import ContentApiService from '@/services/contentApiService';
-import PetitionTable from '@/components/tables/PetitionTable.vue';
+import PetitionTable from '@/components/tables/base/PetitionTable.vue';
 import PetitionRevisionDialog from '@/components/dialogs/PetitionRevisionDialog.vue';
 
 const { t } = useI18n();
@@ -159,7 +160,7 @@ const fetchPetition = async () => {
       `/approver/petitions/${petitionId}`
     );
     const fetchedPetition = response.data;
-    if (fetchedPetition.status === 'approver_action') {
+    if (fetchedPetition.status === PETITION_STATUS.APPROVER_ACTION) {
       petition.value = fetchedPetition;
     } else {
       // If the petition is approved rejected or under revision, clear the petition da

@@ -2,9 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <InstructionCard
-          :role="userRole"
-        />
+        <InstructionCard :role="userRole" />
       </v-col>
       <v-col cols="12" md="6">
         <EditCard
@@ -59,7 +57,7 @@ const fetchPetitions = async () => {
   isLoading.value = true;
   try {
     const response = await ContentApiService.get(
-      `${userRole.value === 0 ? '/students' : '/supervisor'}/petitions/`
+      userRole.value === 0 ? '/students/petitions/' : '/supervisor/petitions/'
     );
     petitions.value = response.data;
   } catch (err) {

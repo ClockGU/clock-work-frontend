@@ -67,13 +67,14 @@
 </template>
 
 <script setup>
+import { PETITION_STATUS } from '@/utils/statusUtils';
 import { ref, computed } from 'vue';
 import ContentApiService from '@/services/contentApiService';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import EmployeeDataForm from '@/components/forms/EmployeeDataForm.vue';
-import FilesUploadForm from '@/components/forms/FilesUploadForm.vue';
-import CustomDialog from '@/components/dialogs/CustomDialog.vue';
+import FilesUploadForm from '@/components/forms/StudentFilesUploadForm.vue';
+import CustomDialog from '@/components/dialogs/base/CustomDialog.vue';
 
 const props = defineProps({
   petitions: {
@@ -124,7 +125,6 @@ const saveAndContinue = async () => {
   }
 };
 
-
 const saveDocuments = async () => {
   try {
     isSaving.value = true;
@@ -166,7 +166,7 @@ const saveDocuments = async () => {
 const notifyClerkOfChanges = async () => {
   try {
     const petitionsUnderClerkRevision = props.petitions.filter(
-      (petition) => petition.status === 'clerk_revision'
+      (petition) => petition.status === PETITION_STATUS.CLERK_REVISION
     );
     if (petitionsUnderClerkRevision.length === 0) return;
 

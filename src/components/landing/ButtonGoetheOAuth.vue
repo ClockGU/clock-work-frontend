@@ -14,7 +14,7 @@ import AuthApiService from '@/services/authApiService';
 import loginErrorHandler from '@/utils/loginErrorHandler';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import axios from "axios";
+import axios from 'axios';
 
 const props = defineProps({
   color: {
