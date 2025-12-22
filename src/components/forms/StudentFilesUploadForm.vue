@@ -2,7 +2,7 @@
   <v-form v-model="isFormValid">
     <v-row>
       <v-col cols="12">
-        <label for="elstam">{{ $t('uploadedFiles.elstam') }}</label>
+        <label for="elstam">{{ $t('files.elstam') }}</label>
         <v-file-input
           id="elstam"
           v-model="elstamFile"
@@ -11,13 +11,13 @@
           show-size
           persistent-hint
           accept=".pdf,application/pdf"
-          :aria-label="$t('uploadedFiles.elstam')"
+          :aria-label="$t('files.elstam')"
           :hint="getHintMessage('elstam')"
         />
       </v-col>
       <v-col cols="12">
         <label for="studienbescheinigung">{{
-          $t('uploadedFiles.studienbescheinigung')
+          $t('files.studienbescheinigung')
         }}</label>
         <v-file-input
           id="studienbescheinigung"
@@ -27,13 +27,13 @@
           show-size
           persistent-hint
           accept=".pdf,application/pdf"
-          :aria-label="$t('uploadedFiles.studienbescheinigung')"
+          :aria-label="$t('files.studienbescheinigung')"
           :hint="getHintMessage('studienbescheinigung')"
         />
       </v-col>
       <v-col cols="12">
         <label for="versicherungsbescheinigung">{{
-          $t('uploadedFiles.versicherungsbescheinigung')
+          $t('files.versicherungsbescheinigung')
         }}</label>
         <v-file-input
           id="versicherungsbescheinigung"
@@ -43,13 +43,13 @@
           show-size
           persistent-hint
           accept=".pdf,application/pdf"
-          :aria-label="$t('filesUploadForm.versicherungsbescheinigung')"
+          :aria-label="$t('files.versicherungsbescheinigung')"
           :hint="getHintMessage('versicherungsbescheinigung')"
         />
       </v-col>
       <v-col cols="12">
         <label for="sozialversicherungsbogen">{{
-          $t('filesUploadForm.sozialversicherungsbogen')
+          $t('files.sozialversicherungsbogen')
         }}</label>
         <v-file-input
           id="sozialversicherungsbogen"
@@ -59,13 +59,13 @@
           show-size
           persistent-hint
           accept=".pdf,application/pdf"
-          :aria-label="$t('filesUploadForm.sozialversicherungsbogen')"
+          :aria-label="$t('files.sozialversicherungsbogen')"
           :hint="getHintMessage('sozialversicherungsbogen')"
         />
       </v-col>
 
       <v-col v-if="showBaDegreeField" cols="12">
-        <label for="ba_degree">{{ $t('uploadedFiles.ba_degree') }}</label>
+        <label for="ba_degree">{{ $t('files.ba_degree') }}</label>
         <v-file-input
           id="ba_degree"
           v-model="baDegreeFile"
@@ -74,7 +74,7 @@
           show-size
           persistent-hint
           accept=".pdf,application/pdf"
-          :aria-label="$t('uploadedFiles.ba_degree')"
+          :aria-label="$t('files.ba_degree')"
           :hint="getHintMessage('ba_degree')"
         />
       </v-col>

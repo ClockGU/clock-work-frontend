@@ -135,11 +135,14 @@
     "bic": "BIC",
     "bankName": "Bank Name"
   },
-  "filesUploadForm": {
+  "files": {
     "elstam": "ELStAM Self-Disclosure Form",
     "studienbescheinigung": "Enrolment Certificate",
     "sozialversicherungsbogen": "Social Security Questionnaire",
     "versicherungsbescheinigung": "Health Insurance Membership Certificate",
+    "ba_degree": "Bachelor's Degree Certificate"
+  },
+  "filesUploadForm": {
     "hint": {
       "selected": "Selected: {filename}",
       "existing": "Existing: {filename}",
@@ -213,11 +216,6 @@
   "uploadedFiles": {
     "title": "Uploaded Files",
     "noFiles": "No files have been uploaded yet",
-    "elstam": "ELStAM form",
-    "studienbescheinigung": "Study Certificate",
-    "sozialversicherungsbogen": "Social Security Questionnaire",
-    "versicherungsbescheinigung": "Health Insurance Membership Certificate",
-    "ba_degree": "Bachelor's Degree Certificate",
     "pageCounter": "Page {current} of {total}",
     "pdfLoadError": "Failed to load PDF. You can try downloading it instead.",
     "defaultFilename": "document",
