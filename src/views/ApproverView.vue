@@ -157,7 +157,7 @@ const fetchPetition = async () => {
     isLoading.value = true;
     actionCompleted.value = false;
     const response = await ContentApiService.get(
-      `/approver/petitions/${petitionId}`
+      `/approver/petitions/${petitionId}/${signature}`
     );
     const fetchedPetition = response.data;
     if (fetchedPetition.status === PETITION_STATUS.APPROVER_ACTION) {
@@ -169,8 +169,11 @@ const fetchPetition = async () => {
     }
   } catch (err) {
     console.error(err);
+    const errorMessage = err.response?.data?.detail 
+      ? err.response.data.detail 
+      : t('errors.approverView.loadPetitionError');
     store.dispatch('snackbar/setErrorSnacks', {
-      message: t('errors.approverView.loadPetitionError'),
+      message: errorMessage,
     });
   } finally {
     isLoading.value = false;
@@ -193,8 +196,11 @@ const handleApproval = async () => {
     petition.value = null;
   } catch (error) {
     console.error('Error accepting petition:', error);
+    const errorMessage = error.response?.data?.detail 
+      ? error.response.data.detail 
+      : t('errors.approverView.approveError');
     store.dispatch('snackbar/setErrorSnacks', {
-      message: t('errors.approverView.approveError'),
+      message: errorMessage,
     });
   } finally {
     isLoading.value = false;
@@ -218,8 +224,11 @@ const handleRejection = async () => {
     petition.value = null;
   } catch (error) {
     console.error('Error rejecting petition:', error);
+    const errorMessage = error.response?.data?.detail 
+      ? error.response.data.detail 
+      : t('errors.approverView.rejectError');
     store.dispatch('snackbar/setErrorSnacks', {
-      message: t('errors.approverView.rejectError'),
+      message: errorMessage,
     });
   } finally {
     isLoading.value = false;
