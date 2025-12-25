@@ -278,7 +278,7 @@ async function ensureBlobUrl(type, { force = false } = {}) {
     state.loading[type] = true;
     state.error[type] = false;
 
-    const res = await ContentApiService.get('/download-file/', {
+    const res = await ContentApiService.get('/download-file', {
       params: { file_url: url },
       responseType: 'arraybuffer',
       validateStatus: (s) => s === 200,
@@ -410,7 +410,7 @@ async function fetchDocuments(studentUsername) {
   try {
     resetCache();
 
-    const res = await ContentApiService.get('/clerk/documents-by-username/', {
+    const res = await ContentApiService.get('/clerk/documents-by-username', {
       params: { student_username: studentUsername },
     });
 
