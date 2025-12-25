@@ -23,7 +23,7 @@
         </v-row>
 
         <v-form ref="form" v-model="isValid">
-          <div v-if="userRole !== 3">
+          <div v-if="!isApprover">
             <label
               for="reportSubject"
               class="text-subtitle-1 font-weight-medium ml-10"
@@ -123,6 +123,7 @@ const reportSubject = ref('');
 const reportText = ref('');
 
 const userRole = computed(() => store.getters['auth/userRole']);
+const isApprover = computed(() => route.name === 'approver');
 const recipientMail = computed(() => {
   return userRole.value === 2
     ? props.petition.student_mail
@@ -134,16 +135,16 @@ const recipientRole = computed(() => {
 });
 
 const subjects = computed(() => {
-  if (userRole.value === 0) {
-    return studentSubjects;
-  } else if (userRole.value === 2) {
+  if (userRole.value === 2) {
     return clerkSubjects;
+  } else if (userRole.value === 0) {
+    return studentSubjects;
   }
   return [];
 });
 
 const RevisionDialogInstruction = computed(() => {
-  if (userRole.value === 3) {
+  if (isApprover.value) {
     return t('PetitionRevisionDialog.instruction.approver');
   } else if (userRole.value === 2) {
     return t('PetitionRevisionDialog.instruction.clerk');
@@ -222,7 +223,7 @@ const handleStudentRevision = async () => {
   }
 };
 const handleRevision = async () => {
-  if (userRole.value === 3) {
+  if (isApprover.value) {
     await handleApproverRevision();
   } else if (userRole.value === 2) {
     await handleClerkRevision();

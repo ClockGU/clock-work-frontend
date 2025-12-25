@@ -146,7 +146,6 @@ const noPetitionMessage = computed(() =>
     ? t('approverView.noPetitionComplete')
     : t('approverView.noPetition')
 );
-const user = computed(() => store.getters['auth/user']);
 
 const markPetitionRevisionAsComplete = () => {
   actionCompleted.value = true;
@@ -159,14 +158,7 @@ const fetchPetition = async () => {
     const response = await ContentApiService.get(
       `/approver/petitions/${petitionId}/${signature}`
     );
-    const fetchedPetition = response.data;
-    if (fetchedPetition.status === PETITION_STATUS.APPROVER_ACTION) {
-      petition.value = fetchedPetition;
-    } else {
-      // If the petition is approved rejected or under revision, clear the petition da
-      petition.value = null;
-      actionCompleted.value = true;
-    }
+    petition.value = response.data;
   } catch (err) {
     console.error(err);
     const errorMessage = err.response?.data?.detail 
