@@ -146,7 +146,6 @@ const noPetitionMessage = computed(() =>
     ? t('approverView.noPetitionComplete')
     : t('approverView.noPetition')
 );
-const user = computed(() => store.getters['auth/user']);
 
 const markPetitionRevisionAsComplete = () => {
   actionCompleted.value = true;
@@ -159,18 +158,11 @@ const fetchPetition = async () => {
     const response = await ContentApiService.get(
       `/approver/petitions/${petitionId}/${signature}`
     );
-    const fetchedPetition = response.data;
-    if (fetchedPetition.status === PETITION_STATUS.APPROVER_ACTION) {
-      petition.value = fetchedPetition;
-    } else {
-      // If the petition is approved rejected or under revision, clear the petition da
-      petition.value = null;
-      actionCompleted.value = true;
-    }
+    petition.value = response.data;
   } catch (err) {
     console.error(err);
-    const errorMessage = err.response?.data?.detail 
-      ? err.response.data.detail 
+    const errorMessage = err.response?.data?.detail
+      ? err.response.data.detail
       : t('errors.approverView.loadPetitionError');
     store.dispatch('snackbar/setErrorSnacks', {
       message: errorMessage,
@@ -196,8 +188,8 @@ const handleApproval = async () => {
     petition.value = null;
   } catch (error) {
     console.error('Error accepting petition:', error);
-    const errorMessage = error.response?.data?.detail 
-      ? error.response.data.detail 
+    const errorMessage = error.response?.data?.detail
+      ? error.response.data.detail
       : t('errors.approverView.approveError');
     store.dispatch('snackbar/setErrorSnacks', {
       message: errorMessage,
@@ -224,8 +216,8 @@ const handleRejection = async () => {
     petition.value = null;
   } catch (error) {
     console.error('Error rejecting petition:', error);
-    const errorMessage = error.response?.data?.detail 
-      ? error.response.data.detail 
+    const errorMessage = error.response?.data?.detail
+      ? error.response.data.detail
       : t('errors.approverView.rejectError');
     store.dispatch('snackbar/setErrorSnacks', {
       message: errorMessage,
@@ -240,10 +232,6 @@ const handleDialogClose = () => {
 };
 
 onMounted(() => {
-  store.dispatch('auth/setUser', {
-    ...user.value,
-    user_role: 3, // Approver role
-  });
   fetchPetition();
 });
 </script>
