@@ -240,10 +240,6 @@ const handleDialogClose = () => {
 };
 
 onMounted(() => {
-  store.dispatch('auth/setUser', {
-    ...user.value,
-    user_role: 3, // Approver role
-  });
   fetchPetition();
 });
 </script>
