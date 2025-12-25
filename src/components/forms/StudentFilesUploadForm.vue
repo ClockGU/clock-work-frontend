@@ -325,16 +325,16 @@ const getStatusMessage = (documentType) => {
 
   if (file) {
     return t('filesUploadForm.status.newDocument', {
-      document: t(`filesUploadForm.${documentKey}`),
+      document: t(`files.${documentKey}`),
     });
   }
   if (existingUrl) {
     return t('filesUploadForm.status.existingDocument', {
-      document: t(`filesUploadForm.${documentKey}`),
+      document: t(`files.${documentKey}`),
     });
   }
   return t('filesUploadForm.status.noDocument', {
-    document: t(`filesUploadForm.${documentKey}`),
+    document: t(`files.${documentKey}`),
   });
 };
 
