@@ -23,7 +23,7 @@
           color="warning"
           size="large"
           class="px-6"
-          :disabled="!petition"
+          :disabled="disabledActionButton"
           @click="showRevisionDialog = true"
         >
           {{ $t('actions.requestChange') }}
@@ -32,7 +32,7 @@
           color="success"
           size="large"
           class="px-10"
-          :disabled="!petition"
+          :disabled="disabledActionButton"
           @click="approve"
         >
           {{ $t('actions.approve') }}
@@ -49,7 +49,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { PETITION_STATUS } from '@/utils/statusUtils';
+import { ref, computed } from 'vue';
 import PetitionRevisionDialog from '../dialogs/PetitionRevisionDialog.vue';
 import ClerkUploadedFiles from '@/components/clerk/ClerkUploadedFiles.vue';
 import ClerkFreeFormData from '@/components/clerk/ClerkFreeFormData.vue';
@@ -63,6 +64,7 @@ const props = defineProps({
 const emit = defineEmits(['close', 'refresh', 'approve']);
 
 const showRevisionDialog = ref(false);
+const disabledActionButton = computed(()=>props.petition?.status !== PETITION_STATUS.CLERK_ACTION)
 
 const approve = () => {
   if (props.petition?.id) emit('approve', props.petition.id);
