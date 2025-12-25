@@ -50,12 +50,12 @@ const routes = [
       const signature = to.query.signature;
       const budgetPositionId = to.query.budget_position_id;
 
-      if (!petitionId || !signature || !budgetPositionId) {      
+      if (!petitionId || !signature || !budgetPositionId) {
         return { name: 'landing' };
       }
       return true;
     },
-  }
+  },
 ];
 
 const router = createRouter({

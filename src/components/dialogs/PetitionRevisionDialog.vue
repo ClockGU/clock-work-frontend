@@ -167,8 +167,8 @@ const handleClerkRevision = async () => {
     });
   } catch (error) {
     console.error('Error handling Clerk revision:', error);
-    const errorMessage = error.response?.data?.detail 
-      ? error.response.data.detail 
+    const errorMessage = error.response?.data?.detail
+      ? error.response.data.detail
       : t('errors.PetitionRevisionDialog.clerkRevision');
     store.dispatch('snackbar/setErrorSnacks', {
       message: errorMessage,
@@ -191,8 +191,8 @@ const handleApproverRevision = async () => {
     });
   } catch (error) {
     console.error('Error handling Approver revision:', error);
-    const errorMessage = error.response?.data?.detail 
-      ? error.response.data.detail 
+    const errorMessage = error.response?.data?.detail
+      ? error.response.data.detail
       : t('errors.PetitionRevisionDialog.approverRevision');
     store.dispatch('snackbar/setErrorSnacks', {
       message: errorMessage,
@@ -214,8 +214,8 @@ const handleStudentRevision = async () => {
     });
   } catch (error) {
     console.error('Error handling Student revision :', error);
-    const errorMessage = error.response?.data?.detail 
-      ? error.response.data.detail 
+    const errorMessage = error.response?.data?.detail
+      ? error.response.data.detail
       : t('errors.PetitionRevisionDialog.studentRevision');
     store.dispatch('snackbar/setErrorSnacks', {
       message: errorMessage,

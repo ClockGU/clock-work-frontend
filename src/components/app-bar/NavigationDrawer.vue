@@ -107,7 +107,7 @@
 </template>
 
 <script setup>
-  import {
+import {
   mdiAccountCog,
   mdiCalendar,
   mdiHome,
@@ -179,7 +179,7 @@ const user = computed(() => store.getters['auth/user']);
 const firstLetter = computed(() => user.value?.first_name?.charAt(0) || '');
 
 const redirectTo = computed(() => {
-   if (route.path.startsWith('/approver')) {
+  if (route.path.startsWith('/approver')) {
     return '/approver';
   }
   if (!isLoggedIn.value) return '/';

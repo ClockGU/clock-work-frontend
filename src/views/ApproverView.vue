@@ -161,8 +161,8 @@ const fetchPetition = async () => {
     petition.value = response.data;
   } catch (err) {
     console.error(err);
-    const errorMessage = err.response?.data?.detail 
-      ? err.response.data.detail 
+    const errorMessage = err.response?.data?.detail
+      ? err.response.data.detail
       : t('errors.approverView.loadPetitionError');
     store.dispatch('snackbar/setErrorSnacks', {
       message: errorMessage,
@@ -188,8 +188,8 @@ const handleApproval = async () => {
     petition.value = null;
   } catch (error) {
     console.error('Error accepting petition:', error);
-    const errorMessage = error.response?.data?.detail 
-      ? error.response.data.detail 
+    const errorMessage = error.response?.data?.detail
+      ? error.response.data.detail
       : t('errors.approverView.approveError');
     store.dispatch('snackbar/setErrorSnacks', {
       message: errorMessage,
@@ -216,8 +216,8 @@ const handleRejection = async () => {
     petition.value = null;
   } catch (error) {
     console.error('Error rejecting petition:', error);
-    const errorMessage = error.response?.data?.detail 
-      ? error.response.data.detail 
+    const errorMessage = error.response?.data?.detail
+      ? error.response.data.detail
       : t('errors.approverView.rejectError');
     store.dispatch('snackbar/setErrorSnacks', {
       message: errorMessage,
