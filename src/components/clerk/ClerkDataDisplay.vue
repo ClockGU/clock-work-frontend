@@ -65,14 +65,16 @@ const emit = defineEmits(['close', 'refresh', 'approve']);
 
 const showRevisionDialog = ref(false);
 
-const disabledApproveButton = computed(() =>
-  !props.petition ||
-  (props.petition.status !== PETITION_STATUS.CLERK_ACTION &&
-    props.petition.status !== PETITION_STATUS.AWAITING_SIGNATURE)
+const disabledApproveButton = computed(
+  () =>
+    !props.petition ||
+    (props.petition.status !== PETITION_STATUS.CLERK_ACTION &&
+      props.petition.status !== PETITION_STATUS.AWAITING_SIGNATURE)
 );
 
-const disabledRevisionButton = computed(() =>
-  !props.petition || props.petition.status !== PETITION_STATUS.CLERK_ACTION
+const disabledRevisionButton = computed(
+  () =>
+    !props.petition || props.petition.status !== PETITION_STATUS.CLERK_ACTION
 );
 
 const approve = () => {
