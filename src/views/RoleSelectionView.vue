@@ -29,6 +29,13 @@
         />
       </v-col>
     </v-row>
+    <RoleCardButton
+      v-if="showClerkCard"
+      class="mt-8"
+      title="clerk"
+      description="for local testing"
+      @click="redirectToClerk"
+    />
   </v-container>
 </template>
 
@@ -48,7 +55,9 @@ const store = useStore();
 const { t } = useI18n();
 
 const user = computed(() => store.getters['auth/user']);
-
+const showClerkCard = computed(() => {
+  return import.meta.env.VITE_SHOW_CLERK_CARD === 'true'
+})
 const redirectToDashboard = async (role) => {
   try {
     const roleValue = role === 'supervisor' ? 1 : 0;
@@ -73,4 +82,28 @@ const redirectToDashboard = async (role) => {
     }
   }
 };
+
+const redirectToClerk = async () => {
+  try {
+    const response = await AuthApiService.updateUserPartially(
+      { user_role: 2 },
+      user.value.id
+    );
+    const newAccessToken = response.data.new_jwt_token;
+    if (newAccessToken) {
+      AuthApiService.setAccessToken(newAccessToken);
+      store.dispatch('auth/setTokens', { access_token: newAccessToken });
+    }
+    store.dispatch('auth/setUser', response.data);
+    router.push({ path: `/clerk` });
+  } catch (error) {
+    console.error('Error updating user role:', error);
+    if (error.response?.status === 401) {
+      AuthApiService.logout();
+      loginErrorHandler.setLoginError(t('errors.roleSelection.sessionExpired'));
+    } else {
+      loginErrorHandler.setLoginError(t('errors.roleSelection.updateFailed'));
+    }
+  }
+}
 </script>
