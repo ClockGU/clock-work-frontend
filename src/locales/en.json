@@ -156,7 +156,7 @@
   },
   "petition": {
     "statusDisplay": {
-      "approved": "Approved",
+      "completed": "Approved",
       "rejected": "Rejected",
       "approver_revision": "Revision by budget approver",
       "clerk_revision": "Revision by HR administrator",
@@ -209,7 +209,7 @@
       "student_revision": "Student has requested changes to the petition. The supervisor needs to make the requested updates.",
       "clerk_revision": "HR administrator needs updates to student information or documents. The student must provide the requested details.",
       "awaiting_signature": "All approvals complete. HR is waiting for the student to return the signed contract before final acceptance.",
-      "approved": "Petition fully approved. The process is complete and the request will be implemented.",
+      "completed": "Petition fully approved. The process is complete and the request will be implemented.",
       "rejected": "Petition not approved. The process has ended and no further action will be taken."
     }
   },
