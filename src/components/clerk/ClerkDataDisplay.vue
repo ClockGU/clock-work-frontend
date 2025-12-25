@@ -23,7 +23,7 @@
           color="warning"
           size="large"
           class="px-6"
-          :disabled="disabledActionButton"
+          :disabled="disabledRevisionButton"
           @click="showRevisionDialog = true"
         >
           {{ $t('actions.requestChange') }}
@@ -32,7 +32,7 @@
           color="success"
           size="large"
           class="px-10"
-          :disabled="disabledActionButton"
+          :disabled="disabledApproveButton"
           @click="approve"
         >
           {{ $t('actions.approve') }}
@@ -64,7 +64,16 @@ const props = defineProps({
 const emit = defineEmits(['close', 'refresh', 'approve']);
 
 const showRevisionDialog = ref(false);
-const disabledActionButton = computed(()=>props.petition?.status !== PETITION_STATUS.CLERK_ACTION)
+
+const disabledApproveButton = computed(() =>
+  !props.petition ||
+  (props.petition.status !== PETITION_STATUS.CLERK_ACTION &&
+    props.petition.status !== PETITION_STATUS.AWAITING_SIGNATURE)
+);
+
+const disabledRevisionButton = computed(() =>
+  !props.petition || props.petition.status !== PETITION_STATUS.CLERK_ACTION
+);
 
 const approve = () => {
   if (props.petition?.id) emit('approve', props.petition.id);

@@ -156,7 +156,7 @@
   },
   "petition": {
     "statusDisplay": {
-      "approved": "Genehmigt",
+      "completed": "Genehmigt",
       "rejected": "Abgelehnt",
       "approver_revision": "Überarbeitung durch Kostenstellenverantwortliche*n",
       "clerk_revision": "Überarbeitung durch Sachbearbeitung",
@@ -209,7 +209,7 @@
       "student_revision": "Der*die Student*in hat Änderungen am Antrag angefordert. Der*die Vorgesetzte muss die gewünschten Anpassungen vornehmen.",
       "clerk_revision": "Die Personalverwaltung benötigt Aktualisierungen zu den Angaben oder Dokumenten der*des Studierenden. Die*der Student*in muss die gewünschten Informationen bereitstellen.",
       "awaiting_signature": "Alle Genehmigungen sind abgeschlossen. Die Personalverwaltung wartet darauf, dass der*die Student*in den unterschriebenen Vertrag zurücksendet.",
-      "approved": "Der Antrag wurde vollständig genehmigt. Der Prozess ist abgeschlossen und der Antrag wird umgesetzt.",
+      "completed": "Der Antrag wurde vollständig genehmigt. Der Prozess ist abgeschlossen und der Antrag wird umgesetzt.",
       "rejected": "Der Antrag wurde nicht genehmigt. Der Prozess ist beendet und es sind keine weiteren Schritte erforderlich."
     }
   },

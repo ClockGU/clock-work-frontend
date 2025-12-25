@@ -23,7 +23,7 @@ export const PETITION_STATUS = Object.freeze({
   CLERK_ACTION: 'clerk_action',
   CLERK_REVISION: 'clerk_revision',
   AWAITING_SIGNATURE: 'awaiting_signature',
-  APPROVED: 'approved',
+  COMPLETED: 'completed',
   REJECTED: 'rejected',
 });
 
@@ -60,7 +60,7 @@ export const PETITION_STATUS_UI = Object.freeze({
     icon: mdiSignatureFreehand,
     color: 'warning',
   },
-  [PETITION_STATUS.APPROVED]: {
+  [PETITION_STATUS.COMPLETED]: {
     icon: mdiCheckCircleOutline,
     color: 'success',
   },
