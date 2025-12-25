@@ -11,6 +11,7 @@
     :petitions="petitions"
     :employee-data="employeeData"
     :document-data="documentData"
+    :showBaDegreeField="showBaDegreeField"
     @close="showStudentDialog = false"
     @refresh="refresh"
   />
@@ -44,6 +45,17 @@
       >
         {{ buttonLabel }}
       </v-btn>
+      <!-- Warning alert for students if their data is incomplete -->
+      <v-alert
+        v-if="selectedPetition && !isStudentDataComplete && userRole === 0"
+        type="warning"
+        variant="tonal"
+        class="mt-4"
+        density="comfortable"
+        tabindex="0"
+      >
+        {{ $t('editCard.student.completeStudentData') }}
+      </v-alert>
 
       <PetitionTableWithActions
         v-if="selectedPetition"
@@ -55,16 +67,6 @@
       >
         <!-- Action buttons for students to accept/reject or revision of a petition -->
         <template #bottom v-if="userRole === 0">
-          <v-alert
-            v-if="!isStudentDataComplete"
-            type="warning"
-            variant="tonal"
-            class="mt-4"
-            density="comfortable"
-            tabindex="0"
-          >
-            {{ $t('editCard.student.completeStudentData') }}
-          </v-alert>
           <div
             class="d-flex py-4"
             :class="{
@@ -143,7 +145,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['refresh', 'deselect-petition']);
-
 const store = useStore();
 const { t } = useI18n();
 const { lgAndUp } = useDisplay();
@@ -151,7 +152,6 @@ const { lgAndUp } = useDisplay();
 const showPetitionForm = ref(false);
 const showStudentDialog = ref(false);
 const showRevisionDialog = ref(false);
-
 const employeeData = ref(null);
 const documentData = ref(null);
 const isLoadingEmployeeData = ref(false);
@@ -163,20 +163,26 @@ const buttonLabel = computed(() => {
     ? t('editCard.supervisor.action')
     : t('editCard.student.action');
 });
+const showBaDegreeField = computed(() =>
+  props.petitions.some((p) => p.ba_degree === true)
+);
 
-const isPersonalDataComplete = computed(() => {
-  return (
+const isPersonalDataComplete = computed(
+  () =>
     employeeData.value !== null && Object.keys(employeeData.value).length > 0
-  );
-});
+);
 
 const isDocumentsComplete = computed(() => {
-  return (
-    documentData.value !== null &&
+  if (!documentData.value) return false;
+  const baseDocs =
     !!documentData.value.elstam_url &&
     !!documentData.value.studienbescheinigung_url &&
-    !!documentData.value.versicherungsbescheinigung_url
-  );
+    !!documentData.value.versicherungsbescheinigung_url &&
+    !!documentData.value.sozialversicherungsbogen_url;
+
+  return showBaDegreeField.value
+    ? baseDocs && !!documentData.value.ba_degree_url
+    : baseDocs;
 });
 // Check if student data is complete if the selected petition requires student action
 const isStudentDataComplete = computed(() => {
@@ -194,9 +200,7 @@ const openNewPetitionDialog = () => {
   emit('deselect-petition');
   showPetitionForm.value = true;
 };
-
 const openStudentDialog = () => (showStudentDialog.value = true);
-
 const refresh = (payload) => {
   fetchStudentData();
   emit('refresh', payload);
@@ -204,13 +208,10 @@ const refresh = (payload) => {
 
 const fetchEmployeeData = async () => {
   if (isLoadingEmployeeData.value) return;
-
   isLoadingEmployeeData.value = true;
   try {
     const response = await ContentApiService.get('/employees');
-    if (response.data) {
-      employeeData.value = response.data;
-    }
+    employeeData.value = response.data || null;
   } catch (error) {
     if (error.response?.status === 404) {
       employeeData.value = null;
@@ -250,9 +251,8 @@ const fetchDocuments = async () => {
 };
 
 const fetchStudentData = async () => {
-  if (userRole.value === 0) {
+  if (userRole.value === 0)
     await Promise.all([fetchEmployeeData(), fetchDocuments()]);
-  }
 };
 
 const handleDeclination = async () => {
@@ -316,6 +316,5 @@ const handleAcceptance = async () => {
 onMounted(() => {
   fetchStudentData();
 });
-
 watch(userRole, fetchStudentData);
 </script>

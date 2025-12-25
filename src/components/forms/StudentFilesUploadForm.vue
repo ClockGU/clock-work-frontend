@@ -2,7 +2,7 @@
   <v-form v-model="isFormValid">
     <v-row>
       <v-col cols="12">
-        <label for="elstam">{{ $t('uploadedFiles.elstam') }}</label>
+        <label for="elstam">{{ $t('files.elstam') }}</label>
         <v-file-input
           id="elstam"
           v-model="elstamFile"
@@ -11,13 +11,13 @@
           show-size
           persistent-hint
           accept=".pdf,application/pdf"
-          :aria-label="$t('uploadedFiles.elstam')"
+          :aria-label="$t('files.elstam')"
           :hint="getHintMessage('elstam')"
         />
       </v-col>
       <v-col cols="12">
         <label for="studienbescheinigung">{{
-          $t('uploadedFiles.studienbescheinigung')
+          $t('files.studienbescheinigung')
         }}</label>
         <v-file-input
           id="studienbescheinigung"
@@ -27,13 +27,13 @@
           show-size
           persistent-hint
           accept=".pdf,application/pdf"
-          :aria-label="$t('uploadedFiles.studienbescheinigung')"
+          :aria-label="$t('files.studienbescheinigung')"
           :hint="getHintMessage('studienbescheinigung')"
         />
       </v-col>
       <v-col cols="12">
         <label for="versicherungsbescheinigung">{{
-          $t('uploadedFiles.versicherungsbescheinigung')
+          $t('files.versicherungsbescheinigung')
         }}</label>
         <v-file-input
           id="versicherungsbescheinigung"
@@ -43,13 +43,13 @@
           show-size
           persistent-hint
           accept=".pdf,application/pdf"
-          :aria-label="$t('filesUploadForm.versicherungsbescheinigung')"
+          :aria-label="$t('files.versicherungsbescheinigung')"
           :hint="getHintMessage('versicherungsbescheinigung')"
         />
       </v-col>
       <v-col cols="12">
         <label for="sozialversicherungsbogen">{{
-          $t('filesUploadForm.sozialversicherungsbogen')
+          $t('files.sozialversicherungsbogen')
         }}</label>
         <v-file-input
           id="sozialversicherungsbogen"
@@ -59,13 +59,27 @@
           show-size
           persistent-hint
           accept=".pdf,application/pdf"
-          :aria-label="$t('filesUploadForm.sozialversicherungsbogen')"
+          :aria-label="$t('files.sozialversicherungsbogen')"
           :hint="getHintMessage('sozialversicherungsbogen')"
+        />
+      </v-col>
+
+      <v-col v-if="showBaDegreeField" cols="12">
+        <label for="ba_degree">{{ $t('files.ba_degree') }}</label>
+        <v-file-input
+          id="ba_degree"
+          v-model="baDegreeFile"
+          outlined
+          dense
+          show-size
+          persistent-hint
+          accept=".pdf,application/pdf"
+          :aria-label="$t('files.ba_degree')"
+          :hint="getHintMessage('ba_degree')"
         />
       </v-col>
     </v-row>
 
-    <!-- visual clue for missing and uploaded documents -->
     <v-card class="mt-4" variant="outlined">
       <v-card-text>
         <v-list density="compact">
@@ -101,6 +115,7 @@
               getStatusMessage('versicherungsbescheinigung')
             }}</v-list-item-title>
           </v-list-item>
+
           <v-list-item>
             <template v-slot:prepend>
               <StatusIndicator
@@ -110,6 +125,18 @@
             </template>
             <v-list-item-title class="ml-2">{{
               getStatusMessage('sozialversicherungsbogen')
+            }}</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item v-if="showBaDegreeField">
+            <template v-slot:prepend>
+              <StatusIndicator
+                :status="hasBaDegreeDocument"
+                aria-hidden="true"
+              />
+            </template>
+            <v-list-item-title class="ml-2">{{
+              getStatusMessage('ba_degree')
             }}</v-list-item-title>
           </v-list-item>
         </v-list>
@@ -128,6 +155,10 @@ const props = defineProps({
     type: Object,
     default: null,
   },
+  showBaDegreeField: {
+    type: Boolean,
+    default: false,
+  },
 });
 const { t } = useI18n();
 
@@ -135,6 +166,7 @@ const elstamFile = ref(null);
 const studienbescheinigungFile = ref(null);
 const versicherungsbescheinigungFile = ref(null);
 const sozialversicherungsbogenFile = ref(null);
+const baDegreeFile = ref(null);
 
 // Local state for existing document URLs
 const existingDocuments = reactive({
@@ -142,6 +174,7 @@ const existingDocuments = reactive({
   studienbescheinigung_url: null,
   versicherungsbescheinigung_url: null,
   sozialversicherungsbogen_url: null,
+  ba_degree_url: null,
 });
 
 // Computed properties for document status
@@ -170,15 +203,25 @@ const hasSozialversicherungsbogenDocument = computed(() => {
   );
 });
 
-// Validation: All three files must be present (either existing or new)
+const hasBaDegreeDocument = computed(() => {
+  return !!baDegreeFile.value || !!existingDocuments.ba_degree_url;
+});
+
+// Validation: Basic files + BA Degree if required
 const isFormValid = computed(() => {
-  return (
+  const basicValidation =
     hasElstamDocument.value &&
     hasStudienbescheinigungDocument.value &&
     hasVersicherungsbescheinigungDocument.value &&
-    hasSozialversicherungsbogenDocument.value
-  );
+    hasSozialversicherungsbogenDocument.value;
+
+  if (props.showBaDegreeField) {
+    return basicValidation && hasBaDegreeDocument.value;
+  }
+
+  return basicValidation;
 });
+
 // Computed files object for parent component
 const files = computed(() => ({
   elstam: elstamFile.value ? [elstamFile.value] : [],
@@ -191,6 +234,7 @@ const files = computed(() => ({
   sozialversierungsbogen: sozialversicherungsbogenFile.value
     ? [sozialversicherungsbogenFile.value]
     : [],
+  ba_degree: baDegreeFile.value ? [baDegreeFile.value] : [],
 }));
 
 // Initialize existing document URLs from props
@@ -204,9 +248,11 @@ const initializeDocuments = (data) => {
       studienbescheinigung_url: null,
       versicherungsbescheinigung_url: null,
       sozialversicherungsbogen_url: null,
+      ba_degree_url: null,
     });
   }
 };
+
 const getHintMessage = (field) => {
   let file = null;
   let existingUrl = null;
@@ -227,6 +273,10 @@ const getHintMessage = (field) => {
     case 'sozialversicherungsbogen':
       file = sozialversicherungsbogenFile.value;
       existingUrl = existingDocuments.sozialversicherungsbogen_url;
+      break;
+    case 'ba_degree':
+      file = baDegreeFile.value;
+      existingUrl = existingDocuments.ba_degree_url;
       break;
   }
   if (file) {
@@ -266,20 +316,25 @@ const getStatusMessage = (documentType) => {
       existingUrl = existingDocuments.sozialversicherungsbogen_url;
       documentKey = 'sozialversicherungsbogen';
       break;
+    case 'ba_degree':
+      file = baDegreeFile.value;
+      existingUrl = existingDocuments.ba_degree_url;
+      documentKey = 'ba_degree';
+      break;
   }
 
   if (file) {
     return t('filesUploadForm.status.newDocument', {
-      document: t(`filesUploadForm.${documentKey}`),
+      document: t(`files.${documentKey}`),
     });
   }
   if (existingUrl) {
     return t('filesUploadForm.status.existingDocument', {
-      document: t(`filesUploadForm.${documentKey}`),
+      document: t(`files.${documentKey}`),
     });
   }
   return t('filesUploadForm.status.noDocument', {
-    document: t(`filesUploadForm.${documentKey}`),
+    document: t(`files.${documentKey}`),
   });
 };
 

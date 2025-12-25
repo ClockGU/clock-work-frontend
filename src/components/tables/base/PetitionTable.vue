@@ -27,7 +27,8 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
-import { format, parseISO } from 'date-fns';
+import { parseISO } from 'date-fns';
+import { localizedFormat } from '@/utils/date';
 import PetitionStatusIcon from '@/components/ui/PetitionStatusIcon.vue';
 import BaseDataDisplayTable from '@/components/tables/base/DataDisplayTable.vue';
 
@@ -51,7 +52,7 @@ const formatValue = (value, key) => {
     (key.includes('Date') || key.includes('Start') || key.includes('End'))
   ) {
     try {
-      return format(parseISO(value), 'dd.MM.yyyy');
+      return localizedFormat(parseISO(value), 'dd.MM.yyyy');
     } catch {
       return value;
     }

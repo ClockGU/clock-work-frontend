@@ -147,33 +147,36 @@ const { t } = useI18n();
 const store = useStore();
 const display = useDisplay();
 
-/**
- * Single source of truth for supported documents
- */
 const DOCS = [
   {
     type: 'elstam',
     urlProp: 'elstam_url',
-    i18nKey: 'uploadedFiles.elstam',
+    i18nKey: 'files.elstam',
     defaultName: 'elstam.pdf',
   },
   {
     type: 'studienbescheinigung',
     urlProp: 'studienbescheinigung_url',
-    i18nKey: 'uploadedFiles.studienbescheinigung',
+    i18nKey: 'files.studienbescheinigung',
     defaultName: 'study_certificate.pdf',
   },
   {
     type: 'versicherung',
     urlProp: 'versicherungsbescheinigung_url',
-    i18nKey: 'uploadedFiles.versicherung',
+    i18nKey: 'files.versicherungsbescheinigung',
     defaultName: 'insurance_certificate.pdf',
   },
   {
     type: 'sozialversicherungsbogen',
     urlProp: 'sozialversicherungsbogen_url',
-    i18nKey: 'uploadedFiles.sozialversicherungsbogen',
+    i18nKey: 'files.sozialversicherungsbogen',
     defaultName: 'social_insurance_form.pdf',
+  },
+  {
+    type: 'ba_degree',
+    urlProp: 'ba_degree_url',
+    i18nKey: 'files.ba_degree',
+    defaultName: 'ba_degree.pdf',
   },
 ];
 
@@ -320,9 +323,7 @@ function closeViewer() {
   state.viewer.type = null;
 }
 
-/**
- * Capture page-1 aspect ratio so dialog can tightly wrap the PDF
- */
+//Capture page-1 aspect ratio so dialog can tightly wrap the PDF
 function captureAspect(type, pdf) {
   if (!type || state.aspect[type]) return;
   try {

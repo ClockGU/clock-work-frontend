@@ -135,11 +135,14 @@
     "bic": "BIC",
     "bankName": "Bankname"
   },
-  "filesUploadForm": {
+  "files": {
     "elstam": "ELStAM Selbstauskunft",
     "studienbescheinigung": "Studienbescheinigung",
     "sozialversicherungsbogen": "Fragebogen zur Sozialversicherung",
     "versicherungsbescheinigung": "Mitgliedsbescheinigung der Krankenkasse",
+    "ba_degree": "Nachweis des Bachelor-Abschlusses"
+  },
+  "filesUploadForm": {
     "hint": {
       "selected": "Ausgewählt: {filename}",
       "existing": "Vorhanden: {filename}",
@@ -213,10 +216,6 @@
   "uploadedFiles": {
     "title": "Hochgeladene Dateien",
     "noFiles": "Es wurden noch keine Dateien hochgeladen.",
-    "elstam": "ELStAM-Formular",
-    "studienbescheinigung": "Studienbescheinigung",
-    "sozialversicherungsbogen": "Fragebogen zur Sozialversicherung",
-    "versicherungsbescheinigung": "Mitgliedsbescheinigung der Krankenkasse",
     "pageCounter": "Seite {current} von {total}",
     "pdfLoadError": "PDF konnte nicht geladen werden. Sie können versuchen, es stattdessen herunterzuladen.",
     "defaultFilename": "Dokument",
