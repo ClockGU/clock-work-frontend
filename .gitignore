@@ -30,3 +30,4 @@ _wildcard.clock.uni-frankfurt.de.pem
 _wildcard.clock.uni-frankfurt.de-key.pem
 .env.local
 CaddyFile
+.env.local
