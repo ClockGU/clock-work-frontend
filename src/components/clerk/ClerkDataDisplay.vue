@@ -10,6 +10,7 @@
             class="flex-grow-1"
             style="overflow-y: auto"
             :petition="petition"
+            :revision-disabled="disabledRevisionButton"
             @close="emit('close')"
             @refresh="handleRefresh"
           />
