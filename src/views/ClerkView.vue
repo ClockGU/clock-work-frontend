@@ -120,7 +120,6 @@ const handleRefresh = async () => {
   }
 };
 
-
 // sync selectedPetition with petitions
 watch(petitions, (newPetitions) => {
   const updatedSelectedPetition = newPetitions.find(

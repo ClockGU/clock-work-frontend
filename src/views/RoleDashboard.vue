@@ -29,13 +29,11 @@
 import { ref, onMounted, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
-import { Roles , currentRole } from '@/utils/roleUtils';
+import { Roles, currentRole } from '@/utils/roleUtils';
 import ContentApiService from '@/services/contentApiService';
 import EditCard from '@/components/dashboard/EditCard.vue';
 import OverviewCard from '@/components/dashboard/OverviewCard.vue';
 import InstructionCard from '@/components/dashboard/InstructionCard.vue';
-
-
 
 const store = useStore();
 const { t } = useI18n();
@@ -44,7 +42,6 @@ const petitions = ref([]);
 const selectedPetition = ref(null);
 const isLoading = ref(true);
 
-
 const selectPetition = (petition) => (selectedPetition.value = petition);
 const deselectPetition = () => (selectedPetition.value = null);
 
@@ -52,7 +49,9 @@ const fetchPetitions = async () => {
   isLoading.value = true;
   try {
     const response = await ContentApiService.get(
-      currentRole.value === Roles.SUPERVISOR ? '/supervisor/petitions' : '/students/petitions'
+      currentRole.value === Roles.SUPERVISOR
+        ? '/supervisor/petitions'
+        : '/students/petitions'
     );
     petitions.value = response.data;
   } catch (err) {

@@ -288,7 +288,7 @@
       "NoAccessToken": "No access token in authentication response",
       "generic": "An error occurred during login. Please try again."
     },
-    "refreshToken":{
+    "refreshToken": {
       "failed": "failed to refresh token",
       "missing": "refresh token is missing"
     },

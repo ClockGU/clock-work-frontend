@@ -90,7 +90,7 @@ const save = async () => {
     const formData = petitionFormRef.value.formData;
 
     try {
-      if(!isSupervisor.value) {
+      if (!isSupervisor.value) {
         throw new Error('Only supervisors can edit petitions.');
       }
       // Use the Petition model's toBackendFormat method for proper date formatting

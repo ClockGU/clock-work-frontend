@@ -123,9 +123,9 @@
 </template>
 
 <script setup>
-import {isStudent, isSupervisor} from '@/utils/roleUtils';
+import { isStudent, isSupervisor } from '@/utils/roleUtils';
 import { PETITION_STATUS } from '@/utils/statusUtils';
-import { ref, computed,onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useDisplay } from 'vuetify';

@@ -86,7 +86,7 @@ import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
-import { isStudent, isClerk , isApprover  } from '@/utils/roleUtils';
+import { isStudent, isClerk, isApprover } from '@/utils/roleUtils';
 import ContentApiService from '@/services/contentApiService.js';
 import CustomDialog from '@/components/dialogs/base/CustomDialog.vue';
 
