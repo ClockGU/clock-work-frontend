@@ -56,8 +56,8 @@ const { t } = useI18n();
 
 const user = computed(() => store.getters['auth/user']);
 const showClerkCard = computed(() => {
-  return import.meta.env.VITE_SHOW_CLERK_CARD === 'true'
-})
+  return import.meta.env.VITE_SHOW_CLERK_CARD === 'true';
+});
 const redirectToDashboard = async (role) => {
   try {
     const roleValue = role === 'supervisor' ? 1 : 0;
@@ -105,5 +105,5 @@ const redirectToClerk = async () => {
       loginErrorHandler.setLoginError(t('errors.roleSelection.updateFailed'));
     }
   }
-}
+};
 </script>
