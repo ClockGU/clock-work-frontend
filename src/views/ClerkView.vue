@@ -34,7 +34,6 @@ import { useI18n } from 'vue-i18n';
 import ContentApiService from '@/services/contentApiService';
 import ClerkDataDisplay from '@/components/clerk/ClerkDataDisplay.vue';
 import ClerkPetitionTable from '@/components/tables/ClerkPetitionTable.vue';
-import loginErrorHandler from '@/utils/loginErrorHandler';
 import { log } from '@/utils/log';
 
 const store = useStore();
@@ -44,7 +43,6 @@ let socket = null;
 const selectedPetition = ref(null);
 const petitions = ref([]);
 
-const userRole = computed(() => store.getters['auth/userRole']);
 const user = computed(() => store.getters['auth/user']);
 
 const connectWebSocket = () => {
@@ -86,12 +84,6 @@ const disconnectWebSocket = () => {
   }
 };
 
-const checkClerkAuthorization = (role) => {
-  if (role !== 2) {
-    loginErrorHandler.setLoginError(t('errors.clerkView.unauthorized'));
-  }
-};
-
 const selectPetition = (petition) => {
   selectedPetition.value = petition;
 };
@@ -128,18 +120,7 @@ const handleRefresh = async () => {
   }
 };
 
-watch(
-  userRole,
-  (newRole) => {
-    checkClerkAuthorization(newRole);
-    if (newRole === 2) {
-      connectWebSocket();
-    } else {
-      disconnectWebSocket();
-    }
-  },
-  { immediate: true }
-);
+
 // sync selectedPetition with petitions
 watch(petitions, (newPetitions) => {
   const updatedSelectedPetition = newPetitions.find(
@@ -153,10 +134,7 @@ watch(petitions, (newPetitions) => {
 });
 
 onMounted(() => {
-  checkClerkAuthorization(userRole.value);
-  if (userRole.value === 2) {
-    connectWebSocket();
-  }
+  connectWebSocket();
 });
 
 onUnmounted(() => {

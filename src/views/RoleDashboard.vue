@@ -34,7 +34,6 @@ import InstructionCard from '@/components/dashboard/InstructionCard.vue';
 import { ref, computed, onMounted, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
-import loginErrorHandler from '@/utils/loginErrorHandler';
 
 const store = useStore();
 const { t } = useI18n();
@@ -48,11 +47,6 @@ const userRole = computed(() => store.getters['auth/userRole']);
 const selectPetition = (petition) => (selectedPetition.value = petition);
 const deselectPetition = () => (selectedPetition.value = null);
 
-const checkRoleAuthorization = (role) => {
-  if (role !== 0 && role !== 1) {
-    loginErrorHandler.setLoginError(t('errors.RoleDashboardView.unauthorized'));
-  }
-};
 const fetchPetitions = async () => {
   isLoading.value = true;
   try {
@@ -94,9 +88,7 @@ const handleRefresh = (payload) => {
   }
   fetchPetitions();
 };
-watch(userRole, (newRole) => {
-  checkRoleAuthorization(newRole);
-});
+
 // sync selectedPetition with petitions
 watch(petitions, (newPetitions) => {
   const updatedSelectedPetition = newPetitions.find(
@@ -109,7 +101,6 @@ watch(petitions, (newPetitions) => {
   }
 });
 onMounted(() => {
-  checkRoleAuthorization(userRole.value);
   fetchPetitions();
 });
 </script>
