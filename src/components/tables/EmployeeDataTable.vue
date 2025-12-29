@@ -15,7 +15,6 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { format, parseISO } from 'date-fns';
-// Import the new base component
 import BaseDataDisplay from '@/components/tables/base/DataDisplayTable.vue';
 
 const props = defineProps({

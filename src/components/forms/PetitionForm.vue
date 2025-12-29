@@ -59,10 +59,6 @@
       <v-col cols="12" md="6">
         <label for="startDate">{{ $t('petition.startDate') }}</label>
 
-        <!-- FIX:
-             - display-format makes sure the field really shows DD.MM.YYYY (via localizedFormat)
-             - input-format enables manual typing; uses Vuetify tokens dd.mm.yyyy (NOT date-fns)
-        -->
         <v-date-input
           id="startDate"
           v-model="formData.start_date"

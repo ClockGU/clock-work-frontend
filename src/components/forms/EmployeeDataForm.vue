@@ -60,10 +60,6 @@
       <v-col cols="12" md="6">
         <label for="dateOfBirth">{{ $t('employeeData.dateOfBirth') }}</label>
 
-        <!-- FIX:
-             - display-format ensures the field text is really DD.MM.YYYY (date-fns via localizedFormat)
-             - input-format controls MANUAL typing and uses Vuetify tokens: dd.mm.yyyy (NOT date-fns)
-        -->
         <v-date-input
           id="dateOfBirth"
           v-model="formData.date_of_birth"
@@ -193,10 +189,6 @@
       <v-col v-if="formData.previous_employment" cols="12" md="6">
         <label for="prevEmpDuration">{{ $t('employeeData.duration') }}</label>
 
-        <!-- FIX:
-             - Range display is formatted as "DD.MM.YYYY – DD.MM.YYYY" via displayDate()
-             - Manual typing uses input-format="dd.mm.yyyy"
-        -->
         <v-date-input
           id="prevEmpDuration"
           v-model="formData.prev_emp_duration"
