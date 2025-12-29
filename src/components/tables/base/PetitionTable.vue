@@ -131,6 +131,10 @@ const tableRows = computed(() => {
           value: position.budget_approver,
         });
         rows.push({
+          key: `${t('petition.percentage', 'Percentage')} ${index + 1}`,
+          value: position.percentage,
+        });
+        rows.push({
           key: `${t('petition.budgetPositionApproved', 'Budget Position Approved')} ${index + 1}`,
           value: position.budget_position_approved,
         });
