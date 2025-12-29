@@ -10,6 +10,8 @@ import RoleSelectionView from '@/views/RoleSelectionView.vue';
 import RoleDashboard from '@/views/RoleDashboard.vue';
 import ClerkView from '@/views/ClerkView.vue';
 import ApproverView from '@/views/ApproverView.vue';
+  
+const t = i18n.global.t;
 
 const routes = [
   {
@@ -54,7 +56,7 @@ const routes = [
       const budgetPositionId = to.query.budget_position_id;
 
       if (!petitionId || !signature || !budgetPositionId) {
-        return { name: 'landing' };
+        loginErrorHandler.setLoginError(t("errors.approverView.missingSignature"))
       }
       return true;
     },
@@ -83,7 +85,6 @@ const isTokenExpired = (token) => {
 
 // Global navigation guard
 router.beforeEach(async (to, from, next) => {
-  const t = i18n.global.t;
   const isPublic = to.meta.isPublic;
   const loggedIn = store.getters['auth/isLoggedIn'];
   const accessToken = store.getters['auth/accessToken'];
@@ -111,13 +112,13 @@ router.beforeEach(async (to, from, next) => {
         // If refresh fails, log out and redirect to landing.
         console.error('Token refresh failed, logging out:', error);
         await store.dispatch('auth/logout');
-        return next({ name: 'landing' });
+        loginErrorHandler.setLoginError(t("errors.refreshToken.failed"))
       }
     } else {
       // If no refresh token, log out and redirect to landing.
       console.log('No refresh token, logging out.');
       await store.dispatch('auth/logout');
-      return next({ name: 'landing' });
+      loginErrorHandler.setLoginError(t("errors.refreshToken.missing"))
     }
   }
   const currentRole = getRole();
