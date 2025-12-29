@@ -19,12 +19,12 @@
   </div>
 </template>
 <script setup>
+import { currentRole } from '@/utils/roleUtils';
 import { computed } from 'vue';
-import { useStore } from 'vuex';
 
 const props = defineProps({
   roles: {
-    type: Array,
+    type: [Array, String],
     required: true,
   },
   color: {
@@ -61,7 +61,8 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(['click']);
-const store = useStore();
-const userRole = computed(() => store.getters['auth/userRole']);
-const hasPermission = computed(() => props.roles.includes(userRole.value));
+const hasPermission = computed(() => {
+  const roleList = Array.isArray(props.roles) ? props.roles : [props.roles];
+  return roleList.includes(currentRole.value);
+});
 </script>

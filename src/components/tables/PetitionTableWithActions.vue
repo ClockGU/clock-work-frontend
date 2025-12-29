@@ -29,7 +29,7 @@
         <div class="d-flex justify-space-between align-center">
           <RoleActionButton
             color="error"
-            :roles="[0, 1, 2]"
+            :roles="[Roles.STUDENT, Roles.SUPERVISOR, Roles.CLERK]"
             :icon="icons.mdiClose"
             :tooltip="$t('actions.close')"
             @click="emit('close')"
@@ -37,7 +37,7 @@
           <div class="d-flex align-center ga-3 ml-1">
             <RoleActionButton
               color="warning"
-              :roles="[0, 2]"
+              :roles="[Roles.STUDENT, Roles.CLERK]"
               :icon="icons.mdiAlertCircleOutline"
               :tooltip="$t('actions.requestChange')"
               :disabled="revisionDisabled"
@@ -45,7 +45,7 @@
             />
             <RoleActionButton
               color="primary"
-              :roles="[1]"
+              :roles="Roles.SUPERVISOR"
               :icon="icons.mdiPencil"
               :disabled="!canEditPetition"
               :tooltip="$t('actions.edit')"
@@ -53,7 +53,7 @@
             />
             <RoleActionButton
               color="error"
-              :roles="[1]"
+              :roles="Roles.SUPERVISOR"
               :icon="icons.mdiTrashCan"
               :tooltip="$t('actions.delete')"
               @click="showDeleteConfirmationDialog = true"
@@ -69,16 +69,17 @@
 </template>
 
 <script setup>
-import { PETITION_STATUS } from '@/utils/statusUtils';
-import { ref, computed } from 'vue';
-import { useStore } from 'vuex';
-import { useI18n } from 'vue-i18n';
 import {
   mdiClose,
   mdiPencil,
   mdiTrashCan,
   mdiAlertCircleOutline,
 } from '@mdi/js';
+import { ref, computed } from 'vue';
+import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
+import { PETITION_STATUS } from '@/utils/statusUtils';
+import { currentRole , Roles} from '@/utils/roleUtils';
 import ContentApiService from '@/services/contentApiService.js';
 import PetitionTable from './base/PetitionTable.vue';
 import PetitionFormDialog from '@/components/dialogs/PetitionFormDialog.vue';
@@ -107,7 +108,6 @@ const showDeleteConfirmationDialog = ref(false);
 const showPetitionRevisionDialog = ref(false);
 const showPetitionFormDialog = ref(false);
 
-const userRole = computed(() => store.getters['auth/userRole']);
 const canEditPetition = computed(() => {
   return [
     PETITION_STATUS.PETITIONEER_ACTION,
@@ -118,7 +118,7 @@ const canEditPetition = computed(() => {
 
 const deletePetition = async () => {
   try {
-    const role = userRole.value === 2 ? 'clerk' : 'supervisor';
+    const role = currentRole.value;
     await ContentApiService.delete(`/${role}/petitions/${props.petition.id}`);
     emit('refresh', {
       type: 'delete',

@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import store from '@/store';
 import i18n from '@/plugins/i18n';
 import loginErrorHandler from '@/utils/loginErrorHandler';
-import { getRole, Roles } from '@/utils/roleUtils';
+import {isStudent , isSupervisor, isClerk } from '@/utils/roleUtils';
 import { parseJwt } from '@/utils/jwt';
 import LoggingInView from '@/views/LoggingInView.vue';
 import LandingView from '@/views/LandingView.vue';
@@ -121,15 +121,14 @@ router.beforeEach(async (to, from, next) => {
       loginErrorHandler.setLoginError(t("errors.refreshToken.missing"))
     }
   }
-  const currentRole = getRole();
   let isAuthorized = true;
 
   // Validate path/params against the user's actual role
-  if (currentRole === Roles.STUDENT && !to.path.includes('student'))
+  if (isStudent.value && !to.path.includes('student'))
     isAuthorized = false;
-  if (currentRole === Roles.SUPERVISOR && !to.path.includes('supervisor'))
+  if (isSupervisor.value && !to.path.includes('supervisor'))
     isAuthorized = false;
-  if (currentRole === Roles.CLERK && to.name !== 'clerk') isAuthorized = false;
+  if (isClerk.value && to.name !== 'clerk') isAuthorized = false;
 
   if (!isAuthorized) {
     // This triggers the redirect to landing with an error 
