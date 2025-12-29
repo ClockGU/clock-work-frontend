@@ -157,7 +157,7 @@ const fetchPetition = async () => {
     isLoading.value = true;
     actionCompleted.value = false;
     const response = await ContentApiService.get(
-      `/approver/petitions/${petitionId}/${signature}`
+      `/approver/petitions/${petitionId}/${signature}/${budgetPositionId}`
     );
     const fetchedPetition = response.data;
     if (fetchedPetition.status === PETITION_STATUS.APPROVER_ACTION) {
