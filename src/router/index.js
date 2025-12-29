@@ -86,6 +86,7 @@ const isTokenExpired = (token) => {
 // Global navigation guard
 router.beforeEach(async (to, from, next) => {
   const isPublic = to.meta.isPublic;
+  const bypassGuard = import.meta.env.VITE_BYPASS_ROLES_GUARD === "true" ;
   const loggedIn = store.getters['auth/isLoggedIn'];
   const accessToken = store.getters['auth/accessToken'];
   const refreshToken = store.getters['auth/refreshToken'];
@@ -123,12 +124,14 @@ router.beforeEach(async (to, from, next) => {
   }
   let isAuthorized = true;
 
-  // Validate path/params against the user's actual role
-  if (isStudent.value && !to.path.includes('student'))
-    isAuthorized = false;
-  if (isSupervisor.value && !to.path.includes('supervisor'))
-    isAuthorized = false;
-  if (isClerk.value && to.name !== 'clerk') isAuthorized = false;
+  // Only run standard checks if bypass is not active for this route
+  // bypass is active only for local development and testing purposes
+  if (!bypassGuard) {
+    // Validate path/params against the user's actual role
+    if (isStudent.value && !to.path.includes('student')) isAuthorized = false;
+    if (isSupervisor.value && !to.path.includes('supervisor')) isAuthorized = false;
+    if (isClerk.value && to.name !== 'clerk') isAuthorized = false;
+  }
 
   if (!isAuthorized) {
     // This triggers the redirect to landing with an error 

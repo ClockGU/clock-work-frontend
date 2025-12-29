@@ -79,7 +79,7 @@ import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { PETITION_STATUS } from '@/utils/statusUtils';
-import { currentRole , Roles} from '@/utils/roleUtils';
+import { currentRole, Roles } from '@/utils/roleUtils';
 import ContentApiService from '@/services/contentApiService.js';
 import PetitionTable from './base/PetitionTable.vue';
 import PetitionFormDialog from '@/components/dialogs/PetitionFormDialog.vue';
