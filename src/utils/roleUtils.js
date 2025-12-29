@@ -11,26 +11,15 @@ export const Roles = Object.freeze({
 
 const userRole = computed(() => store.getters['auth/userRole']);
 
-export const isStudent = () => userRole.value === 0;
-export const isSupervisor = () => userRole.value === 1;
-export const isClerk = () => userRole.value === 2;
-export function isApprover() {
-  return router.currentRoute.value.name === 'approver';
-}
+export const isStudent = computed(() => userRole.value === 0);
+export const isSupervisor = computed(() => userRole.value === 1);
+export const isClerk = computed(() => userRole.value === 2);
+export const isApprover = computed(() => router.currentRoute.value.name === 'approver');
 
-export function getRole() {
-  if (isApprover()) return Roles.APPROVER;
-  if (isClerk()) return Roles.CLERK;
-  if (isSupervisor()) return Roles.SUPERVISOR;
-  if (isStudent()) return Roles.STUDENT;
+export const currentRole = computed(() => {
+  if (isApprover.value) return Roles.APPROVER;
+  if (isClerk.value) return Roles.CLERK;
+  if (isSupervisor.value) return Roles.SUPERVISOR;
+  if (isStudent.value) return Roles.STUDENT;
   return null;
-}
-
-export function hasRole(userRoles) {
-  const currentRole = getRole();
-  if (!userRoles) return false;
-  if (Array.isArray(userRoles)) {
-    return userRoles.includes(currentRole);
-  }
-  return currentRole === userRoles;
-}
+});
