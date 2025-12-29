@@ -335,7 +335,7 @@
     "clerkView": {
       "unauthorized": "Sie sind nicht berechtigt, die Sachbearbeitenden-Ansicht zu öffnen."
     },
-    "RoleDashboardView": {
+    "roles": {
       "unauthorized": "Sie sind nicht berechtigt, diese Ansicht zu öffnen. Bitte wählen Sie eine gültige Rolle aus."
     }
   },
