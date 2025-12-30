@@ -37,9 +37,10 @@
           <div class="d-flex align-center ga-3 ml-1">
             <RoleActionButton
               color="warning"
-              :roles="[0, 2, 3]"
+              :roles="[0, 2]"
               :icon="icons.mdiAlertCircleOutline"
               :tooltip="$t('actions.requestChange')"
+              :disabled="revisionDisabled"
               @click="showPetitionRevisionDialog = true"
             />
             <RoleActionButton
@@ -68,6 +69,7 @@
 </template>
 
 <script setup>
+import { PETITION_STATUS } from '@/utils/statusUtils';
 import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
@@ -78,9 +80,9 @@ import {
   mdiAlertCircleOutline,
 } from '@mdi/js';
 import ContentApiService from '@/services/contentApiService.js';
-import PetitionTable from './PetitionTable.vue';
+import PetitionTable from './base/PetitionTable.vue';
 import PetitionFormDialog from '@/components/dialogs/PetitionFormDialog.vue';
-import ConfirmationDialog from '@/components/dialogs/ConfirmationDialog.vue';
+import ConfirmationDialog from '@/components/dialogs/base/ConfirmationDialog.vue';
 import PetitionRevisionDialog from '@/components/dialogs/PetitionRevisionDialog.vue';
 import RoleActionButton from '../ui/RoleActionButton.vue';
 
@@ -88,6 +90,10 @@ const props = defineProps({
   petition: {
     type: Object,
     required: true,
+  },
+  revisionDisabled: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -103,9 +109,11 @@ const showPetitionFormDialog = ref(false);
 
 const userRole = computed(() => store.getters['auth/userRole']);
 const canEditPetition = computed(() => {
-  return ['approver_action', 'approver_revision', 'student_revision'].some(
-    (status) => props.petition.status.includes(status)
-  );
+  return [
+    PETITION_STATUS.PETITIONEER_ACTION,
+    PETITION_STATUS.APPROVER_REVISION,
+    PETITION_STATUS.STUDENT_REVISION,
+  ].some((status) => props.petition.status.includes(status));
 });
 
 const deletePetition = async () => {

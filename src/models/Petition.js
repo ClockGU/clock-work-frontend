@@ -3,8 +3,8 @@ import { parse, format, isValid } from 'date-fns';
 const DATE_KEYS = [
   'start_date',
   'end_date',
-  'time_exce_start',
-  'time_exce_end',
+  // 'time_exce_start',
+  // 'time_exce_end',
   'duration_exce_start',
   'duration_exce_end',
 ];
@@ -14,7 +14,7 @@ class Petition {
     this.id = data.id || '';
     this.user_account = data.user_account || '';
     this.supervisor_mail = data.supervisor_mail || '';
-    this.student_mail = data.student_mail || '';
+    this.student_username = data.student_username || '';
     this.org_unit = data.org_unit || '';
     this.eos_number = data.eos_number || '';
     this.minutes = data.minutes || 0;
@@ -22,6 +22,7 @@ class Petition {
     this.status = data.status || '';
     this.time_exce_student = data.time_exce_student ?? false;
     this.time_exce_course = data.time_exce_course ?? false;
+    this.time_exce_time = data.time_exce_time || '';
     this.duration_exce_course = data.duration_exce_course ?? false;
     this.time_exce_name = data.time_exce_name || '';
     this.duration_exce_name = data.duration_exce_name || '';

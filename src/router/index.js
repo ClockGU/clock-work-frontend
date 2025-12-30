@@ -38,10 +38,23 @@ const routes = [
     component: ClerkView,
     meta: { requiresAuth: true },
   },
+  // Approver will use the signature params to authenticate instead of normal login
   {
     path: '/approver',
+    name: 'approver',
     component: ApproverView,
-    meta: { requiresAuth: true },
+    meta: { isPublic: true },
+    beforeEnter: (to) => {
+      // Require signature params on entry
+      const petitionId = to.query.petition_id;
+      const signature = to.query.signature;
+      const budgetPositionId = to.query.budget_position_id;
+
+      if (!petitionId || !signature || !budgetPositionId) {
+        return { name: 'landing' };
+      }
+      return true;
+    },
   },
 ];
 

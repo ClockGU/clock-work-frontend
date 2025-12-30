@@ -2,10 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <InstructionCard
-          :title="instructionCardTitle"
-          :text="instructionCardText"
-        />
+        <InstructionCard :role="userRole" />
       </v-col>
       <v-col cols="12" md="6">
         <EditCard
@@ -47,16 +44,6 @@ const selectedPetition = ref(null);
 const isLoading = ref(true);
 
 const userRole = computed(() => store.getters['auth/userRole']);
-const instructionCardTitle = computed(() =>
-  userRole.value === 0
-    ? t('instructionCard.title.student')
-    : t('instructionCard.title.supervisor')
-);
-const instructionCardText = computed(() =>
-  userRole.value === 0
-    ? t('instructionCard.text.student')
-    : t('instructionCard.text.supervisor')
-);
 
 const selectPetition = (petition) => (selectedPetition.value = petition);
 const deselectPetition = () => (selectedPetition.value = null);
@@ -70,7 +57,7 @@ const fetchPetitions = async () => {
   isLoading.value = true;
   try {
     const response = await ContentApiService.get(
-      `${userRole.value === 0 ? '/students' : '/supervisor'}/petitions/`
+      userRole.value === 0 ? '/students/petitions' : '/supervisor/petitions'
     );
     petitions.value = response.data;
   } catch (err) {
