@@ -27,7 +27,8 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
-import { format, parseISO } from 'date-fns';
+import { parseISO } from 'date-fns';
+import { localizedFormat } from '@/utils/date';
 import PetitionStatusIcon from '@/components/ui/PetitionStatusIcon.vue';
 import BaseDataDisplayTable from '@/components/tables/base/DataDisplayTable.vue';
 
@@ -51,7 +52,7 @@ const formatValue = (value, key) => {
     (key.includes('Date') || key.includes('Start') || key.includes('End'))
   ) {
     try {
-      return format(parseISO(value), 'dd.MM.yyyy');
+      return localizedFormat(parseISO(value), 'dd.MM.yyyy');
     } catch {
       return value;
     }
@@ -128,6 +129,10 @@ const tableRows = computed(() => {
         rows.push({
           key: `${t('petition.budgetApprover', 'Budget Approver')} ${index + 1}`,
           value: position.budget_approver,
+        });
+        rows.push({
+          key: `${t('petition.percentage', 'Percentage')} ${index + 1}`,
+          value: position.percentage,
         });
         rows.push({
           key: `${t('petition.budgetPositionApproved', 'Budget Position Approved')} ${index + 1}`,

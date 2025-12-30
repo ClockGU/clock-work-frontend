@@ -135,11 +135,14 @@
     "bic": "BIC",
     "bankName": "Bank Name"
   },
-  "filesUploadForm": {
+  "files": {
     "elstam": "ELStAM Self-Disclosure Form",
     "studienbescheinigung": "Enrolment Certificate",
     "sozialversicherungsbogen": "Social Security Questionnaire",
     "versicherungsbescheinigung": "Health Insurance Membership Certificate",
+    "ba_degree": "Bachelor's Degree Certificate"
+  },
+  "filesUploadForm": {
     "hint": {
       "selected": "Selected: {filename}",
       "existing": "Existing: {filename}",
@@ -153,7 +156,7 @@
   },
   "petition": {
     "statusDisplay": {
-      "approved": "Approved",
+      "completed": "Approved",
       "rejected": "Rejected",
       "approver_revision": "Revision by budget approver",
       "clerk_revision": "Revision by HR administrator",
@@ -180,7 +183,7 @@
     "budgetApprover": "Budget Approver Email",
     "budgetPositionApproved": " Budgetposition Approved",
     "percentage": "Percentage",
-    "timeExceCourse": "Minimum Contract Term Deviation (10 h/week | 44 h/month)",
+    "timeExceCourse": "Minimum Contract Term Deviation (10 h/week | 40 h/month)",
     "timeExceName": "Description",
     "timeExceStart": "Deviation from",
     "timeExceEnd": "Deviation until",
@@ -206,17 +209,13 @@
       "student_revision": "Student has requested changes to the petition. The supervisor needs to make the requested updates.",
       "clerk_revision": "HR administrator needs updates to student information or documents. The student must provide the requested details.",
       "awaiting_signature": "All approvals complete. HR is waiting for the student to return the signed contract before final acceptance.",
-      "approved": "Petition fully approved. The process is complete and the request will be implemented.",
+      "completed": "Petition fully approved. The process is complete and the request will be implemented.",
       "rejected": "Petition not approved. The process has ended and no further action will be taken."
     }
   },
   "uploadedFiles": {
     "title": "Uploaded Files",
     "noFiles": "No files have been uploaded yet",
-    "elstam": "ELStAM form",
-    "studienbescheinigung": "Study Certificate",
-    "sozialversicherungsbogen": "Social Security Questionnaire",
-    "versicherungsbescheinigung": "Health Insurance Membership Certificate",
     "pageCounter": "Page {current} of {total}",
     "pdfLoadError": "Failed to load PDF. You can try downloading it instead.",
     "defaultFilename": "document",
@@ -254,7 +253,7 @@
       "url": "https://github.com/ClockGU"
     }
   },
-  "petitionRevisionDialog": {
+  "PetitionRevisionDialog": {
     "sendToLabel": "Send to {role}:",
     "subjectLabel": "Subject",
     "subjectPlaceholder": "Enter subject line",
@@ -306,7 +305,7 @@
       "submission": "Error submitting application. Please try again ",
       "saving": "Error saving application. Please try again "
     },
-    "petitionRevisionDialog": {
+    "PetitionRevisionDialog": {
       "approverRevision": "Error sending budget position revision request to supervisor",
       "studentRevision": "Error sending application revision request to supervisor",
       "clerkRevision": "Error sending application revision request to student",

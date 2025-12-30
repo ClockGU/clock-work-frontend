@@ -87,7 +87,7 @@
       </template>
     </v-card-text>
 
-    <!-- Viewer dialog: centered, tight to PDF, page 1 only -->
+    <!-- Viewer dialog -->
     <v-dialog
       v-model="state.viewer.open"
       :fullscreen="display.smAndDown.value"
@@ -104,6 +104,7 @@
           overflow: 'hidden',
         }"
       >
+        <!-- Close -->
         <v-btn
           icon
           variant="tonal"
@@ -115,65 +116,126 @@
           <v-icon :icon="icons.mdiClose" />
         </v-btn>
 
+        <!-- PDF (page turning) -->
         <vue-pdf-embed
           v-if="viewerType"
           :source="state.blobUrl[viewerType]"
-          :page="1"
+          :page="state.viewer.page"
           :width="dialogBox.width"
           :height="dialogBox.height"
-          @loaded="(pdf) => captureAspect(viewerType, pdf)"
+          @loaded="onViewerLoaded"
           @error="(err) => handlePdfError(err, viewerType)"
         />
+
+        <!-- Page controls -->
+        <div
+          v-if="viewerType"
+          style="
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 10px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.85);
+          "
+        >
+          <v-btn
+            icon
+            variant="tonal"
+            size="small"
+            :disabled="state.viewer.page <= 1"
+            :aria-label="$t('actions.back')"
+            @click="prevViewerPage"
+          >
+            <v-icon :icon="icons.mdiChevronLeft" />
+          </v-btn>
+
+          <span style="min-width: 70px; text-align: center">
+            {{ state.viewer.page }} / {{ state.viewer.totalPages }}
+          </span>
+
+          <v-btn
+            icon
+            variant="tonal"
+            size="small"
+            :disabled="state.viewer.page >= state.viewer.totalPages"
+            :aria-label="$t('actions.next')"
+            @click="nextViewerPage"
+          >
+            <v-icon :icon="icons.mdiChevronRight" />
+          </v-btn>
+        </div>
       </div>
     </v-dialog>
   </v-card>
 </template>
 
 <script setup>
+import {
+  mdiDownloadMultiple,
+  mdiFullscreen,
+  mdiClose,
+  mdiChevronLeft,
+  mdiChevronRight,
+} from '@mdi/js';
 import { computed, reactive, watch, onBeforeUnmount } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useDisplay } from 'vuetify';
 import ContentApiService from '@/services/contentApiService';
 import VuePdfEmbed from 'vue-pdf-embed';
-import { mdiDownloadMultiple, mdiFullscreen, mdiClose } from '@mdi/js';
 
 const props = defineProps({
   petition: { type: Object, required: true },
 });
 
-const icons = { mdiDownloadMultiple, mdiFullscreen, mdiClose };
+const icons = {
+  mdiDownloadMultiple,
+  mdiFullscreen,
+  mdiClose,
+  mdiChevronLeft,
+  mdiChevronRight,
+};
+
 const { t } = useI18n();
 const store = useStore();
 const display = useDisplay();
 
-/**
- * Single source of truth for supported documents
- */
 const DOCS = [
   {
     type: 'elstam',
     urlProp: 'elstam_url',
-    i18nKey: 'uploadedFiles.elstam',
+    i18nKey: 'files.elstam',
     defaultName: 'elstam.pdf',
   },
   {
     type: 'studienbescheinigung',
     urlProp: 'studienbescheinigung_url',
-    i18nKey: 'uploadedFiles.studienbescheinigung',
+    i18nKey: 'files.studienbescheinigung',
     defaultName: 'study_certificate.pdf',
   },
   {
     type: 'versicherung',
     urlProp: 'versicherungsbescheinigung_url',
-    i18nKey: 'uploadedFiles.versicherung',
+    i18nKey: 'files.versicherungsbescheinigung',
     defaultName: 'insurance_certificate.pdf',
   },
   {
     type: 'sozialversicherungsbogen',
     urlProp: 'sozialversicherungsbogen_url',
-    i18nKey: 'uploadedFiles.sozialversicherungsbogen',
+    i18nKey: 'files.sozialversicherungsbogen',
     defaultName: 'social_insurance_form.pdf',
+  },
+  {
+    type: 'ba_degree',
+    urlProp: 'ba_degree_url',
+    i18nKey: 'files.ba_degree',
+    defaultName: 'ba_degree.pdf',
   },
 ];
 
@@ -196,6 +258,8 @@ const state = reactive({
   viewer: {
     open: false,
     type: null,
+    page: 1,
+    totalPages: 1,
   },
 });
 
@@ -261,7 +325,7 @@ function getDocUrl(type) {
 }
 
 /**
- *  loading function for the carousel/viewer docs:
+ * loading function for the carousel/viewer docs:
  * - fetches ArrayBuffer via /download-file/
  * - creates blob URL
  * - caches it per type
@@ -275,7 +339,7 @@ async function ensureBlobUrl(type, { force = false } = {}) {
     state.loading[type] = true;
     state.error[type] = false;
 
-    const res = await ContentApiService.get('/download-file/', {
+    const res = await ContentApiService.get('/download-file', {
       params: { file_url: url },
       responseType: 'arraybuffer',
       validateStatus: (s) => s === 200,
@@ -312,17 +376,32 @@ function handlePdfError(error, type) {
 
 function openViewer(type) {
   state.viewer.type = type;
+  state.viewer.page = 1;
+  state.viewer.totalPages = 1;
   state.viewer.open = true;
 }
 
 function closeViewer() {
   state.viewer.open = false;
   state.viewer.type = null;
+  state.viewer.page = 1;
+  state.viewer.totalPages = 1;
 }
 
-/**
- * Capture page-1 aspect ratio so dialog can tightly wrap the PDF
- */
+function prevViewerPage() {
+  if (state.viewer.page > 1) state.viewer.page -= 1;
+}
+
+function nextViewerPage() {
+  if (state.viewer.page < state.viewer.totalPages) state.viewer.page += 1;
+}
+
+function onViewerLoaded(pdf) {
+  if (pdf?.numPages) state.viewer.totalPages = pdf.numPages;
+  if (state.viewer.type) captureAspect(state.viewer.type, pdf);
+}
+
+// Capture page-1 aspect ratio so dialog can tightly wrap the PDF
 function captureAspect(type, pdf) {
   if (!type || state.aspect[type]) return;
   try {
@@ -409,7 +488,7 @@ async function fetchDocuments(studentUsername) {
   try {
     resetCache();
 
-    const res = await ContentApiService.get('/clerk/documents-by-username/', {
+    const res = await ContentApiService.get('/clerk/documents-by-username', {
       params: { student_username: studentUsername },
     });
 

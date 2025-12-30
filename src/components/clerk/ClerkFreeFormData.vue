@@ -16,6 +16,7 @@
       <PetitionTableWithActions
         v-if="petition"
         :petition="petition"
+        :revision-disabled="revisionDisabled"
         @close="emit('close')"
         @refresh="handleRefresh"
       />
@@ -37,6 +38,10 @@ const props = defineProps({
   petition: {
     type: [Object, null],
     required: true,
+  },
+  revisionDisabled: {
+    type: Boolean,
+    default: false,
   },
 });
 const emit = defineEmits(['close', 'refresh']);
