@@ -45,7 +45,7 @@ import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import PetitionForm from '@/components/forms/PetitionForm.vue';
-import CustomDialog from '@/components/dialogs/CustomDialog.vue';
+import CustomDialog from '@/components/dialogs/base/CustomDialog.vue';
 import ContentApiService from '@/services/contentApiService';
 
 const props = defineProps({
@@ -73,7 +73,7 @@ const submit = async () => {
     try {
       // Use the Petition model's toBackendFormat method for proper date formatting
       const dataToSend = formData.toBackendFormat();
-      await ContentApiService.post('/supervisor/petitions/', dataToSend);
+      await ContentApiService.post('/supervisor/petitions', dataToSend);
       emit('refresh');
     } catch (error) {
       console.error('Failed to submit petition:', error);

@@ -39,14 +39,6 @@
       suffix="%"
     />
     <div class="d-flex align-center ga-2 mb-4">
-      <StatusIndicator
-        :status="position.budget_position_approved"
-        :tooltip="
-          position.budget_position_approved
-            ? t('budgetPositionStatus.approved')
-            : t('budgetPositionStatus.rejected')
-        "
-      />
       <v-btn
         v-if="index === 0"
         :icon="icons.mdiPlus"
@@ -76,7 +68,6 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { mdiEmail, mdiPlus, mdiMinus } from '@mdi/js';
-import StatusIndicator from '@/components/ui/StatusIndicator.vue';
 
 const icons = {
   mdiEmail,

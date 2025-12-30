@@ -114,12 +114,13 @@
 </template>
 
 <script setup>
+import { PETITION_STATUS } from '@/utils/statusUtils';
 import { ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import ContentApiService from '@/services/contentApiService';
-import PetitionTable from '@/components/tables/PetitionTable.vue';
+import PetitionTable from '@/components/tables/base/PetitionTable.vue';
 import PetitionRevisionDialog from '@/components/dialogs/PetitionRevisionDialog.vue';
 
 const { t } = useI18n();
@@ -145,7 +146,6 @@ const noPetitionMessage = computed(() =>
     ? t('approverView.noPetitionComplete')
     : t('approverView.noPetition')
 );
-const user = computed(() => store.getters['auth/user']);
 
 const markPetitionRevisionAsComplete = () => {
   actionCompleted.value = true;
@@ -156,20 +156,16 @@ const fetchPetition = async () => {
     isLoading.value = true;
     actionCompleted.value = false;
     const response = await ContentApiService.get(
-      `/approver/petitions/${petitionId}`
+      `/approver/petitions/${petitionId}/${signature}/${budgetPositionId}`
     );
-    const fetchedPetition = response.data;
-    if (fetchedPetition.status === 'approver_action') {
-      petition.value = fetchedPetition;
-    } else {
-      // If the petition is approved rejected or under revision, clear the petition da
-      petition.value = null;
-      actionCompleted.value = true;
-    }
+    petition.value = response.data;
   } catch (err) {
     console.error(err);
+    const errorMessage = err.response?.data?.detail
+      ? err.response.data.detail
+      : t('errors.approverView.loadPetitionError');
     store.dispatch('snackbar/setErrorSnacks', {
-      message: t('errors.approverView.loadPetitionError'),
+      message: errorMessage,
     });
   } finally {
     isLoading.value = false;
@@ -192,8 +188,11 @@ const handleApproval = async () => {
     petition.value = null;
   } catch (error) {
     console.error('Error accepting petition:', error);
+    const errorMessage = error.response?.data?.detail
+      ? error.response.data.detail
+      : t('errors.approverView.approveError');
     store.dispatch('snackbar/setErrorSnacks', {
-      message: t('errors.approverView.approveError'),
+      message: errorMessage,
     });
   } finally {
     isLoading.value = false;
@@ -217,8 +216,11 @@ const handleRejection = async () => {
     petition.value = null;
   } catch (error) {
     console.error('Error rejecting petition:', error);
+    const errorMessage = error.response?.data?.detail
+      ? error.response.data.detail
+      : t('errors.approverView.rejectError');
     store.dispatch('snackbar/setErrorSnacks', {
-      message: t('errors.approverView.rejectError'),
+      message: errorMessage,
     });
   } finally {
     isLoading.value = false;
@@ -230,10 +232,6 @@ const handleDialogClose = () => {
 };
 
 onMounted(() => {
-  store.dispatch('auth/setUser', {
-    ...user.value,
-    user_role: 3, // Approver role
-  });
   fetchPetition();
 });
 </script>

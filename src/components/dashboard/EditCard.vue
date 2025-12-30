@@ -11,6 +11,7 @@
     :petitions="petitions"
     :employee-data="employeeData"
     :document-data="documentData"
+    :showBaDegreeField="showBaDegreeField"
     @close="showStudentDialog = false"
     @refresh="refresh"
   />
@@ -44,28 +45,36 @@
       >
         {{ buttonLabel }}
       </v-btn>
+      <!-- Warning alert for students if their data is incomplete -->
+      <v-alert
+        v-if="selectedPetition && !isStudentDataComplete && userRole === 0"
+        type="warning"
+        variant="tonal"
+        class="mt-4"
+        density="comfortable"
+        tabindex="0"
+      >
+        {{ $t('editCard.student.completeStudentData') }}
+      </v-alert>
 
       <PetitionTableWithActions
         v-if="selectedPetition"
         class="mt-4"
         :petition="selectedPetition"
-        :aria-label="$t('petitionTable.title')"
+        :revision-disabled="isStudentActionDisabled"
+        :aria-label="$t('dataDisplayTable.petition.title')"
         @close="emit('deselect-petition')"
         @refresh="refresh"
       >
         <!-- Action buttons for students to accept/reject or revision of a petition -->
         <template #bottom v-if="userRole === 0">
-            <v-alert
-            v-if="!isStudentDataComplete"
-            type="warning"
-            variant="tonal"
-            class="mt-4"
-            density="comfortable"
-            tabindex="0"
+          <div
+            class="d-flex py-4"
+            :class="{
+              'justify-space-between': lgAndUp,
+              'flex-column ga-4': !lgAndUp,
+            }"
           >
-            {{ $t('editCard.student.completeStudentData') }}
-          </v-alert>
-          <div class="d-flex py-4" :class="{ 'justify-space-between': lgAndUp, 'flex-column ga-4': !lgAndUp }">
             <v-btn
               color="error"
               size="large"
@@ -97,7 +106,6 @@
               {{ $t('actions.accept') }}
             </v-btn>
           </div>
-
         </template>
       </PetitionTableWithActions>
       <!-- Placeholder when no petition is selected -->
@@ -115,6 +123,7 @@
 </template>
 
 <script setup>
+import { PETITION_STATUS } from '@/utils/statusUtils';
 import { ref, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
@@ -137,7 +146,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['refresh', 'deselect-petition']);
-
 const store = useStore();
 const { t } = useI18n();
 const { lgAndUp } = useDisplay();
@@ -145,7 +153,6 @@ const { lgAndUp } = useDisplay();
 const showPetitionForm = ref(false);
 const showStudentDialog = ref(false);
 const showRevisionDialog = ref(false);
-
 const employeeData = ref(null);
 const documentData = ref(null);
 const isLoadingEmployeeData = ref(false);
@@ -157,38 +164,44 @@ const buttonLabel = computed(() => {
     ? t('editCard.supervisor.action')
     : t('editCard.student.action');
 });
+const showBaDegreeField = computed(() =>
+  props.petitions.some((p) => p.ba_degree === true)
+);
 
-const isPersonalDataComplete = computed(() => {
-  return employeeData.value !== null && Object.keys(employeeData.value).length > 0;
-});
+const isPersonalDataComplete = computed(
+  () =>
+    employeeData.value !== null && Object.keys(employeeData.value).length > 0
+);
 
 const isDocumentsComplete = computed(() => {
-  return (
-    documentData.value !== null &&
+  if (!documentData.value) return false;
+  const baseDocs =
     !!documentData.value.elstam_url &&
     !!documentData.value.studienbescheinigung_url &&
-    !!documentData.value.versicherungsbescheinigung_url
-  );
+    !!documentData.value.versicherungsbescheinigung_url &&
+    !!documentData.value.sozialversicherungsbogen_url;
+
+  return showBaDegreeField.value
+    ? baseDocs && !!documentData.value.ba_degree_url
+    : baseDocs;
 });
 // Check if student data is complete if the selected petition requires student action
 const isStudentDataComplete = computed(() => {
-  return (
-    isPersonalDataComplete.value &&
-    isDocumentsComplete.value
-  );
+  return isPersonalDataComplete.value && isDocumentsComplete.value;
 });
 // Determine if student action buttons should be disabled based on petition status and data completeness
 const isStudentActionDisabled = computed(() => {
-  return props.selectedPetition.status !== 'student_action' || !isStudentDataComplete.value; 
+  return (
+    props.selectedPetition.status !== PETITION_STATUS.STUDENT_ACTION ||
+    !isStudentDataComplete.value
+  );
 });
 
 const openNewPetitionDialog = () => {
   emit('deselect-petition');
   showPetitionForm.value = true;
 };
-
-const openStudentDialog = () => showStudentDialog.value = true;
-
+const openStudentDialog = () => (showStudentDialog.value = true);
 const refresh = (payload) => {
   fetchStudentData();
   emit('refresh', payload);
@@ -196,13 +209,10 @@ const refresh = (payload) => {
 
 const fetchEmployeeData = async () => {
   if (isLoadingEmployeeData.value) return;
-  
   isLoadingEmployeeData.value = true;
   try {
     const response = await ContentApiService.get('/employees');
-    if (response.data) {
-      employeeData.value = response.data;
-    }
+    employeeData.value = response.data || null;
   } catch (error) {
     if (error.response?.status === 404) {
       employeeData.value = null;
@@ -219,7 +229,7 @@ const fetchEmployeeData = async () => {
 
 const fetchDocuments = async () => {
   if (isLoadingDocumentData.value) return;
-  
+
   isLoadingDocumentData.value = true;
   try {
     const response = await ContentApiService.get('/documents');
@@ -242,9 +252,8 @@ const fetchDocuments = async () => {
 };
 
 const fetchStudentData = async () => {
-  if (userRole.value === 0) {
+  if (userRole.value === 0)
     await Promise.all([fetchEmployeeData(), fetchDocuments()]);
-  }
 };
 
 const handleDeclination = async () => {
@@ -308,6 +317,5 @@ const handleAcceptance = async () => {
 onMounted(() => {
   fetchStudentData();
 });
-
 watch(userRole, fetchStudentData);
 </script>
