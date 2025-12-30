@@ -153,10 +153,6 @@ watch(petitions, (newPetitions) => {
 });
 
 onMounted(() => {
-  handleRefresh();
-});
-/*
-onMounted(() => {
   checkClerkAuthorization(userRole.value);
   if (userRole.value === 2) {
     connectWebSocket();
@@ -166,5 +162,4 @@ onMounted(() => {
 onUnmounted(() => {
   disconnectWebSocket();
 });
-*/
 </script>
