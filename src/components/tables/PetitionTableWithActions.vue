@@ -37,9 +37,10 @@
           <div class="d-flex align-center ga-3 ml-1">
             <RoleActionButton
               color="warning"
-              :roles="[0, 2, 3]"
+              :roles="[0, 2]"
               :icon="icons.mdiAlertCircleOutline"
               :tooltip="$t('actions.requestChange')"
+              :disabled="revisionDisabled"
               @click="showPetitionRevisionDialog = true"
             />
             <RoleActionButton
@@ -89,6 +90,10 @@ const props = defineProps({
   petition: {
     type: Object,
     required: true,
+  },
+  revisionDisabled: {
+    type: Boolean,
+    default: false,
   },
 });
 

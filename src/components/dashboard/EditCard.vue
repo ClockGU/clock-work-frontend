@@ -61,6 +61,7 @@
         v-if="selectedPetition"
         class="mt-4"
         :petition="selectedPetition"
+        :revision-disabled="isStudentActionDisabled"
         :aria-label="$t('dataDisplayTable.petition.title')"
         @close="emit('deselect-petition')"
         @refresh="refresh"

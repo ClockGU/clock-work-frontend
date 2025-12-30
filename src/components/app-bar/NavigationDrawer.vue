@@ -107,7 +107,6 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
 import {
   mdiAccountCog,
   mdiCalendar,
@@ -119,6 +118,8 @@ import {
   mdiHelp,
   mdiLogout,
 } from '@mdi/js';
+import { ref, computed } from 'vue';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import svg from '@/assets/clock_full.svg';
 
@@ -143,6 +144,8 @@ const icons = {
 };
 
 const store = useStore();
+const route = useRoute();
+
 const menuItems = ref([
   /*{
       text: "Settings",
@@ -176,11 +179,12 @@ const user = computed(() => store.getters['auth/user']);
 const firstLetter = computed(() => user.value?.first_name?.charAt(0) || '');
 
 const redirectTo = computed(() => {
+  if (route.path.startsWith('/approver')) {
+    return '/approver';
+  }
   if (!isLoggedIn.value) return '/';
 
   switch (user.value?.user_role) {
-    case 3:
-      return '/approver';
     case 2:
       return '/clerk';
     case 1:
