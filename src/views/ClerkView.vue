@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row>
       <v-col cols="12">
-        <PetitionDataDisplay
+        <ClerkDataDisplay
           :petition="selectedPetition"
           @close="selectPetition(null)"
           @refresh="handleRefresh"
@@ -32,7 +32,7 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import ContentApiService from '@/services/contentApiService';
-import PetitionDataDisplay from '@/components/clerk/ClerkPetitionDataDisplay.vue';
+import ClerkDataDisplay from '@/components/clerk/ClerkDataDisplay.vue';
 import ClerkPetitionTable from '@/components/tables/ClerkPetitionTable.vue';
 import loginErrorHandler from '@/utils/loginErrorHandler';
 import { log } from '@/utils/log';
@@ -153,10 +153,6 @@ watch(petitions, (newPetitions) => {
 });
 
 onMounted(() => {
-  handleRefresh();
-});
-/*
-onMounted(() => {
   checkClerkAuthorization(userRole.value);
   if (userRole.value === 2) {
     connectWebSocket();
@@ -166,5 +162,4 @@ onMounted(() => {
 onUnmounted(() => {
   disconnectWebSocket();
 });
-*/
 </script>

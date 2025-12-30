@@ -6,16 +6,17 @@
     <v-card-text>
       <v-row class="mb-6">
         <v-col cols="12" md="6" class="d-flex flex-column">
-          <FreeFormData
+          <ClerkFreeFormData
             class="flex-grow-1"
             style="overflow-y: auto"
             :petition="petition"
+            :revision-disabled="disabledRevisionButton"
             @close="emit('close')"
             @refresh="handleRefresh"
           />
         </v-col>
         <v-col cols="12" md="6" class="d-flex flex-column">
-          <UploadedFiles class="flex-grow-1" :petition="petition" />
+          <ClerkUploadedFiles class="flex-grow-1" :petition="petition" />
         </v-col>
       </v-row>
       <div class="d-flex justify-space-around mt-6">
@@ -23,7 +24,7 @@
           color="warning"
           size="large"
           class="px-6"
-          :disabled="!petition"
+          :disabled="disabledRevisionButton"
           @click="showRevisionDialog = true"
         >
           {{ $t('actions.requestChange') }}
@@ -32,7 +33,7 @@
           color="success"
           size="large"
           class="px-10"
-          :disabled="!petition"
+          :disabled="disabledApproveButton"
           @click="approve"
         >
           {{ $t('actions.approve') }}
@@ -49,11 +50,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { PETITION_STATUS } from '@/utils/statusUtils';
+import { ref, computed } from 'vue';
 import PetitionRevisionDialog from '../dialogs/PetitionRevisionDialog.vue';
-import FreeFormData from './ClerkFreeFormData.vue';
-import UploadedFiles from './ClerkUploadedFiles.vue';
-
+import ClerkUploadedFiles from '@/components/clerk/ClerkUploadedFiles.vue';
+import ClerkFreeFormData from '@/components/clerk/ClerkFreeFormData.vue';
 const props = defineProps({
   petition: {
     type: [Object, null],
@@ -64,6 +65,18 @@ const props = defineProps({
 const emit = defineEmits(['close', 'refresh', 'approve']);
 
 const showRevisionDialog = ref(false);
+
+const disabledApproveButton = computed(
+  () =>
+    !props.petition ||
+    (props.petition.status !== PETITION_STATUS.CLERK_ACTION &&
+      props.petition.status !== PETITION_STATUS.AWAITING_SIGNATURE)
+);
+
+const disabledRevisionButton = computed(
+  () =>
+    !props.petition || props.petition.status !== PETITION_STATUS.CLERK_ACTION
+);
 
 const approve = () => {
   if (props.petition?.id) emit('approve', props.petition.id);

@@ -91,6 +91,7 @@ import svg from '@/assets/clock_full.svg';
 import { mdiChevronDown, mdiMenu, mdiLogout } from '@mdi/js';
 import { useDisplay } from 'vuetify';
 import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
 import { computed } from 'vue';
 import LanguageSwitcher from '@/components/app-bar/LanguageSwitcher.vue';
 
@@ -103,6 +104,7 @@ const bgColor = '#FFFFFF';
 const imgSrc = svg;
 const { mdAndUp } = useDisplay();
 const store = useStore();
+const route = useRoute();
 
 const emit = defineEmits(['toggle']);
 
@@ -111,11 +113,12 @@ const user = computed(() => store.getters['auth/user']);
 const firstLetter = computed(() => user.value?.first_name?.charAt(0) || '');
 
 const redirectTo = computed(() => {
+  if (route.path.startsWith('/approver')) {
+    return '/approver';
+  }
   if (!isLoggedIn.value) return '/';
 
   switch (user.value?.user_role) {
-    case 3:
-      return '/approver';
     case 2:
       return '/clerk';
     case 1:

@@ -27,8 +27,9 @@
                 <p>{{ $t('studentDataManagementDialog.content.files') }}</p>
                 <FilesUploadForm
                   ref="filesUploadFormRef"
-                  :initial-documents="documentData"
                   class="mt-6"
+                  :initial-documents="documentData"
+                  :showBaDegreeField="showBaDegreeField"
                 />
               </v-card-text>
             </v-card>
@@ -67,13 +68,14 @@
 </template>
 
 <script setup>
+import { PETITION_STATUS } from '@/utils/statusUtils';
 import { ref, computed } from 'vue';
-import ContentApiService from '@/services/contentApiService';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
+import ContentApiService from '@/services/contentApiService';
 import EmployeeDataForm from '@/components/forms/EmployeeDataForm.vue';
-import FilesUploadForm from '@/components/forms/FilesUploadForm.vue';
-import CustomDialog from '@/components/dialogs/CustomDialog.vue';
+import FilesUploadForm from '@/components/forms/StudentFilesUploadForm.vue';
+import CustomDialog from '@/components/dialogs/base/CustomDialog.vue';
 
 const props = defineProps({
   petitions: {
@@ -88,6 +90,10 @@ const props = defineProps({
     type: Object,
     default: null,
   },
+  showBaDegreeField: {
+    type: Boolean,
+    default: false,
+  },
 });
 const emit = defineEmits(['close', 'refresh']);
 
@@ -98,6 +104,13 @@ const employeeDataFormRef = ref(null);
 const filesUploadFormRef = ref(null);
 const step = ref(1);
 const isSaving = ref(false);
+
+const isPersonalFormValid = computed(() => {
+  return employeeDataFormRef.value?.isFormValid ?? false;
+});
+const isFilesFormValid = computed(() => {
+  return filesUploadFormRef.value?.isFormValid ?? false;
+});
 
 const saveEmployeeData = async () => {
   try {
@@ -124,7 +137,6 @@ const saveAndContinue = async () => {
   }
 };
 
-
 const saveDocuments = async () => {
   try {
     isSaving.value = true;
@@ -144,6 +156,8 @@ const saveDocuments = async () => {
         'sozialversicherungsbogen',
         files.sozialversierungsbogen[0]
       );
+    if (files.ba_degree.length)
+      formData.append('ba_degree', files.ba_degree[0]);
 
     await ContentApiService.patch('/documents', formData);
     store.dispatch('snackbar/setSnack', {
@@ -166,7 +180,7 @@ const saveDocuments = async () => {
 const notifyClerkOfChanges = async () => {
   try {
     const petitionsUnderClerkRevision = props.petitions.filter(
-      (petition) => petition.status === 'clerk_revision'
+      (petition) => petition.status === PETITION_STATUS.CLERK_REVISION
     );
     if (petitionsUnderClerkRevision.length === 0) return;
 
@@ -184,12 +198,4 @@ const notifyClerkOfChanges = async () => {
     });
   }
 };
-
-const isPersonalFormValid = computed(() => {
-  return employeeDataFormRef.value?.isFormValid ?? false;
-});
-
-const isFilesFormValid = computed(() => {
-  return filesUploadFormRef.value?.isFormValid ?? false;
-});
 </script>

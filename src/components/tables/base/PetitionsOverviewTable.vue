@@ -13,10 +13,10 @@
         tabindex="0"
         style="cursor: pointer"
         :class="{ 'selected-row': selectedItem && selectedItem.id === item.id }"
-        @click="handleRowClick(item)"
-        @keydown.enter="handleRowClick(item)"
-        @keydown.space.prevent="handleRowClick(item)"
         :aria-label="getAriaLabel(item)"
+        @click="handleRowClick(item)"
+        @keydown.enter.prevent
+        @keydown.space.prevent
       >
         <td v-for="header in headers" :key="header.key" role="cell">
           <template v-if="header.key === 'exceptions'">
@@ -32,6 +32,9 @@
               variant="text"
             />
           </template>
+          <template v-else-if="header.key === 'status'">
+            <PetitionStatusIcon :status="item.status" />
+          </template>
           <template v-else>
             {{ item[header.key] }}
           </template>
@@ -44,6 +47,7 @@
 <script setup>
 import { computed } from 'vue';
 import { format, parseISO } from 'date-fns';
+import PetitionStatusIcon from '@/components/ui/PetitionStatusIcon.vue';
 import StatusIndicator from '@/components/ui/StatusIndicator.vue';
 
 const props = defineProps({
@@ -84,7 +88,8 @@ const formattedItems = computed(() => {
         );
       }
     });
-    formattedItem["student_mail"] = `${formattedItem["student_username"]}@stud.uni-frankfurt.de`;
+    formattedItem['student_mail'] =
+      `${formattedItem['student_username']}@stud.uni-frankfurt.de`;
     return formattedItem;
   });
 });
