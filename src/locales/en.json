@@ -288,6 +288,10 @@
       "NoAccessToken": "No access token in authentication response",
       "generic": "An error occurred during login. Please try again."
     },
+    "refreshToken": {
+      "failed": "failed to refresh token",
+      "missing": "refresh token is missing"
+    },
     "buttonGoethe": {
       "UrlFetch": "Error fetching authorisation URL. Please try again."
     },
@@ -329,6 +333,7 @@
       "uploadDocument": "Please upload the required data and documents."
     },
     "approverView": {
+      "missingSignature": "missing signature parameters",
       "loadPetitionError": "Failed to load application for review",
       "approveError": "Error approving application",
       "rejectError": "Error rejecting application"
@@ -336,7 +341,7 @@
     "clerkView": {
       "unauthorized": "You are not authorized to access the HR administration view."
     },
-    "RoleDashboardView": {
+    "roles": {
       "unauthorized": "You are not authorized to access this view. Please select a valid role."
     }
   },

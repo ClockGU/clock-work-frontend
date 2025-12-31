@@ -288,6 +288,10 @@
       "NoAccessToken": "Kein Zugriffstoken in der Rückgabe vom Authentifizierungsdienst",
       "generic": "Ein Fehler ist während des Anmeldevorgangs aufgetreten. Bitte versuchen Sie es erneut."
     },
+    "refreshToken": {
+      "failed": "Token konnte nicht aktualisiert werden",
+      "missing": "Refresh Token fehlt"
+    },
     "buttonGoethe": {
       "UrlFetch": "Fehler beim Abrufen der Autorisierungs-URL. Bitte versuchen Sie es erneut."
     },
@@ -328,6 +332,7 @@
       "uploadDocument": "Bitte laden Sie die erforderlichen Daten und Dokumente hoch"
     },
     "approverView": {
+      "missingSignature": "Fehlende Signaturparameter",
       "loadPetitionError": "Fehler beim Laden des Antrags zur Überprüfung",
       "approveError": "Fehler beim Genehmigen des Antrags",
       "rejectError": "Fehler beim Ablehnen des Antrags"
@@ -335,7 +340,7 @@
     "clerkView": {
       "unauthorized": "Sie sind nicht berechtigt, die Sachbearbeitenden-Ansicht zu öffnen."
     },
-    "RoleDashboardView": {
+    "roles": {
       "unauthorized": "Sie sind nicht berechtigt, diese Ansicht zu öffnen. Bitte wählen Sie eine gültige Rolle aus."
     }
   },

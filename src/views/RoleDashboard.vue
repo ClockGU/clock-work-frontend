@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <InstructionCard :role="userRole" />
+        <InstructionCard :role="currentRole" />
       </v-col>
       <v-col cols="12" md="6">
         <EditCard
@@ -26,15 +26,14 @@
 </template>
 
 <script setup>
+import { ref, onMounted, watch } from 'vue';
+import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
+import { Roles, currentRole } from '@/utils/roleUtils';
 import ContentApiService from '@/services/contentApiService';
 import EditCard from '@/components/dashboard/EditCard.vue';
 import OverviewCard from '@/components/dashboard/OverviewCard.vue';
 import InstructionCard from '@/components/dashboard/InstructionCard.vue';
-
-import { ref, computed, onMounted, watch } from 'vue';
-import { useStore } from 'vuex';
-import { useI18n } from 'vue-i18n';
-import loginErrorHandler from '@/utils/loginErrorHandler';
 
 const store = useStore();
 const { t } = useI18n();
@@ -43,21 +42,16 @@ const petitions = ref([]);
 const selectedPetition = ref(null);
 const isLoading = ref(true);
 
-const userRole = computed(() => store.getters['auth/userRole']);
-
 const selectPetition = (petition) => (selectedPetition.value = petition);
 const deselectPetition = () => (selectedPetition.value = null);
 
-const checkRoleAuthorization = (role) => {
-  if (role !== 0 && role !== 1) {
-    loginErrorHandler.setLoginError(t('errors.RoleDashboardView.unauthorized'));
-  }
-};
 const fetchPetitions = async () => {
   isLoading.value = true;
   try {
     const response = await ContentApiService.get(
-      userRole.value === 0 ? '/students/petitions' : '/supervisor/petitions'
+      currentRole.value === Roles.SUPERVISOR
+        ? '/supervisor/petitions'
+        : '/students/petitions'
     );
     petitions.value = response.data;
   } catch (err) {
@@ -94,9 +88,7 @@ const handleRefresh = (payload) => {
   }
   fetchPetitions();
 };
-watch(userRole, (newRole) => {
-  checkRoleAuthorization(newRole);
-});
+
 // sync selectedPetition with petitions
 watch(petitions, (newPetitions) => {
   const updatedSelectedPetition = newPetitions.find(
@@ -109,7 +101,6 @@ watch(petitions, (newPetitions) => {
   }
 });
 onMounted(() => {
-  checkRoleAuthorization(userRole.value);
   fetchPetitions();
 });
 </script>

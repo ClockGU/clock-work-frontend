@@ -44,6 +44,7 @@
 import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
+import { isSupervisor } from '@/utils/roleUtils';
 import PetitionForm from '@/components/forms/PetitionForm.vue';
 import CustomDialog from '@/components/dialogs/base/CustomDialog.vue';
 import ContentApiService from '@/services/contentApiService';
@@ -60,8 +61,6 @@ const emit = defineEmits(['close', 'refresh']);
 const store = useStore();
 const { t } = useI18n();
 const petitionFormRef = ref(null);
-
-const userRole = computed(() => store.getters['auth/userRole']);
 
 const isFormValid = computed(() => petitionFormRef.value?.isAllValid || false);
 
@@ -91,11 +90,13 @@ const save = async () => {
     const formData = petitionFormRef.value.formData;
 
     try {
-      const role = userRole.value === 2 ? 'clerk' : 'supervisor';
+      if (!isSupervisor.value) {
+        throw new Error('Only supervisors can edit petitions.');
+      }
       // Use the Petition model's toBackendFormat method for proper date formatting
       const dataToSend = formData.toBackendFormat();
       const response = await ContentApiService.patch(
-        `/${role}/petitions/${props.petition.id}`,
+        `/supervisor/petitions/${props.petition.id}`,
         dataToSend
       );
       emit('refresh', {
