@@ -47,7 +47,12 @@ const user = computed(() => store.getters['auth/user']);
 
 const connectWebSocket = () => {
   const clerkId = user.value.id;
-  const wsUrl = `wss://${import.meta.env.VITE_WEBSOCKET_URI}/ws/${clerkId}`;
+  const baseUri = import.meta.env.VITE_WEBSOCKET_URI;
+  
+  const isLocal = baseUri.includes('localhost');
+  const protocol = isLocal ? 'ws' : 'wss';
+
+  const wsUrl = `${protocol}://${baseUri}/ws/${clerkId}`;
 
   socket = new WebSocket(wsUrl);
 
