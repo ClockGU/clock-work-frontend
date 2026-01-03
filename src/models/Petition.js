@@ -69,6 +69,11 @@ class Petition {
   toBackendFormat() {
     const formattedData = { ...this };
 
+    // Frontend uses hours in 'minutes' field; convert to total minutes for backend
+    if (formattedData.minutes) {
+      formattedData.minutes = Math.round(parseFloat(formattedData.minutes) * 60);
+    }
+
     DATE_KEYS.forEach((key) => {
       if (formattedData[key] && isValid(formattedData[key])) {
         formattedData[key] = format(formattedData[key], 'yyyy-MM-dd');
