@@ -23,7 +23,12 @@
         </tr>
       </thead>
       <tbody role="rowgroup">
-        <tr v-for="(row, index) in rows" :key="index" role="row" tabindex="0">
+        <tr
+          v-for="(row, index) in displayedRows"
+          :key="index"
+          role="row"
+          tabindex="0"
+        >
           <td class="key-cell" role="cell">
             {{ row.key }}
           </td>
@@ -43,6 +48,8 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
+
 const props = defineProps({
   rows: {
     type: Array,
@@ -63,6 +70,16 @@ const props = defineProps({
     default: 'Value',
   },
 });
+
+const hasValue = (v) => {
+  if (v === null || v === undefined) return false;
+  if (typeof v === 'string') return v.trim().length > 0;
+  if (Array.isArray(v)) return v.length > 0;
+  if (typeof v === 'object') return Object.keys(v).length > 0;
+  return true;
+};
+
+const displayedRows = computed(() => (props.rows || []).filter((r) => hasValue(r?.value)));
 </script>
 
 <style scoped>
