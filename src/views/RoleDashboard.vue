@@ -30,6 +30,7 @@ import { ref, onMounted, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { Roles, currentRole } from '@/utils/roleUtils';
+import  Petition from '@/models/Petition';
 import ContentApiService from '@/services/contentApiService';
 import EditCard from '@/components/dashboard/EditCard.vue';
 import OverviewCard from '@/components/dashboard/OverviewCard.vue';
@@ -53,7 +54,7 @@ const fetchPetitions = async () => {
         ? '/supervisor/petitions'
         : '/students/petitions'
     );
-    petitions.value = response.data;
+    petitions.value = response.data.map((item) => new Petition(item));
   } catch (err) {
     if (err.response?.status === 404) {
       petitions.value = [];

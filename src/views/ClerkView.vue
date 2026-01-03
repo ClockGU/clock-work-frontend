@@ -31,10 +31,11 @@
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
+import { log } from '@/utils/log';
+import Petition from '@/models/Petition';
 import ContentApiService from '@/services/contentApiService';
 import ClerkDataDisplay from '@/components/clerk/ClerkDataDisplay.vue';
 import ClerkPetitionTable from '@/components/tables/ClerkPetitionTable.vue';
-import { log } from '@/utils/log';
 
 const store = useStore();
 const { t } = useI18n();
@@ -63,7 +64,7 @@ const connectWebSocket = () => {
       message.type === 'new_petition' ||
       message.type === 'updated_petitions'
     ) {
-      const incomingPetitions = message.data;
+      const incomingPetitions = message.data.map((item) => new Petition(item));
       petitions.value = incomingPetitions;
     }
   };
@@ -107,7 +108,7 @@ const handleApproval = async (petitionId) => {
 const handleRefresh = async () => {
   try {
     const response = await ContentApiService.get('/clerk/petitions');
-    petitions.value = response.data;
+    petitions.value = response.data.map((item) => new Petition(item));
   } catch (error) {
     if (error.response?.status === 404) {
       petitions.value = [];
