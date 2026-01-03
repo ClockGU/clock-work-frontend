@@ -69,6 +69,10 @@ const props = defineProps({
     type: String,
     default: 'Value',
   },
+  hideEmptyRows: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const hasValue = (v) => {
@@ -79,7 +83,11 @@ const hasValue = (v) => {
   return true;
 };
 
-const displayedRows = computed(() => (props.rows || []).filter((r) => hasValue(r?.value)));
+const displayedRows = computed(() => {
+  return props.hideEmptyRows
+    ? props.rows.filter((r) => hasValue(r?.value))
+    : props.rows;
+});
 </script>
 
 <style scoped>
