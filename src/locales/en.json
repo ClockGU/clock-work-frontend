@@ -31,7 +31,8 @@
     "accept": "accept",
     "decline": "decline",
     "download": "download",
-    "downloadAll": "download all"
+    "downloadAll": "download all",
+    "complete": "complete process"
   },
   "roleSelectionView": {
     "welcome": "You are new here!",

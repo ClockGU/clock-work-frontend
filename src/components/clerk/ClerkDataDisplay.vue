@@ -36,7 +36,7 @@
           :disabled="disabledApproveButton"
           @click="approve"
         >
-          {{ $t('actions.approve') }}
+          {{ approveButtonText }}
         </v-btn>
       </div>
     </v-card-text>
@@ -52,6 +52,7 @@
 <script setup>
 import { PETITION_STATUS } from '@/utils/statusUtils';
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import PetitionRevisionDialog from '../dialogs/PetitionRevisionDialog.vue';
 import ClerkUploadedFiles from '@/components/clerk/ClerkUploadedFiles.vue';
 import ClerkFreeFormData from '@/components/clerk/ClerkFreeFormData.vue';
@@ -64,7 +65,10 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'refresh', 'approve']);
 
+const { t } = useI18n();
+
 const showRevisionDialog = ref(false);
+
 
 const disabledApproveButton = computed(
   () =>
@@ -72,16 +76,21 @@ const disabledApproveButton = computed(
     (props.petition.status !== PETITION_STATUS.CLERK_ACTION &&
       props.petition.status !== PETITION_STATUS.AWAITING_SIGNATURE)
 );
-
 const disabledRevisionButton = computed(
   () =>
     !props.petition || props.petition.status !== PETITION_STATUS.CLERK_ACTION
 );
+const approveButtonText = computed(() => {
+  if (!props.petition) return t('actions.approve');
+  if (props.petition.status === PETITION_STATUS.AWAITING_SIGNATURE)
+    return t('actions.complete');
+  return t('actions.approve');
+});
+
 
 const approve = () => {
   if (props.petition?.id) emit('approve', props.petition.id);
 };
-
 const handleRefresh = (payload) => {
   emit('refresh', payload);
 };
