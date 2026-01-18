@@ -57,37 +57,21 @@
       </v-col>
 
       <v-col cols="12" md="6">
-        <label for="startDate">{{ $t('petition.startDate') }}</label>
-
-        <!-- FIX:
-             - display-format makes sure the field really shows DD.MM.YYYY (via localizedFormat)
-             - input-format enables manual typing; uses Vuetify tokens dd.mm.yyyy (NOT date-fns)
-        -->
-        <v-date-input
-          id="startDate"
+        <ContractDateInput
           v-model="formData.start_date"
-          :prepend-icon="icons.mdiCalendar"
+          type="start"
           :display-format="displayDate"
-          input-format="dd.mm.yyyy"
-          output-format="dd-MM-yyyy"
-          placeholder="DD.MM.YYYY"
-          :aria-label="$t('petition.startDate')"
+          :label="$t('petition.startDate')"
           :rules="[requiredRule]"
         />
       </v-col>
 
       <v-col cols="12" md="6">
-        <label for="endDate">{{ $t('petition.endDate') }}</label>
-
-        <v-date-input
-          id="endDate"
+        <ContractDateInput
           v-model="formData.end_date"
-          :prepend-icon="icons.mdiCalendar"
+          type="end"
           :display-format="displayDate"
-          input-format="dd.mm.yyyy"
-          output-format="dd-MM-yyyy"
-          placeholder="DD.MM.YYYY"
-          :aria-label="$t('petition.endDate')"
+          :label="$t('petition.endDate')"
           :rules="[requiredRule, endDateRule]"
         />
       </v-col>
