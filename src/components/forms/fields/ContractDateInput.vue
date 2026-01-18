@@ -1,9 +1,9 @@
 <template>
   <div>
-    <label :for="id">{{ label }}</label>
+    <label :for="type === 'start' ? 'startDate' : 'endDate'">{{ label }}</label>
 
     <v-date-input
-      :id="id"
+      :id="type === 'start' ? 'startDate' : 'endDate'"
       v-model="model"
       :prepend-icon="prependIcon"
       :display-format="displayFormat"
@@ -12,14 +12,13 @@
       :placeholder="placeholder"
       :aria-label="label"
       :rules="rules"
-      :allowed-dates="allowedDates"
-      v-bind="$attrs"
+      :allowed-dates=" type ==='start' ? allowedStartDates : allowedEndDates"
     />
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { isLastDayOfMonth, getDate } from "date-fns";
 
 const model = defineModel({
   type: [String, Date],
@@ -62,32 +61,15 @@ const props = defineProps({
   },
 })
 
-const id = computed(() =>
-  props.type === 'start' ? 'startDate' : 'endDate'
-)
+const allowedStartDates = (val) => {
+  const day = getDate(val);
+  return day === 1 || day === 16;
+};
 
-function allowedDates(date) {
-  const d = new Date(date)
-  if (Number.isNaN(d.getTime())) return false
-
-  const day = d.getDate()
-
-  if (props.type === 'start') {
-    return day === 1 || day === 16
-  }
-
-  if (props.type === 'end') {
-    const lastDayOfMonth = new Date(
-      d.getFullYear(),
-      d.getMonth() + 1,
-      0
-    ).getDate()
-
-    return day === 15 || day === lastDayOfMonth
-  }
-
-  return true
-}
+const allowedEndDates = (val) => {
+  const day = getDate(val);
+  return day === 15 || isLastDayOfMonth(val);
+};
 </script>
 
 <style scoped>
