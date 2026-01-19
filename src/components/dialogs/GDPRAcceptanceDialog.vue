@@ -2,7 +2,6 @@
   <CustomDialog
     v-model="model"
     :title="$t('gdprAcceptanceDialog.title')"
-    :custom-close="preventClose"
   >
     <template #content>
       <v-container class="text-body-1 pa-4 mt-4">
@@ -49,10 +48,6 @@ const userAgreement = ref(false);
 const isSaving = ref(false);
 
 const user = computed(() => store.getters['auth/user']);
-
-const preventClose = () => {
-  model.value = true;
-};
 
 const agreeToPrivacyPolicy = async () => {
   if (!user.value || isSaving.value) return;
