@@ -4,18 +4,18 @@
     theme="dark"
     style="padding: 16px 0 0; min-height: 72px"
     aria-label="Footer"
-  >  
-    <v-row justify="center" no-gutters>  
-      <v-col class="text-center d-flex align-center justify-center flex-column">  
-        <div class="d-flex align-center justify-center my-2">  
-          <v-btn  
-            v-for="link in links"  
-            :key="link.text"  
-            :to="{ name: link.to }"  
-            color="white"  
-            variant="text"  
-            rounded  
-            class="mx-2"  
+  >
+    <v-row justify="center" no-gutters>
+      <v-col class="text-center d-flex align-center justify-center flex-column">
+        <div class="d-flex align-center justify-center my-2">
+          <v-btn
+            v-for="link in links"
+            :key="link.text"
+            :to="{ name: link.to }"
+            color="white"
+            variant="text"
+            rounded
+            class="mx-2"
             :aria-label="$t(`footer.links.${link.text}`)"
           >
             {{ $t(`footer.links.${link.text}`) }}
@@ -67,12 +67,12 @@
   </v-footer>
 </template>
 
-<script setup>  
-const links = [  
-  { text: "Datenschutz", to: "privacy" },  
-  { text: "Impressum", to: "imprint" }  
-]  
-</script>  
+<script setup>
+const links = [
+  { text: 'Datenschutz', to: 'privacy' },
+  { text: 'Impressum', to: 'imprint' },
+];
+</script>
 
 <style scoped>
 .footer-link {
@@ -88,4 +88,3 @@ const links = [
   color: #00ffbf !important;
 }
 </style>
-

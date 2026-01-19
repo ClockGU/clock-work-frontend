@@ -1,8 +1,5 @@
 <template>
-  <CustomDialog
-    v-model="model"
-    :title="$t('gdprAcceptanceDialog.title')"
-  >
+  <CustomDialog v-model="model" :title="$t('gdprAcceptanceDialog.title')">
     <template #content>
       <v-container class="text-body-1 pa-4 mt-4">
         <p class="mt-4 ml-2">
@@ -55,7 +52,10 @@ const agreeToPrivacyPolicy = async () => {
   isSaving.value = true;
   try {
     await AuthApiService.updateUser({ dsgvo_accepted: true }, user.value.id);
-    await store.dispatch('auth/setUser', { ...user.value, dsgvo_accepted: true });
+    await store.dispatch('auth/setUser', {
+      ...user.value,
+      dsgvo_accepted: true,
+    });
 
     // Close only on success
     model.value = false;

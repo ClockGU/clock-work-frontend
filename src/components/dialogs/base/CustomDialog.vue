@@ -7,7 +7,7 @@
     transition="slide-y-reverse-transition"
     role="dialog"
   >
-      <!-- Activator Slot -->
+    <!-- Activator Slot -->
     <template #activator="props">
       <slot name="activator" v-bind="props"></slot>
     </template>
@@ -34,7 +34,7 @@
       </v-card-title>
 
       <v-divider class="my-0" />
-     <!-- Main Content Slot -->
+      <!-- Main Content Slot -->
       <v-card-text class="px-6">
         <slot name="content" :events="{ close: handleClose }"></slot>
       </v-card-text>
@@ -77,7 +77,7 @@ const props = defineProps({
   customClose: {
     type: Function,
     required: false,
-  }
+  },
 });
 
 const icons = { mdiClose };

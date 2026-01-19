@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import store from '@/store';
 import i18n from '@/plugins/i18n';
 import loginErrorHandler from '@/utils/loginErrorHandler';
-import {isStudent , isSupervisor, isClerk } from '@/utils/roleUtils';
+import { isStudent, isSupervisor, isClerk } from '@/utils/roleUtils';
 import { parseJwt } from '@/utils/jwt';
 import LoggingInView from '@/views/LoggingInView.vue';
 import LandingView from '@/views/LandingView.vue';
@@ -12,7 +12,7 @@ import ClerkView from '@/views/ClerkView.vue';
 import ApproverView from '@/views/ApproverView.vue';
 import ImprintView from '@/views/ImprintView.vue';
 import GdprView from '@/views/GdprView.vue';
-  
+
 const t = i18n.global.t;
 
 const routes = [
@@ -58,22 +58,25 @@ const routes = [
       const budgetPositionId = to.query.budget_position_id;
 
       if (!petitionId || !signature || !budgetPositionId) {
-        loginErrorHandler.setLoginError(t("errors.approverView.missingSignature"))
+        loginErrorHandler.setLoginError(
+          t('errors.approverView.missingSignature')
+        );
       }
       return true;
     },
-  },  {
-    path: "/impressum",
-    name: "imprint",
+  },
+  {
+    path: '/impressum',
+    name: 'imprint',
     component: ImprintView,
     meta: { isPublic: true },
   },
   {
-    path: "/privacy",
-    name: "privacy",
+    path: '/privacy',
+    name: 'privacy',
     component: GdprView,
-    meta: { isPublic: true }
-  }
+    meta: { isPublic: true },
+  },
 ];
 
 const router = createRouter({
@@ -99,7 +102,7 @@ const isTokenExpired = (token) => {
 // Global navigation guard
 router.beforeEach(async (to, from, next) => {
   const isPublic = to.meta.isPublic;
-  const bypassGuard = import.meta.env.VITE_BYPASS_ROLES_GUARD === "true" ;
+  const bypassGuard = import.meta.env.VITE_BYPASS_ROLES_GUARD === 'true';
   const loggedIn = store.getters['auth/isLoggedIn'];
   const accessToken = store.getters['auth/accessToken'];
   const refreshToken = store.getters['auth/refreshToken'];
@@ -126,13 +129,13 @@ router.beforeEach(async (to, from, next) => {
         // If refresh fails, log out and redirect to landing.
         console.error('Token refresh failed, logging out:', error);
         await store.dispatch('auth/logout');
-        loginErrorHandler.setLoginError(t("errors.refreshToken.failed"))
+        loginErrorHandler.setLoginError(t('errors.refreshToken.failed'));
       }
     } else {
       // If no refresh token, log out and redirect to landing.
       console.log('No refresh token, logging out.');
       await store.dispatch('auth/logout');
-      loginErrorHandler.setLoginError(t("errors.refreshToken.missing"))
+      loginErrorHandler.setLoginError(t('errors.refreshToken.missing'));
     }
   }
   let isAuthorized = true;
@@ -142,12 +145,13 @@ router.beforeEach(async (to, from, next) => {
   if (!bypassGuard) {
     // Validate path/params against the user's actual role
     if (isStudent.value && !to.path.includes('student')) isAuthorized = false;
-    if (isSupervisor.value && !to.path.includes('supervisor')) isAuthorized = false;
+    if (isSupervisor.value && !to.path.includes('supervisor'))
+      isAuthorized = false;
     if (isClerk.value && to.name !== 'clerk') isAuthorized = false;
   }
 
   if (!isAuthorized) {
-    // This triggers the redirect to landing with an error 
+    // This triggers the redirect to landing with an error
     loginErrorHandler.setLoginError(t('errors.roles.unauthorized'));
     return;
   }
