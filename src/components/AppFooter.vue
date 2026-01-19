@@ -1,9 +1,8 @@
-<template>  
+<template>
   <v-footer
-    color="primary-darken-2"  
-    theme="dark"  
-    style="padding: 16px 0 0; 
-    min-height: 72px"
+    color="primary-darken-2"
+    theme="dark"
+    style="padding: 16px 0 0; min-height: 72px"
     aria-label="Footer"
   >  
     <v-row justify="center" no-gutters>  
@@ -18,33 +17,34 @@
             rounded  
             class="mx-2"  
             :aria-label="$t(`footer.links.${link.text}`)"
-          >  
-            {{ $t(`footer.links.${link.text}`) }}  
-          </v-btn>  
-        </div>  
+          >
+            {{ $t(`footer.links.${link.text}`) }}
+          </v-btn>
+        </div>
 
-        <div class="my-2">  
-          &copy; {{ new Date().getFullYear() }}   
-          <a  
-            href="https://uni-frankfurt.de/clock"  
-            rel="noopener noreferrer"  
-            target="_blank"  
+        <div class="my-2">
+          &copy; {{ new Date().getFullYear() }}
+          <a
+            href="https://uni-frankfurt.de/clock"
+            rel="noopener noreferrer"
+            target="_blank"
             class="footer-link"
             aria-label="clock"
-          >  
-            CLOCK-Work 
-          </a>  
-        </div>  
-       <div class="my-2 pb-10">  
+          >
+            CLOCK-Work
+          </a>
+        </div>
+        <div class="my-2 pb-10">
           <i18n-t keypath="footer.acknowledgeGU.text" tag="p" scope="global">
             <template #link>
               <a
                 :href="$t('footer.acknowledgeGU.url')"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="footer-link"                :aria-label="$t('footer.acknowledgeGU.university')"
+                class="footer-link"
+                :aria-label="$t('footer.acknowledgeGU.university')"
               >
-                {{ $t("footer.acknowledgeGU.university") }}
+                {{ $t('footer.acknowledgeGU.university') }}
               </a>
             </template>
           </i18n-t>
@@ -57,15 +57,15 @@
                 class="footer-link"
                 :aria-label="$t('footer.github_repo.github')"
               >
-                {{ $t("footer.github_repo.github") }}
+                {{ $t('footer.github_repo.github') }}
               </a>
             </template>
           </i18n-t>
-        </div>  
-      </v-col>  
-    </v-row>  
-  </v-footer>  
-</template>  
+        </div>
+      </v-col>
+    </v-row>
+  </v-footer>
+</template>
 
 <script setup>  
 const links = [  
@@ -76,7 +76,7 @@ const links = [
 
 <style scoped>
 .footer-link {
-  color: #FFF394 !important;
+  color: #fff394 !important;
   text-decoration: underline !important;
   text-underline-offset: 0.3em !important;
   text-decoration-thickness: 1.5px !important;
@@ -85,7 +85,7 @@ const links = [
 }
 .footer-link:hover {
   text-decoration-thickness: 2px !important;
-    color: #00FFBF !important; 
+  color: #00ffbf !important;
 }
 </style>
 

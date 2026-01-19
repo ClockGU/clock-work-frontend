@@ -31,7 +31,7 @@
 </template>
 
 <script setup >
-import CustomDialog from './CustomDialog.vue';
+import CustomDialog from '@/components/dialogs/base/CustomDialog.vue';
 import AuthApiService from '@/services/authApiService';
 import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';

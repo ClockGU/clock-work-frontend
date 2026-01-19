@@ -1,66 +1,68 @@
 <template>
-    <div v-if="hasPermission">
-        <v-btn
-            :color="color"
-            :icon="icon"
-            :variant="variant"
-            :density="density"
-            :rounded="rounded"
-            :aria-label="tooltip"
-            @click="action"
-        />
-        <v-tooltip 
-            v-if="tooltip" 
-            activator="parent" 
-            :location="tooltipLocation" 
-            :text="tooltip"
-        />
-    </div>
+  <div v-if="hasPermission" role="button">
+    <v-btn
+      :color="color"
+      :icon="icon"
+      :variant="variant"
+      :density="density"
+      :rounded="rounded"
+      :disabled="disabled"
+      :aria-label="tooltip"
+      @click="emit('click')"
+    />
+    <v-tooltip
+      v-if="tooltip && !disabled"
+      activator="parent"
+      :location="tooltipLocation"
+      :text="tooltip"
+    />
+  </div>
 </template>
 <script setup>
+import { currentRole } from '@/utils/roleUtils';
 import { computed } from 'vue';
-import { useStore } from 'vuex';
 
 const props = defineProps({
   roles: {
-    type: Array,
-    required: true
+    type: [Array, String],
+    required: true,
   },
   color: {
     type: String,
-    default: 'primary'
+    default: 'primary',
   },
   icon: {
     type: String,
-    required: true
+    required: true,
   },
   density: {
     type: String,
-    default: 'default'
+    default: 'default',
   },
   variant: {
     type: String,
-    default: 'elevated'
+    default: 'elevated',
   },
   rounded: {
     type: String,
-    default: 'sm'
+    default: 'sm',
   },
   tooltip: {
     type: String,
-    default: ''
+    default: '',
   },
   tooltipLocation: {
     type: String,
-    default: 'top'
+    default: 'top',
   },
-  action: {
-    type: Function,
-    default: () => {}
-  }
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 });
-
-const store = useStore();
-const userRole = computed(() => store.getters['auth/userRole']);
-const hasPermission = computed(() => props.roles.includes(userRole.value));
+const emit = defineEmits(['click']);
+const hasPermission = computed(() => {
+  const roleList = Array.isArray(props.roles) ? props.roles : [props.roles];
+  return roleList.includes(currentRole.value);
+});
 </script>

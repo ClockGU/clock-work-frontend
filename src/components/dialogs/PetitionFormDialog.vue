@@ -1,6 +1,10 @@
 <template>
   <CustomDialog
-    :title="$t('petitionFormDialog.title', { petition: petition ? 'Edit' : 'Create New' })"
+    :title="
+      $t('petitionFormDialog.title', {
+        petition: petition ? 'Edit' : 'Create New',
+      })
+    "
     :aria-label="$t('ariaLabel.petitionFormDialog.dialog')"
   >
     <template #content>
@@ -40,9 +44,10 @@
 import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
+import { isSupervisor } from '@/utils/roleUtils';
 import PetitionForm from '@/components/forms/PetitionForm.vue';
-import CustomDialog from '@/components/dialogs/CustomDialog.vue';
-import ContentApiService from "@/services/contentApiService";
+import CustomDialog from '@/components/dialogs/base/CustomDialog.vue';
+import ContentApiService from '@/services/contentApiService';
 
 const props = defineProps({
   petition: {
@@ -57,24 +62,22 @@ const store = useStore();
 const { t } = useI18n();
 const petitionFormRef = ref(null);
 
-const userRole = computed(() => store.getters['auth/userRole']);
-
 const isFormValid = computed(() => petitionFormRef.value?.isAllValid || false);
 
 const closeDialog = () => emit('close');
+
 const submit = async () => {
   if (isFormValid.value) {
     const formData = petitionFormRef.value.formData;
-    const filteredFormData = Object.fromEntries(
-      Object.entries(formData).filter(([key, value]) => value !== '' && value !== null)
-    );
     try {
-      await ContentApiService.post('supervisor/petitions/', filteredFormData);
+      // Use the Petition model's toBackendFormat method for proper date formatting
+      const dataToSend = formData.toBackendFormat();
+      await ContentApiService.post('/supervisor/petitions', dataToSend);
       emit('refresh');
     } catch (error) {
       console.error('Failed to submit petition:', error);
       store.dispatch('snackbar/setErrorSnacks', {
-        message: t("errors.petitionFormDialog.submission"),
+        message: t('errors.petitionFormDialog.submission'),
       });
     } finally {
       closeDialog();
@@ -85,20 +88,25 @@ const submit = async () => {
 const save = async () => {
   if (isFormValid.value) {
     const formData = petitionFormRef.value.formData;
-    const filteredFormData = Object.fromEntries(
-      Object.entries(formData).filter(([key, value]) => value !== '' && value !== null)
-    );
+
     try {
-      const role = userRole.value === 2 ? 'clerk' : 'supervisor';
-      const response = await ContentApiService.patch(`${role}/petitions/${props.petition.id}`, filteredFormData);
+      if (!isSupervisor.value) {
+        throw new Error('Only supervisors can edit petitions.');
+      }
+      // Use the Petition model's toBackendFormat method for proper date formatting
+      const dataToSend = formData.toBackendFormat();
+      const response = await ContentApiService.patch(
+        `/supervisor/petitions/${props.petition.id}`,
+        dataToSend
+      );
       emit('refresh', {
         type: 'update',
-        data: response.data
+        data: response.data,
       });
     } catch (error) {
       console.error('Failed to update petition:', error);
       store.dispatch('snackbar/setErrorSnacks', {
-        message: t("errors.petitionFormDialog.saving"),
+        message: t('errors.petitionFormDialog.saving'),
       });
     } finally {
       closeDialog();

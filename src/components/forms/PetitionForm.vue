@@ -13,19 +13,23 @@
           :aria-label="$t('petition.supervisorMail')"
         />
       </v-col>
+
       <v-col cols="12" md="6">
-        <label for="studentMail">{{ $t('petition.studentMail') }}</label>
+        <label for="studentUserAccount">{{
+          $t('petition.studentAccount')
+        }}</label>
         <v-text-field
-          id="studentMail"
-          v-model="formData.student_mail"
+          id="studentUserAccount"
+          v-model="formData.student_username"
           type="email"
           outlined
           dense
-          :prepend-icon="icons.mdiEmail"
-          :aria-label="$t('petition.studentMail')"
-          :rules="[requiredRule, emailRule]"
+          :prepend-icon="icons.mdiAccountCog"
+          :aria-label="$t('petition.studentAccount')"
+          :rules="[requiredRule]"
         />
       </v-col>
+
       <v-col cols="12" md="6">
         <label for="orgUnit">{{ $t('petition.orgUnit') }}</label>
         <v-text-field
@@ -38,6 +42,7 @@
           :rules="[requiredRule]"
         />
       </v-col>
+
       <v-col cols="12" md="6">
         <label for="eosNumber">{{ $t('petition.eosNumber') }}</label>
         <v-text-field
@@ -50,32 +55,43 @@
           :rules="[requiredRule, eosRule]"
         />
       </v-col>
+
       <v-col cols="12" md="6">
         <label for="startDate">{{ $t('petition.startDate') }}</label>
-        <v-text-field
+
+        <!-- FIX:
+             - display-format makes sure the field really shows DD.MM.YYYY (via localizedFormat)
+             - input-format enables manual typing; uses Vuetify tokens dd.mm.yyyy (NOT date-fns)
+        -->
+        <v-date-input
           id="startDate"
           v-model="formData.start_date"
-          type="date"
-          outlined
-          dense
           :prepend-icon="icons.mdiCalendar"
+          :display-format="displayDate"
+          input-format="dd.mm.yyyy"
+          output-format="dd-MM-yyyy"
+          placeholder="DD.MM.YYYY"
           :aria-label="$t('petition.startDate')"
           :rules="[requiredRule]"
         />
       </v-col>
+
       <v-col cols="12" md="6">
         <label for="endDate">{{ $t('petition.endDate') }}</label>
-        <v-text-field
+
+        <v-date-input
           id="endDate"
           v-model="formData.end_date"
-          type="date"
-          outlined
-          dense
           :prepend-icon="icons.mdiCalendar"
+          :display-format="displayDate"
+          input-format="dd.mm.yyyy"
+          output-format="dd-MM-yyyy"
+          placeholder="DD.MM.YYYY"
           :aria-label="$t('petition.endDate')"
           :rules="[requiredRule, endDateRule]"
         />
       </v-col>
+
       <v-col cols="12" md="6">
         <label for="minutes">{{ $t('petition.minutes') }}</label>
         <v-text-field
@@ -89,6 +105,7 @@
           :rules="[requiredRule, positiveNumberRule]"
         />
       </v-col>
+
       <v-col cols="12" md="6">
         <label for="baDegree">{{ $t('petition.baDegree') }}</label>
         <v-select
@@ -103,12 +120,14 @@
           :aria-label="$t('petition.baDegree')"
         />
       </v-col>
+
       <v-col cols="12">
-          <BudgetPositionsFields
-            v-model="formData.budget_positions"
-            ref="budgetPositionsRef"
-          />
+        <BudgetPositionsFields
+          v-model="formData.budget_positions"
+          ref="budgetPositionsRef"
+        />
       </v-col>
+
       <v-col cols="12">
         <v-checkbox
           id="timeExceCourse"
@@ -118,7 +137,9 @@
           @update:model-value="handleTimeExceptionChange"
         />
         <div v-if="formData.time_exce_course" class="mx-4">
-          <label for="timeExceName" class="ml-0">{{ $t('petition.timeExceName') }}</label>
+          <label for="timeExceName" class="ml-0">{{
+            $t('petition.timeExceName')
+          }}</label>
           <v-text-field
             id="timeExceName"
             v-model="formData.time_exce_name"
@@ -127,28 +148,23 @@
             :aria-label="$t('petition.timeExceName')"
             :rules="[requiredRule]"
           />
-          <label for="timeExceStart" class="ml-0">{{ $t('petition.timeExceStart') }}</label>
+
+          <label for="timeExecActualTime">{{
+            $t('petition.timeExecActualTime')
+          }}</label>
           <v-text-field
-            id="timeExceStart"
-            v-model="formData.time_exce_start"
-            type="date"
+            id="timeExecActualTime"
+            v-model="formData.time_exce_time"
+            type="number"
             outlined
             dense
-            :aria-label="$t('petition.timeExceStart')"
-            :rules="[requiredRule]"
-          />
-          <label for="timeExceEnd" class="ml-0">{{ $t('petition.timeExceEnd') }}</label>
-          <v-text-field
-            id="timeExceEnd"
-            v-model="formData.time_exce_end"
-            type="date"
-            outlined
-            dense
-            :aria-label="$t('petition.timeExceEnd')"
-            :rules="[requiredRule]"
+            :prepend-icon="icons.mdiClock"
+            :aria-label="$t('petition.timeExecActualTime')"
+            :rules="[requiredRule, positiveNumberRule]"
           />
         </div>
       </v-col>
+
       <v-col cols="12">
         <v-checkbox
           id="durationExceCourse"
@@ -157,8 +173,11 @@
           :aria-label="$t('petition.durationException')"
           @update:model-value="handleDurationExceptionChange"
         />
+
         <div v-if="formData.duration_exce_course" class="mx-4">
-          <label for="durationExceName" class="ml-0">{{ $t('petition.durationExceName') }}</label>
+          <label for="durationExceName" class="ml-0">{{
+            $t('petition.durationExceName')
+          }}</label>
           <v-text-field
             id="durationExceName"
             v-model="formData.duration_exce_name"
@@ -167,23 +186,31 @@
             :aria-label="$t('petition.durationExceName')"
             :rules="[requiredRule]"
           />
-          <label for="durationExceStart" class="ml-0">{{ $t('petition.durationExceStart') }}</label>
-          <v-text-field
+
+          <label for="durationExceStart" class="ml-0">{{
+            $t('petition.durationExceStart')
+          }}</label>
+          <v-date-input
             id="durationExceStart"
             v-model="formData.duration_exce_start"
-            type="date"
-            outlined
-            dense
+            :display-format="displayDate"
+            input-format="dd.mm.yyyy"
+            output-format="dd-MM-yyyy"
+            placeholder="DD.MM.YYYY"
             :aria-label="$t('petition.durationExceStart')"
             :rules="[requiredRule]"
           />
-          <label for="durationExceEnd" class="ml-0">{{ $t('petition.durationExceEnd') }}</label>
-          <v-text-field
+
+          <label for="durationExceEnd" class="ml-0">{{
+            $t('petition.durationExceEnd')
+          }}</label>
+          <v-date-input
             id="durationExceEnd"
             v-model="formData.duration_exce_end"
-            type="date"
-            outlined
-            dense
+            :display-format="displayDate"
+            input-format="dd.mm.yyyy"
+            output-format="dd-MM-yyyy"
+            placeholder="DD.MM.YYYY"
             :aria-label="$t('petition.durationExceEnd')"
             :rules="[requiredRule]"
           />
@@ -194,27 +221,23 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue';
-import { mdiAccount, mdiEmail, mdiOfficeBuilding, mdiNumeric, mdiSchool, mdiCalendar, mdiClock, mdiCurrencyUsd } from '@mdi/js';
-import { useI18n } from 'vue-i18n';
-import BudgetPositionsFields from './BudgetPositionsFields.vue';
-import { useStore } from 'vuex';
-
-const { t } = useI18n();
-const store = useStore();
-const user = computed(() => store.getters['auth/user']);
-const supervisorMail = computed(() => user.value.user_role === 1 ? user.value.email : "");
-
-const icons = {
+import { computed, onMounted, ref, watch } from 'vue';
+import {
   mdiAccount,
   mdiEmail,
   mdiOfficeBuilding,
   mdiNumeric,
+  mdiSchool,
   mdiCalendar,
   mdiClock,
   mdiCurrencyUsd,
-  mdiSchool
-};
+  mdiAccountCog,
+} from '@mdi/js';
+import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
+import Petition from '@/models/Petition';
+import { makeDisplayDate, toDate } from '@/utils/date';
+import BudgetPositionsFields from '@/components/forms/fields/BudgetPositionsFields.vue';
 
 const props = defineProps({
   petition: {
@@ -223,130 +246,99 @@ const props = defineProps({
     default: null,
   },
 });
-const degreeOptions = [
-  { text: 'Student has a Bachelor Degree', value: true },
-  { text: 'Student does not have a Bachelor Degree', value: false }
-]
 
-const initialFormData = {
-  supervisor_mail: supervisorMail,
-  student_mail: '',
-  start_date: '',
-  end_date: '',
-  minutes: 0,
-  time_exce_name: '',
-  time_exce_start: '',
-  time_exce_end: '',
-  duration_exce_name: '',
-  duration_exce_start: '',
-  duration_exce_end: '',
-  id: '',
-  user_account: '',
-  org_unit: '',
-  eos_number: '',
-  ba_degree: false,
-  status: '',
-  time_exce_student: false,
-  time_exce_course: false,
-  duration_exce_course: false,
-  budget_positions: [
-    {
-      id: '',
-      budget_position: '',
-      budget_approver: '',
-      budget_position_status: "",
-      percentage: 0,
-    },
-  ],
+const icons = {
+  mdiAccountCog,
+  mdiAccount,
+  mdiEmail,
+  mdiOfficeBuilding,
+  mdiNumeric,
+  mdiCalendar,
+  mdiClock,
+  mdiCurrencyUsd,
+  mdiSchool,
 };
 
-const formData = ref({ ...initialFormData });
+const { t } = useI18n();
+const store = useStore();
+
+const formData = ref(new Petition());
 const form = ref(null);
 const budgetPositionsRef = ref(null);
-
 const isFormValid = ref(false);
+
+const user = computed(() => store.getters['auth/user']);
+const degreeOptions = computed(() => [
+  { text: t('petitionFormDialog.bachlor.yes'), value: true },
+  { text: t('petitionFormDialog.bachlor.no'), value: false },
+]);
 
 // Combine the form validity and the budget position validation
 const isAllValid = computed(() => {
   const isBudgetValid = budgetPositionsRef.value?.percentageTotalRule === true;
   const isOtherFieldsValid = isFormValid.value;
-
   return isOtherFieldsValid && isBudgetValid;
 });
 
 // Populate form data when petition prop changes
-watch(() => props.petition, (newPetition) => {
-  if (newPetition) {
-    const cleanData = {
-      ...initialFormData,
-      ...newPetition,
-      time_exce_course: newPetition.time_exce_course ?? false,
-      duration_exce_course: newPetition.duration_exce_course ?? false,
-    };
-
-    if (!cleanData.time_exce_course) {
-      cleanData.time_exce_name = '';
-      cleanData.time_exce_start = '';
-      cleanData.time_exce_end = '';
+watch(
+  () => props.petition,
+  (newPetition) => {
+    if (newPetition) {
+      formData.value = Petition.fromBackendResponse(newPetition);
+    } else {
+      formData.value = new Petition();
     }
-    if (!cleanData.duration_exce_course) {
-      cleanData.duration_exce_name = '';
-      cleanData.duration_exce_start = '';
-      cleanData.duration_exce_end = '';
-    }
-
-    // Reset budget_positions to the initial state when editing a petition
-    cleanData.budget_positions = [
-      {
-        id: '',
-        budget_position: '',
-        budget_approver: '',
-        budget_position_status: '',
-        percentage: 0,
-      },
-    ];
-    formData.value = cleanData;
-  } else {
-    formData.value = { ...initialFormData };
-  }
-}, { immediate: true });
+  },
+  { immediate: true }
+);
 
 // Clear time exception fields when checkbox is unchecked
 const handleTimeExceptionChange = (value) => {
-  if (!value) {
-    formData.value.time_exce_course = false;
-    formData.value.time_exce_name = '';
-    formData.value.time_exce_start = '';
-    formData.value.time_exce_end = '';
-  } else {
-    formData.value.time_exce_course = true;
-  }
+  formData.value.time_exce_course = value;
+  // Always reset the fields when the checkbox state changes
+  formData.value.time_exce_name = '';
+  formData.value.time_exce_time = '';
 };
 
 const handleDurationExceptionChange = (value) => {
-  if (!value) {
-    formData.value.duration_exce_course = false;
-    formData.value.duration_exce_name = '';
-    formData.value.duration_exce_start = '';
-    formData.value.duration_exce_end = '';
-  } else {
-    formData.value.duration_exce_course = true;
-  }
+  formData.value.duration_exce_course = value;
+  formData.value.duration_exce_name = '';
+  formData.value.duration_exce_start = null;
+  formData.value.duration_exce_end = null;
 };
 
+const displayDate = makeDisplayDate({
+  displayFormat: 'dd.MM.yyyy',
+  primaryParseFormat: 'dd-MM-yyyy',
+});
 // Validation rules
 const requiredRule = (v) => !!v || t('validationRule.required');
-const emailRule = (v) => /.+@.+\..+/.test(v) || t('validationRule.invalidEmail');
+const emailRule = (v) =>
+  /.+@.+\..+/.test(v) || t('validationRule.invalidEmail');
 const positiveNumberRule = (v) => v > 0 || t('validationRule.positiveNumber');
-const endDateRule = (v) => {
-  if (!formData.value.start_date || !v) return true;
-  return new Date(v) >= new Date(formData.value.start_date) || t('validationRule.endDateAfterStart');
-};
-const eosRule = (v) => /^\d{5}$/.test(v) || t('validationRule.eosNumber');
 
-// Expose the formData and the new combined validity state
+const endDateRule = (v) => {
+  const start = toDate(formData.value.start_date, {
+    primaryFormat: 'dd-MM-yyyy',
+  });
+  const end = toDate(v, { primaryFormat: 'dd-MM-yyyy' });
+  if (!start || !end) return true;
+  return end > start || t('validationRule.endDateAfterStart');
+};
+
+const eosRule = (v) => /^F\d{6}$/.test(v) || t('validationRule.eosNumber');
+
+onMounted(() => {
+  // Set supervisor email if user is a supervisor
+  if (user.value?.user_role === 1) {
+    formData.value.supervisor_mail = user.value.email;
+  }
+});
+
 defineExpose({ formData, isAllValid });
 </script>
+
 <style scoped>
 label {
   font-weight: 500;

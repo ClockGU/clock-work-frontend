@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { debugLogger } from "@/main";
+import { debugLogger } from '@/main';
 
 export const log = (message, args) => {
   if (!debugLogger) return;
