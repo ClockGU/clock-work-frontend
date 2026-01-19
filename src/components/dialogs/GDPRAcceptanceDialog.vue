@@ -1,79 +1,93 @@
 <template>
-    <CustomDialog
-        v-model="model"
-        :title="$t('gdprAcceptanceDialog.title')"
-        :custom-close="cancelAndDismiss"
-    >
-        <template #content>
-            <v-container class="text-body-1 pa-4 mt-4">
-                 <p class="mt-4 ml-2">
-                    {{$t('gdprAcceptanceDialog.text')}}
-                </p>
-                <v-checkbox
-                    v-model="userAgreement"
-                    :label="$t('gdprAcceptanceDialog.accept')"  
-                    class="mt-8"
-                />
-            </v-container>
-           
-        </template>
-        <template #actions>
-            <v-btn
-            color="primary"
-            variant="text"
-            :aria-label="$t('actions.complete')"
-            :disabled="!userAgreement"
-            @click="agreeToPrivacyPolicy">
-            {{ $t('actions.complete') }}
-            </v-btn>
-        </template>
-    </CustomDialog>
+  <CustomDialog
+    v-model="model"
+    :title="$t('gdprAcceptanceDialog.title')"
+    :custom-close="preventClose"
+  >
+    <template #content>
+      <v-container class="text-body-1 pa-4 mt-4">
+        <p class="mt-4 ml-2">
+          {{ $t('gdprAcceptanceDialog.text') }}
+        </p>
+
+        <v-checkbox
+          v-model="userAgreement"
+          :label="$t('gdprAcceptanceDialog.accept')"
+          class="mt-8"
+          :disabled="isSaving"
+        />
+      </v-container>
+    </template>
+
+    <template #actions>
+      <v-btn
+        color="primary"
+        variant="text"
+        :aria-label="$t('actions.complete')"
+        :disabled="!userAgreement || isSaving"
+        :loading="isSaving"
+        @click="agreeToPrivacyPolicy"
+      >
+        {{ $t('actions.complete') }}
+      </v-btn>
+    </template>
+  </CustomDialog>
 </template>
 
-<script setup >
+<script setup>
 import CustomDialog from '@/components/dialogs/base/CustomDialog.vue';
 import AuthApiService from '@/services/authApiService';
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 
 const store = useStore();
-const {t} = useI18n();
+const { t } = useI18n();
 
-const model=ref(false);
+const model = ref(false);
 const userAgreement = ref(false);
+const isSaving = ref(false);
 
-const user = computed(()=>store.getters['auth/user']);
-const token = computed(()=>store.getters['auth/accessToken']);
+const user = computed(() => store.getters['auth/user']);
 
-// Method to handle dismissal via sessionStorage
-const cancelAndDismiss = () => {
-    sessionStorage.setItem('gdpr_dialog_dismissed', 'true');
+const preventClose = () => {
+  model.value = true;
+};
+
+const agreeToPrivacyPolicy = async () => {
+  if (!user.value || isSaving.value) return;
+
+  isSaving.value = true;
+  try {
+    await AuthApiService.updateUser({ dsgvo_accepted: true }, user.value.id);
+    await store.dispatch('auth/setUser', { ...user.value, dsgvo_accepted: true });
+
+    // Close only on success
     model.value = false;
+  } catch (error) {
+    console.error('Error updating user agreement:', error);
+    store.dispatch('snackbar/setErrorSnacks', {
+      message: t('errors.gdprAcceptanceDialog.updateFailed'),
+    });
+    model.value = true;
+  } finally {
+    isSaving.value = false;
+  }
 };
-const agreeToPrivacyPolicy = async() => {
-    try{
-        await AuthApiService.updateUser({dsgvo_accepted: true},user.value.id,);
-        store.dispatch('auth/setUser', {...user.value, dsgvo_accepted: true});
+
+watch(
+  () => user.value,
+  (user) => {
+    if (!user) {
+      model.value = false;
+      return;
     }
-    catch(error){
-        console.error('Error updating user agreement:', error);
-        store.dispatch('snackbar/setErrorSnacks', {
-            message: t("errors.gdprAcceptanceDialog.updateFailed"),
-        })
-    }
-    finally{
-        model.value=false;
-    }
-};
-onMounted(()=>{
-    if (token.value) {      
-        AuthApiService.setAccessToken(token.value);  
-    }
-    // Only show the dialog if the user exists, hasn't accepted, AND it hasn't been dismissed this session.
-    if (user.value && !user.value.dsgvo_accepted  &&   
-    !sessionStorage.getItem('gdpr_dialog_dismissed')) {
-        model.value = true;
-    }
-});
+    const mustAccept = !user.dsgvo_accepted;
+    model.value = mustAccept;
+
+    // Reset checkbox each time it opens (prevents stale checked state)
+    if (mustAccept) userAgreement.value = false;
+  },
+  { immediate: true }
+);
 </script>
