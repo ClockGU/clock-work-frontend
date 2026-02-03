@@ -1,4 +1,4 @@
-import { parse, format, isValid } from 'date-fns';
+import { localizedFormat, localizedParse } from '@/utils/date';
 
 const DATE_KEYS = [
   'start_date',
@@ -17,7 +17,7 @@ class Petition {
     this.student_username = data.student_username || '';
     this.org_unit = data.org_unit || '';
     this.eos_number = data.eos_number || '';
-    this.minutes = data.minutes || 0;
+    this.minutes = data.minutes ? Number(data.minutes) / 60 : 0;
     this.ba_degree = data.ba_degree ?? false;
     this.status = data.status || '';
     this.time_exce_student = data.time_exce_student ?? false;
@@ -38,26 +38,31 @@ class Petition {
 
     DATE_KEYS.forEach((key) => {
       if (data[key]) {
-        this[key] = this.parseDate(data[key]);
+        const d = this.parseDate(data[key]);
+        this[key] = d ? localizedFormat(d, 'dd.MM.yyyy') : null;
       } else {
         this[key] = null;
       }
     });
   }
 
-  parseDate(dateValue) {
-    if (!dateValue) return null;
+  parseDate(value) {
+    if (!value) return null;
 
-    if (dateValue instanceof Date && isValid(dateValue)) {
-      return dateValue;
-    }
-    if (typeof dateValue === 'string') {
-      const dateObj = new Date(dateValue);
-      if (isValid(dateObj)) return dateObj;
+    const isValidDate = (d) => d instanceof Date && !Number.isNaN(d.getTime());
 
-      const parsedDate = parse(dateValue, 'dd.MM.yyyy', new Date());
-      if (isValid(parsedDate)) return parsedDate;
-    }
+    if (isValidDate(value)) return value;
+
+    if (typeof value !== 'string') return null;
+
+    const s = value.trim();
+    if (!s) return null;
+
+    const d1 = localizedParse(s, 'yyyy-MM-dd', new Date());
+    if (isValidDate(d1)) return d1;
+
+    const d2 = localizedParse(s, 'dd.MM.yyyy', new Date());
+    if (isValidDate(d2)) return d2;
 
     return null;
   }
@@ -69,12 +74,16 @@ class Petition {
   toBackendFormat() {
     const formattedData = { ...this };
 
+    // Frontend uses hours in 'minutes' field; convert to total minutes for backend
+    if (formattedData.minutes) {
+      formattedData.minutes = Math.round(
+        parseFloat(formattedData.minutes) * 60
+      );
+    }
+
     DATE_KEYS.forEach((key) => {
-      if (formattedData[key] && isValid(formattedData[key])) {
-        formattedData[key] = format(formattedData[key], 'yyyy-MM-dd');
-      } else {
-        formattedData[key] = null;
-      }
+      const d = this.parseDate(formattedData[key]);
+      formattedData[key] = d ? localizedFormat(d, 'yyyy-MM-dd') : null;
     });
 
     // Exclude 'status' and any empty or null fields

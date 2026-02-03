@@ -114,11 +114,11 @@
 </template>
 
 <script setup>
-import { PETITION_STATUS } from '@/utils/statusUtils';
 import { ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
+import Petition from '@/models/Petition';
 import ContentApiService from '@/services/contentApiService';
 import PetitionTable from '@/components/tables/base/PetitionTable.vue';
 import PetitionRevisionDialog from '@/components/dialogs/PetitionRevisionDialog.vue';
@@ -158,7 +158,7 @@ const fetchPetition = async () => {
     const response = await ContentApiService.get(
       `/approver/petitions/${petitionId}/${signature}/${budgetPositionId}`
     );
-    petition.value = response.data;
+    petition.value = new Petition(response.data);
   } catch (err) {
     console.error(err);
     const errorMessage = err.response?.data?.detail

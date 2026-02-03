@@ -27,8 +27,6 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { isStudent } from '@/utils/roleUtils';
-import { parseISO } from 'date-fns';
-import { localizedFormat } from '@/utils/date';
 import PetitionStatusIcon from '@/components/ui/PetitionStatusIcon.vue';
 import BaseDataDisplayTable from '@/components/tables/base/DataDisplayTable.vue';
 
@@ -45,16 +43,6 @@ const { t } = useI18n();
 const formatValue = (value, key) => {
   if (value === null || value === undefined || value === '') {
     return '-';
-  }
-  if (
-    typeof value === 'string' &&
-    (key.includes('Date') || key.includes('Start') || key.includes('End'))
-  ) {
-    try {
-      return localizedFormat(parseISO(value), 'dd.MM.yyyy');
-    } catch {
-      return value;
-    }
   }
   if (typeof value === 'boolean') {
     return value ? t('yes') : t('no');
