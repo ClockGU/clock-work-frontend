@@ -49,7 +49,7 @@ const user = computed(() => store.getters['auth/user']);
 const connectWebSocket = () => {
   const clerkId = user.value.id;
   const baseUri = import.meta.env.VITE_WEBSOCKET_URI;
-  
+
   const isLocal = baseUri.includes('localhost');
   const protocol = isLocal ? 'ws' : 'wss';
 

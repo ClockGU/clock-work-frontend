@@ -1,4 +1,5 @@
-import { localizedFormat, localizedParse } from '@/utils/date';
+import { localizedFormat } from '@/utils/date';
+import { parse, isValid } from 'date-fns';
 
 const DATE_KEYS = [
   'start_date',
@@ -48,23 +49,16 @@ class Petition {
 
   parseDate(value) {
     if (!value) return null;
+    if (value instanceof Date) return isValid(value) ? value : null;
 
-    const isValidDate = (d) => d instanceof Date && !Number.isNaN(d.getTime());
-
-    if (isValidDate(value)) return value;
-
-    if (typeof value !== 'string') return null;
-
-    const s = value.trim();
-    if (!s) return null;
-
-    const d1 = localizedParse(s, 'yyyy-MM-dd', new Date());
-    if (isValidDate(d1)) return d1;
-
-    const d2 = localizedParse(s, 'dd.MM.yyyy', new Date());
-    if (isValidDate(d2)) return d2;
-
-    return null;
+    const s = String(value).trim();
+    // Return the first valid date found from our supported formats
+    return (
+      [
+        parse(s, 'yyyy-MM-dd', new Date()),
+        parse(s, 'dd.MM.yyyy', new Date()),
+      ].find(isValid) || null
+    );
   }
 
   static fromBackendResponse(data) {
