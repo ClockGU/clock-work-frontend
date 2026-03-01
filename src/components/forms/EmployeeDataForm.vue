@@ -59,11 +59,6 @@
 
       <v-col cols="12" md="6">
         <label for="dateOfBirth">{{ $t('employeeData.dateOfBirth') }}</label>
-
-        <!-- FIX:
-             - display-format ensures the field text is really DD.MM.YYYY (date-fns via localizedFormat)
-             - input-format controls MANUAL typing and uses Vuetify tokens: dd.mm.yyyy (NOT date-fns)
-        -->
         <v-date-input
           id="dateOfBirth"
           v-model="formData.date_of_birth"
