@@ -46,7 +46,6 @@
 
 <script setup>
 import { computed } from 'vue';
-import { format, parseISO } from 'date-fns';
 import PetitionStatusIcon from '@/components/ui/PetitionStatusIcon.vue';
 import StatusIndicator from '@/components/ui/StatusIndicator.vue';
 
@@ -70,24 +69,7 @@ const emit = defineEmits(['row-click']);
 const formattedItems = computed(() => {
   return props.items.map((item) => {
     const formattedItem = { ...item };
-    // Format dates in items to dd.mm.yyyy
-    const dateFields = [
-      'start_date',
-      'end_date',
-      'time_exce_start',
-      'time_exce_end',
-      'duration_exce_start',
-      'duration_exce_end',
-    ];
 
-    dateFields.forEach((field) => {
-      if (formattedItem[field] && typeof formattedItem[field] === 'string') {
-        formattedItem[field] = format(
-          parseISO(formattedItem[field]),
-          'dd.MM.yyyy'
-        );
-      }
-    });
     formattedItem['student_mail'] =
       `${formattedItem['student_username']}@stud.uni-frankfurt.de`;
     return formattedItem;
