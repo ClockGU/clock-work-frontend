@@ -44,7 +44,7 @@
       </v-col>
 
       <v-col cols="12" md="6">
-        <EosField v-model="formData.eos_number"/>
+        <EosField v-model="formData.eos_number" />
       </v-col>
 
       <v-col cols="12" md="6">

@@ -167,7 +167,7 @@
       "clerk_action": "Action by HR administrator",
       "awaiting_signature": "Awaiting signature"
     },
-    "hint":{
+    "hint": {
       "eosNumber": "The EOS number (e.g. F123456) is located on your contract document."
     },
     "id": "Application ID",

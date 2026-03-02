@@ -1,7 +1,7 @@
 <template>
-  <div class="eos-field-group">
+  <div>
     <label for="eosNumber">{{ $t('petition.eosNumber') }}</label>
-  
+
     <v-text-field
       id="eosNumber"
       v-model="eosNumber"
@@ -13,22 +13,18 @@
       <template #prepend>
         <div class="d-flex align-center me-2">
           <v-icon :icon="icons.mdiAlphaF" size="small" />
-          <v-icon :icon="icons.mdiNumeric" size="small" class="ml-n2" /> 
+          <v-icon :icon="icons.mdiNumeric" size="small" class="ml-n2" />
         </div>
       </template>
       <template #append-inner>
-        <v-tooltip 
+        <v-tooltip
           :text="$t('petition.hint.eosNumber')"
-          location="bottom"   
+          location="bottom"
           attach
-          :offset="20"       
+          :offset="20"
         >
           <template #activator="{ props }">
-            <v-icon
-              v-bind="props"
-              size="small"
-              class="help-icon"
-            >
+            <v-icon v-bind="props" size="small" class="help-icon">
               {{ icons.mdiHelpCircleOutline }}
             </v-icon>
           </template>
@@ -53,7 +49,7 @@ const icons = {
   mdiHelpCircleOutline,
 };
 
-const { t }= useI18n()
+const { t } = useI18n();
 
 const requiredRule = (v) => !!v || t('validationRule.required');
 const eosRule = (v) => /^F\d{6}$/.test(v) || t('validationRule.eosNumber');
