@@ -9,7 +9,7 @@
     />
 
     <div v-if="exception" class="mx-4">
-      <label for="durationExceName" class="ml-0">
+      <label for="durationExceName" class="ml-8">
         {{ $t('petition.durationExceName') }}
       </label>
       <v-text-field
@@ -17,11 +17,12 @@
         v-model="name"
         outlined
         dense
+        class="ml-8"
         :aria-label="$t('petition.durationExceName')"
         :rules="[requiredRule]"
       />
 
-      <label for="durationExceStart" class="ml-0">
+      <label for="durationExceStart" class="ml-8">
         {{ $t('petition.durationExceStart') }}
       </label>
       <v-date-input
@@ -35,7 +36,7 @@
         :rules="[requiredRule]"
       />
 
-      <label for="durationExceEnd" class="ml-0">
+      <label for="durationExceEnd" class="ml-8">
         {{ $t('petition.durationExceEnd') }}
       </label>
       <v-date-input

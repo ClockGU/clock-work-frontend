@@ -9,7 +9,7 @@
     />
 
     <div v-if="exception" class="mx-4">
-      <label for="timeExceName" class="ml-0">
+      <label for="timeExceName" class="ml-8">
         {{ $t('petition.timeExceName') }}
       </label>
       <v-text-field
@@ -17,6 +17,7 @@
         v-model="name"
         outlined
         dense
+        class="ml-8"
         :aria-label="$t('petition.timeExceName')"
         :rules="[requiredRule]"
       />
