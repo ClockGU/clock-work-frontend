@@ -99,7 +99,8 @@
     "showCompletedPetitions": "Abgeschlossene Anträge anzeigen"
   },
   "confirmationDialog": {
-    "PetitionDeletion": "Sind Sie sicher, dass Sie diesen Antrag löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden!"
+    "PetitionDeletion": "Sind Sie sicher, dass Sie diesen Antrag löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden!",
+    "clerkAlert": "Löschen ist endgültig. Nur nutzen, wenn auf Basis der Daten kein rechtmäßiger Vertrag zustande kommen kann."
   },
   "petitionFormDialog": {
     "title": "Neuen Antrag stellen",
