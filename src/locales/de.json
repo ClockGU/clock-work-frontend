@@ -146,7 +146,7 @@
     "hint": {
       "selected": "Ausgewählt: {filename}",
       "existing": "Vorhanden: {filename}",
-      "noFile": "Keine Datei ausgewählt"
+      "required": "PDF erforderlich"
     },
     "status": {
       "newDocument": "{document}: Ein neues Dokument wurde hochgeladen.",

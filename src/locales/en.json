@@ -144,14 +144,9 @@
   },
   "filesUploadForm": {
     "hint": {
-      "selected": "Selected: {filename}",
-      "existing": "Existing: {filename}",
-      "noFile": "No file selected"
-    },
-    "status": {
-      "newDocument": "{document}: A new document has been uploaded",
-      "existingDocument": "{document}: Document has already been uploaded",
-      "noDocument": "{document}: No document was uploaded"
+      "selected": "Selected: ",
+      "existing": "Existing: ",
+      "required": "PDF Required"
     }
   },
   "petition": {
