@@ -63,7 +63,10 @@ const props = defineProps({
 
 const exception = defineModel('exception', { type: Boolean, default: false });
 const name = defineModel('name', { type: String, default: '' });
-const start = defineModel('start', { type: [String, Date, null], default: null });
+const start = defineModel('start', {
+  type: [String, Date, null],
+  default: null,
+});
 const end = defineModel('end', { type: [String, Date, null], default: null });
 
 const { t } = useI18n();
@@ -73,7 +76,8 @@ const requiredRule = (v) => !!v || t('validationRule.required');
 const exceptionRules = computed(() => [
   (v) =>
     !props.forceRequired ||
-    !!v || t('validationRule.durationExceptionRequired'),
+    !!v ||
+    t('validationRule.durationExceptionRequired'),
 ]);
 
 // Reset fields when unchecked

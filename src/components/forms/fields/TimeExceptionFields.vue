@@ -56,12 +56,12 @@ const { t } = useI18n();
 const icons = { mdiClock };
 
 const requiredRule = (v) => !!v || t('validationRule.required');
-const positiveNumberRule = (v) => Number(v) > 0 || t('validationRule.positiveNumber');
+const positiveNumberRule = (v) =>
+  Number(v) > 0 || t('validationRule.positiveNumber');
 
 const exceptionRules = computed(() => [
   (v) =>
-    !props.forceRequired ||
-    !!v || t('validationRule.timeExceptionRequired'),
+    !props.forceRequired || !!v || t('validationRule.timeExceptionRequired'),
 ]);
 
 // Reset fields when unchecked

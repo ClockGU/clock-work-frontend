@@ -43,7 +43,7 @@
         />
       </v-col>
 
-        <v-col cols="12" md="6">
+      <v-col cols="12" md="6">
         <EosField v-model="formData.eos_number" />
       </v-col>
 
@@ -105,7 +105,7 @@
 
       <v-col cols="12">
         <TimeExceptionFields
-          v-model:exception="formData.time_exce_course"          
+          v-model:exception="formData.time_exce_course"
           v-model:name="formData.time_exce_name"
           v-model:time="formData.time_exce_time"
           :force-required="worktimeRequiresTimeException"
@@ -114,7 +114,7 @@
 
       <v-col cols="12">
         <DurationExceptionFields
-          v-model:exception="formData.duration_exce_course"          
+          v-model:exception="formData.duration_exce_course"
           v-model:name="formData.duration_exce_name"
           v-model:start="formData.duration_exce_start"
           v-model:end="formData.duration_exce_end"
@@ -251,14 +251,14 @@ onMounted(() => {
   }
 });
 
-// Ensure cross-field rules are re-evaluated immediately 
+// Ensure cross-field rules are re-evaluated immediately
 watch(
   () => [durationRequiresException.value, worktimeRequiresTimeException.value],
   () => {
     //trigger form  validation
     form.value?.validate?.();
   }
-)
+);
 
 defineExpose({ formData, isAllValid });
 </script>

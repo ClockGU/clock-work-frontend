@@ -12,24 +12,24 @@
       :placeholder="placeholder"
       :aria-label="label"
       :rules="rules"
-      :allowed-dates=" type ==='start' ? allowedStartDates : allowedEndDates"
+      :allowed-dates="type === 'start' ? allowedStartDates : allowedEndDates"
     />
   </div>
 </template>
 
 <script setup>
-import { isLastDayOfMonth, getDate } from "date-fns";
+import { isLastDayOfMonth, getDate } from 'date-fns';
 
 const model = defineModel({
   type: [String, Date],
   default: null,
-})
+});
 
 const props = defineProps({
   type: {
     type: String,
     required: true,
-    validator: v => ['start', 'end'].includes(v),
+    validator: (v) => ['start', 'end'].includes(v),
   },
   label: {
     type: String,
@@ -59,7 +59,7 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
-})
+});
 
 const allowedStartDates = (val) => {
   const day = getDate(val);
