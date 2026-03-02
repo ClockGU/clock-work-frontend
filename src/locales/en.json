@@ -244,7 +244,9 @@
     "positiveNumber": "Must be a positive number",
     "endDateAfterStart": "End date must be after start date",
     "eosNumber": "Must be in the format 'FXXXXXX' where 'X' is any digit from 0 to 9",
-    "postalCode": "Postal code must be 5 digits"
+    "postalCode": "Postal code must be 5 digits",
+    "durationExceptionRequired": "This field is required if the contract duration is less than one year.",
+    "timeExceptionRequired": "This field is required if working hours are fewer than 40 hours per month."
   },
   "footer": {
     "links": {
