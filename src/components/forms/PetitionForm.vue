@@ -44,25 +44,11 @@
       </v-col>
 
       <v-col cols="12" md="6">
-        <label for="eosNumber">{{ $t('petition.eosNumber') }}</label>
-        <v-text-field
-          id="eosNumber"
-          v-model="formData.eos_number"
-          outlined
-          dense
-          :prepend-icon="icons.mdiNumeric"
-          :aria-label="$t('petition.eosNumber')"
-          :rules="[requiredRule, eosRule]"
-        />
+        <EosField v-model="formData.eos_number"/>
       </v-col>
 
       <v-col cols="12" md="6">
         <label for="startDate">{{ $t('petition.startDate') }}</label>
-
-        <!-- FIX:
-             - display-format makes sure the field really shows DD.MM.YYYY (via localizedFormat)
-             - input-format enables manual typing; uses Vuetify tokens dd.mm.yyyy (NOT date-fns)
-        -->
         <v-date-input
           id="startDate"
           v-model="formData.start_date"
@@ -238,6 +224,7 @@ import { useStore } from 'vuex';
 import Petition from '@/models/Petition';
 import { makeDisplayDate, toDate } from '@/utils/date';
 import BudgetPositionsFields from '@/components/forms/fields/BudgetPositionsFields.vue';
+import EosField from '@/components/forms/fields/EosField.vue';
 
 const props = defineProps({
   petition: {
@@ -263,7 +250,6 @@ const { t } = useI18n();
 const store = useStore();
 
 const formData = ref(new Petition());
-const form = ref(null);
 const budgetPositionsRef = ref(null);
 const isFormValid = ref(false);
 
@@ -327,8 +313,6 @@ const endDateRule = (v) => {
   return end > start || t('validationRule.endDateAfterStart');
 };
 
-const eosRule = (v) => /^F\d{6}$/.test(v) || t('validationRule.eosNumber');
-
 onMounted(() => {
   // Set supervisor email if user is a supervisor
   if (user.value?.user_role === 1) {
@@ -338,7 +322,6 @@ onMounted(() => {
 
 defineExpose({ formData, isAllValid });
 </script>
-
 <style scoped>
 label {
   font-weight: 500;
