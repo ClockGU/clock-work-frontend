@@ -69,19 +69,11 @@ const props = defineProps({
     type: Function,
     default: () => {},
   },
-
-  /**
-   * NEW: If > 0, the confirm button is disabled for this amount of time
-   * after the dialog opens.
-   */
   confirmDelayMs: {
     type: Number,
-    default: 0,
+    default: 0, //0 means no delay
   },
-
-  /**
-   * NEW: Show countdown next to actionText while waiting.
-   */
+  //Show countdown next to actionText while waiting.
   showCountdownInActionText: {
     type: Boolean,
     default: true,
