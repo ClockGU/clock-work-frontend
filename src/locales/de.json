@@ -25,6 +25,7 @@
     "send": "senden",
     "approve": "genehmigen",
     "reject": "ablehnen",
+    "complete": "abschließen",
     "requestChange": "Änderung anfordern",
     "back": "zurück",
     "next": "weiter",
@@ -46,6 +47,11 @@
       "student": "Anleitung zum Dashboard für Studierende",
       "supervisor": "Anleitung zum Dashboard für Vorgesetzte"
     }
+  },
+  "gdprAcceptanceDialog": {
+    "title": "Datenschutzerklärung",
+    "text": "Diese Anwendung verwendet Cookies und sammelt personenbezogene Daten, um Ihre Erfahrung zu verbessern. Durch die Fortsetzung stimmen Sie unserer Verwendung von Daten gemäß unserer Datenschutzerklärung zu. Dies umfasst, aber nicht beschränkt auf Ihren Namen, Ihre E-Mail-Adresse und andere personenbezogene Informationen. Bitte lesen Sie unsere Datenschutzerklärung sorgfältig, um zu verstehen, wie wir Ihre Daten schützen und verwenden.",
+    "accept": "Ich habe die Datenschutzerklärung gelesen und akzeptiere sie"
   },
   "editCard": {
     "supervisor": {
@@ -291,6 +297,10 @@
       "NoAccessToken": "Kein Zugriffstoken in der Rückgabe vom Authentifizierungsdienst",
       "generic": "Ein Fehler ist während des Anmeldevorgangs aufgetreten. Bitte versuchen Sie es erneut."
     },
+    "refreshToken": {
+      "failed": "Token konnte nicht aktualisiert werden",
+      "missing": "Refresh Token fehlt"
+    },
     "buttonGoethe": {
       "UrlFetch": "Fehler beim Abrufen der Autorisierungs-URL. Bitte versuchen Sie es erneut."
     },
@@ -331,14 +341,15 @@
       "uploadDocument": "Bitte laden Sie die erforderlichen Daten und Dokumente hoch"
     },
     "approverView": {
+      "missingSignature": "Fehlende Signaturparameter",
       "loadPetitionError": "Fehler beim Laden des Antrags zur Überprüfung",
       "approveError": "Fehler beim Genehmigen des Antrags",
       "rejectError": "Fehler beim Ablehnen des Antrags"
     },
-    "clerkView": {
-      "unauthorized": "Sie sind nicht berechtigt, die Sachbearbeitenden-Ansicht zu öffnen."
+    "gdprAcceptanceDialog": {
+      "updateFailed": "Die Aktualisierung der Benutzervereinbarung ist fehlgeschlagen. Bitte versuchen Sie es erneut."
     },
-    "RoleDashboardView": {
+    "roles": {
       "unauthorized": "Sie sind nicht berechtigt, diese Ansicht zu öffnen. Bitte wählen Sie eine gültige Rolle aus."
     }
   },

@@ -25,6 +25,7 @@
     "send": "send",
     "approve": "approve",
     "reject": "reject",
+    "complete": "complete",
     "requestChange": "request change",
     "back": "back",
     "next": "next",
@@ -46,6 +47,11 @@
       "student": "Student Dashboard Instructions",
       "supervisor": "Supervisor Dashboard Instructions"
     }
+  },
+  "gdprAcceptanceDialog": {
+    "title": "Privacy Agreement",
+    "text": "This application uses cookies and collects personal data to enhance your experience. By continuing, you agree to our use of data as outlined in our Privacy Policy. This includes but is not limited to your name, email address, and other personal information. Please read our Privacy Policy carefully to understand how we protect and use your data.",
+    "accept": "I have read and accept the Privacy Policy"
   },
   "editCard": {
     "supervisor": {
@@ -291,6 +297,10 @@
       "NoAccessToken": "No access token in authentication response",
       "generic": "An error occurred during login. Please try again."
     },
+    "refreshToken": {
+      "failed": "failed to refresh token",
+      "missing": "refresh token is missing"
+    },
     "buttonGoethe": {
       "UrlFetch": "Error fetching authorisation URL. Please try again."
     },
@@ -332,14 +342,18 @@
       "uploadDocument": "Please upload the required data and documents."
     },
     "approverView": {
-      "loadPetitionError": "Failed to load application for review",
-      "approveError": "Error approving application",
-      "rejectError": "Error rejecting application"
+      "missingSignature": "missing signature parameters",
+      "loadPetitionError": "Failed to load petition for review",
+      "approveError": "Error approving petition",
+      "rejectError": "Error rejecting petition"
+    },
+    "gdprAcceptanceDialog": {
+      "updateFailed": "The update of the user agreement failed. Please try again."
     },
     "clerkView": {
       "unauthorized": "You are not authorized to access the HR administration view."
     },
-    "RoleDashboardView": {
+    "roles": {
       "unauthorized": "You are not authorized to access this view. Please select a valid role."
     }
   },
