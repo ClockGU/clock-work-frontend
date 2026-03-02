@@ -7,6 +7,7 @@
           :label="$t(doc.labelKey)"
           :required="doc.required"
           :existing-url="existingDocuments[doc.urlKey]"
+          :accept="doc.accept || 'application/pdf'"
         />
       </v-col>
     </v-row>
@@ -22,23 +23,17 @@ const props = defineProps({
   showBaDegreeField: { type: Boolean, default: false },
 });
 
-// new uploads
-const selectedFiles = reactive({
+const emptyDocs = {
   elstam: null,
   studienbescheinigung: null,
   versicherungsbescheinigung: null,
   sozialversicherungsbogen: null,
   ba_degree: null,
-});
-
-// existing urls from backend
-const existingDocuments = reactive({
-  elstam_url: null,
-  studienbescheinigung_url: null,
-  versicherungsbescheinigung_url: null,
-  sozialversicherungsbogen_url: null,
-  ba_degree_url: null,
-});
+  residence_permit_visa: null,
+  student_id_card: null,
+};
+const selectedFiles = reactive(emptyDocs); // new uploads
+const existingDocuments = reactive(emptyDocs); // existing urls from backend
 
 const docs = computed(() => [
   {
@@ -76,6 +71,22 @@ const docs = computed(() => [
     required: true,
     visible: props.showBaDegreeField,
   },
+  {
+    key: 'residence_permit_visa',
+    labelKey: 'files.residence_permit_visa',
+    urlKey: 'residence_permit_visa_url',
+    required: false,
+    visible: true,
+    accept: 'application/pdf,image/*',
+  },
+  {
+    key: 'student_id_card',
+    labelKey: 'files.student_id_card',
+    urlKey: 'student_id_card_url',
+    required: true,
+    visible: true,
+    accept: 'application/pdf,image/*',
+  },
 ]);
 
 const visibleDocs = computed(() => docs.value.filter((d) => d.visible));
@@ -87,33 +98,28 @@ const isFormValid = computed(() =>
   visibleDocs.value.filter((d) => d.required).every((d) => isProvided(d))
 );
 
+const firstFile = (v) => (Array.isArray(v) ? v[0] : v);
+const toFileArray = (v) => {
+  const f = firstFile(v);
+  return f ? [f] : [];
+};
+
 const files = computed(() => ({
-  elstam: selectedFiles.elstam ? [selectedFiles.elstam] : [],
-  studienbescheinigung: selectedFiles.studienbescheinigung
-    ? [selectedFiles.studienbescheinigung]
-    : [],
-  versicherungsbescheinigung: selectedFiles.versicherungsbescheinigung
-    ? [selectedFiles.versicherungsbescheinigung]
-    : [],
-  sozialversierungsbogen: selectedFiles.sozialversicherungsbogen
-    ? [selectedFiles.sozialversicherungsbogen]
-    : [],
-  ba_degree: selectedFiles.ba_degree ? [selectedFiles.ba_degree] : [],
+  elstam: toFileArray(selectedFiles.elstam),
+  studienbescheinigung: toFileArray(selectedFiles.studienbescheinigung),
+  versicherungsbescheinigung: toFileArray(
+    selectedFiles.versicherungsbescheinigung
+  ),
+  sozialversicherungsbogen: toFileArray(selectedFiles.sozialversicherungsbogen),
+  ba_degree: toFileArray(selectedFiles.ba_degree),
+  residence_permit_visa: toFileArray(selectedFiles.residence_permit_visa),
+  student_id_card: toFileArray(selectedFiles.student_id_card),
 }));
 
 watch(
   () => props.initialDocuments,
   (newDocs) => {
-    Object.assign(
-      existingDocuments,
-      newDocs || {
-        elstam_url: null,
-        studienbescheinigung_url: null,
-        versicherungsbescheinigung_url: null,
-        sozialversicherungsbogen_url: null,
-        ba_degree_url: null,
-      }
-    );
+    Object.assign(existingDocuments, newDocs || emptyDocs);
   },
   { immediate: true }
 );

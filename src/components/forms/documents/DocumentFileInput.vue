@@ -23,7 +23,6 @@
         <span v-else-if="existingUrl"
           >{{ $t('files.status.existing') }} : {{ existingFileName }}</span
         >
-        <span v-else>{{ $t('files.status.required') }}</span>
       </div>
     </div>
 

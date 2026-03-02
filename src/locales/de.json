@@ -140,13 +140,16 @@
       "selected": "Ausgewählt",
       "existing": "Vorhanden",
       "missing": "Fehlend",
-      "optional": "Optional"
+      "optional": "Optional",
+      "required": "Erforderlich"
     },
     "elstam": "ELStAM Selbstauskunft",
     "studienbescheinigung": "Studienbescheinigung",
     "sozialversicherungsbogen": "Fragebogen zur Sozialversicherung",
     "versicherungsbescheinigung": "Mitgliedsbescheinigung der Krankenkasse",
-    "ba_degree": "Nachweis des Bachelor-Abschlusses"
+    "ba_degree": "Nachweis des Bachelor-Abschlusses",
+    "residence_permit_visa": "Aufenthaltstitel / Visum",
+    "student_id_card": "Studentenausweis"
   },
   "petition": {
     "statusDisplay": {

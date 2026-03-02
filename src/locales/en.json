@@ -140,13 +140,16 @@
       "selected": "Selected",
       "existing": "Existing",
       "missing": "Missing",
-      "optional": "Optional"
+      "optional": "Optional",
+      "required": "Required"
     },
     "elstam": "ELStAM Self-Disclosure Form",
     "studienbescheinigung": "Enrolment Certificate",
     "sozialversicherungsbogen": "Social Security Questionnaire",
     "versicherungsbescheinigung": "Health Insurance Membership Certificate",
-    "ba_degree": "Bachelor's Degree Certificate"
+    "ba_degree": "Bachelor's Degree Certificate",
+    "residence_permit_visa": "Residence Permit / Visa",
+    "student_id_card": "Student ID card"
   },
   "petition": {
     "statusDisplay": {

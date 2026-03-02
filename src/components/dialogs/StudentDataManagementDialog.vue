@@ -140,31 +140,33 @@ const saveAndContinue = async () => {
 const saveDocuments = async () => {
   try {
     isSaving.value = true;
+
     const formData = new FormData();
     const { files } = filesUploadFormRef.value;
 
-    if (files.elstam.length) formData.append('elstam', files.elstam[0]);
-    if (files.studienbescheinigung.length)
-      formData.append('studienbescheinigung', files.studienbescheinigung[0]);
-    if (files.versicherungsbescheinigung.length)
-      formData.append(
-        'versicherungsbescheinigung',
-        files.versicherungsbescheinigung[0]
-      );
-    if (files.sozialversierungsbogen.length)
-      formData.append(
-        'sozialversicherungsbogen',
-        files.sozialversierungsbogen[0]
-      );
-    if (files.ba_degree.length)
-      formData.append('ba_degree', files.ba_degree[0]);
+    // backend field and files keys mapping
+    const docMap = {
+      elstam: 'elstam',
+      studienbescheinigung: 'studienbescheinigung',
+      versicherungsbescheinigung: 'versicherungsbescheinigung',
+      sozialversicherungsbogen: 'sozialversicherungsbogen',
+      ba_degree: 'ba_degree',
+      residence_permit_visa: 'residence_permit_visa',
+      student_id_card: 'student_id_card',
+    };
+
+    for (const [backendField, filesKey] of Object.entries(docMap)) {
+      const arr = files?.[filesKey];
+      if (Array.isArray(arr) && arr.length > 0 && arr[0]) {
+        formData.append(backendField, arr[0]);
+      }
+    }
 
     await ContentApiService.patch('/documents', formData);
     store.dispatch('snackbar/setSnack', {
       message: t('studentDataManagementDialog.saveSuccess'),
     });
     await notifyClerkOfChanges();
-    // this refresh handles both the document update and clerk notification updates
     emit('refresh');
     emit('close');
   } catch (error) {
