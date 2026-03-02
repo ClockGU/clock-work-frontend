@@ -13,10 +13,17 @@
     </div>
 
     <div class="d-flex align-center justify-space-between mt-1">
-      <div class="text-caption text--secondary text-truncate " style="max-width: 75%">
-        <span v-if="selectedFile">{{ $t('filesUploadForm.hint.selected') }} {{ selectedFile.name }}</span>
-        <span v-else-if="existingUrl">{{ $t('filesUploadForm.hint.existing') }} {{ existingFileName }}</span>
-        <span v-else>{{ $t('filesUploadForm.hint.required') }}</span>
+      <div
+        class="text-caption text--secondary text-truncate"
+        style="max-width: 75%"
+      >
+        <span v-if="selectedFile"
+          >{{ $t('files.status.selected') }} : {{ selectedFile.name }}</span
+        >
+        <span v-else-if="existingUrl"
+          >{{ $t('files.status.existing') }} : {{ existingFileName }}</span
+        >
+        <span v-else>{{ $t('files.status.required') }}</span>
       </div>
     </div>
 
@@ -38,6 +45,7 @@
 
 <script setup>
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import {
   mdiPaperclip,
   mdiCheckCircle,
@@ -54,6 +62,7 @@ const props = defineProps({
 });
 
 const model = defineModel({ default: null });
+const { t } = useI18n();
 
 const selectedFile = computed(() => {
   const v = model.value;
@@ -72,9 +81,11 @@ const state = computed(() => {
 });
 
 const chipText = computed(() => {
-  if (state.value === 'selected') return 'Selected';
-  if (state.value === 'existing') return 'Existing';
-  return props.required ? 'Missing' : 'Optional';
+  let chipText;
+  if (state.value === 'selected' || state.value === 'existing')
+    chipText = state.value;
+  else chipText = props.required ? 'missing' : 'optional';
+  return t(`files.status.${chipText}`);
 });
 
 const chipColor = computed(() => {

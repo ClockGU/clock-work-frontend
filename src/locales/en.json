@@ -136,18 +136,17 @@
     "bankName": "Bank Name"
   },
   "files": {
+    "status": {
+      "selected": "Selected",
+      "existing": "Existing",
+      "missing": "Missing",
+      "optional": "Optional"
+    },
     "elstam": "ELStAM Self-Disclosure Form",
     "studienbescheinigung": "Enrolment Certificate",
     "sozialversicherungsbogen": "Social Security Questionnaire",
     "versicherungsbescheinigung": "Health Insurance Membership Certificate",
     "ba_degree": "Bachelor's Degree Certificate"
-  },
-  "filesUploadForm": {
-    "hint": {
-      "selected": "Selected: ",
-      "existing": "Existing: ",
-      "required": "PDF Required"
-    }
   },
   "petition": {
     "statusDisplay": {
