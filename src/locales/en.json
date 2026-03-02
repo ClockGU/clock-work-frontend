@@ -148,8 +148,8 @@
     "sozialversicherungsbogen": "Social Security Questionnaire",
     "versicherungsbescheinigung": "Health Insurance Membership Certificate",
     "ba_degree": "Bachelor's Degree Certificate",
-    "residence_permit_visa": "Residence Permit / Visa",
-    "student_id_card": "Student ID card"
+    "residence_permit": "Residence Permit / Visa",
+    "id_photo": "Student ID card"
   },
   "petition": {
     "statusDisplay": {

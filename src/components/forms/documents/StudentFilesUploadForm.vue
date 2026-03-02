@@ -29,8 +29,8 @@ const emptyDocs = {
   versicherungsbescheinigung: null,
   sozialversicherungsbogen: null,
   ba_degree: null,
-  residence_permit_visa: null,
-  student_id_card: null,
+  residence_permit: null,
+  id_photo: null,
 };
 const selectedFiles = reactive(emptyDocs); // new uploads
 const existingDocuments = reactive(emptyDocs); // existing urls from backend
@@ -72,17 +72,17 @@ const docs = computed(() => [
     visible: props.showBaDegreeField,
   },
   {
-    key: 'residence_permit_visa',
-    labelKey: 'files.residence_permit_visa',
-    urlKey: 'residence_permit_visa_url',
+    key: 'residence_permit',
+    labelKey: 'files.residence_permit',
+    urlKey: 'residence_permit_url',
     required: false,
     visible: true,
     accept: 'application/pdf,image/*',
   },
   {
-    key: 'student_id_card',
-    labelKey: 'files.student_id_card',
-    urlKey: 'student_id_card_url',
+    key: 'id_photo',
+    labelKey: 'files.id_photo',
+    urlKey: 'id_photo_url',
     required: true,
     visible: true,
     accept: 'application/pdf,image/*',
@@ -112,8 +112,8 @@ const files = computed(() => ({
   ),
   sozialversicherungsbogen: toFileArray(selectedFiles.sozialversicherungsbogen),
   ba_degree: toFileArray(selectedFiles.ba_degree),
-  residence_permit_visa: toFileArray(selectedFiles.residence_permit_visa),
-  student_id_card: toFileArray(selectedFiles.student_id_card),
+  residence_permit: toFileArray(selectedFiles.residence_permit),
+  id_photo: toFileArray(selectedFiles.id_photo),
 }));
 
 watch(

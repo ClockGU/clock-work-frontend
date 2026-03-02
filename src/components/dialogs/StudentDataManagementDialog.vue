@@ -151,8 +151,8 @@ const saveDocuments = async () => {
       versicherungsbescheinigung: 'versicherungsbescheinigung',
       sozialversicherungsbogen: 'sozialversicherungsbogen',
       ba_degree: 'ba_degree',
-      residence_permit_visa: 'residence_permit_visa',
-      student_id_card: 'student_id_card',
+      residence_permit: 'residence_permit',
+      id_photo: 'id_photo',
     };
 
     for (const [backendField, filesKey] of Object.entries(docMap)) {
@@ -161,6 +161,7 @@ const saveDocuments = async () => {
         formData.append(backendField, arr[0]);
       }
     }
+    for (const k of formData.keys()) console.log('sending', k);
 
     await ContentApiService.patch('/documents', formData);
     store.dispatch('snackbar/setSnack', {

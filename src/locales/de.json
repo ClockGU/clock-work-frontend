@@ -148,8 +148,8 @@
     "sozialversicherungsbogen": "Fragebogen zur Sozialversicherung",
     "versicherungsbescheinigung": "Mitgliedsbescheinigung der Krankenkasse",
     "ba_degree": "Nachweis des Bachelor-Abschlusses",
-    "residence_permit_visa": "Aufenthaltstitel / Visum",
-    "student_id_card": "Studentenausweis"
+    "residence_permit": "Aufenthaltstitel / Visum",
+    "id_photo": "Studentenausweis"
   },
   "petition": {
     "statusDisplay": {
