@@ -17,18 +17,19 @@
         </div>
       </template>
       <template #append-inner>
-        <v-tooltip
-          :text="$t('petition.hint.eosNumber')"
-          location="bottom"
-          attach
-          :offset="20"
-        >
-          <template #activator="{ props }">
-            <v-icon v-bind="props" size="small" class="help-icon">
-              {{ icons.mdiHelpCircleOutline }}
-            </v-icon>
-          </template>
-        </v-tooltip>
+        <v-btn variant="plain" flat icon class="help-icon" @click="tooltip = !tooltip" v-click-outside="onClickOutside">
+        <v-icon :icon="icons.mdiHelpCircleOutline"/>
+          <v-tooltip
+            v-model="tooltip"
+            :text="$t('petition.hint.eosNumber')"
+            location="bottom"
+            activator="parent"
+            :open-on-hover="false"
+            max-width="180"
+            :offset="[20,-30]"
+          >
+          </v-tooltip>
+        </v-btn>
       </template>
     </v-text-field>
   </div>
@@ -37,6 +38,7 @@
 <script setup>
 import { mdiNumeric, mdiAlphaF, mdiHelpCircleOutline } from '@mdi/js';
 import { useI18n } from 'vue-i18n';
+import { ref } from "vue";
 
 const eosNumber = defineModel({
   type: [String, null],
@@ -50,6 +52,11 @@ const icons = {
 };
 
 const { t } = useI18n();
+const tooltip = ref(false);
+
+function onClickOutside() {
+  tooltip.value = false;
+}
 
 const requiredRule = (v) => !!v || t('validationRule.required');
 const eosRule = (v) => /^F\d{6}$/.test(v) || t('validationRule.eosNumber');
