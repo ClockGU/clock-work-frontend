@@ -1,4 +1,5 @@
 import { format, parse } from 'date-fns';
+import { normalizeNationality } from '@/utils/nationality';
 
 class EmployeeData {
   constructor(data = {}) {
@@ -14,7 +15,7 @@ class EmployeeData {
     this.address = data.address || '';
     this.postal_code = data.postal_code || '';
     this.married = data.married ?? false;
-    this.nationality = data.nationality || '';
+    this.nationality = normalizeNationality(data.nationality);
     this.telephone_number = data.telephone_number || '';
     this.health_insurance = data.health_insurance || '';
     this.iban = data.iban || '';
@@ -90,6 +91,8 @@ class EmployeeData {
       formattedData.prev_emp_duration = null;
       formattedData.previous_employment = false;
     }
+    // send code of nationality to backend 
+    formattedData.nationality = normalizeNationality(formattedData.nationality);
 
     return formattedData;
   }

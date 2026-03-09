@@ -116,15 +116,11 @@
       </v-col>
 
       <v-col cols="12" md="6">
-        <label for="nationality">{{ $t('employeeData.nationality') }}</label>
-        <v-text-field
-          id="nationality"
+        <NationalitySelectField
           v-model="formData.nationality"
-          outlined
-          dense
-          :prepend-icon="icons.mdiFlag"
-          :aria-label="$t('employeeData.nationality')"
-          :rules="[requiredRule]"
+          input-id="nationality"
+          :label="$t('employeeData.nationality')"
+          :required="true"
         />
       </v-col>
 
@@ -215,7 +211,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import {
   mdiAccount,
@@ -223,7 +219,6 @@ import {
   mdiCity,
   mdiHomeMapMarker,
   mdiNumeric,
-  mdiFlag,
   mdiPhone,
   mdiHospital,
   mdiBank,
@@ -233,6 +228,8 @@ import {
 } from '@mdi/js';
 import EmployeeData from '@/models/EmployeeData';
 import { makeDisplayDate } from '@/utils/date';
+import { isVisaUploadRequired } from '@/utils/nationality';
+import NationalitySelectField from '@/components/forms/fields/NationalitySelectField.vue';
 
 const icons = {
   mdiAccount,
@@ -240,7 +237,6 @@ const icons = {
   mdiCity,
   mdiHomeMapMarker,
   mdiNumeric,
-  mdiFlag,
   mdiPhone,
   mdiHospital,
   mdiBank,
@@ -295,9 +291,14 @@ const handlePreviousEmploymentChange = (value) => {
   formData.value.previous_employment = value;
 };
 
+const requiresResidencePermitUpload = computed(() =>
+  isVisaUploadRequired(formData.value.nationality)
+);
+
 defineExpose({
   formData,
   isFormValid,
+  requiresResidencePermitUpload,
 });
 </script>
 

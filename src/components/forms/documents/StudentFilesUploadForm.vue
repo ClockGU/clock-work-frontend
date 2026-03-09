@@ -21,6 +21,7 @@ import DocumentFileInput from '@/components/forms/documents/DocumentFileInput.vu
 const props = defineProps({
   initialDocuments: { type: Object, default: null },
   showBaDegreeField: { type: Boolean, default: false },
+  showResidencePermitField: { type: Boolean, default: false },
 });
 
 const emptyDocs = {
@@ -75,8 +76,8 @@ const docs = computed(() => [
     key: 'residence_permit',
     labelKey: 'files.residence_permit',
     urlKey: 'residence_permit_url',
-    required: false,
-    visible: true,
+    required: props.showResidencePermitField,
+    visible: props.showResidencePermitField,
     accept: 'application/pdf,image/*',
   },
   {

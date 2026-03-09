@@ -25,11 +25,12 @@
                   {{ $t('studentDataManagementDialog.tabs.files') }}
                 </h2>
                 <p>{{ $t('studentDataManagementDialog.content.files') }}</p>
-                <FilesUploadForm
-                  ref="filesUploadFormRef"
+                <StudentFilesUploadForm
+                  ref="StudentFilesUploadFormRef"
                   class="mt-6"
                   :initial-documents="documentData"
                   :showBaDegreeField="showBaDegreeField"
+                  :showResidencePermitField="requiresResidencePermitUpload"
                 />
               </v-card-text>
             </v-card>
@@ -74,7 +75,7 @@ import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import ContentApiService from '@/services/contentApiService';
 import EmployeeDataForm from '@/components/forms/EmployeeDataForm.vue';
-import FilesUploadForm from '@/components/forms/documents/StudentFilesUploadForm.vue';
+import StudentFilesUploadForm from '@/components/forms/documents/StudentFilesUploadForm.vue';
 import CustomDialog from '@/components/dialogs/base/CustomDialog.vue';
 
 const props = defineProps({
@@ -101,7 +102,7 @@ const store = useStore();
 const { t } = useI18n();
 
 const employeeDataFormRef = ref(null);
-const filesUploadFormRef = ref(null);
+const StudentFilesUploadFormRef = ref(null);
 const step = ref(1);
 const isSaving = ref(false);
 
@@ -109,7 +110,10 @@ const isPersonalFormValid = computed(() => {
   return employeeDataFormRef.value?.isFormValid ?? false;
 });
 const isFilesFormValid = computed(() => {
-  return filesUploadFormRef.value?.isFormValid ?? false;
+  return StudentFilesUploadFormRef.value?.isFormValid ?? false;
+});
+const requiresResidencePermitUpload = computed(() => {
+  return employeeDataFormRef.value?.requiresResidencePermitUpload ?? false;
 });
 
 const saveEmployeeData = async () => {
@@ -142,7 +146,7 @@ const saveDocuments = async () => {
     isSaving.value = true;
 
     const formData = new FormData();
-    const { files } = filesUploadFormRef.value;
+    const { files } = StudentFilesUploadFormRef.value;
 
     // backend field and files keys mapping
     const docMap = {
