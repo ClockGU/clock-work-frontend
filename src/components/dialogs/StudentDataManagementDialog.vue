@@ -165,7 +165,6 @@ const saveDocuments = async () => {
         formData.append(backendField, arr[0]);
       }
     }
-    for (const k of formData.keys()) console.log('sending', k);
 
     await ContentApiService.patch('/documents', formData);
     store.dispatch('snackbar/setSnack', {
