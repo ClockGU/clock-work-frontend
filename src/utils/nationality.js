@@ -44,7 +44,11 @@ const VISA_FREE_LONG_STAY_COUNTRY_CODES = new Set([
 ]);
 
 const normalizeLanguage = (language) =>
-  String(language || 'en').toLowerCase().startsWith('de') ? 'de' : 'en';
+  String(language || 'en')
+    .toLowerCase()
+    .startsWith('de')
+    ? 'de'
+    : 'en';
 
 const normalizeCodeAlias = (code) => {
   const upperCode = String(code || '').toUpperCase();
@@ -79,7 +83,11 @@ export const getNationalityLabel = (value, language = 'en') => {
   const localizedNames = nationalities.getNames(normalizedLanguage) || {};
   const englishNames = nationalities.getNames('en') || {};
 
-  return localizedNames[normalizedCode] || englishNames[normalizedCode] || normalizedCode;
+  return (
+    localizedNames[normalizedCode] ||
+    englishNames[normalizedCode] ||
+    normalizedCode
+  );
 };
 
 export const getNationalityOptions = (language = 'en') => {

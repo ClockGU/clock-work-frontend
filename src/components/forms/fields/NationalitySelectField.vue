@@ -62,7 +62,11 @@ const { locale, t } = useI18n();
 const search = ref('');
 
 const activeLanguage = computed(() =>
-  String(locale.value || 'en').toLowerCase().startsWith('de') ? 'de' : 'en'
+  String(locale.value || 'en')
+    .toLowerCase()
+    .startsWith('de')
+    ? 'de'
+    : 'en'
 );
 
 const options = computed(() => getNationalityOptions(activeLanguage.value));

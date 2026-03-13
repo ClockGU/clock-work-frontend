@@ -91,7 +91,7 @@ class EmployeeData {
       formattedData.prev_emp_duration = null;
       formattedData.previous_employment = false;
     }
-    // send code of nationality to backend 
+    // send code of nationality to backend
     formattedData.nationality = normalizeNationality(formattedData.nationality);
 
     return formattedData;

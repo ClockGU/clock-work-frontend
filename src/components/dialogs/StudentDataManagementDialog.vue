@@ -69,7 +69,6 @@
 </template>
 
 <script setup>
-import { PETITION_STATUS } from '@/utils/statusUtils';
 import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
@@ -170,7 +169,6 @@ const saveDocuments = async () => {
     store.dispatch('snackbar/setSnack', {
       message: t('studentDataManagementDialog.saveSuccess'),
     });
-    await notifyClerkOfChanges();
     emit('refresh');
     emit('close');
   } catch (error) {
@@ -180,28 +178,6 @@ const saveDocuments = async () => {
     });
   } finally {
     isSaving.value = false;
-  }
-};
-// Notify clerk about changes in petitions that were under clerk revision
-const notifyClerkOfChanges = async () => {
-  try {
-    const petitionsUnderClerkRevision = props.petitions.filter(
-      (petition) => petition.status === PETITION_STATUS.CLERK_REVISION
-    );
-    if (petitionsUnderClerkRevision.length === 0) return;
-
-    await Promise.all(
-      petitionsUnderClerkRevision.map((petition) =>
-        ContentApiService.patch(
-          `/students/petitions/${petition.id}/revision-done`
-        )
-      )
-    );
-  } catch (error) {
-    console.error('Error informing clerk about student changes:', error);
-    store.dispatch('snackbar/setErrorSnacks', {
-      message: t('errors.studentData.notifyingClerk'),
-    });
   }
 };
 </script>
