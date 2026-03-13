@@ -99,16 +99,14 @@ const clearTimer = () => {
 
 const startTimerIfNeeded = () => {
   clearTimer();
+  //if no delay return 
+  if (props.confirmDelayMs <= 0) return;
 
-  const delay = Math.max(0, Number(props.confirmDelayMs || 0));
-  remainingMs.value = delay;
-
-  if (delay <= 0) return;
-
+  remainingMs.value = props.confirmDelayMs;
   const startedAt = Date.now();
   intervalId = setInterval(() => {
     const elapsed = Date.now() - startedAt;
-    remainingMs.value = Math.max(0, delay - elapsed);
+    remainingMs.value = Math.max(0, props.confirmDelayMs - elapsed);
     if (remainingMs.value <= 0) clearTimer();
   }, 100);
 };
