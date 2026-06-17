@@ -5,7 +5,6 @@
         <ClerkDataDisplay
           :petition="selectedPetition"
           @close="selectPetition(null)"
-          @refresh="handleRefresh"
           @approve="handleApproval"
         />
       </v-col>
@@ -101,29 +100,11 @@ const handleApproval = async (petitionId) => {
       approved: true,
     });
     selectedPetition.value = null;
-    // Force refresh the data after approval
-    await handleRefresh();
   } catch (error) {
     console.error('Error accepting petition:', error);
     store.dispatch('snackbar/setErrorSnacks', {
       message: t('errors.petition.approval'),
     });
-  }
-};
-//refresh by fetching all petitions
-const handleRefresh = async () => {
-  try {
-    const response = await ContentApiService.get('/clerk/petitions');
-    petitions.value = response.data.map((item) => new Petition(item));
-  } catch (error) {
-    if (error.response?.status === 404) {
-      petitions.value = [];
-    } else {
-      console.error('Error fetching petitions:', error);
-      store.dispatch('snackbar/setErrorSnacks', {
-        message: t('errors.petition.fetching'),
-      });
-    }
   }
 };
 
