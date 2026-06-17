@@ -25,11 +25,12 @@
                   {{ $t('studentDataManagementDialog.tabs.files') }}
                 </h2>
                 <p>{{ $t('studentDataManagementDialog.content.files') }}</p>
-                <FilesUploadForm
-                  ref="filesUploadFormRef"
+                <StudentFilesUploadForm
+                  ref="StudentFilesUploadFormRef"
                   class="mt-6"
                   :initial-documents="documentData"
                   :showBaDegreeField="showBaDegreeField"
+                  :showResidencePermitField="requiresResidencePermitUpload"
                 />
               </v-card-text>
             </v-card>
@@ -68,13 +69,12 @@
 </template>
 
 <script setup>
-import { PETITION_STATUS } from '@/utils/statusUtils';
 import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import ContentApiService from '@/services/contentApiService';
 import EmployeeDataForm from '@/components/forms/EmployeeDataForm.vue';
-import FilesUploadForm from '@/components/forms/StudentFilesUploadForm.vue';
+import StudentFilesUploadForm from '@/components/forms/documents/StudentFilesUploadForm.vue';
 import CustomDialog from '@/components/dialogs/base/CustomDialog.vue';
 
 const props = defineProps({
@@ -101,7 +101,7 @@ const store = useStore();
 const { t } = useI18n();
 
 const employeeDataFormRef = ref(null);
-const filesUploadFormRef = ref(null);
+const StudentFilesUploadFormRef = ref(null);
 const step = ref(1);
 const isSaving = ref(false);
 
@@ -109,7 +109,10 @@ const isPersonalFormValid = computed(() => {
   return employeeDataFormRef.value?.isFormValid ?? false;
 });
 const isFilesFormValid = computed(() => {
-  return filesUploadFormRef.value?.isFormValid ?? false;
+  return StudentFilesUploadFormRef.value?.isFormValid ?? false;
+});
+const requiresResidencePermitUpload = computed(() => {
+  return employeeDataFormRef.value?.requiresResidencePermitUpload ?? false;
 });
 
 const saveEmployeeData = async () => {
@@ -140,31 +143,32 @@ const saveAndContinue = async () => {
 const saveDocuments = async () => {
   try {
     isSaving.value = true;
-    const formData = new FormData();
-    const { files } = filesUploadFormRef.value;
 
-    if (files.elstam.length) formData.append('elstam', files.elstam[0]);
-    if (files.studienbescheinigung.length)
-      formData.append('studienbescheinigung', files.studienbescheinigung[0]);
-    if (files.versicherungsbescheinigung.length)
-      formData.append(
-        'versicherungsbescheinigung',
-        files.versicherungsbescheinigung[0]
-      );
-    if (files.sozialversierungsbogen.length)
-      formData.append(
-        'sozialversicherungsbogen',
-        files.sozialversierungsbogen[0]
-      );
-    if (files.ba_degree.length)
-      formData.append('ba_degree', files.ba_degree[0]);
+    const formData = new FormData();
+    const { files } = StudentFilesUploadFormRef.value;
+
+    // backend field and files keys mapping
+    const docMap = {
+      elstam: 'elstam',
+      studienbescheinigung: 'studienbescheinigung',
+      versicherungsbescheinigung: 'versicherungsbescheinigung',
+      sozialversicherungsbogen: 'sozialversicherungsbogen',
+      ba_degree: 'ba_degree',
+      residence_permit: 'residence_permit',
+      id_photo: 'id_photo',
+    };
+
+    for (const [backendField, filesKey] of Object.entries(docMap)) {
+      const arr = files?.[filesKey];
+      if (Array.isArray(arr) && arr.length > 0 && arr[0]) {
+        formData.append(backendField, arr[0]);
+      }
+    }
 
     await ContentApiService.patch('/documents', formData);
     store.dispatch('snackbar/setSnack', {
       message: t('studentDataManagementDialog.saveSuccess'),
     });
-    await notifyClerkOfChanges();
-    // this refresh handles both the document update and clerk notification updates
     emit('refresh');
     emit('close');
   } catch (error) {
@@ -174,28 +178,6 @@ const saveDocuments = async () => {
     });
   } finally {
     isSaving.value = false;
-  }
-};
-// Notify clerk about changes in petitions that were under clerk revision
-const notifyClerkOfChanges = async () => {
-  try {
-    const petitionsUnderClerkRevision = props.petitions.filter(
-      (petition) => petition.status === PETITION_STATUS.CLERK_REVISION
-    );
-    if (petitionsUnderClerkRevision.length === 0) return;
-
-    await Promise.all(
-      petitionsUnderClerkRevision.map((petition) =>
-        ContentApiService.patch(
-          `/students/petitions/${petition.id}/revision-done`
-        )
-      )
-    );
-  } catch (error) {
-    console.error('Error informing clerk about student changes:', error);
-    store.dispatch('snackbar/setErrorSnacks', {
-      message: t('errors.studentData.notifyingClerk'),
-    });
   }
 };
 </script>

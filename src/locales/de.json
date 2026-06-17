@@ -142,23 +142,20 @@
     "bankName": "Bankname"
   },
   "files": {
+    "status": {
+      "selected": "Ausgewählt",
+      "existing": "Vorhanden",
+      "missing": "Fehlend",
+      "optional": "Optional",
+      "required": "Erforderlich"
+    },
     "elstam": "ELStAM Selbstauskunft",
     "studienbescheinigung": "Studienbescheinigung",
     "sozialversicherungsbogen": "Fragebogen zur Sozialversicherung",
     "versicherungsbescheinigung": "Mitgliedsbescheinigung der Krankenkasse",
-    "ba_degree": "Nachweis des Bachelor-Abschlusses"
-  },
-  "filesUploadForm": {
-    "hint": {
-      "selected": "Ausgewählt: {filename}",
-      "existing": "Vorhanden: {filename}",
-      "noFile": "Keine Datei ausgewählt"
-    },
-    "status": {
-      "newDocument": "{document}: Ein neues Dokument wurde hochgeladen.",
-      "existingDocument": "{document}: Dokument wurde bereits hochgeladen.",
-      "noDocument": "{document}: Es wurde kein Dokument hochgeladen."
-    }
+    "ba_degree": "Nachweis des Bachelor-Abschlusses",
+    "residence_permit": "Aufenthaltstitel / Visum",
+    "id_photo": "Personalausweis/ID"
   },
   "petition": {
     "statusDisplay": {

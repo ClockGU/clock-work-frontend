@@ -133,7 +133,7 @@ router.beforeEach(async (to, from, next) => {
       }
     } else {
       // If no refresh token, log out and redirect to landing.
-      console.log('No refresh token, logging out.');
+      console.error('No refresh token, logging out.');
       await store.dispatch('auth/logout');
       loginErrorHandler.setLoginError(t('errors.refreshToken.missing'));
     }

@@ -142,23 +142,20 @@
     "bankName": "Bank Name"
   },
   "files": {
+    "status": {
+      "selected": "Selected",
+      "existing": "Existing",
+      "missing": "Missing",
+      "optional": "Optional",
+      "required": "Required"
+    },
     "elstam": "ELStAM Self-Disclosure Form",
     "studienbescheinigung": "Enrolment Certificate",
     "sozialversicherungsbogen": "Social Security Questionnaire",
     "versicherungsbescheinigung": "Health Insurance Membership Certificate",
-    "ba_degree": "Bachelor's Degree Certificate"
-  },
-  "filesUploadForm": {
-    "hint": {
-      "selected": "Selected: {filename}",
-      "existing": "Existing: {filename}",
-      "noFile": "No file selected"
-    },
-    "status": {
-      "newDocument": "{document}: A new document has been uploaded",
-      "existingDocument": "{document}: Document has already been uploaded",
-      "noDocument": "{document}: No document was uploaded"
-    }
+    "ba_degree": "Bachelor's Degree Certificate",
+    "residence_permit": "Residence Permit / Visa",
+    "id_photo": "ID card"
   },
   "petition": {
     "statusDisplay": {
