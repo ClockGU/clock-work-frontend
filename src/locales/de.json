@@ -173,6 +173,9 @@
       "clerk_action": "Aktion durch Sachbearbeitung",
       "awaiting_signature": "Warten auf Unterschrift"
     },
+    "hint": {
+      "eosNumber": "Die EOS-Nummer (z. B. F123456) finden Sie auf Ihren Vertragsunterlagen."
+    },
     "id": "Antrags-ID",
     "status": "Status",
     "supervisorMail": "E-Mail Supervisor",
