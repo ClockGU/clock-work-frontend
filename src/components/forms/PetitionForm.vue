@@ -104,92 +104,23 @@
       </v-col>
 
       <v-col cols="12">
-        <v-checkbox
-          id="timeExceCourse"
-          v-model="formData.time_exce_course"
-          :label="$t('petition.timeExceCourse')"
-          :aria-label="$t('petition.timeExceCourse')"
-          @update:model-value="handleTimeExceptionChange"
+        <TimeExceptionFields
+          v-model:exception="formData.time_exce_course"
+          v-model:name="formData.time_exce_name"
+          v-model:time="formData.time_exce_time"
+          :force-required="worktimeRequiresTimeException"
         />
-        <div v-if="formData.time_exce_course" class="mx-4">
-          <label for="timeExceName" class="ml-0">{{
-            $t('petition.timeExceName')
-          }}</label>
-          <v-text-field
-            id="timeExceName"
-            v-model="formData.time_exce_name"
-            outlined
-            dense
-            :aria-label="$t('petition.timeExceName')"
-            :rules="[requiredRule]"
-          />
-
-          <label for="timeExecActualTime">{{
-            $t('petition.timeExecActualTime')
-          }}</label>
-          <v-text-field
-            id="timeExecActualTime"
-            v-model="formData.time_exce_time"
-            type="number"
-            outlined
-            dense
-            :prepend-icon="icons.mdiClock"
-            :aria-label="$t('petition.timeExecActualTime')"
-            :rules="[requiredRule, positiveNumberRule]"
-          />
-        </div>
       </v-col>
 
       <v-col cols="12">
-        <v-checkbox
-          id="durationExceCourse"
-          v-model="formData.duration_exce_course"
-          :label="$t('petition.durationException')"
-          :aria-label="$t('petition.durationException')"
-          @update:model-value="handleDurationExceptionChange"
+        <DurationExceptionFields
+          v-model:exception="formData.duration_exce_course"
+          v-model:name="formData.duration_exce_name"
+          v-model:start="formData.duration_exce_start"
+          v-model:end="formData.duration_exce_end"
+          :display-date="displayDate"
+          :force-required="durationRequiresException"
         />
-
-        <div v-if="formData.duration_exce_course" class="mx-4">
-          <label for="durationExceName" class="ml-0">{{
-            $t('petition.durationExceName')
-          }}</label>
-          <v-text-field
-            id="durationExceName"
-            v-model="formData.duration_exce_name"
-            outlined
-            dense
-            :aria-label="$t('petition.durationExceName')"
-            :rules="[requiredRule]"
-          />
-
-          <label for="durationExceStart" class="ml-0">{{
-            $t('petition.durationExceStart')
-          }}</label>
-          <v-date-input
-            id="durationExceStart"
-            v-model="formData.duration_exce_start"
-            :display-format="displayDate"
-            input-format="dd.mm.yyyy"
-            output-format="dd-MM-yyyy"
-            placeholder="DD.MM.YYYY"
-            :aria-label="$t('petition.durationExceStart')"
-            :rules="[requiredRule]"
-          />
-
-          <label for="durationExceEnd" class="ml-0">{{
-            $t('petition.durationExceEnd')
-          }}</label>
-          <v-date-input
-            id="durationExceEnd"
-            v-model="formData.duration_exce_end"
-            :display-format="displayDate"
-            input-format="dd.mm.yyyy"
-            output-format="dd-MM-yyyy"
-            placeholder="DD.MM.YYYY"
-            :aria-label="$t('petition.durationExceEnd')"
-            :rules="[requiredRule]"
-          />
-        </div>
       </v-col>
     </v-row>
   </v-form>
@@ -197,6 +128,7 @@
 
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue';
+import { addYears, isAfter, isBefore, isValid, parse } from 'date-fns';
 import {
   mdiAccount,
   mdiEmail,
@@ -211,9 +143,12 @@ import {
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import Petition from '@/models/Petition';
-import { makeDisplayDate, toDate } from '@/utils/date';
-import BudgetPositionsFields from '@/components/forms/fields/BudgetPositionsFields.vue';
+import { makeDisplayDate } from '@/utils/date';
+import ContractDateInput from '@/components/forms/fields/ContractDateInput.vue';
 import EosField from '@/components/forms/fields/EosField.vue';
+import BudgetPositionsFields from '@/components/forms/fields/BudgetPositionsFields.vue';
+import DurationExceptionFields from '@/components/forms/fields/DurationExceptionFields.vue';
+import TimeExceptionFields from '@/components/forms/fields/TimeExceptionFields.vue';
 
 const props = defineProps({
   petition: {
@@ -239,6 +174,7 @@ const { t } = useI18n();
 const store = useStore();
 
 const formData = ref(new Petition());
+const form = ref(null);
 const budgetPositionsRef = ref(null);
 const isFormValid = ref(false);
 
@@ -268,38 +204,44 @@ watch(
   { immediate: true }
 );
 
-// Clear time exception fields when checkbox is unchecked
-const handleTimeExceptionChange = (value) => {
-  formData.value.time_exce_course = value;
-  // Always reset the fields when the checkbox state changes
-  formData.value.time_exce_name = '';
-  formData.value.time_exce_time = '';
-};
-
-const handleDurationExceptionChange = (value) => {
-  formData.value.duration_exce_course = value;
-  formData.value.duration_exce_name = '';
-  formData.value.duration_exce_start = null;
-  formData.value.duration_exce_end = null;
-};
-
 const displayDate = makeDisplayDate({
   displayFormat: 'dd.MM.yyyy',
   primaryParseFormat: 'dd-MM-yyyy',
 });
+
+const parseContractDate = (value) => {
+  if (!value) return null;
+  if (value instanceof Date) return value;
+  const parsed = parse(String(value), 'dd-MM-yyyy', new Date());
+  return isValid(parsed) ? parsed : null;
+};
+
+const MIN_WORKING_HOURS = 40;
+
+// Worktime (< 40h/month) requires a time exception
+const worktimeRequiresTimeException = computed(() => {
+  const workingHours = Number(formData.value.minutes);
+  if (!Number.isFinite(workingHours)) return false;
+  return workingHours > 0 && workingHours < MIN_WORKING_HOURS;
+});
+
+// Contract duration (< 1 year) requires a duration exception
+const durationRequiresException = computed(() => {
+  const start = parseContractDate(formData.value.start_date);
+  const end = parseContractDate(formData.value.end_date);
+  if (!start || !end) return false;
+  if (!isAfter(end, start)) return false;
+  return isBefore(end, addYears(start, 1));
+});
 // Validation rules
 const requiredRule = (v) => !!v || t('validationRule.required');
-const emailRule = (v) =>
-  /.+@.+\..+/.test(v) || t('validationRule.invalidEmail');
 const positiveNumberRule = (v) => v > 0 || t('validationRule.positiveNumber');
 
 const endDateRule = (v) => {
-  const start = toDate(formData.value.start_date, {
-    primaryFormat: 'dd-MM-yyyy',
-  });
-  const end = toDate(v, { primaryFormat: 'dd-MM-yyyy' });
+  const start = parseContractDate(formData.value.start_date);
+  const end = parseContractDate(v);
   if (!start || !end) return true;
-  return end > start || t('validationRule.endDateAfterStart');
+  return isAfter(end, start) || t('validationRule.endDateAfterStart');
 };
 
 onMounted(() => {
@@ -308,6 +250,15 @@ onMounted(() => {
     formData.value.supervisor_mail = user.value.email;
   }
 });
+
+// Ensure cross-field rules are re-evaluated immediately
+watch(
+  () => [durationRequiresException.value, worktimeRequiresTimeException.value],
+  () => {
+    //trigger form  validation
+    form.value?.validate?.();
+  }
+);
 
 defineExpose({ formData, isAllValid });
 </script>

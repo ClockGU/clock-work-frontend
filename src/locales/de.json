@@ -241,7 +241,9 @@
     "positiveNumber": "Muss eine positive Zahl sein",
     "endDateAfterStart": "Enddatum muss nach dem Startdatum liegen",
     "eosNumber": "Muss im Format 'FXXXXXX' sein, wobei 'X' eine beliebige Ziffer von 0 bis 9 ist",
-    "postalCode": "Postleitzahl muss 5-stellig sein"
+    "postalCode": "Postleitzahl muss 5-stellig sein",
+    "durationExceptionRequired": "Dieses Feld muss markiert werden, wenn die Vertragslaufzeit weniger als ein Jahr beträgt.",
+    "timeExceptionRequired": "Dieses Feld muss markiert werden, wenn die monatliche Arbeitszeit weniger als 40 Stunden beträgt."
   },
   "footer": {
     "links": {
