@@ -1,30 +1,30 @@
 <script setup>
-import { onMounted } from "vue";
-onMounted(()=>{
-  function scheduleNext(anim, minMs, maxMs) {
-    const delay = minMs + Math.random() * (maxMs - minMs);
-    console.log(anim.id, delay, "called");
-    setTimeout(() => anim.beginElement(), delay);
-  }
-  window.addEventListener('load', () => {
-    const anim1 = document.getElementById('cogAnim1');
-    const anim2 = document.getElementById('cogAnim2');
-    anim1.addEventListener('endEvent', () => scheduleNext(anim1, 5000, 20000));
-    anim2.addEventListener('endEvent', () => scheduleNext(anim2, 5000, 20000));
-    scheduleNext(anim1, 1000, 8000);
-    scheduleNext(anim2, 1000, 8000);
-  });
-})
+import { onMounted, useTemplateRef } from "vue";
+
+const anim1 = useTemplateRef('anim1');
+const anim2 = useTemplateRef('anim2');
+
+function scheduleNext(anim, minMs, maxMs) {
+  const delay = minMs + Math.random() * (maxMs - minMs);
+  setTimeout(() => anim.beginElement(), delay);
+}
+
+onMounted(() => {
+  anim1.value.addEventListener('endEvent', () => scheduleNext(anim1.value, 5000, 20000));
+  anim2.value.addEventListener('endEvent', () => scheduleNext(anim2.value, 5000, 20000));
+  scheduleNext(anim1.value, 1000, 8000);
+  scheduleNext(anim2.value, 1000, 8000);
+});
 
 const props = defineProps(
   {
     width: {
-      type: Number,
+      type: [Number, String],
       required:false,
       default:785
     },
     height: {
-      type: Number,
+      type: [Number, String],
       required:false,
       default:110
     }
@@ -33,8 +33,7 @@ const props = defineProps(
 </script>
 
 <template>
-  <div class="v-responsive" :style="{'width': width +'px', 'height': height+'px'}">
-  <svg width="100%" viewBox="0 0 785 110" xmlns="http://www.w3.org/2000/svg">
+  <svg :width="width" :height="height" viewBox="0 0 785 110" xmlns="http://www.w3.org/2000/svg">
     <!--
       Strategy: Scale the CLOCK SVG (396.7 × 97.2) to fit height=97.2 at y=6 (leaving 6px top/bottom pad).
       Scale factor = 1.0 (keep native size, just translate).
@@ -104,7 +103,7 @@ const props = defineProps(
           A2.5,2.5 0 1,1 -2.5,0
           A2.5,2.5 0 1,1 2.5,0
           Z"/>
-          <animateTransform id="cogAnim1" attributeName="transform" type="rotate"
+          <animateTransform ref="anim1" attributeName="transform" type="rotate"
                             from="0" to="1080" dur="3s"
                             calcMode="spline" keyTimes="0;1" keySplines="0.42 0 0.58 1"
                             repeatCount="1" fill="freeze" begin="indefinite"/>
@@ -173,7 +172,7 @@ const props = defineProps(
           A2.5,2.5 0 1,1 -2.5,0
           A2.5,2.5 0 1,1 2.5,0
           Z"/>
-          <animateTransform id="cogAnim2" attributeName="transform" type="rotate"
+          <animateTransform ref="anim2" attributeName="transform" type="rotate"
                             from="0" to="1080" dur="3s"
                             calcMode="spline" keyTimes="0;1" keySplines="0.42 0 0.58 1"
                             repeatCount="1" fill="freeze" begin="indefinite"/>
@@ -192,7 +191,6 @@ const props = defineProps(
       </g>
     </g>
   </svg>
-  </div>
 </template>
 
 <style scoped>
