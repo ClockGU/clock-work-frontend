@@ -33,12 +33,7 @@
             @click="navigate"
             @keypress.enter="navigate"
           >
-            <v-img
-              width="96px"
-              height="32px"
-              :src="imgSrc"
-              :alt="'clock Logo'"
-            />
+            <ClockWorkIcon height="64" width="250"/>
           </a>
         </router-link>
       </v-toolbar-title>
@@ -87,13 +82,13 @@
 </template>
 
 <script setup>
-import svg from '@/assets/clock_full.svg';
 import { mdiChevronDown, mdiMenu, mdiLogout } from '@mdi/js';
 import { useDisplay } from 'vuetify';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import { computed } from 'vue';
 import LanguageSwitcher from '@/components/app-bar/LanguageSwitcher.vue';
+import ClockWorkIcon from "@/icons/ClockWorkIcon.vue";
 
 const icons = {
   mdiMenu,
@@ -101,7 +96,6 @@ const icons = {
   mdiLogout,
 };
 const bgColor = '#FFFFFF';
-const imgSrc = svg;
 const { mdAndUp } = useDisplay();
 const store = useStore();
 const route = useRoute();
