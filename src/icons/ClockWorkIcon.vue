@@ -71,7 +71,7 @@ const props = defineProps(
       <!-- O -->
       <g transform="translate(181.1,52)">
         <g id="cog1" class="clock-cog-rotation">
-          <path class="st1"
+          <path
                 d="
           M42.75,0
           A42.75,42.75 0 1 1 -42.75,0
@@ -121,7 +121,7 @@ const props = defineProps(
     </g>
 
     <!-- ── WORK (red paths) — starts at x=414 ── -->
-    <g transform="translate(414,6)" fill="#C0392B">
+    <g transform="translate(414,6)" class="st2">
 
       <!--
         W: geometric, matching stroke weight ~13.1px
@@ -197,6 +197,7 @@ const props = defineProps(
 .st1{
   fill:#1953A1;
 }
-.scale-to-parent {
+.st2 {
+  fill:#C0392B
 }
 </style>
