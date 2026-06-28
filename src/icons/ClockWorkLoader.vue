@@ -1,17 +1,31 @@
 <script setup>
-const props = defineProps({loading:{type:Boolean}});
-const colorClasses = ['st1', 'st2'];
+import { computed } from 'vue';
 
-const randomColorClass = () => [colorClasses[Math.floor(0.5 + Math.random())],];
+const props = defineProps({
+  width:  { type: [Number, String], default: null },
+  height: { type: [Number, String], default: null },
+});
+
+const colorClasses = ['st1', 'st2'];
+const randomColorClass = () => [colorClasses[Math.floor(0.5 + Math.random())]];
+
+const VIEWBOX_W = 256;
+const VIEWBOX_H = 266;
+
+const svgWidth = computed(() =>
+  props.width  ?? (props.height ? Math.round(Number(props.height) * VIEWBOX_W / VIEWBOX_H) : VIEWBOX_W)
+);
+const svgHeight = computed(() =>
+  props.height ?? (props.width  ? Math.round(Number(props.width)  * VIEWBOX_H / VIEWBOX_W) : VIEWBOX_H)
+);
 </script>
 
 <template>
   <svg
-    v-if="props.loading"
-    id="Ebene_1"
-    style="scale: 0.1"
-    xmlns="http://www.w3.org/2000/svg"
+    class="center"
     viewBox="-50.5 -50.5 256 266"
+    :width="svgWidth"
+    :height="svgHeight"
   >
     <g :class="randomColorClass()">
       <path
@@ -436,5 +450,9 @@ const randomColorClass = () => [colorClasses[Math.floor(0.5 + Math.random())],];
 }
 .st2 {
   fill: #c0392b;
+}
+.center {
+  display: block;
+  margin: auto;
 }
 </style>
