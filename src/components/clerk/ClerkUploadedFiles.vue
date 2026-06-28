@@ -24,7 +24,7 @@
 
               <!-- Loading -->
               <div v-if="state.loading[item.type]" class="text-center">
-                <v-progress-circular indeterminate color="primary" size="64" />
+                <ClockWorkLoader height="64" width="64" />
                 <p class="mt-2">{{ $t('app.loading') }}</p>
               </div>
 
@@ -189,6 +189,7 @@ import { useI18n } from 'vue-i18n';
 import { useDisplay } from 'vuetify';
 import ContentApiService from '@/services/contentApiService';
 import VuePdfEmbed from 'vue-pdf-embed';
+import ClockWorkLoader from "@/icons/ClockWorkLoader.vue";
 
 const props = defineProps({
   petition: { type: Object, required: true },

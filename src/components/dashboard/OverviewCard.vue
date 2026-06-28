@@ -12,12 +12,7 @@
     </v-card-title>
     <v-card-text>
       <!-- Loading Spinner -->
-      <v-progress-circular
-        v-if="isLoading"
-        class="d-flex justify-center my-5"
-        indeterminate
-        color="primary"
-      ></v-progress-circular>
+      <ClockWorkLoader v-if="isLoading" height="32" width="33"/>
       <PetitionsOverviewTable
         v-else
         :headers="headers"
@@ -34,6 +29,7 @@ import { isStudent, isSupervisor } from '@/utils/roleUtils';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import PetitionsOverviewTable from '@/components/tables/base/PetitionsOverviewTable.vue';
+import ClockWorkLoader from "@/icons/ClockWorkLoader.vue";
 
 const props = defineProps({
   petitions: {

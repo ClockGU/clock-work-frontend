@@ -1,12 +1,7 @@
 <template>
   <v-container>
     <v-row justify="center">
-      <v-progress-circular
-        :size="70"
-        :width="7"
-        color="primary"
-        indeterminate
-      ></v-progress-circular>
+      <ClockWorkLoader height="70" width="70"/>
     </v-row>
     <v-row class="mt-10" justify="center">
       {{ $t('app.loggingin') }}
@@ -22,6 +17,7 @@ import AuthApiService from '@/services/authApiService';
 import loginErrorHandler from '@/utils/loginErrorHandler';
 import { setLocale } from '@/plugins/i18n';
 import { useI18n } from 'vue-i18n';
+import ClockWorkLoader from "@/icons/ClockWorkLoader.vue";
 
 const route = useRoute();
 const router = useRouter();
