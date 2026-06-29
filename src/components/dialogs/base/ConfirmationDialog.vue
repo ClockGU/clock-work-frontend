@@ -30,7 +30,7 @@
           class="mx-2 mt-2"
           @click="close"
         >
-          {{ $t('actions.cancel') }}
+          {{ t('actions.cancel') }}
         </v-btn>
 
         <v-btn
@@ -49,8 +49,10 @@
 
 <script setup>
 import { mdiClose } from '@mdi/js';
-import VueI18n from '@/plugins/i18n';
 import { computed, onBeforeUnmount, ref, watch } from 'vue';
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const props = defineProps({
   maxWidth: {
@@ -63,7 +65,7 @@ const props = defineProps({
   },
   actionText: {
     type: String,
-    default: () => VueI18n.global.t('actions.confirm'),
+    default: null,
   },
   action: {
     type: Function,
@@ -99,7 +101,7 @@ const clearTimer = () => {
 
 const startTimerIfNeeded = () => {
   clearTimer();
-  //if no delay return 
+  //if no delay return
   if (props.confirmDelayMs <= 0) return;
 
   remainingMs.value = props.confirmDelayMs;
@@ -128,10 +130,11 @@ const isActionDisabled = computed(() => remainingMs.value > 0);
 const remainingSeconds = computed(() => Math.ceil(remainingMs.value / 1000));
 
 const computedActionText = computed(() => {
+  const text = props.actionText ?? t('actions.confirm');
   if (!props.showCountdownInActionText || remainingMs.value <= 0) {
-    return props.actionText;
+    return text;
   }
-  return `${props.actionText} (${remainingSeconds.value})`;
+  return `${text} (${remainingSeconds.value})`;
 });
 
 const close = () => (model.value = false);
