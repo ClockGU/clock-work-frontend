@@ -189,7 +189,7 @@ import { useI18n } from 'vue-i18n';
 import { useDisplay } from 'vuetify';
 import ContentApiService from '@/services/contentApiService';
 import VuePdfEmbed from 'vue-pdf-embed';
-import ClockWorkLoader from "@/icons/ClockWorkLoader.vue";
+import ClockWorkLoader from '@/icons/ClockWorkLoader.vue';
 
 const props = defineProps({
   petition: { type: Object, required: true },

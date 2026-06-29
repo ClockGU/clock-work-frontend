@@ -12,7 +12,7 @@
     </v-card-title>
     <v-card-text>
       <!-- Loading Spinner -->
-      <ClockWorkLoader v-if="isLoading" height="32" width="33"/>
+      <ClockWorkLoader v-if="isLoading" height="32" width="33" />
       <PetitionsOverviewTable
         v-else
         :headers="headers"
@@ -29,7 +29,7 @@ import { isStudent, isSupervisor } from '@/utils/roleUtils';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import PetitionsOverviewTable from '@/components/tables/base/PetitionsOverviewTable.vue';
-import ClockWorkLoader from "@/icons/ClockWorkLoader.vue";
+import ClockWorkLoader from '@/icons/ClockWorkLoader.vue';
 
 const props = defineProps({
   petitions: {

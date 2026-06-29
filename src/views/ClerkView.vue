@@ -58,7 +58,9 @@ const connectWebSocket = () => {
 
   socket.onopen = () => {
     log('WebSocket connected');
-    socket.send(JSON.stringify({ type: 'auth', token: store.getters['auth/accessToken'] }));
+    socket.send(
+      JSON.stringify({ type: 'auth', token: store.getters['auth/accessToken'] })
+    );
   };
 
   socket.onmessage = (event) => {

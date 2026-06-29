@@ -25,8 +25,7 @@
           @click="navigate"
           @keypress.enter="navigate"
         >
-
-          <ClockWorkIcon height="64" width="250"/>
+          <ClockWorkIcon height="64" width="250" />
         </a>
       </router-link>
     </v-row>
@@ -116,7 +115,7 @@ import {
 import { ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-import ClockWorkIcon from "@/icons/ClockWorkIcon.vue";
+import ClockWorkIcon from '@/icons/ClockWorkIcon.vue';
 
 const props = defineProps({
   drawer: {

@@ -1,1 +1,9 @@
+Dockerfile
 yarn.lock
+.*
+
+/docker
+/dev
+/dist
+/certs
+/node_modules

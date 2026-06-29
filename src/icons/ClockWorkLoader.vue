@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 
 const props = defineProps({
-  width:  { type: [Number, String], default: null },
+  width: { type: [Number, String], default: null },
   height: { type: [Number, String], default: null },
 });
 
@@ -12,11 +12,19 @@ const randomColorClass = () => [colorClasses[Math.floor(0.5 + Math.random())]];
 const VIEWBOX_W = 256;
 const VIEWBOX_H = 266;
 
-const svgWidth = computed(() =>
-  props.width  ?? (props.height ? Math.round(Number(props.height) * VIEWBOX_W / VIEWBOX_H) : VIEWBOX_W)
+const svgWidth = computed(
+  () =>
+    props.width ??
+    (props.height
+      ? Math.round((Number(props.height) * VIEWBOX_W) / VIEWBOX_H)
+      : VIEWBOX_W)
 );
-const svgHeight = computed(() =>
-  props.height ?? (props.width  ? Math.round(Number(props.width)  * VIEWBOX_H / VIEWBOX_W) : VIEWBOX_H)
+const svgHeight = computed(
+  () =>
+    props.height ??
+    (props.width
+      ? Math.round((Number(props.width) * VIEWBOX_H) / VIEWBOX_W)
+      : VIEWBOX_H)
 );
 </script>
 

@@ -33,7 +33,7 @@
             @click="navigate"
             @keypress.enter="navigate"
           >
-            <ClockWorkIcon height="64" width="250"/>
+            <ClockWorkIcon height="64" width="250" />
           </a>
         </router-link>
       </v-toolbar-title>
@@ -88,7 +88,7 @@ import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import { computed } from 'vue';
 import LanguageSwitcher from '@/components/app-bar/LanguageSwitcher.vue';
-import ClockWorkIcon from "@/icons/ClockWorkIcon.vue";
+import ClockWorkIcon from '@/icons/ClockWorkIcon.vue';
 
 const icons = {
   mdiMenu,
