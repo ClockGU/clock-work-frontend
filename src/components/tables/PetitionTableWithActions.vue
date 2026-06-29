@@ -7,14 +7,26 @@
       @close="showPetitionFormDialog = false"
       @refresh="emit('refresh', $event)"
     />
+
     <ConfirmationDialog
       v-model="showDeleteConfirmationDialog"
       :action="deletePetition"
+      :confirm-delay-ms="4000"
     >
       <template #content>
-        <p>{{ $t('confirmationDialog.PetitionDeletion') }}</p>
+        <v-alert
+          v-if="isClerk"
+          type="warning"
+          variant="tonal"
+          density="comfortable"
+          class="mb-4"
+        >
+          {{ $t('confirmationDialog.clerkAlert') }}
+        </v-alert>
+        <p class="mb-0">{{ $t('confirmationDialog.PetitionDeletion') }}</p>
       </template>
     </ConfirmationDialog>
+
     <PetitionRevisionDialog
       v-model="showPetitionRevisionDialog"
       :petition="petition"
@@ -53,7 +65,7 @@
             />
             <RoleActionButton
               color="error"
-              :roles="Roles.SUPERVISOR"
+              :roles="[Roles.SUPERVISOR, Roles.CLERK]"
               :icon="icons.mdiTrashCan"
               :tooltip="$t('actions.delete')"
               @click="showDeleteConfirmationDialog = true"
@@ -61,6 +73,7 @@
           </div>
         </div>
       </template>
+
       <template #bottom>
         <slot name="bottom"></slot>
       </template>
@@ -107,6 +120,8 @@ const icons = { mdiClose, mdiPencil, mdiTrashCan, mdiAlertCircleOutline };
 const showDeleteConfirmationDialog = ref(false);
 const showPetitionRevisionDialog = ref(false);
 const showPetitionFormDialog = ref(false);
+
+const isClerk = computed(() => currentRole.value === Roles.CLERK);
 
 const canEditPetition = computed(() => {
   return [

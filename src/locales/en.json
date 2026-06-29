@@ -99,7 +99,8 @@
     "showCompletedPetitions": "Show completed applications"
   },
   "confirmationDialog": {
-    "PetitionDeletion": "Are you sure you want to delete this application? This action cannot be undone."
+    "PetitionDeletion": "Are you sure you want to delete this application? This action cannot be undone.",
+    "clerkAlert": "This action cannot be undone. Delete this petition only if it contains errors that prevent a valid legal contract."
   },
   "petitionFormDialog": {
     "title": "Create new application",
