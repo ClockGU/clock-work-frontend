@@ -76,9 +76,9 @@ const props = defineProps({
     default: 0, //0 means no delay
   },
   //Show countdown next to actionText while waiting.
-  showCountdownInActionText: {
+  hideCountdownInActionText: {
     type: Boolean,
-    default: true,
+    default: false,
   },
 });
 
@@ -131,7 +131,7 @@ const remainingSeconds = computed(() => Math.ceil(remainingMs.value / 1000));
 
 const computedActionText = computed(() => {
   const text = props.actionText ?? t('actions.confirm');
-  if (!props.showCountdownInActionText || remainingMs.value <= 0) {
+  if (props.hideCountdownInActionText || remainingMs.value <= 0) {
     return text;
   }
   return `${text} (${remainingSeconds.value})`;
