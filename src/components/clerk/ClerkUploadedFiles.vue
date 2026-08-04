@@ -417,8 +417,7 @@ function captureAspect(type, pdf) {
 }
 
 async function fetchEmployeeStudentDataPdf() {
-  return ContentApiService.get('/employees/student-data-pdf', {
-    params: { petition_id: props.petition?.id },
+  return ContentApiService.get(`/clerk/petitions/${props.petition.id}/student-data-pdf`, {
     responseType: 'arraybuffer',
   });
 }
