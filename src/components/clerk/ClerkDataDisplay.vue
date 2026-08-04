@@ -36,7 +36,7 @@
           :disabled="disabledApproveButton"
           @click="approve"
         >
-          {{ $t('actions.approve') }}
+          {{ petition && petition.status === PETITION_STATUS.AWAITING_SIGNATURE ? $t('actions.finishProcess') : $t('actions.approve') }}
         </v-btn>
       </div>
     </v-card-text>

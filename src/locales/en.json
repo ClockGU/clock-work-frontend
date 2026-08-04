@@ -32,7 +32,9 @@
     "accept": "accept",
     "decline": "decline",
     "download": "download",
-    "downloadAll": "download all"
+    "downloadAll": "download all",
+    "finishProcess": "finish process"
+
   },
   "roleSelectionView": {
     "welcome": "You are new here!",
