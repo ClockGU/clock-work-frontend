@@ -192,8 +192,7 @@ const isStudentDataComplete = computed(() => {
 // Determine if student action buttons should be disabled based on petition status and data completeness
 const isStudentActionDisabled = computed(() => {
   return (
-    props.selectedPetition.status !== PETITION_STATUS.STUDENT_ACTION ||
-    !isStudentDataComplete.value
+    (props.selectedPetition.status !== PETITION_STATUS.STUDENT_ACTION || props.selectedPetition.status !== PETITION_STATUS.CLERK_REVISION) && !isStudentDataComplete.value
   );
 });
 
