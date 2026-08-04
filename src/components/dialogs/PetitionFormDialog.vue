@@ -1,5 +1,6 @@
 <template>
   <CustomDialog
+    v-model="model"
     :title="
       $t('petitionFormDialog.title', {
         petition: petition ? 'Edit' : 'Create New',
@@ -41,13 +42,14 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { isSupervisor } from '@/utils/roleUtils';
 import PetitionForm from '@/components/forms/PetitionForm.vue';
 import CustomDialog from '@/components/dialogs/base/CustomDialog.vue';
 import ContentApiService from '@/services/contentApiService';
+import Petition from '@/models/Petition';
 
 const props = defineProps({
   petition: {
@@ -61,10 +63,22 @@ const emit = defineEmits(['close', 'refresh']);
 const store = useStore();
 const { t } = useI18n();
 const petitionFormRef = ref(null);
+const model = defineModel({ type: Boolean, default: false });
 
 const isFormValid = computed(() => petitionFormRef.value?.isAllValid || false);
 
 const closeDialog = () => emit('close');
+
+// Snapshot the pristine petition data whenever the dialog opens, so save()
+// can diff edits against it to patch only changed data.
+let initialPetitionData = null;
+watch(model, (isOpen) => {
+  if (isOpen) {
+    initialPetitionData = props.petition
+      ? JSON.parse(JSON.stringify(props.petition))
+      : null;
+  }
+});
 
 const submit = async () => {
   if (isFormValid.value) {
@@ -95,9 +109,26 @@ const save = async () => {
       }
       // Use the Petition model's toBackendFormat method for proper date formatting
       const dataToSend = formData.toBackendFormat();
+      // Compare against snapshot taken when the dialog opened
+      // and only PATCH the diff
+      const originalData = Petition.fromBackendResponse(
+        initialPetitionData
+      ).toBackendFormat();
+      const changedData = Object.fromEntries(
+        Object.entries(dataToSend).filter(
+          ([key, value]) =>
+            JSON.stringify(value) !== JSON.stringify(originalData[key])
+        )
+      );
+      console.log(JSON.stringify(changedData))
+      if (Object.keys(changedData).length === 0) {
+        closeDialog();
+        return;
+      }
+
       const response = await ContentApiService.patch(
         `/supervisor/petitions/${props.petition.id}`,
-        dataToSend
+        changedData
       );
       emit('refresh', {
         type: 'update',
