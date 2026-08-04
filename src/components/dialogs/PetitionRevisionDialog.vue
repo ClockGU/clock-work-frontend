@@ -203,7 +203,8 @@ const handleStudentRevision = async () => {
   const petitionId = props.petition.id;
   const apiEndpoint = `/students/petitions/${petitionId}/request-revision`;
   const apiData = {
-    body: reportText.value,
+    subject: reportSubject.value,
+    message: reportText.value,
   };
 
   try {
