@@ -7,13 +7,13 @@
   "download": "Download",
   "supervisor": "Supervisor",
   "student": "Student",
-  "datePlaceholder": "DD.MM.YYYY",
   "yes": "Yes",
   "no": "No",
   "app": {
     "loggingin": "Logging in...",
     "loading": "Loading..."
   },
+  "datePlaceholder": "DD.MM.YYYY",
   "actions": {
     "cancel": "cancel",
     "submit": "submit",
@@ -52,7 +52,7 @@
   },
   "gdprAcceptanceDialog": {
     "title": "Privacy Agreement",
-    "text": "This application uses cookies and collects personal data to enhance your experience. By continuing, you agree to our use of data as outlined in our Privacy Policy. This includes but is not limited to your name, email address, and other personal information. Please read our Privacy Policy carefully to understand how we protect and use your data.",
+    "text": "This application uses cookies and collects personal data. By continuing, you agree to our use of data as outlined in our Privacy Policy. This includes but is not limited to your name, email address, and other personal information. Please read our Privacy Policy carefully to understand how we protect and use your data.",
     "accept": "I have read and accept the Privacy Policy"
   },
   "editCard": {
@@ -173,9 +173,6 @@
       "clerk_action": "Action by HR administrator",
       "awaiting_signature": "Awaiting signature"
     },
-    "hint": {
-      "eosNumber": "The EOS number (e.g. F123456) is located on your contract document."
-    },
     "id": "Application ID",
     "status": "Status",
     "supervisorMail": "Supervisor Mail",
@@ -192,13 +189,13 @@
     "budgetPositions": "Budget Positions",
     "budgetPosition": "Budget Position",
     "budgetApprover": "Budget Approver Email",
-    "budgetPositionApproved": " Budgetposition Approved",
+    "budgetPositionApproved": " Budget Position Approved",
     "percentage": "Percentage",
-    "timeExceCourse": "Minimum Contract Term Deviation (10 h/week | 40 h/month)",
+    "timeExceCourse": "Minimum Contract Term Deviation (less than 10 h/week or 40 h/month)",
     "timeExceName": "Description",
     "timeExceStart": "Deviation from",
     "timeExceEnd": "Deviation until",
-    "timeExecActualTime": "Duration of the event (h/month)",
+    "timeExecActualTime": "Course hours (h/month)",
     "durationExceCourse": "Minimum Hours Deviation",
     "durationExceName": "Description",
     "durationExceStart": "Deviation from",
@@ -279,7 +276,7 @@
     },
     "instruction": {
       "approver": "You can request a change to the budget position of an application to the applicant. Please write your changes in the message box below. The applicant will receive an email with your requested changes.",
-      "clerk": "You can request a change of an application to a student assistant.Please select the subject in the dropdown menu and write your changes in the message box below. The student will receive an email with your requested changes.",
+      "clerk": "You can request a change of an application to a student assistant. Please select the subject in the dropdown menu and write your changes in the message box below. The student will receive an email with your requested changes.",
       "student": "You can request a change of an application to the supervisor. Please select a subject in the dropdown menu and then write your changes in the message box below. The supervisor will receive an email with your requested changes."
     },
     "studentSubjects": {
