@@ -7,6 +7,7 @@
   "download": "Download",
   "supervisor": "Supervisor",
   "student": "Student",
+  "datePlaceholder": "DD.MM.YYYY",
   "yes": "Yes",
   "no": "No",
   "app": {
@@ -34,7 +35,6 @@
     "download": "download",
     "downloadAll": "download all",
     "finishProcess": "finish process"
-
   },
   "roleSelectionView": {
     "welcome": "You are new here!",

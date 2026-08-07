@@ -66,6 +66,7 @@
           :display-format="displayDate"
           input-format="dd.mm.yyyy"
           output-format="dd-MM-yyyy"
+          :placeholder="$t('datePlaceholder')"
           :aria-label="$t('employeeData.dateOfBirth')"
           :rules="[requiredRule]"
         />
@@ -196,7 +197,7 @@
           input-format="dd.mm.yyyy"
           output-format="dd-MM-yyyy"
           multiple="range"
-          placeholder="DD.MM.YYYY – DD.MM.YYYY"
+          :placeholder="$t('datePlaceholder') + ' – ' + $t('datePlaceholder')"
           :aria-label="$t('employeeData.duration')"
           :rules="formData.previous_employment ? [requiredRule] : []"
         />

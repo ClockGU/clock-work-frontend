@@ -53,6 +53,7 @@
           type="start"
           :display-format="displayDate"
           :label="$t('petition.startDate')"
+          :placeholder="$t('datePlaceholder')"
           :rules="[requiredRule]"
         />
       </v-col>
@@ -63,6 +64,7 @@
           type="end"
           :display-format="displayDate"
           :label="$t('petition.endDate')"
+          :placeholder="$t('datePlaceholder')"
           :rules="[requiredRule, endDateRule]"
         />
       </v-col>
@@ -98,8 +100,8 @@
 
       <v-col cols="12">
         <BudgetPositionsFields
-          v-model="formData.budget_positions"
           ref="budgetPositionsRef"
+          v-model="formData.budget_positions"
         />
       </v-col>
 
