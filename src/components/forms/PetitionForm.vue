@@ -85,17 +85,16 @@
       </v-col>
 
       <v-col cols="12" md="6">
-        <label for="baDegree">{{ $t('petition.baDegree') }}</label>
-        <v-select
+        <label for="baDegree" class="mb-2 d-block">{{
+          $t('petition.baDegreeLabel')
+        }}</label>
+        <v-checkbox
           id="baDegree"
           v-model="formData.ba_degree"
-          :items="degreeOptions"
-          item-title="text"
-          item-value="value"
-          outlined
-          dense
           :prepend-icon="icons.mdiSchool"
+          :label="$t('petition.baDegree')"
           :aria-label="$t('petition.baDegree')"
+          class="ma-0 ba-degree-checkbox"
         />
       </v-col>
 
@@ -265,6 +264,12 @@ watch(
 
 defineExpose({ formData, isAllValid });
 </script>
+
+<style scoped>
+.ba-degree-checkbox :deep(.v-selection-control__wrapper) {
+  margin-left: -8px;
+}
+</style>
 <style scoped>
 label {
   font-weight: 500;
