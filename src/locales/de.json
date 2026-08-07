@@ -182,6 +182,7 @@
     "studentMail": "E-Mail Student*in",
     "studentAccount": "Studierenden-Account (s-Nummer)",
     "orgUnit": "Organisationseinheit",
+    "orgUnitPlaceholder": "z.B. Institut für Informatik",
     "eosNumber": "EOS-Nummer",
     "startDate": "Vertragsbeginn",
     "endDate": "Vertragsende",

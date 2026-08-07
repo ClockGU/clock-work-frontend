@@ -182,6 +182,7 @@
     "studentMail": "Student Mail Address",
     "studentAccount": "Student Account (s-Number)",
     "orgUnit": "Org Unit",
+    "orgUnitPlaceholder": "e.g. Institute of Computer Science",
     "eosNumber": "EOS Number",
     "startDate": "Contract Start Date",
     "endDate": "Contract End Date",

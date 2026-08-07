@@ -37,6 +37,7 @@
           v-model="formData.org_unit"
           outlined
           dense
+          :placeholder="$t('petition.orgUnitPlaceholder')"
           :prepend-icon="icons.mdiOfficeBuilding"
           :aria-label="$t('petition.orgUnit')"
           :rules="[requiredRule]"
