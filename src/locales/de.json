@@ -127,6 +127,11 @@
     "firstName": "Vorname",
     "lastName": "Nachname",
     "formOfAddress": "Anrede",
+    "formOfAddressSelection": {
+      "male": "Herr",
+      "female": "Frau",
+      "none": "Keine"
+    },
     "gender": "Geschlecht",
     "dateOfBirth": "Geburtsdatum",
     "cityOfBirth": "Geburtsort",

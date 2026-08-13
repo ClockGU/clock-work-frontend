@@ -38,7 +38,7 @@
           dense
           :prepend-icon="icons.mdiAccountBox"
           :aria-label="$t('employeeData.formOfAddress')"
-          :items="['Mr.', 'Ms.', 'Mrs.', 'Dr.']"
+          :items="formOfAddressSelection"
           :rules="[requiredRule]"
         />
       </v-col>
@@ -251,6 +251,21 @@ const props = defineProps({
 const { t } = useI18n();
 const formData = ref(new EmployeeData());
 const isFormValid = ref(false);
+
+const formOfAddressSelection = [
+  {
+    title: t('employeeData.formOfAddressSelection.male'),
+    value: 'Herr',
+  },
+  {
+    title: t('employeeData.formOfAddressSelection.female'),
+    value: 'Frau',
+  },
+  {
+    title: t('employeeData.formOfAddressSelection.none'),
+    value: undefined,
+  },
+];
 
 watch(
   () => props.initialData,

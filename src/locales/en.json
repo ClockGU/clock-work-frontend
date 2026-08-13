@@ -127,6 +127,11 @@
     "firstName": "First Name",
     "lastName": "Last Name",
     "formOfAddress": "Form of Address",
+    "formOfAddressSelection": {
+      "male": "Mr.",
+      "female": "Mrs.",
+      "none": "None"
+    },
     "gender": "Gender",
     "dateOfBirth": "Date of Birth",
     "cityOfBirth": "City of Birth",
