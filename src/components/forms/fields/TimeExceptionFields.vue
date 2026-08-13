@@ -1,13 +1,27 @@
 <template>
   <div>
-    <v-checkbox
+    <v-radio-group
+      ref="radio"
       id="timeException"
-      v-model="exception"
+      :value="exception"
+      inline
       :label="$t('petition.timeExceCourse')"
       :aria-label="$t('petition.timeExceCourse')"
       :rules="exceptionRules"
-    />
-
+    >
+      <v-radio
+        :label="$t('petition.timeExceReasonStudentWish')"
+        :value="1"
+        @click="handleReselect(1)"
+      ></v-radio>
+      <v-radio
+        :label="$t('petition.timeExceReasonStudentCourse')"
+        class="ml-8"
+        :value="2"
+        @click="handleReselect(2)"
+      >
+      </v-radio>
+    </v-radio-group>
     <div v-if="exception" class="mx-4">
       <label for="timeExceName" class="ml-8">
         {{ $t('petition.timeExceName') }}
@@ -40,7 +54,7 @@
 </template>
 
 <script setup>
-import { computed, watch } from 'vue';
+import { computed, ref, useTemplateRef, watch } from 'vue';
 import { mdiClock } from '@mdi/js';
 import { useI18n } from 'vue-i18n';
 
@@ -48,17 +62,28 @@ const props = defineProps({
   forceRequired: { type: Boolean, default: false },
 });
 
-const exception = defineModel('exception', { type: Boolean, default: false });
+const exception = defineModel('exception', { type: [Number, null], default: null });
 const name = defineModel('name', { type: String, default: '' });
 const time = defineModel('time', { type: [String, Number], default: '' });
 
+const emit = defineEmits(['update:exception']);
 const { t } = useI18n();
 
+const radio = ref(null);
 const icons = { mdiClock };
 
 const requiredRule = (v) => !!v || t('validationRule.required');
 const positiveNumberRule = (v) =>
   Number(v) > 0 || t('validationRule.positiveNumber');
+
+function handleReselect(value) {
+  if (value === exception.value) {
+    emit('update:exception', null);
+    radio.value.reset();
+    return;
+  }
+  emit('update:exception', value);
+}
 
 const exceptionRules = computed(() => [
   (v) =>

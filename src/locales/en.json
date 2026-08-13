@@ -202,6 +202,8 @@
     "budgetPositionApproved": " Budget Position Approved",
     "percentage": "Percentage",
     "timeExceCourse": "Minimum Contract Term Deviation (less than 10 h/week or 40 h/month)",
+    "timeExceReasonStudentWish": "Students wish",
+    "timeExceReasonStudentCourse": "Scope of course",
     "timeExceName": "Description",
     "timeExceStart": "Deviation from",
     "timeExceEnd": "Deviation until",

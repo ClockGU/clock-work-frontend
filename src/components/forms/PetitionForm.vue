@@ -107,7 +107,7 @@
 
       <v-col cols="12">
         <TimeExceptionFields
-          v-model:exception="formData.time_exce_course"
+          v-model:exception="timeExceReason"
           v-model:name="formData.time_exce_name"
           v-model:time="formData.time_exce_time"
           :force-required="worktimeRequiresTimeException"
@@ -191,6 +191,23 @@ const isAllValid = computed(() => {
   const isBudgetValid = budgetPositionsRef.value?.percentageTotalRule === true;
   const isOtherFieldsValid = isFormValid.value;
   return isOtherFieldsValid && isBudgetValid;
+});
+
+//Contract exception reason handling
+
+const REASON_STUDENT_WISH = 1;
+const REASON_COURSE = 2;
+
+const timeExceReason = computed({
+  get() {
+    if (formData.value.time_exce_student) return REASON_STUDENT_WISH;
+    if (formData.value.time_exce_course) return REASON_COURSE;
+    return null;
+  },
+  set(value) {
+    formData.value.time_exce_student = value === REASON_STUDENT_WISH;
+    formData.value.time_exce_course = value === REASON_COURSE;
+  },
 });
 
 // Populate form data when petition prop changes
