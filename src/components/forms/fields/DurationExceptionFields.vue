@@ -1,12 +1,27 @@
 <template>
   <div>
-    <v-checkbox
+    <v-radio-group
+      ref="radio"
       id="durationException"
-      v-model="exception"
+      :value="exception"
+      inline
       :label="$t('petition.durationException')"
       :aria-label="$t('petition.durationException')"
       :rules="exceptionRules"
-    />
+    >
+      <v-radio
+        :label="$t('petition.timeExceReasonStudentWish')"
+        :value="1"
+        @click="handleReselect(1)"
+      ></v-radio>
+      <v-radio
+        :label="$t('petition.timeExceReasonStudentCourse')"
+        class="ml-8"
+        :value="2"
+        @click="handleReselect(2)"
+      >
+      </v-radio>
+    </v-radio-group>
 
     <div v-if="exception" class="mx-4">
       <label for="durationExceName" class="ml-8">
@@ -62,13 +77,19 @@ const props = defineProps({
   forceRequired: { type: Boolean, default: false },
 });
 
-const exception = defineModel('exception', { type: Boolean, default: false });
+const exception = defineModel('exception', {
+  type: [Number, null],
+  default: null,
+});
 const name = defineModel('name', { type: String, default: '' });
 const start = defineModel('start', {
   type: [String, Date, null],
   default: null,
 });
 const end = defineModel('end', { type: [String, Date, null], default: null });
+
+const emit = defineEmits(['update:exception']);
+
 
 const { t } = useI18n();
 
@@ -80,6 +101,15 @@ const exceptionRules = computed(() => [
     !!v ||
     t('validationRule.durationExceptionRequired'),
 ]);
+
+function handleReselect(value) {
+  if (value === exception.value) {
+    emit('update:exception', null);
+    radio.value.reset();
+    return;
+  }
+  emit('update:exception', value);
+}
 
 // Reset fields when unchecked
 watch(
