@@ -69,7 +69,6 @@ const props = defineProps({
 .styled-table {
   border-collapse: collapse;
   border: 1px solid #d6d3d3;
-  cursor: pointer;
 }
 .styled-table th,
 .styled-table td {
