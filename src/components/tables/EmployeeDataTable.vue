@@ -6,7 +6,15 @@
     :header-value="$t('dataDisplayTable.employeeData.headers.value')"
   >
     <template #value-cell="{ row }">
-      {{ formatValue(row.value, row.key) }}
+      <div class="d-flex align-center">
+        <span>{{ formatValue(row.value, row.key) }}</span>
+        <v-btn
+          class="ml-auto"
+          variant="flat"
+          :icon="mdiClipboardFileOutline"
+          @click="copyToClipboard(row.value)"
+        ></v-btn>
+      </div>
     </template>
   </BaseDataDisplay>
 </template>
@@ -15,6 +23,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { format, parseISO } from 'date-fns';
+import { mdiClipboardFileOutline } from '@mdi/js';
 // Import the new base component
 import BaseDataDisplay from '@/components/tables/base/DataDisplayTable.vue';
 
@@ -26,6 +35,13 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
+
+async function copyToClipboard(value) {
+  const type = 'text/plain';
+  const blob = new Blob([value], { type });
+  const data = [new ClipboardItem({ [type]: blob })];
+  await navigator.clipboard.write(data);
+}
 
 /**
  * Formats a given value for display in the table.
@@ -93,9 +109,7 @@ const tableRows = computed(() => {
     'health_insurance',
     'previously_employeed',
     'prev_emp_duration',
-    'iban',
-    'bic',
-    'bank_name',
+    'iban'
   ];
 
   fieldOrder.forEach((key) => {
