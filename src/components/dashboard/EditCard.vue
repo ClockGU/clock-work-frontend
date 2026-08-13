@@ -210,7 +210,7 @@ const fetchEmployeeData = async () => {
   if (isLoadingEmployeeData.value) return;
   isLoadingEmployeeData.value = true;
   try {
-    const response = await ContentApiService.get('/employees');
+    const response = await ContentApiService.get('/employees/me');
     employeeData.value = response.data || null;
   } catch (error) {
     if (error.response?.status === 404) {
