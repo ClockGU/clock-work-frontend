@@ -3,11 +3,12 @@
     <v-radio-group
       ref="radio"
       id="timeException"
-      :value="exception"
+      v-model="exception"
       inline
       :label="$t('petition.timeExceCourse')"
       :aria-label="$t('petition.timeExceCourse')"
       :rules="exceptionRules"
+      :disabled="disabled"
     >
       <v-radio
         :label="$t('petition.timeExceReasonStudentWish')"
@@ -54,15 +55,19 @@
 </template>
 
 <script setup>
-import { computed, ref, useTemplateRef, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { mdiClock } from '@mdi/js';
 import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
-  forceRequired: { type: Boolean, default: false },
+  required: { type: Boolean, default: false },
+  disabled: { type: Boolean, default: false },
 });
 
-const exception = defineModel('exception', { type: [Number, null], default: null });
+const exception = defineModel('exception', {
+  type: [Number, null],
+  default: null,
+});
 const name = defineModel('name', { type: String, default: '' });
 const time = defineModel('time', { type: [String, Number], default: '' });
 
@@ -76,10 +81,12 @@ const requiredRule = (v) => !!v || t('validationRule.required');
 const positiveNumberRule = (v) =>
   Number(v) > 0 || t('validationRule.positiveNumber');
 
-function handleReselect(value) {
+async function handleReselect(value) {
   if (value === exception.value) {
     emit('update:exception', null);
-    radio.value.reset();
+    await radio.value.reset()
+    await radio.value.validate();
+
     return;
   }
   emit('update:exception', value);
@@ -87,7 +94,7 @@ function handleReselect(value) {
 
 const exceptionRules = computed(() => [
   (v) =>
-    !props.forceRequired || !!v || t('validationRule.timeExceptionRequired'),
+    !props.required || !!v || t('validationRule.timeExceptionRequired'),
 ]);
 
 // Reset fields when unchecked

@@ -3,11 +3,12 @@
     <v-radio-group
       ref="radio"
       id="durationException"
-      :value="exception"
+      v-model="exception"
       inline
       :label="$t('petition.durationException')"
       :aria-label="$t('petition.durationException')"
       :rules="exceptionRules"
+      :disabled="disabled"
     >
       <v-radio
         :label="$t('petition.timeExceReasonStudentWish')"
@@ -69,12 +70,13 @@
 </template>
 
 <script setup>
-import { computed, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
   displayDate: { type: Function, required: true },
-  forceRequired: { type: Boolean, default: false },
+  required: { type: Boolean, default: false },
+  disabled: { type: Boolean, default: false },
 });
 
 const exception = defineModel('exception', {
@@ -90,6 +92,7 @@ const end = defineModel('end', { type: [String, Date, null], default: null });
 
 const emit = defineEmits(['update:exception']);
 
+const radio = ref(null);
 
 const { t } = useI18n();
 
@@ -97,15 +100,14 @@ const requiredRule = (v) => !!v || t('validationRule.required');
 
 const exceptionRules = computed(() => [
   (v) =>
-    !props.forceRequired ||
-    !!v ||
-    t('validationRule.durationExceptionRequired'),
+    !props.forceRequired || !!v || t('validationRule.durationExceptionRequired'),
 ]);
 
-function handleReselect(value) {
+async function handleReselect(value) {
   if (value === exception.value) {
     emit('update:exception', null);
-    radio.value.reset();
+    await radio.value.reset()
+    await radio.value.validate();
     return;
   }
   emit('update:exception', value);

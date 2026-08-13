@@ -110,7 +110,8 @@
           v-model:exception="timeExceReason"
           v-model:name="formData.time_exce_name"
           v-model:time="formData.time_exce_time"
-          :force-required="worktimeRequiresTimeException"
+          :required="worktimeRequiresTimeException"
+          :disabled="!worktimeRequiresTimeException"
         />
       </v-col>
 
@@ -121,7 +122,8 @@
           v-model:start="formData.duration_exce_start"
           v-model:end="formData.duration_exce_end"
           :display-date="displayDate"
-          :force-required="durationRequiresException"
+          :required="durationRequiresException"
+          :disabled="!durationRequiresException"
         />
       </v-col>
     </v-row>
