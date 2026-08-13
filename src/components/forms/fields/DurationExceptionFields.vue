@@ -100,7 +100,7 @@ const requiredRule = (v) => !!v || t('validationRule.required');
 
 const exceptionRules = computed(() => [
   (v) =>
-    !props.forceRequired || !!v || t('validationRule.durationExceptionRequired'),
+    !props.required || !!v || t('validationRule.durationExceptionRequired'),
 ]);
 
 async function handleReselect(value) {
