@@ -18,18 +18,14 @@
       </v-app-bar-nav-icon>
 
       <v-toolbar-title>
-        <router-link
-          v-slot="{ navigate }"
-          custom
-          :to="redirectTo"
-          :aria-label="
-            redirectTo === '/roles'
-              ? $t('ariaLabel.navigation.roles')
-              : $t('ariaLabel.navigation.dashboard')
-          "
-        >
+        <router-link v-slot="{ navigate }" custom :to="redirectTo">
           <a
             style="display: inline-block; cursor: pointer"
+            :aria-label="
+              redirectTo === '/roles'
+                ? $t('ariaLabel.navigation.roles')
+                : $t('ariaLabel.navigation.dashboard')
+            "
             @click="navigate"
             @keypress.enter="navigate"
           >
@@ -129,6 +125,7 @@ const toggleNavigationdrawer = () => {
 };
 const logout = () => {
   store.dispatch('auth/logout');
-  window.location = "https://idp.ub.uni-frankfurt.de/idp/profile/oidc/end-session";
+  window.location =
+    'https://idp.ub.uni-frankfurt.de/idp/profile/oidc/end-session';
 };
 </script>
