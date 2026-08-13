@@ -52,7 +52,7 @@
           dense
           :prepend-icon="icons.mdiGenderMaleFemale"
           :aria-label="$t('employeeData.gender')"
-          :items="['Male', 'Female', 'Other']"
+          :items="genderSelection"
           :rules="[requiredRule]"
         />
       </v-col>
@@ -264,6 +264,21 @@ const formOfAddressSelection = [
   {
     title: t('employeeData.formOfAddressSelection.none'),
     value: undefined,
+  },
+];
+
+const genderSelection = [
+  {
+    title: t('employeeData.genderSelection.male'),
+    value: 'Männlich',
+  },
+  {
+    title: t('employeeData.genderSelection.female'),
+    value: 'Weiblich',
+  },
+  {
+    title: t('employeeData.genderSelection.other'),
+    value: 'Divers',
   },
 ];
 

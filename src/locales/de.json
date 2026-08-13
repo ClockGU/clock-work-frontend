@@ -133,6 +133,11 @@
       "none": "Keine"
     },
     "gender": "Geschlecht",
+    "genderSelection": {
+      "male": "männlich",
+      "female": "weiblich",
+      "other": "divers"
+    },
     "dateOfBirth": "Geburtsdatum",
     "cityOfBirth": "Geburtsort",
     "address": "Adresse",

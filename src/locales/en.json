@@ -133,6 +133,11 @@
       "none": "None"
     },
     "gender": "Gender",
+    "genderSelection": {
+      "male": "male",
+      "female": "female",
+      "other": "other"
+    },
     "dateOfBirth": "Date of Birth",
     "cityOfBirth": "City of Birth",
     "address": "Address",
