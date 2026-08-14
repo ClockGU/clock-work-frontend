@@ -38,7 +38,7 @@
           dense
           :prepend-icon="icons.mdiAccountBox"
           :aria-label="$t('employeeData.formOfAddress')"
-          :items="['Mr.', 'Ms.', 'Mrs.', 'Dr.']"
+          :items="formOfAddressSelection"
           :rules="[requiredRule]"
         />
       </v-col>
@@ -52,7 +52,7 @@
           dense
           :prepend-icon="icons.mdiGenderMaleFemale"
           :aria-label="$t('employeeData.gender')"
-          :items="['Male', 'Female', 'Other']"
+          :items="genderSelection"
           :rules="[requiredRule]"
         />
       </v-col>
@@ -66,6 +66,7 @@
           :display-format="displayDate"
           input-format="dd.mm.yyyy"
           output-format="dd-MM-yyyy"
+          :placeholder="$t('datePlaceholder')"
           :aria-label="$t('employeeData.dateOfBirth')"
           :rules="[requiredRule]"
         />
@@ -196,7 +197,7 @@
           input-format="dd.mm.yyyy"
           output-format="dd-MM-yyyy"
           multiple="range"
-          placeholder="DD.MM.YYYY – DD.MM.YYYY"
+          :placeholder="$t('datePlaceholder') + ' – ' + $t('datePlaceholder')"
           :aria-label="$t('employeeData.duration')"
           :rules="formData.previous_employment ? [requiredRule] : []"
         />
@@ -250,6 +251,36 @@ const props = defineProps({
 const { t } = useI18n();
 const formData = ref(new EmployeeData());
 const isFormValid = ref(false);
+
+const formOfAddressSelection = [
+  {
+    title: t('employeeData.formOfAddressSelection.male'),
+    value: 'Herr',
+  },
+  {
+    title: t('employeeData.formOfAddressSelection.female'),
+    value: 'Frau',
+  },
+  {
+    title: t('employeeData.formOfAddressSelection.none'),
+    value: undefined,
+  },
+];
+
+const genderSelection = [
+  {
+    title: t('employeeData.genderSelection.male'),
+    value: 'Männlich',
+  },
+  {
+    title: t('employeeData.genderSelection.female'),
+    value: 'Weiblich',
+  },
+  {
+    title: t('employeeData.genderSelection.other'),
+    value: 'Divers',
+  },
+];
 
 watch(
   () => props.initialData,

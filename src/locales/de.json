@@ -1,5 +1,5 @@
 {
-  "welcome": "Willkommen im Portal von CLOCK Work",
+  "welcome": "Willkommen im Portal von ClockWork",
   "login": "Anmelden",
   "logout": "Abmelden",
   "search": "Suchen",
@@ -13,6 +13,7 @@
     "loggingin": "Anmeldung läuft...",
     "loading": "Lade Daten..."
   },
+  "datePlaceholder": "TT.MM.JJJJ",
   "actions": {
     "cancel": "abbrechen",
     "submit": "einreichen",
@@ -51,7 +52,7 @@
   },
   "gdprAcceptanceDialog": {
     "title": "Datenschutzerklärung",
-    "text": "Diese Anwendung verwendet Cookies und sammelt personenbezogene Daten, um Ihre Erfahrung zu verbessern. Durch die Fortsetzung stimmen Sie unserer Verwendung von Daten gemäß unserer Datenschutzerklärung zu. Dies umfasst, aber nicht beschränkt auf Ihren Namen, Ihre E-Mail-Adresse und andere personenbezogene Informationen. Bitte lesen Sie unsere Datenschutzerklärung sorgfältig, um zu verstehen, wie wir Ihre Daten schützen und verwenden.",
+    "text": "Diese Anwendung verwendet Cookies und erhebt personenbezogene Daten. Durch die weitere Nutzung stimmen Sie unserer Verwendung von Daten gemäß unserer Datenschutzerklärung zu. Dies umfasst, ist aber nicht beschränkt auf Ihren Namen, Ihre E-Mail-Adresse und andere personenbezogene Informationen. Bitte lesen Sie unsere Datenschutzerklärung sorgfältig, um zu verstehen, wie wir Ihre Daten schützen und verwenden.",
     "accept": "Ich habe die Datenschutzerklärung gelesen und akzeptiere sie"
   },
   "editCard": {
@@ -101,7 +102,7 @@
   },
   "confirmationDialog": {
     "PetitionDeletion": "Sind Sie sicher, dass Sie diesen Antrag löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden!",
-    "clerkAlert": "Löschen ist endgültig. Nur nutzen, wenn auf Basis der Daten kein rechtmäßiger Vertrag zustande kommen kann."
+    "clerkAlert": "Das Löschen ist endgültig. Bitte diese Funktion nur benutzen, wenn auf Basis der vorliegenden Daten kein rechtsgültiger Vertrag zustande kommen kann."
   },
   "petitionFormDialog": {
     "title": "Neuen Antrag stellen",
@@ -126,7 +127,17 @@
     "firstName": "Vorname",
     "lastName": "Nachname",
     "formOfAddress": "Anrede",
+    "formOfAddressSelection": {
+      "male": "Herr",
+      "female": "Frau",
+      "none": "Keine"
+    },
     "gender": "Geschlecht",
+    "genderSelection": {
+      "male": "männlich",
+      "female": "weiblich",
+      "other": "divers"
+    },
     "dateOfBirth": "Geburtsdatum",
     "cityOfBirth": "Geburtsort",
     "address": "Adresse",
@@ -172,32 +183,31 @@
       "clerk_action": "Aktion durch Sachbearbeitung",
       "awaiting_signature": "Warten auf Unterschrift"
     },
-    "hint": {
-      "eosNumber": "Die EOS-Nummer (z. B. F123456) finden Sie auf Ihren Vertragsunterlagen."
-    },
     "id": "Antrags-ID",
     "status": "Status",
     "supervisorMail": "E-Mail Supervisor",
     "studentMail": "E-Mail Student*in",
     "studentAccount": "Studierenden-Account (s-Nummer)",
     "orgUnit": "Organisationseinheit",
+    "orgUnitPlaceholder": "z.B. Institut für Informatik",
     "eosNumber": "EOS-Nummer",
     "startDate": "Vertragsbeginn",
     "endDate": "Vertragsende",
     "minutes": "Vertragsumfang (h/Monat)",
-    "baDegree": "Bachelorabschluss",
+    "baDegreeLabel": "Hochschulabschluss",
+    "baDegree": "Bachelorabschluss vorhanden",
     "budgetPositions": "Kostenstellen",
     "budgetPosition": "Kostenstelle",
     "budgetApprover": "E-Mail der*des Kostenstellenverantwortlichen",
     "budgetPositionApproved": "Kostenstelle genehmigt",
     "percentage": "Prozentsatz",
-    "timeExceCourse": "Ausnahmen vom Mindestumfang (10 h/Woche | 40 h/Monat)",
+    "timeExceCourse": "Ausnahmen vom Mindestumfang (weniger als 10 h/Woche bzw. 40 h/Monat)",
     "timeExceName": "Beschreibung",
     "timeExceStart": "Startdatum der Abweichung",
     "timeExceEnd": "Enddatum der Abweichung",
     "timeExecActualTime": "Zeitlicher Umfang der Veranstaltung (h/Monat)",
     "durationExceCourse": "Abweichung von der Mindestvertragslaufzeit",
-    "durationExceName": "Bezeichnung der Abweichung",
+    "durationExceName": "Beschreibung",
     "durationExceStart": "Startdatum der Abweichung",
     "durationExceEnd": "Enddatum der Abweichung",
     "durationException": "Ausnahmedauer",
@@ -241,11 +251,11 @@
     "percentage": "Muss zwischen 0-100 liegen",
     "percentageTotal": "Die Gesamtsumme aller Anteile muss 100% betragen. Aktuelle Gesamtsumme: {totalPercentage}%",
     "positiveNumber": "Muss eine positive Zahl sein",
-    "endDateAfterStart": "Enddatum muss nach dem Startdatum liegen",
+    "endDateAfterStart": "Das Enddatum muss nach dem Startdatum liegen",
     "eosNumber": "Muss im Format 'FXXXXXX' sein, wobei 'X' eine beliebige Ziffer von 0 bis 9 ist",
     "postalCode": "Postleitzahl muss 5-stellig sein",
-    "durationExceptionRequired": "Dieses Feld muss markiert werden, wenn die Vertragslaufzeit weniger als ein Jahr beträgt.",
-    "timeExceptionRequired": "Dieses Feld muss markiert werden, wenn die monatliche Arbeitszeit weniger als 40 Stunden beträgt."
+    "durationExceptionRequired": "Diese Angaben sind erforderlich, wenn die Vertragslaufzeit weniger als ein Jahr beträgt.",
+    "timeExceptionRequired": "Dieses Angaben sind erforderlich, wenn die monatliche Arbeitszeit weniger als 40 Stunden beträgt."
   },
   "footer": {
     "links": {

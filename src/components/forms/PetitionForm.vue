@@ -37,6 +37,7 @@
           v-model="formData.org_unit"
           outlined
           dense
+          :placeholder="$t('petition.orgUnitPlaceholder')"
           :prepend-icon="icons.mdiOfficeBuilding"
           :aria-label="$t('petition.orgUnit')"
           :rules="[requiredRule]"
@@ -53,6 +54,7 @@
           type="start"
           :display-format="displayDate"
           :label="$t('petition.startDate')"
+          :placeholder="$t('datePlaceholder')"
           :rules="[requiredRule]"
         />
       </v-col>
@@ -63,6 +65,7 @@
           type="end"
           :display-format="displayDate"
           :label="$t('petition.endDate')"
+          :placeholder="$t('datePlaceholder')"
           :rules="[requiredRule, endDateRule]"
         />
       </v-col>
@@ -82,24 +85,23 @@
       </v-col>
 
       <v-col cols="12" md="6">
-        <label for="baDegree">{{ $t('petition.baDegree') }}</label>
-        <v-select
+        <label for="baDegree" class="mb-2 d-block">{{
+          $t('petition.baDegreeLabel')
+        }}</label>
+        <v-checkbox
           id="baDegree"
           v-model="formData.ba_degree"
-          :items="degreeOptions"
-          item-title="text"
-          item-value="value"
-          outlined
-          dense
           :prepend-icon="icons.mdiSchool"
+          :label="$t('petition.baDegree')"
           :aria-label="$t('petition.baDegree')"
+          class="ma-0 ba-degree-checkbox"
         />
       </v-col>
 
       <v-col cols="12">
         <BudgetPositionsFields
-          v-model="formData.budget_positions"
           ref="budgetPositionsRef"
+          v-model="formData.budget_positions"
         />
       </v-col>
 
@@ -262,6 +264,12 @@ watch(
 
 defineExpose({ formData, isAllValid });
 </script>
+
+<style scoped>
+.ba-degree-checkbox :deep(.v-selection-control__wrapper) {
+  margin-left: -8px;
+}
+</style>
 <style scoped>
 label {
   font-weight: 500;

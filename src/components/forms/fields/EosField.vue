@@ -16,28 +16,6 @@
           <v-icon :icon="icons.mdiNumeric" size="small" class="ml-n2" />
         </div>
       </template>
-      <template #append-inner>
-        <v-btn
-          variant="plain"
-          flat
-          icon
-          class="help-icon"
-          @click="tooltip = !tooltip"
-          v-click-outside="onClickOutside"
-        >
-          <v-icon :icon="icons.mdiHelpCircleOutline" />
-          <v-tooltip
-            v-model="tooltip"
-            :text="$t('petition.hint.eosNumber')"
-            location="bottom"
-            activator="parent"
-            :open-on-hover="false"
-            max-width="180"
-            :offset="[20, -30]"
-          >
-          </v-tooltip>
-        </v-btn>
-      </template>
     </v-text-field>
   </div>
 </template>
