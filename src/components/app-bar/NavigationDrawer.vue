@@ -10,18 +10,14 @@
     @update:model-value="closeDrawer"
   >
     <v-row class="mt-4 mb-4" justify="center">
-      <router-link
-        v-slot="{ navigate }"
-        :to="redirectTo"
-        custom
-        :aria-label="
-          redirectTo === '/roles'
-            ? $t('ariaLabel.navigation.roles')
-            : $t('ariaLabel.navigation.dashboard')
-        "
-      >
+      <router-link v-slot="{ navigate }" :to="redirectTo" custom>
         <a
           style="display: inline-block; cursor: pointer"
+          :aria-label="
+            redirectTo === '/roles'
+              ? $t('ariaLabel.navigation.roles')
+              : $t('ariaLabel.navigation.dashboard')
+          "
           @click="navigate"
           @keypress.enter="navigate"
         >

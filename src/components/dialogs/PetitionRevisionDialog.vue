@@ -92,7 +92,7 @@ import CustomDialog from '@/components/dialogs/base/CustomDialog.vue';
 
 const props = defineProps({
   petition: {
-    type: Object,
+    type: [Object, null],
     required: true,
   },
 });

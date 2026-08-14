@@ -40,7 +40,7 @@ const props = defineProps({
     default: 'mdi-calendar',
   },
   displayFormat: {
-    type: String,
+    type: [String, Function],
     default: 'dd.MM.yyyy',
   },
   inputFormat: {
