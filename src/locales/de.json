@@ -202,6 +202,8 @@
     "budgetPositionApproved": "Kostenstelle genehmigt",
     "percentage": "Prozentsatz",
     "timeExceCourse": "Ausnahmen vom Mindestumfang (weniger als 10 h/Woche bzw. 40 h/Monat)",
+    "timeExceReasonStudentWish": "Wunsch der Studierenden",
+    "timeExceReasonStudentCourse": "Rahmen der Veranstaltung",
     "timeExceName": "Beschreibung",
     "timeExceStart": "Startdatum der Abweichung",
     "timeExceEnd": "Enddatum der Abweichung",

@@ -21,12 +21,18 @@ class Petition {
     this.minutes = data.minutes ? Number(data.minutes) / 60 : 0;
     this.ba_degree = data.ba_degree ?? false;
     this.status = data.status || '';
+
     this.time_exce_student = data.time_exce_student ?? false;
     this.time_exce_course = data.time_exce_course ?? false;
     this.time_exce_time = data.time_exce_time || '';
-    this.duration_exce_course = data.duration_exce_course ?? false;
     this.time_exce_name = data.time_exce_name || '';
+
+    this.duration_exce_student = data.duration_exce_student ?? false;
+    this.duration_exce_course = data.duration_exce_course ?? false;
     this.duration_exce_name = data.duration_exce_name || '';
+    this.duration_exce_start = data.duration_exce_start || undefined;
+    this.duration_exce_end = data.duration_exce_end || undefined;
+
     this.budget_positions = data.budget_positions || [
       {
         id: '',
