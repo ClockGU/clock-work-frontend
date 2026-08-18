@@ -119,8 +119,8 @@ const props = defineProps({
           information.
         </p>
         <h3 class="text-red-darken-3">
-          It is not furthermore <strong>not possible</strong> to save a petition
-          with incomplete data and modify it later on.
+          Furthermore, it is <strong>not possible</strong> to save a petition with
+          incomplete data and modify it later on.
         </h3>
       </v-card-text>
     </v-card>
