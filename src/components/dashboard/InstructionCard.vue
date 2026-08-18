@@ -9,11 +9,9 @@
       v-if="role === Roles.SUPERVISOR"
       :locale="selectedLocale"
     />
-    <StudentInstructionTextEnglish
-      v-if="role === Roles.STUDENT && selectedLocale === 'en'"
-    />
-    <StudentInstructionTextGerman
-      v-if="role === Roles.STUDENT && selectedLocale === 'de'"
+    <StudentInstructionText
+      v-if="role === Roles.STUDENT"
+      :locale="selectedLocale"
     />
   </v-card>
 </template>
@@ -26,6 +24,7 @@ import StudentInstructionTextEnglish from '@/components/dashboard/instruction_te
 import StudentInstructionTextGerman from '@/components/dashboard/instruction_texts/StudentInstructionTextGerman.vue';
 import { getCurrentLocale } from '@/plugins/i18n';
 import SupervisorInstructionText from '@/components/dashboard/instruction_texts/SupervisorInstructionText.vue';
+import StudentInstructionText from '@/components/dashboard/instruction_texts/StudentInstructionText.vue';
 
 const { t } = useI18n();
 const props = defineProps({
