@@ -42,16 +42,3 @@ const instructionCardTitle = computed(() =>
     : t('instructionCard.title.supervisor')
 );
 </script>
-<style>
-/*
-Style for Instruction cards.
-*/
-
-.inset {
-  margin-inline-start: 6rem;
-  margin-top: 8px;
-}
-.shift-lists {
-  margin-inline-start: 1rem;
-}
-</style>

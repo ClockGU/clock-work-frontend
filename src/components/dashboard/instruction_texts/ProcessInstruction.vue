@@ -1,10 +1,13 @@
 <script setup>
+import { useDisplay } from 'vuetify';
+
 const props = defineProps({
   locale: {
     type: String,
     default: 'de',
   },
 });
+const { mdAndDown } = useDisplay();
 </script>
 
 <template>
@@ -51,7 +54,7 @@ const props = defineProps({
             </li>
           </ol>
         </div>
-        <div class="inset">
+        <div :class="[mdAndDown ? 'inset-md-and-down' : 'inset-lg-and-up']">
           <span class="mt-2">
             Über diese Prozessschritte hinaus existieren noch Revisionsschritte:
           </span>
@@ -124,7 +127,7 @@ const props = defineProps({
             </li>
           </ol>
         </div>
-        <div class="inset">
+        <div :class="[mdAndDown ? 'inset-md-and-down' : 'inset-lg-and-up']">
           <span class="mt-2">
             In addition to these process steps, there are also revision steps:
           </span>
