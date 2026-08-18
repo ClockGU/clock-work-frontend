@@ -20,8 +20,6 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Roles } from '@/utils/roleUtils';
-import StudentInstructionTextEnglish from '@/components/dashboard/instruction_texts/StudentInstructionTextEnglish.vue';
-import StudentInstructionTextGerman from '@/components/dashboard/instruction_texts/StudentInstructionTextGerman.vue';
 import { getCurrentLocale } from '@/plugins/i18n';
 import SupervisorInstructionText from '@/components/dashboard/instruction_texts/SupervisorInstructionText.vue';
 import StudentInstructionText from '@/components/dashboard/instruction_texts/StudentInstructionText.vue';
