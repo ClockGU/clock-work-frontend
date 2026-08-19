@@ -13,7 +13,7 @@ const props = defineProps({
     <h3>
       Hier können Sie die für Sie gestellten Anträge auf Einstellung als
       Hilfskraft überblicken, Ihre Daten verwalten und Anträgen
-      zustimmen/ablehnen/Änderungen anfragen.
+      zustimmen/ablehnen oder Änderungen anfragen.
     </h3>
     <p class="mt-2 mb-4">
       Bitte stellen Sie sicher, dass Sie vor dem Start der
@@ -34,10 +34,11 @@ const props = defineProps({
         </p>
         <v-list>
           <v-list-item :prepend-icon="mdiPaperclip">
-            <strong>Ausgefülltes</strong> ELStAM Formular, zu finden
+            <strong>Ausgefülltes</strong>
             <a
               href="https://www.uni-kassel.de/einrichtung/hochschulbezuegestelle/lohnsteuerabzugsverfahren.html"
-              >hier</a
+            >
+              ELStAM Formular </a
             >.
           </v-list-item>
           <v-list-item :prepend-icon="mdiPaperclip">
@@ -47,40 +48,38 @@ const props = defineProps({
             >Versicherungsnachweis der Krankenkasse
           </v-list-item>
           <v-list-item :prepend-icon="mdiPaperclip">
-            <strong>Ausgefüllter</strong> Fragebogen zur Sozailversicherung, zu
-            finden
+            <strong>Ausgefüllter</strong>
             <a
               href="https://www.uni-kassel.de/einrichtung/hochschulbezuegestelle/formulare-informationen.html"
-              >hier
+              >Fragebogen zur Sozialversicherung
             </a>
-            unter dem Tab "Sozialversicherung".
+            (siehe Tab "Sozialversicherung")
           </v-list-item>
           <v-list-item :prepend-icon="mdiPaperclip">
-            <strong>Bild ode Scan</strong>
+            <strong>Bild oder Scan</strong>
             des Personalausweises
           </v-list-item>
           <v-list-item :prepend-icon="mdiPaperclip">
             Optional: Visum/Aufenthaltsgenehmigung
           </v-list-item>
           <v-list-item :prepend-icon="mdiPaperclip">
-            Optional: Scan Bachelorabschluss
+            Optional: Scan des Bachelorzeugnisses
           </v-list-item>
         </v-list>
         <p class="mt-2">
-          Ohne diese Daten können Sie <strong>keinen</strong> Antrag
-          absenden/erstellen
+          Ohne diese Daten können Sie <strong>keinen</strong> Arbeitsvertrag
+          abschließen.
         </p>
         <h3 class="text-red-darken-3">
-          Ein akzeptieren von Anträgen mit nicht vollständig ausgefüllten Daten
-          ist
-          <strong>nicht</strong> möglich.
+          Anträgen mit nicht vollständig ausgefüllten Daten können
+          <strong>nicht</strong> bearbeitet werden.
         </h3>
       </v-card-text>
     </v-card>
     <h2 class="text-green-darken-3 mt-2">Support</h2>
     <h3>
       Sollten Sie Fragen zur Funktionsweise oder Probleme bei der Nutzung haben,
-      wenden Sie sich bitte per mail an
+      wenden Sie sich bitte per Mail an
       <a href="mailto:clock@uni-frankfurt.de?subject=Support%20Clockwork"
         >clock@uni-frankfurt.de</a
       >.
@@ -88,9 +87,9 @@ const props = defineProps({
   </div>
   <div v-else>
     <h3>
-      Here you can view the requests submitted to you for employment as a
-      student assistant, manage your information, and approve, reject, or
-      request changes to these requests.
+      Here, you can view the requests submitted to you for employment as a
+      student assistant, manage your information and approve, reject, or request
+      changes to these requests.
     </h3>
     <p class="mt-2 mb-4">
       Please make sure you have all the necessary data and files ready before
@@ -102,56 +101,56 @@ const props = defineProps({
         style="position: relative"
       >
         <span class="v-alert__underlay"></span>
-        <h4>Benötigte Daten</h4>
+        <h4>Required data/documents</h4>
       </v-card-title>
       <v-card-text class="pl-8 pt-2">
         <p>Files required to enter your personal information :</p>
         <v-list>
           <v-list-item :prepend-icon="mdiPaperclip">
-            <strong>Completed</strong> ELStAM form, available
-            <a
+            <strong>Completed</strong
+            ><a
               href="https://www.uni-kassel.de/einrichtung/hochschulbezuegestelle/lohnsteuerabzugsverfahren.html"
-              >here</a
-            >.
+              >ELStAM form</a
+            >(Tax information)
           </v-list-item>
           <v-list-item :prepend-icon="mdiPaperclip">
-            <strong>Up-to-date</strong> enrolment vertificate
+            <strong>Up-to-date</strong> enrolment certificate
           </v-list-item>
           <v-list-item :prepend-icon="mdiPaperclip"
             >Health Insurance Membership Certificate
           </v-list-item>
           <v-list-item :prepend-icon="mdiPaperclip">
-            <strong>Completed</strong> social security questionnaire, available
+            <strong>Completed</strong>
             <a
               href="https://www.uni-kassel.de/einrichtung/hochschulbezuegestelle/formulare-informationen.html"
-              >here
-            </a>
-            in the tab "Sozialversicherung".
+              >social security questionnaire</a
+            >
+            (tab "Sozialversicherung")
           </v-list-item>
           <v-list-item :prepend-icon="mdiPaperclip">
             <strong>Photo or scan</strong>
-            of the ID card
+            of your ID card
           </v-list-item>
           <v-list-item :prepend-icon="mdiPaperclip">
             Optional: Visa/Residence permit
           </v-list-item>
           <v-list-item :prepend-icon="mdiPaperclip">
-            Optional: Scan Bachelors degree
+            Optional: Scan of your Bachelors degree certificate
           </v-list-item>
         </v-list>
         <p class="mt-2">
-          Without this information, you cannot <strong>submit</strong> a
-          petition.
+          Without this information, you cannot <strong>submit</strong> accept a
+          working contract.
         </p>
         <h3 class="text-red-darken-3">
-          Petitions cannot
-          <strong>be accepted</strong> with incomplete personal information.
+          Contracts will not <strong>be processed</strong> if the personal
+          information is incomplete.
         </h3>
       </v-card-text>
     </v-card>
     <h2 class="text-green-darken-3 mt-2">Support</h2>
     <h3>
-      Should question about the functioning of the application arise or you
+      Should question about the functionality of the application arise or you
       encounter any problems while using it, please contact us by email at
       <a href="mailto:clock@uni-frankfurt.de?subject=Support%20Clockwork"
         >clock@uni-frankfurt.de</a

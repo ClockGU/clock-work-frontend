@@ -3,7 +3,7 @@ StudentInstructionTextGerman.vue
 
 <template>
   <v-card-text>
-    <h3>Here you can manage your contracts and enter or upload data.</h3>
+    <h3>Here, you can manage your contracts and enter or upload data.</h3>
     <p>
       Please ensure that you have all the necessary data and documents ready,
       otherwise you will not be able to submit the relevant forms.
@@ -15,8 +15,9 @@ StudentInstructionTextGerman.vue
     </p>
     <p>Please note that it is not possible to save your entries temporarily.</p>
     <p>
-      Should question about the functioning of the application arise or
-      encounter any problems while using it, please contact us by email at
+      Should questions about the functionality of the application arise or
+      should you encounter any problems while using it, please contact us by
+      email at
       <a href="mailto:clock@uni-frankfurt.de?subject=Support%20Clockwork"
         >clock@uni-frankfurt.de</a
       >.
