@@ -156,7 +156,7 @@ import TimeExceptionFields from '@/components/forms/fields/TimeExceptionFields.v
 
 const props = defineProps({
   petition: {
-    type: [Object, null],
+    type: [Petition, null],
     required: false,
     default: null,
   },
@@ -229,7 +229,7 @@ watch(
   () => props.petition,
   (newPetition) => {
     if (newPetition) {
-      formData.value = Petition.fromBackendResponse(newPetition);
+      formData.value = Petition.fromBackendResponse(newPetition.toBackendFormat());
     } else {
       formData.value = new Petition();
     }
