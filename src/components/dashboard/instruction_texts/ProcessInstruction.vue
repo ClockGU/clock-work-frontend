@@ -62,20 +62,24 @@ const { mdAndDown } = useDisplay();
           </span>
           <ul class="shift-lists">
             <li>
-              Kostenstellen-Revision: Finanzierung von der Kostenstelle nicht im
-              angegebenen Umfang akzeptierbar (Details in Mail)
+              <p>
+                Kostenstellen-Revision: Finanzierung von der Kostenstelle nicht
+                im angegebenen Umfang akzeptierbar (Details in Mail)
+              </p>
+              <p>&#8594; Antragsteller muss handeln.</p>
             </li>
-            <p>&#8594; Antragsteller muss handeln.</p>
             <li>
-              Studierenden-Revision: Antrag von Studierende*r nicht im
-              angegebenen Umfang akzeptierbar (Details in Mail)
+              <p>
+                Studierenden-Revision: Antrag von Studierende*r nicht im
+                angegebenen Umfang akzeptierbar (Details in Mail)
+              </p>
+              <p>&#8594; Antragsteller muss handeln.</p>
             </li>
-            <p>&#8594; Antragsteller muss handeln.</p>
             <li>
-              Sachbearbeitung-Revision: Studierendendaten unvollständig oder
-              fehlerhaft (Details in Mail)
+              <p>Sachbearbeitung-Revision: Studierendendaten unvollständig oder
+                fehlerhaft (Details in Mail)</p>
+              <p>&#8594; Studierend*e muss handeln.</p>
             </li>
-            <p>&#8594; Studierend*e muss handeln.</p>
           </ul>
         </div>
         <p class="mt-2">
@@ -135,20 +139,20 @@ const { mdAndDown } = useDisplay();
           </span>
           <ul class="shift-lists">
             <li>
-              Budget approver revision: Budget request not acceptable for the
-              specified budget position (details in email)
+              <p>Budget approver revision: Budget request not acceptable for the
+                specified budget position (details in email)</p>
+              <p>&#8594; Supervisor must act.</p>
             </li>
-            <p>&#8594; Supervisor must act.</p>
             <li>
-              Student revision: Request not acceptable due to duration or number
-              of hours (details in email)
+              <p>Student revision: Request not acceptable due to duration or number
+                of hours (details in email)</p>
+              <p>&#8594; Supervisor must act.</p>
             </li>
-            <p>&#8594; Supervisor must act.</p>
             <li>
-              Clerk revision: Student data incorrect or incomplete (details in
-              email)
+              <p>Clerk revision: Student data incorrect or incomplete (details in
+                email)</p>
+              <p>&#8594; Student must act.</p>
             </li>
-            <p>&#8594; Student must act.</p>
           </ul>
         </div>
         <p class="mt-2">
@@ -162,4 +166,8 @@ const { mdAndDown } = useDisplay();
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+p {
+  margin-bottom: 0.25rem
+}
+</style>
