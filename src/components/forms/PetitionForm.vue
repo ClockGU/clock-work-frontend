@@ -74,13 +74,14 @@
         <label for="minutes">{{ $t('petition.minutes') }}</label>
         <v-text-field
           id="minutes"
-          v-model="formData.minutes"
+          :value="formData.hours"
           type="number"
           outlined
           dense
           :prepend-icon="icons.mdiClock"
           :aria-label="$t('petition.minutes')"
           :rules="[requiredRule, positiveNumberRule]"
+          @update:model-value="updateMinutes"
         />
       </v-col>
 
@@ -241,6 +242,10 @@ const displayDate = makeDisplayDate({
   displayFormat: 'dd.MM.yyyy',
   primaryParseFormat: 'dd-MM-yyyy',
 });
+
+const updateMinutes = (value) => {
+  formData.value.minutes = value * 60;
+};
 
 const parseContractDate = (value) => {
   if (!value) return null;
