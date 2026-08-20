@@ -2,7 +2,7 @@
   <v-data-table
     role="table"
     :headers="headers"
-    :items="formattedItems"
+    :items="items"
     item-selectable
     hover
     :no-data-text="$t('petitionsOverviewTable.noPetitions')"
@@ -48,6 +48,7 @@
 import { computed } from 'vue';
 import PetitionStatusIcon from '@/components/ui/PetitionStatusIcon.vue';
 import StatusIndicator from '@/components/ui/StatusIndicator.vue';
+import Petition from '@/models/Petition';
 
 const props = defineProps({
   headers: {
@@ -65,16 +66,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['row-click']);
-
-const formattedItems = computed(() => {
-  return props.items.map((item) => {
-    const formattedItem = { ...item };
-
-    formattedItem['student_mail'] =
-      `${formattedItem['student_username']}@stud.uni-frankfurt.de`;
-    return formattedItem;
-  });
-});
 
 // This function generates a comprehensive label for the screen reader
 const getAriaLabel = (item) => {
