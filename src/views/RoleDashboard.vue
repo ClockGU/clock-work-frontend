@@ -6,7 +6,7 @@
       </v-col>
       <v-col cols="12" md="6">
         <EditCard
-          :selectedPetition="selectedPetition"
+          :selected-petition="selectedPetition"
           :petitions="petitions"
           @refresh="handleRefresh"
           @deselect-petition="deselectPetition"
@@ -16,8 +16,8 @@
         <OverviewCard
           :key="petitions.length"
           :petitions="petitions"
-          :selectedPetition="selectedPetition"
-          :isLoading="isLoading"
+          :selected-petition="selectedPetition"
+          :is-loading="isLoading"
           @select-petition="selectPetition"
         />
       </v-col>
