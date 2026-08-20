@@ -19,7 +19,7 @@ class Petition {
     this.student_username = data.student_username || '';
     this.org_unit = data.org_unit || '';
     this.eos_number = data.eos_number || '';
-    this.minutes = data.minutes ? Number(data.minutes) / 60 : 0;
+    this.minutes = data.minutes ? Number(data.minutes) : 0;
     this.ba_degree = data.ba_degree ?? false;
     this.status = data.status || '';
 
@@ -53,7 +53,9 @@ class Petition {
       }
     });
   }
-
+  get hours() {
+    return this.minutes / 60;
+  }
   parseDate(value) {
     if (!value) return null;
     if (value instanceof Date) return isValid(value) ? value : null;
@@ -74,13 +76,6 @@ class Petition {
 
   toBackendFormat() {
     const formattedData = { ...this };
-
-    // Frontend uses hours in 'minutes' field; convert to total minutes for backend
-    if (formattedData.minutes) {
-      formattedData.minutes = Math.round(
-        parseFloat(formattedData.minutes) * 60
-      );
-    }
 
     DATE_KEYS.forEach((key) => {
       const d = this.parseDate(formattedData[key]);
