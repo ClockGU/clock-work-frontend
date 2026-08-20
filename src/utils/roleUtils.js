@@ -18,7 +18,6 @@ export const Roles = Object.freeze({
 // ISZ, FZG, C3S, HR, F+S
 // hamburgerFilter:
 // FB01, 03, 04, 05, 13, 15, GRADE, ABL, UB
-// TODO: F+S missing
 // prettier-ignore
 const clerkResponsibilities = Object.freeze({
   schultheissFilter: [
@@ -26,7 +25,7 @@ const clerkResponsibilities = Object.freeze({
     'F11', 'F12', 'F14', 'F31', 'F52',
     'F5101', 'F56', 'F30', 'F5107', 'F37',
     'F36', 'F5108', 'F51081', 'F29', 'F33',
-    'F35', 'F53',
+    'F35', 'F53', 'F5502'
   ],
   hamburgerFilter: [
     'F01', 'F03', 'F04', 'F05', 'F13',
