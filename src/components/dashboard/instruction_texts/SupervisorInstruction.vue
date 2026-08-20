@@ -1,5 +1,11 @@
 <script setup>
-import { mdiAccountCog, mdiMailbox, mdiNumeric8Box, mdiSchool } from '@mdi/js';
+import {
+  mdiAccountCog,
+  mdiHelpCircleOutline,
+  mdiMailbox,
+  mdiNumeric8Box,
+  mdiSchool,
+} from '@mdi/js';
 
 const props = defineProps({
   locale: {
@@ -35,13 +41,39 @@ const props = defineProps({
         <v-list>
           <v-list-item :prepend-icon="mdiAccountCog"
             ><strong>HRZ-Accountname</strong> der Studierende*n (S-Nummer,
-            Beispiel s7735755)</v-list-item
-          >
+            Beispiel s7735755)
+            <v-tooltip :open-on-hover="false" open-on-click>
+              <template v-slot:activator="{ props }">
+                <v-btn
+                  v-bind="props"
+                  :icon="mdiHelpCircleOutline"
+                  variant="plain"
+                ></v-btn>
+              </template>
+              <span
+                >Diese Information bekommen Sie, indem Sie mit den Studierenden
+                REDEN &#128521;
+              </span>
+            </v-tooltip>
+          </v-list-item>
           <v-list-item :prepend-icon="mdiSchool"
             >Information ob der*die Studierend*e
             <strong>bereits über einen Bachelorabschluss</strong>
-            verfügt</v-list-item
-          >
+            verfügt
+            <v-tooltip :open-on-hover="false" open-on-click>
+              <template v-slot:activator="{ props }">
+                <v-btn
+                  v-bind="props"
+                  :icon="mdiHelpCircleOutline"
+                  variant="plain"
+                ></v-btn>
+              </template>
+              <span
+                >Diese Information bekommen Sie, indem Sie mit den Studierenden
+                REDEN &#128521;
+              </span>
+            </v-tooltip>
+          </v-list-item>
         </v-list>
         <p>Daten für die Finanzierung:</p>
         <v-list>
@@ -97,11 +129,37 @@ const props = defineProps({
         <v-list>
           <v-list-item :prepend-icon="mdiAccountCog"
             ><strong>HRZ-Accountname</strong> of the student (S-Number, example
-            s7735755)</v-list-item
-          >
-          <v-list-item :prepend-icon="mdiSchool"
-            >Information whether the student
+            s7735755)
+            <v-tooltip :open-on-hover="false" open-on-click>
+              <template v-slot:activator="{ props }">
+                <v-btn
+                  v-bind="props"
+                  :icon="mdiHelpCircleOutline"
+                  variant="plain"
+                ></v-btn>
+              </template>
+              <span>
+                You will get this information by TALKING to the student
+                &#128521;
+              </span>
+            </v-tooltip>
+          </v-list-item>
+          <v-list-item :prepend-icon="mdiSchool">
+            Information whether the student
             <strong>already acquired a Bachelors degree</strong>
+            <v-tooltip :open-on-hover="false" open-on-click>
+              <template v-slot:activator="{ props }">
+                <v-btn
+                  v-bind="props"
+                  :icon="mdiHelpCircleOutline"
+                  variant="plain"
+                ></v-btn>
+              </template>
+              <span>
+                You will get this information by TALKING to the student
+                &#128521;
+              </span>
+            </v-tooltip>
           </v-list-item>
         </v-list>
         <p>Information concerning the budget:</p>
