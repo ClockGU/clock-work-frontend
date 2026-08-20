@@ -58,7 +58,7 @@
       </v-row>
       <PetitionsOverviewTable
         :headers="headers"
-        :items="filteredItems"
+        :petitions="filteredItems"
         :selected-item="selectedPetition"
         v-bind="$attrs"
         @row-click="$emit('row-click', $event)"
@@ -77,7 +77,7 @@ import { filter } from 'core-js/internals/array-iteration';
 
 const icons = { mdiMagnify };
 const props = defineProps({
-  items: {
+  petitions: {
     type: Array,
     required: true,
   },
@@ -116,7 +116,7 @@ const searchableFields = computed(() => {
 });
 
 const filteredItems = computed(() => {
-  let itemsToFilter = Array.isArray(props.items) ? props.items : []; // 1. Filter out completed petitions if the checkbox is not checked.
+  let itemsToFilter = Array.isArray(props.petitions) ? props.petitions : []; // 1. Filter out completed petitions if the checkbox is not checked.
   if (!showCompleted.value) {
     itemsToFilter = itemsToFilter.filter(
       (item) => item.status?.toLowerCase() !== 'completed'
