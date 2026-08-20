@@ -24,7 +24,7 @@
         color="primary"
         :disabled="!isFormValid"
         :aria-label="$t('ariaLabel.petitionFormDialog.submit')"
-        @click="submit"
+        @click="create"
       >
         {{ $t('actions.submit') }}
       </v-btn>
@@ -80,7 +80,7 @@ watch(model, (isOpen) => {
   }
 });
 
-const submit = async () => {
+const create = async () => {
   if (isFormValid.value) {
     const formData = petitionFormRef.value.formData;
     try {
