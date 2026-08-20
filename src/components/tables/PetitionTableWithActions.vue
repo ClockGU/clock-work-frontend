@@ -99,10 +99,11 @@ import PetitionFormDialog from '@/components/dialogs/PetitionFormDialog.vue';
 import ConfirmationDialog from '@/components/dialogs/base/ConfirmationDialog.vue';
 import PetitionRevisionDialog from '@/components/dialogs/PetitionRevisionDialog.vue';
 import RoleActionButton from '../ui/RoleActionButton.vue';
+import Petition from '@/models/Petition';
 
 const props = defineProps({
   petition: {
-    type: Object,
+    type: Petition,
     required: true,
   },
   revisionDisabled: {

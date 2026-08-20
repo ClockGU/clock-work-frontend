@@ -89,10 +89,11 @@ import { useRoute } from 'vue-router';
 import { isStudent, isClerk, isApprover } from '@/utils/roleUtils';
 import ContentApiService from '@/services/contentApiService.js';
 import CustomDialog from '@/components/dialogs/base/CustomDialog.vue';
+import Petition from '@/models/Petition';
 
 const props = defineProps({
   petition: {
-    type: [Object, null],
+    type: [Petition, null],
     required: true,
   },
 });

@@ -134,15 +134,17 @@ import StudentDataManagementDialog from '../dialogs/StudentDataManagementDialog.
 import PetitionTableWithActions from '../tables/PetitionTableWithActions.vue';
 import ContentApiService from '@/services/contentApiService';
 import PetitionRevisionDialog from '../dialogs/PetitionRevisionDialog.vue';
+import Petition from '@/models/Petition';
 
 const props = defineProps({
   selectedPetition: {
-    type: Object,
+    type: Petition,
     default: null,
   },
   petitions: {
     type: Array,
     default: () => [],
+    validator: (arr) => arr.every((item) => item instanceof Petition),
   },
 });
 

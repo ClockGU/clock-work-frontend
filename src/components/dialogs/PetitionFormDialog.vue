@@ -53,7 +53,7 @@ import Petition from '@/models/Petition';
 
 const props = defineProps({
   petition: {
-    type: [Object, null],
+    type: [Petition, null],
     required: false,
     default: null,
   },
