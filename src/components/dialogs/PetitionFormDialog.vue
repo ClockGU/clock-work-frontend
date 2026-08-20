@@ -75,7 +75,7 @@ let initialPetitionData = null;
 watch(model, (isOpen) => {
   if (isOpen) {
     initialPetitionData = props.petition
-      ? JSON.parse(JSON.stringify(props.petition))
+      ? props.petition.toBackendFormat()
       : null;
   }
 });
