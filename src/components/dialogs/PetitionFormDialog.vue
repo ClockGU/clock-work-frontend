@@ -33,7 +33,7 @@
         color="primary"
         :disabled="!isFormValid"
         :aria-label="$t('ariaLabel.petitionFormDialog.save')"
-        @click="save"
+        @click="update"
       >
         {{ $t('actions.save') }}
       </v-btn>
@@ -99,10 +99,9 @@ const submit = async () => {
   }
 };
 
-const save = async () => {
+const update = async () => {
   if (isFormValid.value) {
     const formData = petitionFormRef.value.formData;
-
     try {
       if (!isSupervisor.value) {
         throw new Error('Only supervisors can edit petitions.');
@@ -111,9 +110,7 @@ const save = async () => {
       const dataToSend = formData.toBackendFormat();
       // Compare against snapshot taken when the dialog opened
       // and only PATCH the diff
-      const originalData = Petition.fromBackendResponse(
-        initialPetitionData
-      ).toBackendFormat();
+      const originalData = initialPetitionData;
       const changedData = Object.fromEntries(
         Object.entries(dataToSend).filter(
           ([key, value]) =>
@@ -132,7 +129,7 @@ const save = async () => {
       );
       emit('refresh', {
         type: 'update',
-        data: response.data,
+        data: new Petition(response.data),
       });
     } catch (error) {
       console.error('Failed to update petition:', error);
