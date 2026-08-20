@@ -118,7 +118,7 @@ const { mdAndDown } = useDisplay();
         </p>
         <p>So: <strong>Be aware of your Email-Inbox</strong>!</p>
         <div class="inset">
-          <span class="mt-2">
+          <span class="my-2">
             The process flow is conceptually structured in 6 steps:
           </span>
           <ol class="shift-lists">
@@ -134,7 +134,7 @@ const { mdAndDown } = useDisplay();
           </ol>
         </div>
         <div :class="[mdAndDown ? 'inset-md-and-down' : 'inset-lg-and-up']">
-          <span class="mt-2">
+          <span class="my-2">
             In addition to these process steps, revision steps are possible:
           </span>
           <ul class="shift-lists">
