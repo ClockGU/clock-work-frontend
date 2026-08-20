@@ -71,7 +71,7 @@
       </v-col>
 
       <v-col cols="12" md="6">
-        <label for="minutes">{{ $t('petition.minutes') }}</label>
+        <label for="minutes">{{ $t('petition.hours') }}</label>
         <v-text-field
           id="minutes"
           :value="formData.hours"
@@ -79,7 +79,7 @@
           outlined
           dense
           :prepend-icon="icons.mdiClock"
-          :aria-label="$t('petition.minutes')"
+          :aria-label="$t('petition.hours')"
           :rules="[requiredRule, positiveNumberRule]"
           @update:model-value="updateMinutes"
         />

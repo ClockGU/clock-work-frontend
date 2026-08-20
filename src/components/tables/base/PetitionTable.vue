@@ -29,10 +29,11 @@ import { useI18n } from 'vue-i18n';
 import { isStudent } from '@/utils/roleUtils';
 import PetitionStatusIcon from '@/components/ui/PetitionStatusIcon.vue';
 import BaseDataDisplayTable from '@/components/tables/base/DataDisplayTable.vue';
+import Petition from '@/models/Petition';
 
 const props = defineProps({
   petition: {
-    type: Object,
+    type: Petition,
     required: true,
   },
 });
@@ -74,7 +75,7 @@ const tableRows = computed(() => {
     'student_mail',
     'start_date',
     'end_date',
-    'minutes',
+    'hours',
     'org_unit',
     'eos_number',
     'ba_degree',
@@ -86,10 +87,9 @@ const tableRows = computed(() => {
     'duration_exce_start',
     'duration_exce_end',
   ];
-
   // Process regular fields based on the defined order
   fieldOrder.forEach((key) => {
-    if (Object.prototype.hasOwnProperty.call(p, key)) {
+    if (key in p) {
       // Logic for time_exce and duration_exce
       if (key.startsWith('time_exce_') && !p.time_exce_course) return;
       if (key.startsWith('duration_exce_') && !p.duration_exce_course) return;

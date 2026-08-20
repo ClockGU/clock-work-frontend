@@ -193,7 +193,7 @@
     "eosNumber": "EOS-Nummer",
     "startDate": "Vertragsbeginn",
     "endDate": "Vertragsende",
-    "minutes": "Vertragsumfang (h/Monat)",
+    "hours": "Vertragsumfang (h/Monat)",
     "baDegreeLabel": "Hochschulabschluss",
     "baDegree": "Bachelorabschluss vorhanden",
     "budgetPositions": "Kostenstellen",

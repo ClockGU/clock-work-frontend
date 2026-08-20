@@ -101,7 +101,7 @@ const headers = computed(() => [
   { title: t('petition.status'), key: 'status' },
   { title: t('petition.startDate'), key: 'start_date' },
   { title: t('petition.endDate'), key: 'end_date' },
-  { title: t('petition.minutes'), key: 'minutes' },
+  { title: t('petition.hours'), key: 'hours' },
   { title: t('petition.orgUnit'), key: 'org_unit' },
   { title: t('petition.eosNumber'), key: 'eos_number' },
   { title: t('petition.baDegree'), key: 'ba_degree' },

@@ -193,7 +193,7 @@
     "eosNumber": "EOS Number",
     "startDate": "Contract Start Date",
     "endDate": "Contract End Date",
-    "minutes": "Contract hours (h/Month)",
+    "hours": "Contract hours (h/Month)",
     "baDegreeLabel": "Higher Education Degree",
     "baDegree": "Bachelor Degree obtained",
     "budgetPositions": "Budget Positions",
