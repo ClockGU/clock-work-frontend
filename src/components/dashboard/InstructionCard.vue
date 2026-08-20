@@ -5,17 +5,13 @@
         {{ instructionCardTitle }}
       </h2>
     </v-card-title>
-    <PetitioneerInstructionTextEnglish
-      v-if="role === Roles.SUPERVISOR && selectedLocale === 'en'"
+    <SupervisorInstructionText
+      v-if="role === Roles.SUPERVISOR"
+      :locale="selectedLocale"
     />
-    <PetitioneerInstructionTextGerman
-      v-if="role === Roles.SUPERVISOR && selectedLocale === 'de'"
-    />
-    <StudentInstructionTextEnglish
-      v-if="role === Roles.STUDENT && selectedLocale === 'en'"
-    />
-    <StudentInstructionTextGerman
-      v-if="role === Roles.STUDENT && selectedLocale === 'de'"
+    <StudentInstructionText
+      v-if="role === Roles.STUDENT"
+      :locale="selectedLocale"
     />
   </v-card>
 </template>
@@ -24,11 +20,9 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Roles } from '@/utils/roleUtils';
-import PetitioneerInstructionTextEnglish from '@/components/dashboard/instruction_texts/PetitioneerInstructionTextEnglish.vue';
-import PetitioneerInstructionTextGerman from '@/components/dashboard/instruction_texts/PetitioneerInstructionTextGerman.vue';
-import StudentInstructionTextEnglish from '@/components/dashboard/instruction_texts/StudentInstructionTextEnglish.vue';
-import StudentInstructionTextGerman from '@/components/dashboard/instruction_texts/StudentInstructionTextGerman.vue';
 import { getCurrentLocale } from '@/plugins/i18n';
+import SupervisorInstructionText from '@/components/dashboard/instruction_texts/SupervisorInstructionText.vue';
+import StudentInstructionText from '@/components/dashboard/instruction_texts/StudentInstructionText.vue';
 
 const { t } = useI18n();
 const props = defineProps({
