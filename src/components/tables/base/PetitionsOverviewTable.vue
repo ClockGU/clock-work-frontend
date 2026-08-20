@@ -2,7 +2,7 @@
   <v-data-table
     role="table"
     :headers="headers"
-    :items="items"
+    :items="petitions"
     item-selectable
     hover
     :no-data-text="$t('petitionsOverviewTable.noPetitions')"
@@ -45,7 +45,6 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
 import PetitionStatusIcon from '@/components/ui/PetitionStatusIcon.vue';
 import StatusIndicator from '@/components/ui/StatusIndicator.vue';
 import Petition from '@/models/Petition';
@@ -55,9 +54,10 @@ const props = defineProps({
     type: Array,
     required: true,
   },
-  items: {
+  petitions: {
     type: Array,
     required: true,
+    validator: (arr, props) => arr.every((item) => item instanceof Petition),
   },
   selectedItem: {
     type: Object,

@@ -16,7 +16,7 @@
       <PetitionsOverviewTable
         v-else
         :headers="headers"
-        :items="petitions"
+        :petitions="petitions"
         :selected-item="selectedPetition"
         @row-click="selectPetition"
       />
@@ -30,18 +30,20 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import PetitionsOverviewTable from '@/components/tables/base/PetitionsOverviewTable.vue';
 import ClockWorkLoader from '@/icons/ClockWorkLoader.vue';
+import Petition from '@/models/Petition';
 
 const props = defineProps({
   petitions: {
     type: Array,
     default: () => [],
+    validator: (arr, props) => arr.every((item) => item instanceof Petition),
   },
   isLoading: {
     type: Boolean,
     default: false,
   },
   selectedPetition: {
-    type: Object,
+    type: Petition,
     default: null,
   },
 });
