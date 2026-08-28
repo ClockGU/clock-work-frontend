@@ -306,7 +306,7 @@ const postalCodeRule = (v) =>
 const phoneRule = (v) =>
   /^\d{10,15}$/.test(v) || t('validationRule.invalidPhone');
 const ibanRule = (v) =>
-  /^[A-Z]{2}\d{2}[A-Z0-9]{11,30}$/.test(v) || t('validationRule.invalidIban');
+  /^[A-Z]{2}\d{20}$/.test(v) || t('validationRule.invalidIban');
 
 const handlePreviousEmploymentChange = (value) => {
   if (!value) {
