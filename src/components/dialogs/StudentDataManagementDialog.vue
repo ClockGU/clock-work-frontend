@@ -120,7 +120,7 @@ const saveEmployeeData = async () => {
     isSaving.value = true;
     const employeeData = employeeDataFormRef.value.formData;
     const formattedData = employeeData.toBackendFormat();
-    await ContentApiService.patch('/employees', formattedData);
+    await ContentApiService.patch(`/employees/${props.employeeData.id}`, formattedData);
     return true; // Success
   } catch (error) {
     console.error('Error saving employee data:', error);
