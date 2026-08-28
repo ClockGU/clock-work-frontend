@@ -270,15 +270,15 @@ const formOfAddressSelection = [
 const genderSelection = [
   {
     title: t('employeeData.genderSelection.male'),
-    value: 'Männlich',
+    value: 'MALE',
   },
   {
     title: t('employeeData.genderSelection.female'),
-    value: 'Weiblich',
+    value: 'FEMALE',
   },
   {
     title: t('employeeData.genderSelection.other'),
-    value: 'Divers',
+    value: 'OTHER',
   },
 ];
 
