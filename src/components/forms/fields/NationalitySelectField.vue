@@ -4,8 +4,8 @@
 
     <v-autocomplete
       :id="inputId"
-      v-model="model"
       v-model:search="search"
+      :model-value="selectedCode"
       outlined
       dense
       clearable
@@ -19,6 +19,7 @@
       :no-filter="false"
       hide-details="auto"
       auto-select-first="exact"
+      @update:model-value="setModelValue"
       @click:clear="clearSelection"
       @blur="handleBlur"
     />
@@ -71,33 +72,27 @@ const activeLanguage = computed(() =>
 
 const options = computed(() => getNationalityOptions(activeLanguage.value));
 
+const selectedCode = computed(() => normalizeNationality(model.value));
+
 const selectedOption = computed(() => {
-  const normalizedCode = normalizeNationality(model.value);
-  return options.value.find((entry) => entry.code === normalizedCode) || null;
+  return (
+    options.value.find((entry) => entry.code === selectedCode.value) || null
+  );
 });
 
-watch(
-  () => model.value,
-  (value) => {
-    const normalizedCode = normalizeNationality(value);
-
-    if (value !== normalizedCode) {
-      model.value = normalizedCode;
-      return;
-    }
-
-    if (!normalizedCode) {
-      search.value = '';
-      return;
-    }
-
-    const label = getNationalityLabel(normalizedCode, activeLanguage.value);
-    if (search.value !== label) {
-      search.value = label;
-    }
-  },
-  { immediate: true }
-);
+function setModelValue(code) {
+  const normalizedCode = normalizeNationality(code);
+  if (!normalizedCode) {
+    model.value = '';
+    search.value = '';
+    return;
+  }
+  // Set nationality to the human-readable label in German as data
+  // processing will continue in German outside of ClockWork
+  model.value = getNationalityLabel(normalizedCode, 'de');
+  // For readability in selected language
+  search.value = getNationalityLabel(normalizedCode, activeLanguage.value);
+}
 
 watch(activeLanguage, () => {
   if (!model.value) return;
@@ -113,8 +108,7 @@ const handleBlur = () => {
     search.value = '';
     return;
   }
-
-  search.value = getNationalityLabel(model.value, activeLanguage.value);
+  search.value = getNationalityLabel(model.value, language);
 };
 
 const clearSelection = () => {
