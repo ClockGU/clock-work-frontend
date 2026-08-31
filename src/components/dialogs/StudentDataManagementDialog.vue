@@ -41,28 +41,16 @@
 
     <template #actions>
       <v-spacer></v-spacer>
-      <!-- Next button for student data form (first step) -->
-      <v-btn
-        v-if="step === 1"
-        color="primary"
-        :disabled="!isPersonalFormValid || isSaving"
-        :loading="isSaving"
-        @click="saveAndContinue"
-      >
-        {{ $t('actions.next') }}
-      </v-btn>
-      <!-- Back  and save button for document upload form (second step)   -->
-      <v-btn v-if="step === 2" text @click="step = 1">
+      <v-btn v-if="step !== 1" text @click="step = 1">
         {{ $t('actions.back') }}
       </v-btn>
       <v-btn
-        v-if="step === 2"
         color="primary"
-        :disabled="!isFilesFormValid || isSaving"
+        :disabled="!isCurrentFormValid || isSaving"
         :loading="isSaving"
-        @click="saveDocuments"
+        @click="handleNextBtn"
       >
-        {{ $t('actions.save') }}
+        {{ step.value !== 3 ? $t('actions.next') : $t('actions.save') }}
       </v-btn>
     </template>
   </CustomDialog>
@@ -111,6 +99,22 @@ const isPersonalFormValid = computed(() => {
 const isFilesFormValid = computed(() => {
   return StudentFilesUploadFormRef.value?.isFormValid ?? false;
 });
+const isEmploymentFormValid = computed(() => {
+  return employmentDataFormRef.value?.isFormValid ?? false;
+});
+
+// eslint-disable-next-line vue/return-in-computed-property
+const isCurrentFormValid = computed(() => {
+  switch (step.value) {
+    case 1:
+      return isPersonalFormValid.value;
+    case 2:
+      return isEmploymentFormValid.value;
+    case 3:
+      return isFilesFormValid.value;
+  }
+});
+
 const requiresResidencePermitUpload = computed(() => {
   return employeeDataFormRef.value?.requiresResidencePermitUpload ?? false;
 });
@@ -169,15 +173,40 @@ const saveDocuments = async () => {
     store.dispatch('snackbar/setSnack', {
       message: t('studentDataManagementDialog.saveSuccess'),
     });
-    emit('refresh');
-    emit('close');
+    return true; // Success
   } catch (error) {
     console.error('Error saving files:', error);
     store.dispatch('snackbar/setErrorSnacks', {
       message: t('errors.studentData.savingFiles'),
     });
+    return false; // Failure
   } finally {
     isSaving.value = false;
   }
 };
+
+const saveEmploymentData = async () => {return;};
+
+function handleNextBtn() {
+  let saveFn;
+  switch (step.value) {
+    case 1:
+      saveFn = saveEmployeeData;
+      break;
+    case 2:
+      saveFn = saveEmploymentData;
+      break;
+    case 3:
+      saveFn = saveDocuments;
+      break;
+  }
+  const success = saveFn();
+  if (success) {
+    step.value += 1;
+    if (step.value > 3) {
+      emit('refresh');
+      emit('close');
+    }
+  }
+}
 </script>
