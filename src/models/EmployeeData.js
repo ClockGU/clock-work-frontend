@@ -19,10 +19,6 @@ class EmployeeData {
     this.telephone_number = data.telephone_number || '';
     this.health_insurance = data.health_insurance || '';
     this.iban = data.iban || '';
-    this.previous_employment = data.previous_employment ?? false;
-
-    // prev_emp_duration should be an array of Date objects for the v-date-input (range)
-    this.prev_emp_duration = data.prev_emp_duration || null;
   }
   // Parses backend response data and returns an EmployeeData instance that conforms the frontend model
   static fromBackendResponse(data) {
