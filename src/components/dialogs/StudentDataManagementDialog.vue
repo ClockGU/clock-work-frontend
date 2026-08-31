@@ -19,6 +19,22 @@
             </v-card>
           </v-window-item>
           <v-window-item :value="2">
+            <v-card>
+              <v-card-text>
+                <h2 class="sr-only">
+                  {{ $t('studentDataManagementDialog.tabs.prevEmploymens') }}
+                </h2>
+                <p>
+                  {{ $t('studentDataManagementDialog.content.prevEmploymens') }}
+                </p>
+                <PriorEmploymentForm
+                  ref="employmentDataFormRef"
+                  :initial-employment-data="employmentData"
+                ></PriorEmploymentForm>
+              </v-card-text>
+            </v-card>
+          </v-window-item>
+          <v-window-item :value="3">
             <v-card flat>
               <v-card-text>
                 <h2 class="sr-only">
@@ -64,6 +80,7 @@ import ContentApiService from '@/services/contentApiService';
 import EmployeeDataForm from '@/components/forms/EmployeeDataForm.vue';
 import StudentFilesUploadForm from '@/components/forms/documents/StudentFilesUploadForm.vue';
 import CustomDialog from '@/components/dialogs/base/CustomDialog.vue';
+import PriorEmploymentForm from '@/components/forms/fields/PriorEmploymentForm.vue';
 
 const props = defineProps({
   petitions: {
@@ -78,6 +95,10 @@ const props = defineProps({
     type: Object,
     default: null,
   },
+  employmentData: {
+    type: Array,
+    default: null,
+  },
   showBaDegreeField: {
     type: Boolean,
     default: false,
@@ -90,6 +111,7 @@ const { t } = useI18n();
 
 const employeeDataFormRef = ref(null);
 const StudentFilesUploadFormRef = ref(null);
+const employmentDataFormRef = ref(null);
 const step = ref(1);
 const isSaving = ref(false);
 
