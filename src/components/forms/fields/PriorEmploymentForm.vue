@@ -81,7 +81,6 @@ defineExpose({ prevEmployments, isFormValid });
 
 <template>
   <v-form ref="form" v-model="isFormValid">
-    <p> Everything filled out: {{ allEmploymentsFilledOut }}</p>
     <v-row>
       <v-col cols="12">
         <v-checkbox
