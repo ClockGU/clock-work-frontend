@@ -45,8 +45,8 @@
                   ref="StudentFilesUploadFormRef"
                   class="mt-6"
                   :initial-documents="documentData"
-                  :showBaDegreeField="showBaDegreeField"
-                  :showResidencePermitField="requiresResidencePermitUpload"
+                  :show-ba-degree-field="showBaDegreeField"
+                  :show-residence-permit-field="requiresResidencePermitUpload"
                 />
               </v-card-text>
             </v-card>
@@ -146,7 +146,10 @@ const saveEmployeeData = async () => {
     isSaving.value = true;
     const employeeData = employeeDataFormRef.value.formData;
     const formattedData = employeeData.toBackendFormat();
-    await ContentApiService.patch(`/employees/${props.employeeData.id}`, formattedData);
+    await ContentApiService.patch(
+      `/employees/${props.employeeData.id}`,
+      formattedData
+    );
     return true; // Success
   } catch (error) {
     console.error('Error saving employee data:', error);
@@ -156,13 +159,6 @@ const saveEmployeeData = async () => {
     return false; // Failure
   } finally {
     isSaving.value = false;
-  }
-};
-
-const saveAndContinue = async () => {
-  const success = await saveEmployeeData();
-  if (success) {
-    step.value = 2; // Only proceed to next step if save was successful
   }
 };
 
