@@ -171,37 +171,6 @@
           :aria-label="$t('employeeData.married')"
         />
       </v-col>
-
-      <v-col cols="12">
-        <v-checkbox
-          id="previousEmployment"
-          v-model="formData.previous_employment"
-          :label="$t('employeeData.previousEmployment')"
-          :aria-label="$t('employeeData.previousEmployment')"
-          @update:model-value="handlePreviousEmploymentChange"
-        />
-      </v-col>
-
-      <v-col v-if="formData.previous_employment" cols="12" md="6">
-        <label for="prevEmpDuration">{{ $t('employeeData.duration') }}</label>
-
-        <!-- FIX:
-             - Range display is formatted as "DD.MM.YYYY – DD.MM.YYYY" via displayDate()
-             - Manual typing uses input-format="dd.mm.yyyy"
-        -->
-        <v-date-input
-          id="prevEmpDuration"
-          v-model="formData.prev_emp_duration"
-          :prepend-icon="icons.mdiCalendar"
-          :display-format="displayDate"
-          input-format="dd.mm.yyyy"
-          output-format="dd-MM-yyyy"
-          multiple="range"
-          :placeholder="$t('datePlaceholder') + ' – ' + $t('datePlaceholder')"
-          :aria-label="$t('employeeData.duration')"
-          :rules="formData.previous_employment ? [requiredRule] : []"
-        />
-      </v-col>
     </v-row>
   </v-form>
 </template>
@@ -308,14 +277,6 @@ const phoneRule = (v) =>
 const ibanRule = (v) =>
   /^[A-Z]{2}\d{20}$/.test(v) || t('validationRule.invalidIban');
 
-const handlePreviousEmploymentChange = (value) => {
-  if (!value) {
-    formData.value.prev_emp_duration = null;
-  } else {
-    formData.value.prev_emp_duration = [];
-  }
-  formData.value.previous_employment = value;
-};
 
 const requiresResidencePermitUpload = computed(() =>
   isVisaUploadRequired(formData.value.nationality)

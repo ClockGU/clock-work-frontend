@@ -11,8 +11,12 @@
     :petitions="petitions"
     :employee-data="employeeData"
     :document-data="documentData"
+    :employment-data="employmentData"
     :showBaDegreeField="showBaDegreeField"
     @close="showStudentDialog = false"
+    @refresh-employee-data="fetchEmployeeData"
+    @refresh-prev-emp="fetchPrevEmploymentData"
+    @refresh-documents="fetchDocuments"
     @refresh="refresh"
   />
   <PetitionRevisionDialog
@@ -158,8 +162,10 @@ const showStudentDialog = ref(false);
 const showRevisionDialog = ref(false);
 const employeeData = ref(null);
 const documentData = ref(null);
+const employmentData = ref(null);
 const isLoadingEmployeeData = ref(false);
 const isLoadingDocumentData = ref(false);
+const isLoadingPrevEmploymentData = ref(false);
 
 const buttonLabel = computed(() => {
   return isSupervisor.value
@@ -187,6 +193,7 @@ const isDocumentsComplete = computed(() => {
     ? baseDocs && !!documentData.value.ba_degree_url
     : baseDocs;
 });
+
 // Check if student data is complete if the selected petition requires student action
 const isStudentDataComplete = computed(() => {
   return isPersonalDataComplete.value && isDocumentsComplete.value;
@@ -194,7 +201,9 @@ const isStudentDataComplete = computed(() => {
 // Determine if student action buttons should be disabled based on petition status and data completeness
 const isStudentActionDisabled = computed(() => {
   return (
-    (props.selectedPetition.status !== PETITION_STATUS.STUDENT_ACTION || props.selectedPetition.status !== PETITION_STATUS.CLERK_REVISION) && !isStudentDataComplete.value
+    (props.selectedPetition.status !== PETITION_STATUS.STUDENT_ACTION ||
+      props.selectedPetition.status !== PETITION_STATUS.CLERK_REVISION) &&
+    !isStudentDataComplete.value
   );
 });
 
@@ -252,9 +261,38 @@ const fetchDocuments = async () => {
   }
 };
 
+const fetchPrevEmploymentData = async () => {
+  if (isLoadingPrevEmploymentData.value) return;
+
+  isLoadingPrevEmploymentData.value = true;
+  try {
+    const response = await ContentApiService.get('/prev_employments');
+    const data = response.data;
+    if (data) {
+      employmentData.value =
+        Array.isArray(data) && data.length > 0 ? data : null;
+    }
+  } catch (error) {
+    if (error.response?.status === 404) {
+      employmentData.value = null;
+    } else if (error.response?.status !== 404) {
+      console.error('Error fetching documents:', error);
+      store.dispatch('snackbar/setErrorSnacks', {
+        message: t('errors.studentData.fetchingEmployment'),
+      });
+    }
+  } finally {
+    isLoadingPrevEmploymentData.value = false;
+  }
+};
+
 const fetchStudentData = async () => {
   if (isStudent.value)
-    await Promise.all([fetchEmployeeData(), fetchDocuments()]);
+    await Promise.all([
+      fetchEmployeeData(),
+      fetchDocuments(),
+      fetchPrevEmploymentData(),
+    ]);
 };
 
 const handleDeclination = async () => {
