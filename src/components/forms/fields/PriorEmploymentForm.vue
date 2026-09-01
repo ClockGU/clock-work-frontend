@@ -34,6 +34,13 @@ const isSaving = ref(false);
 
 const initialSnapshots = ref(new Map());
 
+const allEmploymentsFilledOut = computed(() =>
+  prevEmployments.value.every((item) => allFieldsProvided(item))
+);
+const isFormValid = computed(() =>
+  hasPrevEmployment.value ? allEmploymentsFilledOut.value : true
+);
+
 function normalizedDate(value) {
   return value instanceof Date ? format(value, 'yyyy-MM-dd') : value;
 }
@@ -58,41 +65,6 @@ function allFieldsProvided(object) {
     (object.notGuEmployment ? !!object.employerName : true)
   );
 }
-const allEmploymentsFilledOut = computed(() =>
-  prevEmployments.value.every((item) => allFieldsProvided(item))
-);
-const isFormValid = computed(() =>
-  hasPrevEmployment.value ? allEmploymentsFilledOut.value : true
-);
-
-watch(
-  () => props.initialEmploymentData,
-  (newData) => {
-    if (newData) {
-      // clone so editing a field doesn't mutate the prop (and the snapshot below)
-      prevEmployments.value = newData.map((entry) => ({ ...entry }));
-      hasPrevEmployment.value = true;
-      initialSnapshots.value = new Map(
-        prevEmployments.value
-          .filter((entry) => entry.id)
-          .map((entry) => [entry.id, { ...entry }])
-      );
-    } else {
-      prevEmployments.value = [
-        {
-          id: undefined,
-          start: undefined,
-          end: undefined,
-          notGuEmployment: false,
-          employerName: undefined,
-          proof: undefined,
-        },
-      ];
-      initialSnapshots.value = new Map();
-    }
-  },
-  { immediate: true }
-);
 
 function addEntry() {
   prevEmployments.value.push({
@@ -133,6 +105,36 @@ const deletePrevEmployment = async (prevEmployment) => {
     isSaving.value = false;
   }
 };
+
+watch(
+  () => props.initialEmploymentData,
+  (newData) => {
+    if (newData) {
+      // clone so editing a field doesn't mutate the prop (and the snapshot below)
+      prevEmployments.value = newData.map((entry) => ({ ...entry }));
+      hasPrevEmployment.value = true;
+      initialSnapshots.value = new Map(
+        prevEmployments.value
+          .filter((entry) => entry.id)
+          .map((entry) => [entry.id, { ...entry }])
+      );
+    } else {
+      prevEmployments.value = [
+        {
+          id: undefined,
+          start: undefined,
+          end: undefined,
+          notGuEmployment: false,
+          employerName: undefined,
+          proof: undefined,
+        },
+      ];
+      initialSnapshots.value = new Map();
+    }
+  },
+  { immediate: true }
+);
+
 defineExpose({
   prevEmployments,
   isFormValid,
