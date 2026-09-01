@@ -219,13 +219,13 @@ const saveEmploymentData = async () => {
     }
 
     for (const entry of prevEmployments) {
-      const { proof, ...fields } = entry;
+      // strip id and user_account as we dont want it to be sent for patches
+      let { proof, id, user_account, ...fields } = entry;
       fields.start = format(fields.start, 'yyyy-MM-dd');
       fields.end = format(fields.end, 'yyyy-MM-dd');
-      let fieldSaveResponse;
-      if (fields.id) {
-        fieldSaveResponse = await ContentApiService.patch(
-          `/prev_employments/${fields.id}`,
+      if (!id) {
+        const fieldSaveResponse = await ContentApiService.post(
+          '/prev_employments',
           fields
         );
         id = fieldSaveResponse.data.id;
@@ -240,7 +240,7 @@ const saveEmploymentData = async () => {
         const formData = new FormData();
         formData.append('proof', proof);
         await ContentApiService.patch(
-          `/prev_employments/${fields.id}/proof`,
+          `/prev_employments/${id}/proof`,
           formData
         );
       }
