@@ -234,7 +234,7 @@ const saveEmploymentData = async () => {
         );
         fields.id = fieldSaveResponse.data.id;
       }
-      if (typeof proof !== String) {
+      if (typeof proof !== "string") {
         console.log("Saving file.");
         const formData = new FormData();
         formData.append('proof', proof);
