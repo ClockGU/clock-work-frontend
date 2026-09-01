@@ -106,6 +106,19 @@ const deletePrevEmployment = async (prevEmployment) => {
   }
 };
 
+const initDefault =()=> {
+  prevEmployments.value = [
+    {
+      id: undefined,
+      start: undefined,
+      end: undefined,
+      notGuEmployment: false,
+      employerName: undefined,
+      proof: undefined,
+    },
+  ];
+  initialSnapshots.value = new Map();
+}
 watch(
   () => props.initialEmploymentData,
   (newData) => {
@@ -119,17 +132,7 @@ watch(
           .map((entry) => [entry.id, { ...entry }])
       );
     } else {
-      prevEmployments.value = [
-        {
-          id: undefined,
-          start: undefined,
-          end: undefined,
-          notGuEmployment: false,
-          employerName: undefined,
-          proof: undefined,
-        },
-      ];
-      initialSnapshots.value = new Map();
+      initDefault();
     }
   },
   { immediate: true }
@@ -140,6 +143,7 @@ watch(
   (newValue) => {
     if (!newValue) {
       prevEmployments.value.forEach((entry, i)=> removeEntry(i))
+      initDefault();
     }
   }
 )
