@@ -57,7 +57,7 @@
 
     <template #actions>
       <v-spacer></v-spacer>
-      <v-btn v-if="step !== 1" text @click="step = 1">
+      <v-btn v-if="step !== 1" text @click="step -= 1">
         {{ $t('actions.back') }}
       </v-btn>
       <v-btn
