@@ -2,6 +2,7 @@
 import { mdiMinus, mdiPlus } from '@mdi/js';
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import ContentApiService from '@/services/contentApiService';
 
 const icons = {
   mdiPlus,
@@ -26,6 +27,7 @@ const props = defineProps({
 });
 const hasPrevEmployment = ref(false);
 const prevEmployments = ref(null);
+const isSaving = ref(false);
 
 function allFieldsProvided(object) {
   return (
@@ -75,9 +77,34 @@ function addEntry() {
 }
 
 function removeEntry(index) {
-  prevEmployments.value.splice(index, 1);
+  const prevEmployment = prevEmployments.value[index];
+  if (prevEmployment.index) {
+    const success = deletePrevEmployment(index);
+    if (success) {
+      prevEmployments.value.splice(index, 1);
+    }
+  } else {
+    prevEmployments.value.splice(index, 1);
+  }
 }
 
+const deletePrevEmployment = async (prevEmployment) => {
+  try {
+    isSaving.value = true;
+    const response = await ContentApiService.delete(
+      `prev_employments/${prevEmployment.id}`
+    );
+    return response.status === 204;
+  } catch (error) {
+    console.error('Error deleting prev_employment:', error);
+    store.dispatch('snackbar/setErrorSnacks', {
+      message: t('errors.employmentData.deletingEntry'),
+    });
+    return false;
+  } finally {
+    isSaving.value = false;
+  }
+};
 defineExpose({
   prevEmployments,
   isFormValid,
@@ -86,7 +113,6 @@ defineExpose({
 </script>
 
 <template>
-  <p>{{ prevEmployments }} </p>
   <v-row>
     <v-col cols="12">
       <v-checkbox
@@ -95,8 +121,11 @@ defineExpose({
         :label="$t('employeeData.previousEmployment')"
         :aria-label="$t('employeeData.previousEmployment')"
         :error="!isFormValid"
-        :error-messages="!isFormValid ? ['enter stuff or deselect',] : []"
+        :error-messages="!isFormValid ? ['enter stuff or deselect'] : []"
       />
+      <v-alert v-if="hasPrevEmployment" type="warning">
+        Warning: By deselecting the checkbox you <strong>DELETE</strong> all entries below.
+      </v-alert>
     </v-col>
   </v-row>
   <div v-if="hasPrevEmployment">
@@ -129,12 +158,18 @@ defineExpose({
         <v-file-input
           v-model="entry.proof"
           label="Proof of employment"
-        ></v-file-input>
+          name="name"
+        >
+          <template v-if="typeof entry.proof === 'string'" #selection>
+            <span>{{ entry.proof }}</span>
+          </template>
+        </v-file-input>
         <div class="d-flex align-center ga-2 mx-4 mb-4">
           <v-btn
             v-if="i === 0"
             :icon="icons.mdiPlus"
-            :disabled="prevEmployments.length === 4"
+            :disabled="prevEmployments.length === 4 || isSaving"
+            :loading="isSaving"
             variant="tonal"
             rounded="sm"
             size="small"
@@ -148,6 +183,8 @@ defineExpose({
             rounded="sm"
             size="small"
             color="error"
+            :loading="isSaving"
+            :disabled="isSaving"
             @click="removeEntry(i)"
           />
         </div>
