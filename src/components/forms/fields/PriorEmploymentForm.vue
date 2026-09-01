@@ -2,6 +2,7 @@
 import { mdiMinus, mdiPlus } from '@mdi/js';
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { format } from 'date-fns';
 import ContentApiService from '@/services/contentApiService';
 import { useStore } from 'vuex';
 
@@ -31,6 +32,24 @@ const hasPrevEmployment = ref(false);
 const prevEmployments = ref(null);
 const isSaving = ref(false);
 
+const initialSnapshots = ref(new Map());
+
+function normalizedDate(value) {
+  return value instanceof Date ? format(value, 'yyyy-MM-dd') : value;
+}
+
+function hasEntryChanged(entry) {
+  if (!entry.id) return true; // never saved before, always needs to be created
+  const original = initialSnapshots.value.get(entry.id);
+  if (!original) return true;
+  return (
+    normalizedDate(entry.start) !== normalizedDate(original.start) ||
+    normalizedDate(entry.end) !== normalizedDate(original.end) ||
+    entry.notGuEmployment !== original.notGuEmployment ||
+    entry.employerName !== original.employerName
+  );
+}
+
 function allFieldsProvided(object) {
   return (
     object.start &&
@@ -50,8 +69,14 @@ watch(
   () => props.initialEmploymentData,
   (newData) => {
     if (newData) {
-      prevEmployments.value = newData;
+      // clone so editing a field doesn't mutate the prop (and the snapshot below)
+      prevEmployments.value = newData.map((entry) => ({ ...entry }));
       hasPrevEmployment.value = true;
+      initialSnapshots.value = new Map(
+        prevEmployments.value
+          .filter((entry) => entry.id)
+          .map((entry) => [entry.id, { ...entry }])
+      );
     } else {
       prevEmployments.value = [
         {
@@ -63,6 +88,7 @@ watch(
           proof: undefined,
         },
       ];
+      initialSnapshots.value = new Map();
     }
   },
   { immediate: true }
@@ -111,6 +137,7 @@ defineExpose({
   prevEmployments,
   isFormValid,
   allFieldsProvided,
+  hasEntryChanged,
 });
 </script>
 

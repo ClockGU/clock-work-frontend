@@ -207,7 +207,8 @@ const saveDocuments = async () => {
 const saveEmploymentData = async () => {
   try {
     isSaving.value = true;
-    const { prevEmployments, allFieldsProvided } = employmentDataFormRef.value;
+    const { prevEmployments, allFieldsProvided, hasEntryChanged } =
+      employmentDataFormRef.value;
     // IF no employments were provided the Array consists of one default object
     if (
       prevEmployments.length === 1 &&
@@ -227,15 +228,15 @@ const saveEmploymentData = async () => {
           `/prev_employments/${fields.id}`,
           fields
         );
-      } else {
-        fieldSaveResponse = await ContentApiService.post(
-          '/prev_employments',
+        id = fieldSaveResponse.data.id;
+      } else if (hasEntryChanged(entry)) {
+        await ContentApiService.patch(
+          `/prev_employments/${id}`,
           fields
         );
-        fields.id = fieldSaveResponse.data.id;
       }
-      if (typeof proof !== "string") {
-        console.log("Saving file.");
+
+      if (typeof proof !== 'string') {
         const formData = new FormData();
         formData.append('proof', proof);
         await ContentApiService.patch(
