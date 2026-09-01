@@ -3,12 +3,14 @@ import { mdiMinus, mdiPlus } from '@mdi/js';
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ContentApiService from '@/services/contentApiService';
+import { useStore } from 'vuex';
 
 const icons = {
   mdiPlus,
   mdiMinus,
 };
 const { t } = useI18n();
+const store = useStore();
 
 const props = defineProps({
   initialEmploymentData: {
@@ -76,10 +78,10 @@ function addEntry() {
   });
 }
 
-function removeEntry(index) {
+async function removeEntry(index) {
   const prevEmployment = prevEmployments.value[index];
-  if (prevEmployment.index) {
-    const success = deletePrevEmployment(index);
+  if (prevEmployment.id) {
+    const success = await deletePrevEmployment(prevEmployment);
     if (success) {
       prevEmployments.value.splice(index, 1);
     }
@@ -92,7 +94,7 @@ const deletePrevEmployment = async (prevEmployment) => {
   try {
     isSaving.value = true;
     const response = await ContentApiService.delete(
-      `prev_employments/${prevEmployment.id}`
+      `/prev_employments/${prevEmployment.id}`
     );
     return response.status === 204;
   } catch (error) {
@@ -124,7 +126,8 @@ defineExpose({
         :error-messages="!isFormValid ? ['enter stuff or deselect'] : []"
       />
       <v-alert v-if="hasPrevEmployment" type="warning">
-        Warning: By deselecting the checkbox you <strong>DELETE</strong> all entries below.
+        Warning: By deselecting the checkbox you <strong>DELETE</strong> all
+        entries below.
       </v-alert>
     </v-col>
   </v-row>
