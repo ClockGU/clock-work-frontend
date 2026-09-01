@@ -263,10 +263,10 @@ const fetchPrevEmploymentData = async () => {
 
   isLoadingPrevEmploymentData.value = true;
   try {
-    const response = await ContentApiService.get('/employmentData');
+    const response = await ContentApiService.get('/prev_employments');
     const data = response.data;
     if (data) {
-      employmentData.value = data;
+      employmentData.value = Array.isArray(data) && data.length>0 ? data : null;
     }
   } catch (error) {
     if (error.response?.status === 404) {
