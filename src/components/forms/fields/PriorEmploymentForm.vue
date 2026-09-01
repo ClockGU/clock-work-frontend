@@ -135,6 +135,15 @@ watch(
   { immediate: true }
 );
 
+watch(
+  () => hasPrevEmployment.value,
+  (newValue) => {
+    if (!newValue) {
+      prevEmployments.value.forEach((entry, i)=> removeEntry(i))
+    }
+  }
+)
+
 defineExpose({
   prevEmployments,
   isFormValid,
