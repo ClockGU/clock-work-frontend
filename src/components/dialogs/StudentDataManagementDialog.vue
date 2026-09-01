@@ -81,6 +81,7 @@ import EmployeeDataForm from '@/components/forms/EmployeeDataForm.vue';
 import StudentFilesUploadForm from '@/components/forms/documents/StudentFilesUploadForm.vue';
 import CustomDialog from '@/components/dialogs/base/CustomDialog.vue';
 import PriorEmploymentForm from '@/components/forms/fields/PriorEmploymentForm.vue';
+import { format } from 'date-fns';
 
 const props = defineProps({
   petitions: {
@@ -203,7 +204,57 @@ const saveDocuments = async () => {
   }
 };
 
-const saveEmploymentData = async () => {return;};
+const saveEmploymentData = async () => {
+  try {
+    isSaving.value = true;
+    const { prevEmployments, allFieldsProvided } = employmentDataFormRef.value;
+    // IF no employments were provided the Array consists of one default object
+    if (
+      prevEmployments.length === 1 &&
+      !allFieldsProvided(prevEmployments[0])
+    ) {
+      isSaving.value = false;
+      return true;
+    }
+
+    for (const entry of prevEmployments) {
+      const { proof, ...fields } = entry;
+      fields.start = format(fields.start, 'yyyy-MM-dd');
+      fields.end = format(fields.end, 'yyyy-MM-dd');
+      let fieldSaveResponse;
+      if (fields.id) {
+        fieldSaveResponse = await ContentApiService.patch(
+          `/prev_employments/${fields.id}`,
+          fields
+        );
+      } else {
+        fieldSaveResponse = await ContentApiService.post(
+          '/prev_employments',
+          fields
+        );
+        fields.id = fieldSaveResponse.data.id;
+      }
+      if (typeof proof !== String) {
+        console.log("Saving file.");
+        const formData = new FormData();
+        formData.append('proof', proof);
+        await ContentApiService.patch(
+          `/prev_employments/${fields.id}/proof`,
+          formData
+        );
+      }
+    }
+    return true;
+  } catch (error) {
+    console.error('Error saving files:', error);
+    store.dispatch('snackbar/setErrorSnacks', {
+      message: t('errors.employmentData.savingFiles'),
+    });
+    return false; // Failure
+  } finally {
+    isSaving.value = false;
+  }
+};
 
 function handleNextBtn() {
   let saveFn;
