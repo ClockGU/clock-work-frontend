@@ -14,6 +14,9 @@
     :employment-data="employmentData"
     :showBaDegreeField="showBaDegreeField"
     @close="showStudentDialog = false"
+    @refresh-employee-data="fetchEmployeeData"
+    @refresh-prev-emp="fetchPrevEmploymentData"
+    @refresh-documents="fetchDocuments"
     @refresh="refresh"
   />
   <PetitionRevisionDialog
@@ -266,7 +269,8 @@ const fetchPrevEmploymentData = async () => {
     const response = await ContentApiService.get('/prev_employments');
     const data = response.data;
     if (data) {
-      employmentData.value = Array.isArray(data) && data.length>0 ? data : null;
+      employmentData.value =
+        Array.isArray(data) && data.length > 0 ? data : null;
     }
   } catch (error) {
     if (error.response?.status === 404) {

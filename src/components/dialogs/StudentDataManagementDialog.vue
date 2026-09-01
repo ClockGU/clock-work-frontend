@@ -105,7 +105,12 @@ const props = defineProps({
     default: false,
   },
 });
-const emit = defineEmits(['close', 'refresh']);
+const emit = defineEmits([
+  'close',
+  'refresh-employee-data',
+  'refresh-prev-emp',
+  'refresh-documents',
+]);
 
 const store = useStore();
 const { t } = useI18n();
@@ -230,10 +235,7 @@ const saveEmploymentData = async () => {
         );
         id = fieldSaveResponse.data.id;
       } else if (hasEntryChanged(entry)) {
-        await ContentApiService.patch(
-          `/prev_employments/${id}`,
-          fields
-        );
+        await ContentApiService.patch(`/prev_employments/${id}`, fields);
       }
 
       if (typeof proof !== 'string') {
@@ -257,24 +259,38 @@ const saveEmploymentData = async () => {
   }
 };
 
-function handleNextBtn() {
+async function handleNextBtn() {
   let saveFn;
   switch (step.value) {
     case 1:
-      saveFn = saveEmployeeData;
+      saveFn = async () => {
+        return saveEmployeeData().then((retVal) => {
+          emit('refresh-employee-data');
+          return retVal;
+        });
+      };
       break;
     case 2:
-      saveFn = saveEmploymentData;
+      saveFn = async () => {
+        return saveEmploymentData().then((retVal) => {
+          emit('refresh-prev-emp');
+          return retVal;
+        });
+      };
       break;
     case 3:
-      saveFn = saveDocuments;
+      saveFn = async () => {
+        return saveDocuments().then((retVal) => {
+          emit('refresh-documents');
+          return retVal;
+        });
+      };
       break;
   }
-  const success = saveFn();
+  const success = await saveFn();
   if (success) {
     step.value += 1;
     if (step.value > 3) {
-      emit('refresh');
       emit('close');
     }
   }
