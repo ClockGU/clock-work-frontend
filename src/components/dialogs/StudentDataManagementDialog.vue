@@ -159,9 +159,9 @@ const saveDocuments = async () => {
     };
 
     for (const [backendField, filesKey] of Object.entries(docMap)) {
-      const arr = files?.[filesKey];
-      if (Array.isArray(arr) && arr.length > 0 && arr[0]) {
-        formData.append(backendField, arr[0]);
+      const file = files?.[filesKey];
+      if (file) {
+        formData.append(backendField, file);
       }
     }
 

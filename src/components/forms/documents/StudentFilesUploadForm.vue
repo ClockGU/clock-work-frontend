@@ -99,22 +99,15 @@ const isFormValid = computed(() =>
   visibleDocs.value.filter((d) => d.required).every((d) => isProvided(d))
 );
 
-const firstFile = (v) => (Array.isArray(v) ? v[0] : v);
-const toFileArray = (v) => {
-  const f = firstFile(v);
-  return f ? [f] : [];
-};
-
 const files = computed(() => ({
-  elstam: toFileArray(selectedFiles.elstam),
-  studienbescheinigung: toFileArray(selectedFiles.studienbescheinigung),
-  versicherungsbescheinigung: toFileArray(
-    selectedFiles.versicherungsbescheinigung
-  ),
-  sozialversicherungsbogen: toFileArray(selectedFiles.sozialversicherungsbogen),
-  ba_degree: toFileArray(selectedFiles.ba_degree),
-  residence_permit: toFileArray(selectedFiles.residence_permit),
-  id_photo: toFileArray(selectedFiles.id_photo),
+  elstam: selectedFiles.elstam ?? null,
+  studienbescheinigung: selectedFiles.studienbescheinigung ?? null,
+  versicherungsbescheinigung:
+    selectedFiles.versicherungsbescheinigung ?? null,
+  sozialversicherungsbogen: selectedFiles.sozialversicherungsbogen ?? null,
+  ba_degree: selectedFiles.ba_degree ?? null,
+  residence_permit: selectedFiles.residence_permit ?? null,
+  id_photo: selectedFiles.id_photo ?? null,
 }));
 
 watch(
