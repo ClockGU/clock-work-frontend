@@ -84,6 +84,7 @@ async function removeEntry(index) {
       prevEmployments.value.splice(index, 1);
     }
   } else {
+    //TODO: Error handling not just also delete.
     prevEmployments.value.splice(index, 1);
   }
 }
@@ -106,7 +107,7 @@ const deletePrevEmployment = async (prevEmployment) => {
   }
 };
 
-const initDefault =()=> {
+const initDefault = () => {
   prevEmployments.value = [
     {
       id: undefined,
@@ -118,7 +119,8 @@ const initDefault =()=> {
     },
   ];
   initialSnapshots.value = new Map();
-}
+};
+
 watch(
   () => props.initialEmploymentData,
   (newData) => {
@@ -140,13 +142,15 @@ watch(
 
 watch(
   () => hasPrevEmployment.value,
-  (newValue) => {
+  async (newValue) => {
     if (!newValue) {
-      prevEmployments.value.forEach((entry, i)=> removeEntry(i))
+      for (const index in prevEmployments.value) {
+        await removeEntry(index);
+      }
       initDefault();
     }
   }
-)
+);
 
 defineExpose({
   prevEmployments,
