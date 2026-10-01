@@ -2,7 +2,7 @@
 import { mdiMinus, mdiPlus } from '@mdi/js';
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { format } from 'date-fns';
+import { differenceInMonths, format } from 'date-fns';
 import ContentApiService from '@/services/contentApiService';
 import { useStore } from 'vuex';
 
@@ -40,6 +40,13 @@ const allEmploymentsFilledOut = computed(() =>
 const isFormValid = computed(() =>
   hasPrevEmployment.value ? allEmploymentsFilledOut.value : true
 );
+
+// Check if all employments provided exceed the legal maximum of 72 months of employment.
+const maxEmploymentExceeded = computed(() => {
+  const durations = prevEmployments.value.map((item) => differenceInMonths(item.end, item.start));
+  const totalMonths = durations.reduce((sum, curr)=> sum + curr);
+  return totalMonths >= 72;
+});
 
 function normalizedDate(value) {
   return value instanceof Date ? format(value, 'yyyy-MM-dd') : value;
@@ -242,6 +249,16 @@ defineExpose({
         <v-alert type="warning">
           Only 4 prior employemnts can be added. In case of more prior
           employments pleas contact [Support]
+        </v-alert>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col v-if="maxEmploymentExceeded">
+        <v-alert type="warning">
+          Your maximum employment time as as scientific worker has exceeded 72
+          months. You can proceed but the employment petition will be declined
+          by a clerk later on due to the maximum of 72 months of employment at German
+          universities.
         </v-alert>
       </v-col>
     </v-row>
