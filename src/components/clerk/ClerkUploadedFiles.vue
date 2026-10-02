@@ -16,22 +16,22 @@
           hide-delimiters
           height="auto"
         >
-          <v-carousel-item v-for="item in pdfItems" :key="item.type">
+          <v-carousel-item v-for="item in pdfItems" :key="item.kind">
             <div class="d-flex flex-column align-center pa-4">
               <p class="text-subtitle-1 font-weight-bold mb-4">
                 {{ item.title }}
               </p>
 
               <!-- Loading -->
-              <div v-if="state.loading[item.type]" class="text-center">
+              <div v-if="state.loading[item.kind]" class="text-center">
                 <ClockWorkLoader height="64" width="64" />
                 <p class="mt-2">{{ $t('app.loading') }}</p>
               </div>
 
               <!-- Error -->
-              <div v-else-if="state.error[item.type]" class="text-center">
+              <div v-else-if="state.error[item.kind]" class="text-center">
                 <p>{{ $t('uploadedFiles.pdfLoadError') }}</p>
-                <v-btn class="mt-2" @click="retryLoad(item.type)">
+                <v-btn class="mt-2" @click="retryLoad(item.kind)">
                   {{ $t('uploadedFiles.retry') }}
                 </v-btn>
               </div>
@@ -41,11 +41,11 @@
                 <v-hover v-slot="{ isHovering, props: hoverProps }">
                   <div v-bind="hoverProps" class="position-relative">
                     <vue-pdf-embed
-                      :source="state.blobUrl[item.type]"
+                      :source="state.blobUrl[item.kind]"
                       :page="1"
                       :width="previewPdfWidth"
-                      @loaded="(pdf) => captureAspect(item.type, pdf)"
-                      @error="(err) => handlePdfError(err, item.type)"
+                      @loaded="(pdf) => captureAspect(item.kind, pdf)"
+                      @error="(err) => handlePdfError(err, item.kind)"
                     />
 
                     <v-btn
@@ -60,7 +60,7 @@
                         right: 8px;
                         z-index: 2;
                       "
-                      @click="openViewer(item.type)"
+                      @click="openViewer(item.kind)"
                     >
                       <v-icon :icon="icons.mdiFullscreen" />
                     </v-btn>
@@ -90,10 +90,10 @@
     <!-- Viewer dialog -->
     <PdfViewerDialog
       v-model="state.viewer.open"
-      :source="viewerType ? state.blobUrl[viewerType] : null"
-      :aspect="viewerType ? state.aspect[viewerType] : null"
-      @error="(err) => handlePdfError(err, viewerType)"
-      @loaded="(pdf) => captureAspect(viewerType, pdf)"
+      :source="docKindToDisplay ? state.blobUrl[docKindToDisplay] : null"
+      :aspect="docKindToDisplay ? state.aspect[docKindToDisplay] : null"
+      @error="(err) => handlePdfError(err, docKindToDisplay)"
+      @loaded="(pdf) => captureAspect(docKindToDisplay, pdf)"
     />
   </v-card>
 </template>
@@ -124,56 +124,56 @@ const display = useDisplay();
 
 const DOCS = [
   {
-    type: 'elstam',
+    kind: 'elstam',
     urlProp: 'elstam_url',
     i18nKey: 'files.elstam',
     defaultName: 'elstam.pdf',
   },
   {
-    type: 'studienbescheinigung',
+    kind: 'studienbescheinigung',
     urlProp: 'studienbescheinigung_url',
     i18nKey: 'files.studienbescheinigung',
     defaultName: 'study_certificate.pdf',
   },
   {
-    type: 'versicherung',
+    kind: 'versicherung',
     urlProp: 'versicherungsbescheinigung_url',
     i18nKey: 'files.versicherungsbescheinigung',
     defaultName: 'insurance_certificate.pdf',
   },
   {
-    type: 'sozialversicherungsbogen',
+    kind: 'sozialversicherungsbogen',
     urlProp: 'sozialversicherungsbogen_url',
     i18nKey: 'files.sozialversicherungsbogen',
     defaultName: 'social_insurance_form.pdf',
   },
   {
-    type: 'ba_degree',
+    kind: 'ba_degree',
     urlProp: 'ba_degree_url',
     i18nKey: 'files.ba_degree',
     defaultName: 'ba_degree.pdf',
   },
 ];
 
-const typeKeys = DOCS.map((d) => d.type);
-const makeTypeMap = (initial) =>
-  Object.fromEntries(typeKeys.map((k) => [k, initial]));
+const docKinds = DOCS.map((d) => d.kind);
+const makeKindMap = (initial) =>
+  Object.fromEntries(docKinds.map((kind) => [kind, initial]));
 
 const state = reactive({
   documents: {},
   currentSlide: 0,
 
-  blobUrl: makeTypeMap(null),
-  loading: makeTypeMap(false),
-  error: makeTypeMap(false),
-  aspect: makeTypeMap(null),
+  blobUrl: makeKindMap(null),
+  loading: makeKindMap(false),
+  error: makeKindMap(false),
+  aspect: makeKindMap(null),
 
   createdBlobUrls: [],
   downloadingAll: false,
 
   viewer: {
     open: false,
-    type: null,
+    docKind: null,
   },
 });
 
@@ -181,7 +181,7 @@ const pdfItems = computed(() =>
   DOCS.filter((d) => !!state.documents?.[d.urlProp]).map((d) => {
     const url = state.documents[d.urlProp];
     return {
-      type: d.type,
+      kind: d.kind,
       title: t(d.i18nKey),
       url,
       fileName: extractFileName(url) || d.defaultName,
@@ -192,7 +192,7 @@ const pdfItems = computed(() =>
 const hasDocuments = computed(() => pdfItems.value.length > 0);
 const anyLoading = computed(() => Object.values(state.loading).some(Boolean));
 const anyError = computed(() => Object.values(state.error).some(Boolean));
-const viewerType = computed(() => state.viewer.type);
+const docKindToDisplay = computed(() => state.viewer.docKind);
 
 const previewPdfWidth = computed(() => {
   const max = 800;
@@ -233,8 +233,8 @@ function revokeIfCreated(url) {
   }
 }
 
-function getDocUrl(type) {
-  const doc = DOCS.find((d) => d.type === type);
+function getDocUrl(docKind) {
+  const doc = DOCS.find((d) => d.kind === docKind);
   return doc ? state.documents?.[doc.urlProp] : null;
 }
 
@@ -242,16 +242,16 @@ function getDocUrl(type) {
  * loading function for the carousel/viewer docs:
  * - fetches ArrayBuffer via /download-file/
  * - creates blob URL
- * - caches it per type
+ * - caches it per document kind
  */
-async function ensureBlobUrl(type, { force = false } = {}) {
-  const url = getDocUrl(type);
+async function ensureBlobUrl(docKind, { force = false } = {}) {
+  const url = getDocUrl(docKind);
   if (!url) return null;
-  if (state.blobUrl[type] && !force) return state.blobUrl[type];
+  if (state.blobUrl[docKind] && !force) return state.blobUrl[docKind];
 
   try {
-    state.loading[type] = true;
-    state.error[type] = false;
+    state.loading[docKind] = true;
+    state.error[docKind] = false;
 
     const res = await ContentApiService.get('/download-file', {
       params: { file_url: url },
@@ -262,51 +262,51 @@ async function ensureBlobUrl(type, { force = false } = {}) {
     const blob = new Blob([res.data], { type: 'application/pdf' });
     const blobUrl = URL.createObjectURL(blob);
 
-    revokeIfCreated(state.blobUrl[type]);
+    revokeIfCreated(state.blobUrl[docKind]);
 
-    state.blobUrl[type] = blobUrl;
+    state.blobUrl[docKind] = blobUrl;
     state.createdBlobUrls.push(blobUrl);
 
     return blobUrl;
   } catch (err) {
-    console.error(`PDF load failed (${type}):`, err);
-    state.error[type] = true;
+    console.error(`PDF load failed (${docKind}):`, err);
+    state.error[docKind] = true;
     notifyError('errors.uploadedFilesClerk.loadingDocs');
     return null;
   } finally {
-    state.loading[type] = false;
+    state.loading[docKind] = false;
   }
 }
 
-function retryLoad(type) {
-  ensureBlobUrl(type, { force: true });
+function retryLoad(docKind) {
+  ensureBlobUrl(docKind, { force: true });
 }
 
-function handlePdfError(error, type) {
+function handlePdfError(error, docKind) {
   console.error('PDF render error:', error);
-  state.error[type] = true;
+  state.error[docKind] = true;
   notifyError('errors.uploadedFilesClerk.pdfRender');
 }
 
-function openViewer(type) {
-  state.viewer.type = type;
+function openViewer(docKind) {
+  state.viewer.docKind = docKind;
   state.viewer.open = true;
 }
 
 function closeViewer() {
   state.viewer.open = false;
-  state.viewer.type = null;
+  state.viewer.docKind = null;
 }
 
 // Capture page-1 aspect ratio so dialog can tightly wrap the PDF
-function captureAspect(type, pdf) {
-  if (!type || state.aspect[type]) return;
+function captureAspect(docKind, pdf) {
+  if (!docKind || state.aspect[docKind]) return;
   try {
     if (!pdf?.getPage) return;
     pdf.getPage(1).then((page) => {
       const viewport = page.getViewport({ scale: 1 });
       if (viewport?.width && viewport?.height) {
-        state.aspect[type] = viewport.width / viewport.height;
+        state.aspect[docKind] = viewport.width / viewport.height;
       }
     });
   } catch {}
@@ -342,7 +342,7 @@ async function downloadAll() {
 
     // 1) Download the uploaded documents (carousel docs)
     for (const item of pdfItems.value) {
-      const blobUrl = await ensureBlobUrl(item.type);
+      const blobUrl = await ensureBlobUrl(item.kind);
       if (blobUrl) triggerDownload(blobUrl, item.fileName);
       await new Promise((r) => setTimeout(r, 150));
     }
@@ -362,12 +362,12 @@ function resetCache() {
   state.createdBlobUrls.forEach((u) => URL.revokeObjectURL(u));
   state.createdBlobUrls = [];
 
-  // reset per-type caches
-  for (const k of typeKeys) {
-    state.blobUrl[k] = null;
-    state.loading[k] = false;
-    state.error[k] = false;
-    state.aspect[k] = null;
+  // reset per-document-kind caches
+  for (const kind of docKinds) {
+    state.blobUrl[kind] = null;
+    state.loading[kind] = false;
+    state.error[kind] = false;
+    state.aspect[kind] = null;
   }
 
   state.currentSlide = 0;
@@ -392,7 +392,7 @@ async function fetchDocuments(studentUsername) {
     // load all available docs in parallel
     await Promise.all(
       DOCS.map((d) =>
-        state.documents?.[d.urlProp] ? ensureBlobUrl(d.type) : null
+        state.documents?.[d.urlProp] ? ensureBlobUrl(d.kind) : null
       )
     );
   } catch (err) {
