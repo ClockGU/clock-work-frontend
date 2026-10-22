@@ -14,6 +14,9 @@
             @close="emit('close')"
             @refresh="handleRefresh"
           />
+          <PrevEmploymentTable
+            :employment-data="employmentData"
+          ></PrevEmploymentTable>
         </v-col>
         <v-col cols="12" md="6" class="d-flex flex-column">
           <ClerkUploadedFiles class="flex-grow-1" :petition="petition" />
@@ -36,7 +39,11 @@
           :disabled="disabledApproveButton"
           @click="approve"
         >
-          {{ petition && petition.status === PETITION_STATUS.AWAITING_SIGNATURE ? $t('actions.finishProcess') : $t('actions.approve') }}
+          {{
+            petition && petition.status === PETITION_STATUS.AWAITING_SIGNATURE
+              ? $t('actions.finishProcess')
+              : $t('actions.approve')
+          }}
         </v-btn>
       </div>
     </v-card-text>
@@ -51,10 +58,15 @@
 
 <script setup>
 import { PETITION_STATUS } from '@/utils/statusUtils';
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import PetitionRevisionDialog from '../dialogs/PetitionRevisionDialog.vue';
 import ClerkUploadedFiles from '@/components/clerk/ClerkUploadedFiles.vue';
 import ClerkFreeFormData from '@/components/clerk/ClerkFreeFormData.vue';
+import PrevEmploymentTable from '@/components/tables/PrevEmploymentTable.vue';
+import { useStore } from 'vuex';
+import ContentApiService from '@/services/contentApiService';
+import { useI18n } from 'vue-i18n';
+
 const props = defineProps({
   petition: {
     type: [Object, null],
@@ -63,6 +75,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['close', 'refresh', 'approve']);
+const store = useStore();
+const { t } = useI18n();
 
 const showRevisionDialog = ref(false);
 
@@ -85,4 +99,40 @@ const approve = () => {
 const handleRefresh = (payload) => {
   emit('refresh', payload);
 };
+
+const employmentData = ref(undefined);
+const isLoadingPrevEmploymentData = ref(false);
+
+const fetchPrevEmploymentData = async () => {
+  if (isLoadingPrevEmploymentData.value) return;
+
+  isLoadingPrevEmploymentData.value = true;
+  try {
+    const response = await ContentApiService.get(
+      `/clerk/prev_employments/petition/${props.petition.id}`
+    );
+    const data = response.data;
+    if (data) {
+      employmentData.value =
+        Array.isArray(data) && data.length > 0 ? data : null;
+    }
+  } catch (error) {
+    if (error.response?.status === 404) {
+      employmentData.value = null;
+    } else if (error.response?.status !== 404) {
+      console.error('Error fetching documents:', error);
+      store.dispatch('snackbar/setErrorSnacks', {
+        message: t('errors.studentData.fetchingEmployment'),
+      });
+    }
+  } finally {
+    isLoadingPrevEmploymentData.value = false;
+  }
+};
+
+watch(
+  () => props.petition,
+  (petition) => petition ? fetchPrevEmploymentData() : null,
+  { immediate: true }
+);
 </script>
