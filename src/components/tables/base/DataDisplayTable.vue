@@ -23,7 +23,13 @@
         </tr>
       </thead>
       <tbody role="rowgroup">
-        <tr v-for="(row, index) in rows" :key="index" role="row" tabindex="0">
+        <tr
+          v-for="(row, index) in rows"
+          :key="index"
+          role="row"
+          tabindex="0"
+          :style="{ display: row.hide ? 'none' : undefined }"
+        >
           <td class="key-cell" role="cell">
             {{ row.key }}
           </td>
