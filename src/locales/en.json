@@ -102,7 +102,7 @@
         "value": "Data"
       },
       "subfields": {
-        "keys": {
+        "fields": {
           "start": "Start date",
           "end": "End date",
           "employer_name": "Employer",

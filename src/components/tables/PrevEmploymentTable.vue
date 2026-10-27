@@ -21,7 +21,7 @@ const downloadingAll = ref(false);
 const emptyEntry = { start: null, end: null, employer_name: null, proof: null };
 
 function getKeyDisplay(key) {
-  return t(`dataDisplayTable.prevEmploymentData.subfields.keys.${key}`);
+  return t(`dataDisplayTable.prevEmploymentData.subfields.fields.${key}`);
 }
 
 function tryDateFormat(value) {
