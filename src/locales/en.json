@@ -74,6 +74,13 @@
     "studentDataManagementDialog": "Student Data Management Dialog"
   },
   "dataDisplayTable": {
+    "general": {
+      "title": "Data tabel",
+      "headers": {
+        "field": "Field",
+        "value": "Value"
+      }
+    },
     "petition": {
       "title": "Application Table",
       "headers": {

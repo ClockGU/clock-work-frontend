@@ -74,6 +74,13 @@
     "studentDataManagementDialog": "Dialog für die Datenverwaltung"
   },
   "dataDisplayTable": {
+    "general": {
+      "title": "Datentabelle",
+      "headers": {
+        "field": "Feld",
+        "value": "Wert"
+      }
+    },
     "petition": {
       "title": "Antragstabelle",
       "headers": {
