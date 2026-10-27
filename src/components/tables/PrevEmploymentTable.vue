@@ -25,11 +25,8 @@ function getKeyDisplay(key) {
 }
 
 function tryDateFormat(value) {
-  try {
-    return displayDate(value);
-  } catch (e) {
-    return e;
-  }
+  const date = displayDate(value);
+  return date ? date : value;
 }
 
 const entryToRow = (entry) =>
@@ -37,7 +34,7 @@ const entryToRow = (entry) =>
     key: getKeyDisplay(key),
     origKey: key,
     value: tryDateFormat(entry[key]) ?? emptyEntry[key],
-  }));
+  })).filter((row) => !!row.value);
 
 const tableRows = computed(() =>
   props.employmentData.map((entry, i) => {
