@@ -192,7 +192,7 @@ import {
   mdiAccountBox,
 } from '@mdi/js';
 import EmployeeData from '@/models/EmployeeData';
-import { makeDisplayDate } from '@/utils/date';
+import { displayDate } from '@/utils/date';
 import { isVisaUploadRequired } from '@/utils/nationality';
 import NationalitySelectField from '@/components/forms/fields/NationalitySelectField.vue';
 
@@ -262,11 +262,6 @@ watch(
   },
   { immediate: true }
 );
-
-const displayDate = makeDisplayDate({
-  displayFormat: 'dd.MM.yyyy',
-  primaryParseFormat: 'dd-MM-yyyy',
-});
 
 // Validation Rules
 const requiredRule = (v) => !!v || t('validationRule.required');
