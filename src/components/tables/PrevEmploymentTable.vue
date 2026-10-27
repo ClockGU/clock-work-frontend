@@ -1,6 +1,6 @@
 <script setup>
 import BaseDataDisplay from '@/components/tables/base/DataDisplayTable.vue';
-import { mdiFileDocumentAlert } from '@mdi/js';
+import { mdiDownloadMultiple, mdiFileDocumentAlert } from '@mdi/js';
 import { computed, onBeforeUnmount, reactive, ref } from 'vue';
 import PdfViewerDialog from '@/components/dialogs/PdfViewerDialog.vue';
 import ContentApiService from '@/services/contentApiService';
@@ -13,6 +13,7 @@ const props = defineProps({
 });
 const fileToView = ref(null);
 const downloadedProofs = reactive({});
+const downloadingAll = ref(false);
 const emptyEntry = { start: null, end: null, employer_name: null, proof: null };
 
 const entryToRow = (entry) =>
@@ -27,15 +28,51 @@ const tableRows = computed(() =>
   })
 );
 
+function triggerDownload(url, fileName) {
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = fileName || 'document.pdf';
+  link.style.display = 'none';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+async function getProofAsBlob(id) {
+  const response = await ContentApiService.get(
+    `/clerk/prev_employments/${id}/download`,
+    { responseType: 'arraybuffer' }
+  );
+  const blobUrl = URL.createObjectURL(
+    new Blob([response.data], { type: 'application/pdf' })
+  );
+  downloadedProofs[id] = blobUrl;
+  return blobUrl;
+}
+
+async function downloadAll() {
+  downloadingAll.value = true;
+  try {
+    for (const entry of props.employmentData) {
+      if (!downloadedProofs[entry.id]) {
+        await getProofAsBlob(entry.id);
+      }
+      triggerDownload(downloadedProofs[entry.id], entry.proof);
+      await new Promise((r) => setTimeout(r, 150));
+    }
+  } catch (e) {
+    store.dispatch('snackbar/setErrorSnacks', {
+      message: 'Error downloading files.',
+    });
+  } finally {
+    downloadingAll.value = false;
+  }
+}
+
 async function viewProof(id) {
   let blobUrl = downloadedProofs[id];
   if (!blobUrl) {
-    const response = await ContentApiService.get(
-      `/clerk/prev_employments/${id}/download`,
-      { responseType: 'arraybuffer' }
-    );
-    blobUrl = URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
-    downloadedProofs[id] = blobUrl;
+    blobUrl = await getProofAsBlob(id);
   }
   fileToView.value = blobUrl;
 }
@@ -49,11 +86,23 @@ onBeforeUnmount(() => {
 <template>
   <div v-if="!!employmentData">
     <BaseDataDisplay
+      class="mt-4"
       :rows="tableRows"
       :table-title="$t('dataDisplayTable.employeeData.title')"
       :header-key="$t('dataDisplayTable.employeeData.headers.field')"
       :header-value="$t('dataDisplayTable.employeeData.headers.value')"
     >
+      <template #bottom>
+        <v-btn
+          color="primary"
+          variant="outlined"
+          :loading="downloadingAll"
+          @click="downloadAll"
+        >
+          <v-icon start :icon="mdiDownloadMultiple" />
+          {{ $t('actions.downloadAll') }}
+        </v-btn>
+      </template>
       <template #value-cell="{ row: prevEmployment }">
         <BaseDataDisplay :rows="prevEmployment.value">
           <template #value-cell="{ row }">
