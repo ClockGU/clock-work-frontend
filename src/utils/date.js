@@ -84,3 +84,9 @@ export function makeDisplayDate({
     return d ? localizedFormat(d, displayFormat) : '';
   };
 }
+
+
+export const displayDate = makeDisplayDate({
+  displayFormat: 'dd.MM.yyyy',
+  primaryParseFormat: 'dd-MM-yyyy',
+});

@@ -148,7 +148,7 @@ import {
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import Petition from '@/models/Petition';
-import { makeDisplayDate } from '@/utils/date';
+import { displayDate } from '@/utils/date';
 import ContractDateInput from '@/components/forms/fields/ContractDateInput.vue';
 import EosField from '@/components/forms/fields/EosField.vue';
 import BudgetPositionsFields from '@/components/forms/fields/BudgetPositionsFields.vue';
@@ -237,11 +237,6 @@ watch(
   },
   { immediate: true }
 );
-
-const displayDate = makeDisplayDate({
-  displayFormat: 'dd.MM.yyyy',
-  primaryParseFormat: 'dd-MM-yyyy',
-});
 
 const updateMinutes = (value) => {
   formData.value.minutes = value * 60;

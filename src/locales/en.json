@@ -74,6 +74,13 @@
     "studentDataManagementDialog": "Student Data Management Dialog"
   },
   "dataDisplayTable": {
+    "general": {
+      "title": "Data tabel",
+      "headers": {
+        "field": "Field",
+        "value": "Value"
+      }
+    },
     "petition": {
       "title": "Application Table",
       "headers": {
@@ -87,6 +94,23 @@
         "field": "Employee data field",
         "value": "Value"
       }
+    },
+    "prevEmploymentData": {
+      "title": "Previous Employment Data",
+      "headers": {
+        "field": "Previous Employment",
+        "value": "Data"
+      },
+      "subfields": {
+        "fields": {
+          "start": "Start date",
+          "end": "End date",
+          "employer_name": "Employer",
+          "proof": "Proof"
+        }
+      },
+      "downloadBtnText": " View Proof",
+      "entryNameStub": "Previous Employment {n}"
     }
   },
   "petitionsOverviewTable": {

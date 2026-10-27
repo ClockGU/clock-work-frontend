@@ -74,6 +74,13 @@
     "studentDataManagementDialog": "Dialog für die Datenverwaltung"
   },
   "dataDisplayTable": {
+    "general": {
+      "title": "Datentabelle",
+      "headers": {
+        "field": "Feld",
+        "value": "Wert"
+      }
+    },
     "petition": {
       "title": "Antragstabelle",
       "headers": {
@@ -87,6 +94,23 @@
         "field": "Mitarbeiterdatenfeld",
         "value": "Wert"
       }
+    },
+    "prevEmploymentData": {
+      "title": "Daten vorheriger Anstellungen",
+      "headers": {
+        "field": "Vorherige Anstellungen",
+        "value": "Daten"
+      },
+      "subfields": {
+        "fields": {
+          "start": "Startdatum",
+          "end": "Enddatum",
+          "employer_name": "Arbeitgeber",
+          "proof": "Bescheinigung"
+        }
+      },
+      "downloadBtnText": "Nachweis anzeigen",
+      "entryNameStub": "Vorherige Anstellung {n}"
     }
   },
   "petitionsOverviewTable": {
