@@ -63,10 +63,7 @@ const props = defineProps({
 const model = defineModel({ default: null });
 const { t } = useI18n();
 
-const selectedFile = computed(() => {
-  const v = model.value;
-  return Array.isArray(v) ? v[0] : v;
-});
+const selectedFile = computed(() => model.value ?? null);
 
 const existingFileName = computed(() => {
   if (!props.existingUrl) return '';
