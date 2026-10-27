@@ -5,6 +5,7 @@ import { computed, onBeforeUnmount, reactive, ref } from 'vue';
 import PdfViewerDialog from '@/components/dialogs/PdfViewerDialog.vue';
 import ContentApiService from '@/services/contentApiService';
 import { useI18n } from 'vue-i18n';
+import { displayDate } from '@/utils/date';
 
 const { t } = useI18n();
 
@@ -19,14 +20,23 @@ const downloadedProofs = reactive({});
 const downloadingAll = ref(false);
 const emptyEntry = { start: null, end: null, employer_name: null, proof: null };
 
-function getKeyDisplay(key){
-  return t(`dataDisplayTable.prevEmploymentData.subfields.keys.${key}`)
+function getKeyDisplay(key) {
+  return t(`dataDisplayTable.prevEmploymentData.subfields.keys.${key}`);
 }
+
+function tryDateFormat(value) {
+  try {
+    return displayDate(value);
+  } catch (e) {
+    return e;
+  }
+}
+
 const entryToRow = (entry) =>
   Object.keys(emptyEntry).map((key) => ({
-    key:getKeyDisplay(key),
+    key: getKeyDisplay(key),
     origKey: key,
-    value: entry[key] ?? emptyEntry[key],
+    value: tryDateFormat(entry[key]) ?? emptyEntry[key],
   }));
 
 const tableRows = computed(() =>
@@ -115,7 +125,6 @@ onBeforeUnmount(() => {
           <template #value-cell="{ row }">
             <div v-if="row.origKey === 'proof'" class="d-flex align-center">
               <v-btn
-                class="ml-auto"
                 variant="flat"
                 :append-icon="mdiFileDocumentAlert"
                 @click="viewProof(prevEmployment.id)"
