@@ -96,9 +96,9 @@
       }
     },
     "prevEmploymentData": {
-      "title": "Previouse Employment Data",
+      "title": "Previous Employment Data",
       "headers": {
-        "field": "Previouse Employment",
+        "field": "Previous Employment",
         "value": "Data"
       },
       "subfields": {
@@ -108,7 +108,9 @@
           "employer_name": "Employer",
           "proof": "Proof"
         }
-      }
+      },
+      "downloadBtnText": " View Proof",
+      "entryNameStub": "Previous Employment {n}"
     }
   },
   "petitionsOverviewTable": {

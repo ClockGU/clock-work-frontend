@@ -108,7 +108,9 @@
           "employer_name": "Arbeitgeber",
           "proof": "Bescheinigung"
         }
-      }
+      },
+      "downloadBtnText": "Nachweis anzeigen",
+      "entryNameStub": "Vorherige Anstellung {n}"
     }
   },
   "petitionsOverviewTable": {

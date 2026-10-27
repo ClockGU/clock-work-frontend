@@ -41,7 +41,11 @@ const entryToRow = (entry) =>
 
 const tableRows = computed(() =>
   props.employmentData.map((entry, i) => {
-    return { key: `Prev emp ${i + 1}`, id: entry.id, value: entryToRow(entry) };
+    return {
+      key: t('dataDisplayTable.prevEmploymentData.entryNameStub', { n: i + 1 }),
+      id: entry.id,
+      value: entryToRow(entry),
+    };
   })
 );
 
@@ -129,7 +133,7 @@ onBeforeUnmount(() => {
                 :append-icon="mdiFileDocumentAlert"
                 @click="viewProof(prevEmployment.id)"
               >
-                View Proof
+                {{ t('dataDisplayTable.prevEmploymentData.downloadBtnText') }}
               </v-btn>
             </div>
           </template>
