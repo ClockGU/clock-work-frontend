@@ -100,6 +100,14 @@
       "headers": {
         "field": "Previouse Employment",
         "value": "Data"
+      },
+      "subfields": {
+        "keys": {
+          "start": "Start date",
+          "end": "End date",
+          "employer_name": "Employer",
+          "proof": "Proof"
+        }
       }
     }
   },

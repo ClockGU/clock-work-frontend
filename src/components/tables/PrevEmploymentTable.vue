@@ -4,6 +4,9 @@ import { mdiDownloadMultiple, mdiFileDocumentAlert } from '@mdi/js';
 import { computed, onBeforeUnmount, reactive, ref } from 'vue';
 import PdfViewerDialog from '@/components/dialogs/PdfViewerDialog.vue';
 import ContentApiService from '@/services/contentApiService';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const props = defineProps({
   employmentData: {
@@ -16,9 +19,13 @@ const downloadedProofs = reactive({});
 const downloadingAll = ref(false);
 const emptyEntry = { start: null, end: null, employer_name: null, proof: null };
 
+function getKeyDisplay(key){
+  return t(`dataDisplayTable.prevEmploymentData.subfields.keys.${key}`)
+}
 const entryToRow = (entry) =>
   Object.keys(emptyEntry).map((key) => ({
-    key,
+    key:getKeyDisplay(key),
+    origKey: key,
     value: entry[key] ?? emptyEntry[key],
   }));
 
@@ -106,7 +113,7 @@ onBeforeUnmount(() => {
       <template #value-cell="{ row: prevEmployment }">
         <BaseDataDisplay :rows="prevEmployment.value">
           <template #value-cell="{ row }">
-            <div v-if="row.key === 'proof'" class="d-flex align-center">
+            <div v-if="row.origKey === 'proof'" class="d-flex align-center">
               <v-btn
                 class="ml-auto"
                 variant="flat"
