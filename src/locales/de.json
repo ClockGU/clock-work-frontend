@@ -94,6 +94,13 @@
         "field": "Mitarbeiterdatenfeld",
         "value": "Wert"
       }
+    },
+    "prevEmploymentData": {
+      "title": "Daten vorheriger Anstellungen",
+      "headers": {
+        "field": "Vorherige Anstellungen",
+        "value": "Daten"
+      }
     }
   },
   "petitionsOverviewTable": {

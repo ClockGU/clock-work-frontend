@@ -94,6 +94,13 @@
         "field": "Employee data field",
         "value": "Value"
       }
+    },
+    "prevEmploymentData": {
+      "title": "Previouse Employment Data",
+      "headers": {
+        "field": "Previouse Employment",
+        "value": "Data"
+      }
     }
   },
   "petitionsOverviewTable": {

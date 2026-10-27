@@ -89,8 +89,8 @@ onBeforeUnmount(() => {
       class="mt-4"
       :rows="tableRows"
       :table-title="$t('dataDisplayTable.employeeData.title')"
-      :header-key="$t('dataDisplayTable.employeeData.headers.field')"
-      :header-value="$t('dataDisplayTable.employeeData.headers.value')"
+      :header-key="$t('dataDisplayTable.prevEmploymentData.headers.field')"
+      :header-value="$t('dataDisplayTable.prevEmploymentData.headers.value')"
     >
       <template #bottom>
         <v-btn
