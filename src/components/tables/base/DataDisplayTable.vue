@@ -63,14 +63,16 @@ const props = defineProps({
   },
   headerKey: {
     type: String,
-    required: false
+    required: false,
+    default: '',
   },
   headerValue: {
     type: String,
-    required: false
+    required: false,
+    default: '',
   },
 });
-const  {t} = useI18n();
+const { t } = useI18n();
 const headerKey = computed(
   () => props.headerKey || t('dataDisplayTable.general.headers.field')
 );
