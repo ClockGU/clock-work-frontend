@@ -125,31 +125,31 @@ const display = useDisplay();
 const DOCS = [
   {
     kind: 'elstam',
-    urlProp: 'elstam_url',
+    urlProp: 'elstam_file',
     i18nKey: 'files.elstam',
     defaultName: 'elstam.pdf',
   },
   {
     kind: 'studienbescheinigung',
-    urlProp: 'studienbescheinigung_url',
+    urlProp: 'studienbescheinigung_file',
     i18nKey: 'files.studienbescheinigung',
     defaultName: 'study_certificate.pdf',
   },
   {
-    kind: 'versicherung',
-    urlProp: 'versicherungsbescheinigung_url',
+    kind: 'versicherungsbescheinigung',
+    urlProp: 'versicherungsbescheinigung_file',
     i18nKey: 'files.versicherungsbescheinigung',
     defaultName: 'insurance_certificate.pdf',
   },
   {
     kind: 'sozialversicherungsbogen',
-    urlProp: 'sozialversicherungsbogen_url',
+    urlProp: 'sozialversicherungsbogen_file',
     i18nKey: 'files.sozialversicherungsbogen',
     defaultName: 'social_insurance_form.pdf',
   },
   {
     kind: 'ba_degree',
-    urlProp: 'ba_degree_url',
+    urlProp: 'ba_degree_file',
     i18nKey: 'files.ba_degree',
     defaultName: 'ba_degree.pdf',
   },
@@ -240,7 +240,7 @@ function getDocUrl(docKind) {
 
 /**
  * loading function for the carousel/viewer docs:
- * - fetches ArrayBuffer via /download-file/
+ * - fetches ArrayBuffer via /documents/{id}/{type}
  * - creates blob URL
  * - caches it per document kind
  */
@@ -253,14 +253,15 @@ async function ensureBlobUrl(docKind, { force = false } = {}) {
     state.loading[docKind] = true;
     state.error[docKind] = false;
 
-    const res = await ContentApiService.get('/download-file', {
-      params: { file_url: url },
-      responseType: 'arraybuffer',
-      validateStatus: (s) => s === 200,
-    });
+    const res = await ContentApiService.get(
+      `/documents/${state.documents.id}/${docKind}`,
+      {
+        responseType: 'blob',
+        validateStatus: (s) => s === 200,
+      }
+    );
 
-    const blob = new Blob([res.data], { type: 'application/pdf' });
-    const blobUrl = URL.createObjectURL(blob);
+    const blobUrl = URL.createObjectURL(res.data);
 
     revokeIfCreated(state.blobUrl[docKind]);
 
@@ -313,18 +314,20 @@ function captureAspect(docKind, pdf) {
 }
 
 async function fetchEmployeeStudentDataPdf() {
-  return ContentApiService.get(`/clerk/petitions/${props.petition.id}/student-data-pdf`, {
-    responseType: 'arraybuffer',
-  });
+  return ContentApiService.get(
+    `/clerk/petitions/${props.petition.id}/student-data-pdf`,
+    {
+      responseType: 'blob',
+      validateStatus: (s) => s === 200,
+    }
+  );
 }
 
 async function downloadEmployeeStudentDataPdf(studentUsername = 'student') {
   try {
     const res = await fetchEmployeeStudentDataPdf();
 
-    const contentType = res?.headers?.['content-type'] || 'application/pdf';
-    const blob = new Blob([res.data], { type: contentType });
-    const blobUrl = URL.createObjectURL(blob);
+    const blobUrl = URL.createObjectURL(res.data);
 
     const fileName = `student_data_${studentUsername}.pdf`;
     triggerDownload(blobUrl, fileName);
@@ -384,9 +387,9 @@ async function fetchDocuments(studentUsername) {
   try {
     resetCache();
 
-    const res = await ContentApiService.get('/clerk/documents-by-username', {
-      params: { student_username: studentUsername },
-    });
+    const res = await ContentApiService.get(
+      `/clerk/petitions/${props.petition.id}/documents`
+    );
 
     state.documents = res.data || {};
     // load all available docs in parallel
