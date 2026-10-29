@@ -184,13 +184,13 @@ const isPersonalDataComplete = computed(
 const isDocumentsComplete = computed(() => {
   if (!documentData.value) return false;
   const baseDocs =
-    !!documentData.value.elstam_url &&
-    !!documentData.value.studienbescheinigung_url &&
-    !!documentData.value.versicherungsbescheinigung_url &&
-    !!documentData.value.sozialversicherungsbogen_url;
+    !!documentData.value.elstam_file &&
+    !!documentData.value.studienbescheinigung_file &&
+    !!documentData.value.versicherungsbescheinigung_file &&
+    !!documentData.value.sozialversicherungsbogen_file;
 
   return showBaDegreeField.value
-    ? baseDocs && !!documentData.value.ba_degree_url
+    ? baseDocs && !!documentData.value.ba_degree_file
     : baseDocs;
 });
 

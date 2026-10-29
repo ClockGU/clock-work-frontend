@@ -125,31 +125,31 @@ const display = useDisplay();
 const DOCS = [
   {
     kind: 'elstam',
-    urlProp: 'elstam_url',
+    urlProp: 'elstam_file',
     i18nKey: 'files.elstam',
     defaultName: 'elstam.pdf',
   },
   {
     kind: 'studienbescheinigung',
-    urlProp: 'studienbescheinigung_url',
+    urlProp: 'studienbescheinigung_file',
     i18nKey: 'files.studienbescheinigung',
     defaultName: 'study_certificate.pdf',
   },
   {
     kind: 'versicherung',
-    urlProp: 'versicherungsbescheinigung_url',
+    urlProp: 'versicherungsbescheinigung_file',
     i18nKey: 'files.versicherungsbescheinigung',
     defaultName: 'insurance_certificate.pdf',
   },
   {
     kind: 'sozialversicherungsbogen',
-    urlProp: 'sozialversicherungsbogen_url',
+    urlProp: 'sozialversicherungsbogen_file',
     i18nKey: 'files.sozialversicherungsbogen',
     defaultName: 'social_insurance_form.pdf',
   },
   {
     kind: 'ba_degree',
-    urlProp: 'ba_degree_url',
+    urlProp: 'ba_degree_file',
     i18nKey: 'files.ba_degree',
     defaultName: 'ba_degree.pdf',
   },
