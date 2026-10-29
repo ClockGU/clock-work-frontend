@@ -136,7 +136,7 @@ const DOCS = [
     defaultName: 'study_certificate.pdf',
   },
   {
-    kind: 'versicherung',
+    kind: 'versicherungsbescheinigung',
     urlProp: 'versicherungsbescheinigung_file',
     i18nKey: 'files.versicherungsbescheinigung',
     defaultName: 'insurance_certificate.pdf',
@@ -240,7 +240,7 @@ function getDocUrl(docKind) {
 
 /**
  * loading function for the carousel/viewer docs:
- * - fetches ArrayBuffer via /download-file/
+ * - fetches ArrayBuffer via /documents/{id}/{type}
  * - creates blob URL
  * - caches it per document kind
  */
@@ -253,11 +253,13 @@ async function ensureBlobUrl(docKind, { force = false } = {}) {
     state.loading[docKind] = true;
     state.error[docKind] = false;
 
-    const res = await ContentApiService.get('/download-file', {
-      params: { file_url: url },
-      responseType: 'arraybuffer',
-      validateStatus: (s) => s === 200,
-    });
+    const res = await ContentApiService.get(
+      `/documents/${state.documents.id}/${docKind}`,
+      {
+        responseType: 'arraybuffer',
+        validateStatus: (s) => s === 200,
+      }
+    );
 
     const blob = new Blob([res.data], { type: 'application/pdf' });
     const blobUrl = URL.createObjectURL(blob);
@@ -313,9 +315,12 @@ function captureAspect(docKind, pdf) {
 }
 
 async function fetchEmployeeStudentDataPdf() {
-  return ContentApiService.get(`/clerk/petitions/${props.petition.id}/student-data-pdf`, {
-    responseType: 'arraybuffer',
-  });
+  return ContentApiService.get(
+    `/clerk/petitions/${props.petition.id}/student-data-pdf`,
+    {
+      responseType: 'arraybuffer',
+    }
+  );
 }
 
 async function downloadEmployeeStudentDataPdf(studentUsername = 'student') {
@@ -384,9 +389,9 @@ async function fetchDocuments(studentUsername) {
   try {
     resetCache();
 
-    const res = await ContentApiService.get('/clerk/documents-by-username', {
-      params: { student_username: studentUsername },
-    });
+    const res = await ContentApiService.get(
+      `/clerk/petitions/${props.petition.id}/documents`
+    );
 
     state.documents = res.data || {};
     // load all available docs in parallel
