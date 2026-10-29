@@ -256,13 +256,12 @@ async function ensureBlobUrl(docKind, { force = false } = {}) {
     const res = await ContentApiService.get(
       `/documents/${state.documents.id}/${docKind}`,
       {
-        responseType: 'arraybuffer',
+        responseType: 'blob',
         validateStatus: (s) => s === 200,
       }
     );
 
-    const blob = new Blob([res.data], { type: 'application/pdf' });
-    const blobUrl = URL.createObjectURL(blob);
+    const blobUrl = URL.createObjectURL(res.data);
 
     revokeIfCreated(state.blobUrl[docKind]);
 
@@ -318,7 +317,8 @@ async function fetchEmployeeStudentDataPdf() {
   return ContentApiService.get(
     `/clerk/petitions/${props.petition.id}/student-data-pdf`,
     {
-      responseType: 'arraybuffer',
+      responseType: 'blob',
+      validateStatus: (s) => s === 200,
     }
   );
 }
@@ -327,9 +327,7 @@ async function downloadEmployeeStudentDataPdf(studentUsername = 'student') {
   try {
     const res = await fetchEmployeeStudentDataPdf();
 
-    const contentType = res?.headers?.['content-type'] || 'application/pdf';
-    const blob = new Blob([res.data], { type: contentType });
-    const blobUrl = URL.createObjectURL(blob);
+    const blobUrl = URL.createObjectURL(res.data);
 
     const fileName = `student_data_${studentUsername}.pdf`;
     triggerDownload(blobUrl, fileName);
