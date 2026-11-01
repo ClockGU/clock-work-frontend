@@ -20,6 +20,7 @@
         class="d-flex flex-column align-center justify-center pt-0 pb-0"
         style="min-height: 100vh"
       >
+        <GDPRAcceptanceDialog v-if="showGDPRAcceptanceDialog" />
         <router-view />
       </v-container>
       <LoadingOverlay />
@@ -38,6 +39,8 @@ import AppBar from '@/components/app-bar/AppBar.vue';
 import NavigationDrawer from './components/app-bar/NavigationDrawer.vue';
 import AppFooter from '@/components/AppFooter.vue';
 import SnackBar from '@/components/SnackBar';
+import GDPRAcceptanceDialog from '@/components/dialogs/GDPRAcceptanceDialog.vue';
+
 const drawer = ref(false);
 const route = useRoute();
 
@@ -45,6 +48,10 @@ const currentPath = computed(() => route.path);
 const showAppBarAndFooter = computed(
   () => currentPath.value !== '/' && currentPath.value !== '/logging-in'
 );
+const showGDPRAcceptanceDialog = computed(() => {
+  const paths = ['/dashboard', '/approver', '/clerk'];
+  return paths.some((path) => currentPath.value.startsWith(path));
+});
 
 const toggleDrawer = () => (drawer.value = !drawer.value);
 const closeDrawer = () => (drawer.value = false);

@@ -6,13 +6,17 @@
     @refresh="refresh"
   />
   <StudentDataManagementDialog
-    v-if="userRole === 0"
+    v-if="isStudent"
     v-model="showStudentDialog"
     :petitions="petitions"
     :employee-data="employeeData"
     :document-data="documentData"
+    :employment-data="employmentData"
     :showBaDegreeField="showBaDegreeField"
     @close="showStudentDialog = false"
+    @refresh-employee-data="fetchEmployeeData"
+    @refresh-prev-emp="fetchPrevEmploymentData"
+    @refresh-documents="fetchDocuments"
     @refresh="refresh"
   />
   <PetitionRevisionDialog
@@ -30,7 +34,7 @@
     <v-card-title>
       <h2 id="edit-card-title" class="text-h5 font-weight-bold">
         {{
-          userRole === 1
+          isSupervisor
             ? $t('editCard.supervisor.title')
             : $t('editCard.student.title')
         }}
@@ -41,13 +45,13 @@
         color="primary"
         class="mb-4"
         :aria-label="buttonLabel"
-        @click="userRole === 1 ? openNewPetitionDialog() : openStudentDialog()"
+        @click="isSupervisor ? openNewPetitionDialog() : openStudentDialog()"
       >
         {{ buttonLabel }}
       </v-btn>
       <!-- Warning alert for students if their data is incomplete -->
       <v-alert
-        v-if="selectedPetition && !isStudentDataComplete && userRole === 0"
+        v-if="selectedPetition && !isStudentDataComplete && isStudent"
         type="warning"
         variant="tonal"
         class="mt-4"
@@ -67,7 +71,7 @@
         @refresh="refresh"
       >
         <!-- Action buttons for students to accept/reject or revision of a petition -->
-        <template #bottom v-if="userRole === 0">
+        <template #bottom v-if="isStudent">
           <div
             class="d-flex py-4"
             :class="{
@@ -123,8 +127,9 @@
 </template>
 
 <script setup>
+import { isStudent, isSupervisor } from '@/utils/roleUtils';
 import { PETITION_STATUS } from '@/utils/statusUtils';
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useDisplay } from 'vuetify';
@@ -133,15 +138,17 @@ import StudentDataManagementDialog from '../dialogs/StudentDataManagementDialog.
 import PetitionTableWithActions from '../tables/PetitionTableWithActions.vue';
 import ContentApiService from '@/services/contentApiService';
 import PetitionRevisionDialog from '../dialogs/PetitionRevisionDialog.vue';
+import Petition from '@/models/Petition';
 
 const props = defineProps({
   selectedPetition: {
-    type: Object,
+    type: Petition,
     default: null,
   },
   petitions: {
     type: Array,
     default: () => [],
+    validator: (arr) => arr.every((item) => item instanceof Petition),
   },
 });
 
@@ -155,12 +162,13 @@ const showStudentDialog = ref(false);
 const showRevisionDialog = ref(false);
 const employeeData = ref(null);
 const documentData = ref(null);
+const employmentData = ref(null);
 const isLoadingEmployeeData = ref(false);
 const isLoadingDocumentData = ref(false);
+const isLoadingPrevEmploymentData = ref(false);
 
-const userRole = computed(() => store.getters['auth/userRole']);
 const buttonLabel = computed(() => {
-  return userRole.value === 1
+  return isSupervisor.value
     ? t('editCard.supervisor.action')
     : t('editCard.student.action');
 });
@@ -176,15 +184,16 @@ const isPersonalDataComplete = computed(
 const isDocumentsComplete = computed(() => {
   if (!documentData.value) return false;
   const baseDocs =
-    !!documentData.value.elstam_url &&
-    !!documentData.value.studienbescheinigung_url &&
-    !!documentData.value.versicherungsbescheinigung_url &&
-    !!documentData.value.sozialversicherungsbogen_url;
+    !!documentData.value.elstam_file &&
+    !!documentData.value.studienbescheinigung_file &&
+    !!documentData.value.versicherungsbescheinigung_file &&
+    !!documentData.value.sozialversicherungsbogen_file;
 
   return showBaDegreeField.value
-    ? baseDocs && !!documentData.value.ba_degree_url
+    ? baseDocs && !!documentData.value.ba_degree_file
     : baseDocs;
 });
+
 // Check if student data is complete if the selected petition requires student action
 const isStudentDataComplete = computed(() => {
   return isPersonalDataComplete.value && isDocumentsComplete.value;
@@ -192,7 +201,8 @@ const isStudentDataComplete = computed(() => {
 // Determine if student action buttons should be disabled based on petition status and data completeness
 const isStudentActionDisabled = computed(() => {
   return (
-    props.selectedPetition.status !== PETITION_STATUS.STUDENT_ACTION ||
+    (props.selectedPetition.status !== PETITION_STATUS.STUDENT_ACTION ||
+      props.selectedPetition.status !== PETITION_STATUS.CLERK_REVISION) &&
     !isStudentDataComplete.value
   );
 });
@@ -211,7 +221,7 @@ const fetchEmployeeData = async () => {
   if (isLoadingEmployeeData.value) return;
   isLoadingEmployeeData.value = true;
   try {
-    const response = await ContentApiService.get('/employees');
+    const response = await ContentApiService.get('/employees/me');
     employeeData.value = response.data || null;
   } catch (error) {
     if (error.response?.status === 404) {
@@ -251,9 +261,38 @@ const fetchDocuments = async () => {
   }
 };
 
+const fetchPrevEmploymentData = async () => {
+  if (isLoadingPrevEmploymentData.value) return;
+
+  isLoadingPrevEmploymentData.value = true;
+  try {
+    const response = await ContentApiService.get('/prev_employments');
+    const data = response.data;
+    if (data) {
+      employmentData.value =
+        Array.isArray(data) && data.length > 0 ? data : null;
+    }
+  } catch (error) {
+    if (error.response?.status === 404) {
+      employmentData.value = null;
+    } else if (error.response?.status !== 404) {
+      console.error('Error fetching documents:', error);
+      store.dispatch('snackbar/setErrorSnacks', {
+        message: t('errors.studentData.fetchingEmployment'),
+      });
+    }
+  } finally {
+    isLoadingPrevEmploymentData.value = false;
+  }
+};
+
 const fetchStudentData = async () => {
-  if (userRole.value === 0)
-    await Promise.all([fetchEmployeeData(), fetchDocuments()]);
+  if (isStudent.value)
+    await Promise.all([
+      fetchEmployeeData(),
+      fetchDocuments(),
+      fetchPrevEmploymentData(),
+    ]);
 };
 
 const handleDeclination = async () => {
@@ -317,5 +356,4 @@ const handleAcceptance = async () => {
 onMounted(() => {
   fetchStudentData();
 });
-watch(userRole, fetchStudentData);
 </script>

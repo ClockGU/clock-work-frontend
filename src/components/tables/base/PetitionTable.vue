@@ -26,36 +26,24 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useStore } from 'vuex';
-import { parseISO } from 'date-fns';
-import { localizedFormat } from '@/utils/date';
+import { isStudent } from '@/utils/roleUtils';
 import PetitionStatusIcon from '@/components/ui/PetitionStatusIcon.vue';
 import BaseDataDisplayTable from '@/components/tables/base/DataDisplayTable.vue';
+import Petition from '@/models/Petition';
 
 const props = defineProps({
   petition: {
-    type: Object,
+    type: Petition,
     required: true,
   },
 });
 
 const { t } = useI18n();
-const store = useStore();
 
 // Formats various value types for display in the table.
 const formatValue = (value, key) => {
   if (value === null || value === undefined || value === '') {
     return '-';
-  }
-  if (
-    typeof value === 'string' &&
-    (key.includes('Date') || key.includes('Start') || key.includes('End'))
-  ) {
-    try {
-      return localizedFormat(parseISO(value), 'dd.MM.yyyy');
-    } catch {
-      return value;
-    }
   }
   if (typeof value === 'boolean') {
     return value ? t('yes') : t('no');
@@ -72,9 +60,6 @@ const formatKey = (key) => {
     )
     .join('');
 };
-
-const userRole = computed(() => store.getters['auth/userRole']);
-
 /**
  * A computed property that transforms the petition object into
  * a flat array of rows suitable for rendering in the table.
@@ -90,7 +75,7 @@ const tableRows = computed(() => {
     'student_mail',
     'start_date',
     'end_date',
-    'minutes',
+    'hours',
     'org_unit',
     'eos_number',
     'ba_degree',
@@ -102,10 +87,9 @@ const tableRows = computed(() => {
     'duration_exce_start',
     'duration_exce_end',
   ];
-
   // Process regular fields based on the defined order
   fieldOrder.forEach((key) => {
-    if (Object.prototype.hasOwnProperty.call(p, key)) {
+    if (key in p) {
       // Logic for time_exce and duration_exce
       if (key.startsWith('time_exce_') && !p.time_exce_course) return;
       if (key.startsWith('duration_exce_') && !p.duration_exce_course) return;
@@ -118,7 +102,7 @@ const tableRows = computed(() => {
   });
 
   // don't show budget positions related data for student
-  if (userRole.value !== 0) {
+  if (!isStudent.value) {
     // Process the nested budget_positions array
     if (p.budget_positions && Array.isArray(p.budget_positions)) {
       p.budget_positions.forEach((position, index) => {

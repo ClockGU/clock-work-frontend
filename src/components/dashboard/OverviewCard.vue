@@ -12,16 +12,11 @@
     </v-card-title>
     <v-card-text>
       <!-- Loading Spinner -->
-      <v-progress-circular
-        v-if="isLoading"
-        class="d-flex justify-center my-5"
-        indeterminate
-        color="primary"
-      ></v-progress-circular>
+      <ClockWorkLoader v-if="isLoading" height="32" width="33" />
       <PetitionsOverviewTable
         v-else
         :headers="headers"
-        :items="petitions"
+        :petitions="petitions"
         :selected-item="selectedPetition"
         @row-click="selectPetition"
       />
@@ -30,36 +25,37 @@
 </template>
 
 <script setup>
+import { isStudent, isSupervisor } from '@/utils/roleUtils';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useStore } from 'vuex';
 import PetitionsOverviewTable from '@/components/tables/base/PetitionsOverviewTable.vue';
+import ClockWorkLoader from '@/icons/ClockWorkLoader.vue';
+import Petition from '@/models/Petition';
 
 const props = defineProps({
   petitions: {
     type: Array,
     default: () => [],
+    validator: (arr, props) => arr.every((item) => item instanceof Petition),
   },
   isLoading: {
     type: Boolean,
     default: false,
   },
   selectedPetition: {
-    type: Object,
+    type: Petition,
     default: null,
   },
 });
 const emit = defineEmits(['select-petition']);
 const { t } = useI18n();
-const store = useStore();
-const userRole = computed(() => store.getters['auth/userRole']);
 
 const headers = computed(() => {
   const baseHeaders = [
     { title: t('petition.status'), key: 'status' },
     { title: t('petition.startDate'), key: 'start_date' },
     { title: t('petition.endDate'), key: 'end_date' },
-    { title: t('petition.minutes'), key: 'minutes' },
+    { title: t('petition.hours'), key: 'hours' },
     {
       title: t('petition.exceptions'),
       key: 'exceptions',
@@ -68,13 +64,13 @@ const headers = computed(() => {
     },
   ];
 
-  if (userRole.value === 0) {
+  if (isStudent.value) {
     // Student specific headers
     return [
       { title: t('petition.supervisorMail'), key: 'supervisor_mail' },
       ...baseHeaders,
     ];
-  } else {
+  } else if (isSupervisor.value) {
     // Supervisor specific headers
     return [
       { title: t('petition.studentMail'), key: 'student_mail' },
@@ -82,6 +78,7 @@ const headers = computed(() => {
       ...baseHeaders,
     ];
   }
+  return baseHeaders;
 });
 const selectPetition = (petition) => {
   emit('select-petition', petition);

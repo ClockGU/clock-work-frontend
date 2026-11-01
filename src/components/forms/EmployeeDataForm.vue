@@ -38,7 +38,7 @@
           dense
           :prepend-icon="icons.mdiAccountBox"
           :aria-label="$t('employeeData.formOfAddress')"
-          :items="['Mr.', 'Ms.', 'Mrs.', 'Dr.']"
+          :items="formOfAddressSelection"
           :rules="[requiredRule]"
         />
       </v-col>
@@ -52,18 +52,13 @@
           dense
           :prepend-icon="icons.mdiGenderMaleFemale"
           :aria-label="$t('employeeData.gender')"
-          :items="['Male', 'Female', 'Other']"
+          :items="genderSelection"
           :rules="[requiredRule]"
         />
       </v-col>
 
       <v-col cols="12" md="6">
         <label for="dateOfBirth">{{ $t('employeeData.dateOfBirth') }}</label>
-
-        <!-- FIX:
-             - display-format ensures the field text is really DD.MM.YYYY (date-fns via localizedFormat)
-             - input-format controls MANUAL typing and uses Vuetify tokens: dd.mm.yyyy (NOT date-fns)
-        -->
         <v-date-input
           id="dateOfBirth"
           v-model="formData.date_of_birth"
@@ -71,6 +66,7 @@
           :display-format="displayDate"
           input-format="dd.mm.yyyy"
           output-format="dd-MM-yyyy"
+          :placeholder="$t('datePlaceholder')"
           :aria-label="$t('employeeData.dateOfBirth')"
           :rules="[requiredRule]"
         />
@@ -116,15 +112,11 @@
       </v-col>
 
       <v-col cols="12" md="6">
-        <label for="nationality">{{ $t('employeeData.nationality') }}</label>
-        <v-text-field
-          id="nationality"
+        <NationalitySelectField
           v-model="formData.nationality"
-          outlined
-          dense
-          :prepend-icon="icons.mdiFlag"
-          :aria-label="$t('employeeData.nationality')"
-          :rules="[requiredRule]"
+          input-id="nationality"
+          :label="$t('employeeData.nationality')"
+          :required="true"
         />
       </v-col>
 
@@ -179,43 +171,12 @@
           :aria-label="$t('employeeData.married')"
         />
       </v-col>
-
-      <v-col cols="12">
-        <v-checkbox
-          id="previousEmployment"
-          v-model="formData.previous_employment"
-          :label="$t('employeeData.previousEmployment')"
-          :aria-label="$t('employeeData.previousEmployment')"
-          @update:model-value="handlePreviousEmploymentChange"
-        />
-      </v-col>
-
-      <v-col v-if="formData.previous_employment" cols="12" md="6">
-        <label for="prevEmpDuration">{{ $t('employeeData.duration') }}</label>
-
-        <!-- FIX:
-             - Range display is formatted as "DD.MM.YYYY – DD.MM.YYYY" via displayDate()
-             - Manual typing uses input-format="dd.mm.yyyy"
-        -->
-        <v-date-input
-          id="prevEmpDuration"
-          v-model="formData.prev_emp_duration"
-          :prepend-icon="icons.mdiCalendar"
-          :display-format="displayDate"
-          input-format="dd.mm.yyyy"
-          output-format="dd-MM-yyyy"
-          multiple="range"
-          placeholder="DD.MM.YYYY – DD.MM.YYYY"
-          :aria-label="$t('employeeData.duration')"
-          :rules="formData.previous_employment ? [requiredRule] : []"
-        />
-      </v-col>
     </v-row>
   </v-form>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import {
   mdiAccount,
@@ -223,7 +184,6 @@ import {
   mdiCity,
   mdiHomeMapMarker,
   mdiNumeric,
-  mdiFlag,
   mdiPhone,
   mdiHospital,
   mdiBank,
@@ -232,7 +192,9 @@ import {
   mdiAccountBox,
 } from '@mdi/js';
 import EmployeeData from '@/models/EmployeeData';
-import { makeDisplayDate } from '@/utils/date';
+import { displayDate } from '@/utils/date';
+import { isVisaUploadRequired } from '@/utils/nationality';
+import NationalitySelectField from '@/components/forms/fields/NationalitySelectField.vue';
 
 const icons = {
   mdiAccount,
@@ -240,7 +202,6 @@ const icons = {
   mdiCity,
   mdiHomeMapMarker,
   mdiNumeric,
-  mdiFlag,
   mdiPhone,
   mdiHospital,
   mdiBank,
@@ -260,6 +221,36 @@ const { t } = useI18n();
 const formData = ref(new EmployeeData());
 const isFormValid = ref(false);
 
+const formOfAddressSelection = [
+  {
+    title: t('employeeData.formOfAddressSelection.male'),
+    value: 'Herr',
+  },
+  {
+    title: t('employeeData.formOfAddressSelection.female'),
+    value: 'Frau',
+  },
+  {
+    title: t('employeeData.formOfAddressSelection.none'),
+    value: undefined,
+  },
+];
+
+const genderSelection = [
+  {
+    title: t('employeeData.genderSelection.male'),
+    value: 'MALE',
+  },
+  {
+    title: t('employeeData.genderSelection.female'),
+    value: 'FEMALE',
+  },
+  {
+    title: t('employeeData.genderSelection.other'),
+    value: 'OTHER',
+  },
+];
+
 watch(
   () => props.initialData,
   (newData) => {
@@ -272,11 +263,6 @@ watch(
   { immediate: true }
 );
 
-const displayDate = makeDisplayDate({
-  displayFormat: 'dd.MM.yyyy',
-  primaryParseFormat: 'dd-MM-yyyy',
-});
-
 // Validation Rules
 const requiredRule = (v) => !!v || t('validationRule.required');
 const postalCodeRule = (v) =>
@@ -284,20 +270,17 @@ const postalCodeRule = (v) =>
 const phoneRule = (v) =>
   /^\d{10,15}$/.test(v) || t('validationRule.invalidPhone');
 const ibanRule = (v) =>
-  /^[A-Z]{2}\d{2}[A-Z0-9]{11,30}$/.test(v) || t('validationRule.invalidIban');
+  /^[A-Z]{2}\d{20}$/.test(v) || t('validationRule.invalidIban');
 
-const handlePreviousEmploymentChange = (value) => {
-  if (!value) {
-    formData.value.prev_emp_duration = null;
-  } else {
-    formData.value.prev_emp_duration = [];
-  }
-  formData.value.previous_employment = value;
-};
+
+const requiresResidencePermitUpload = computed(() =>
+  isVisaUploadRequired(formData.value.nationality)
+);
 
 defineExpose({
   formData,
   isFormValid,
+  requiresResidencePermitUpload,
 });
 </script>
 

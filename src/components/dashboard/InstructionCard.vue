@@ -5,17 +5,13 @@
         {{ instructionCardTitle }}
       </h2>
     </v-card-title>
-    <PetitioneerInstructionTextEnglish
-      v-if="role === 1 && selectedLocale === 'en'"
+    <SupervisorInstructionText
+      v-if="role === Roles.SUPERVISOR"
+      :locale="selectedLocale"
     />
-    <PetitioneerInstructionTextGerman
-      v-if="role === 1 && selectedLocale === 'de'"
-    />
-    <StudentInstructionTextEnglish
-      v-if="role === 0 && selectedLocale === 'en'"
-    />
-    <StudentInstructionTextGerman
-      v-if="role === 0 && selectedLocale === 'de'"
+    <StudentInstructionText
+      v-if="role === Roles.STUDENT"
+      :locale="selectedLocale"
     />
   </v-card>
 </template>
@@ -23,16 +19,15 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import PetitioneerInstructionTextEnglish from '@/components/dashboard/instruction_texts/PetitioneerInstructionTextEnglish.vue';
-import PetitioneerInstructionTextGerman from '@/components/dashboard/instruction_texts/PetitioneerInstructionTextGerman.vue';
-import StudentInstructionTextEnglish from '@/components/dashboard/instruction_texts/StudentInstructionTextEnglish.vue';
-import StudentInstructionTextGerman from '@/components/dashboard/instruction_texts/StudentInstructionTextGerman.vue';
+import { Roles } from '@/utils/roleUtils';
 import { getCurrentLocale } from '@/plugins/i18n';
+import SupervisorInstructionText from '@/components/dashboard/instruction_texts/SupervisorInstructionText.vue';
+import StudentInstructionText from '@/components/dashboard/instruction_texts/StudentInstructionText.vue';
 
 const { t } = useI18n();
 const props = defineProps({
   role: {
-    type: Number,
+    type: String,
     required: true,
   },
 });
@@ -42,13 +37,8 @@ const selectedLocale = computed(() => {
 });
 
 const instructionCardTitle = computed(() =>
-  props.role === 0
+  props.role === Roles.STUDENT
     ? t('instructionCard.title.student')
     : t('instructionCard.title.supervisor')
-);
-const instructionCardText = computed(() =>
-  props.role === 0
-    ? t('instructionCard.text.student')
-    : t('instructionCard.text.supervisor')
 );
 </script>

@@ -1,5 +1,6 @@
 <template>
   <CustomDialog
+    v-model="model"
     :title="
       $t('petitionFormDialog.title', {
         petition: petition ? 'Edit' : 'Create New',
@@ -23,7 +24,7 @@
         color="primary"
         :disabled="!isFormValid"
         :aria-label="$t('ariaLabel.petitionFormDialog.submit')"
-        @click="submit"
+        @click="create"
       >
         {{ $t('actions.submit') }}
       </v-btn>
@@ -32,7 +33,7 @@
         color="primary"
         :disabled="!isFormValid"
         :aria-label="$t('ariaLabel.petitionFormDialog.save')"
-        @click="save"
+        @click="update"
       >
         {{ $t('actions.save') }}
       </v-btn>
@@ -41,16 +42,18 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
+import { isSupervisor } from '@/utils/roleUtils';
 import PetitionForm from '@/components/forms/PetitionForm.vue';
 import CustomDialog from '@/components/dialogs/base/CustomDialog.vue';
 import ContentApiService from '@/services/contentApiService';
+import Petition from '@/models/Petition';
 
 const props = defineProps({
   petition: {
-    type: [Object, null],
+    type: [Petition, null],
     required: false,
     default: null,
   },
@@ -60,14 +63,24 @@ const emit = defineEmits(['close', 'refresh']);
 const store = useStore();
 const { t } = useI18n();
 const petitionFormRef = ref(null);
-
-const userRole = computed(() => store.getters['auth/userRole']);
+const model = defineModel({ type: Boolean, default: false });
 
 const isFormValid = computed(() => petitionFormRef.value?.isAllValid || false);
 
 const closeDialog = () => emit('close');
 
-const submit = async () => {
+// Snapshot the pristine petition data whenever the dialog opens, so save()
+// can diff edits against it to patch only changed data.
+let initialPetitionData = null;
+watch(model, (isOpen) => {
+  if (isOpen) {
+    initialPetitionData = props.petition
+      ? props.petition.toBackendFormat()
+      : null;
+  }
+});
+
+const create = async () => {
   if (isFormValid.value) {
     const formData = petitionFormRef.value.formData;
     try {
@@ -86,21 +99,37 @@ const submit = async () => {
   }
 };
 
-const save = async () => {
+const update = async () => {
   if (isFormValid.value) {
     const formData = petitionFormRef.value.formData;
-
     try {
-      const role = userRole.value === 2 ? 'clerk' : 'supervisor';
+      if (!isSupervisor.value) {
+        throw new Error('Only supervisors can edit petitions.');
+      }
       // Use the Petition model's toBackendFormat method for proper date formatting
       const dataToSend = formData.toBackendFormat();
+      // Compare against snapshot taken when the dialog opened
+      // and only PATCH the diff
+      const originalData = initialPetitionData;
+      const changedData = Object.fromEntries(
+        Object.entries(dataToSend).filter(
+          ([key, value]) =>
+            JSON.stringify(value) !== JSON.stringify(originalData[key])
+        )
+      );
+      console.log(JSON.stringify(changedData))
+      if (Object.keys(changedData).length === 0) {
+        closeDialog();
+        return;
+      }
+
       const response = await ContentApiService.patch(
-        `/${role}/petitions/${props.petition.id}`,
-        dataToSend
+        `/supervisor/petitions/${props.petition.id}`,
+        changedData
       );
       emit('refresh', {
         type: 'update',
-        data: response.data,
+        data: new Petition(response.data),
       });
     } catch (error) {
       console.error('Failed to update petition:', error);

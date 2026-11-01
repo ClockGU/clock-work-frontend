@@ -1,5 +1,5 @@
 {
-  "welcome": "Willkommen im Portal von CLOCK Work",
+  "welcome": "Willkommen im Portal von ClockWork",
   "login": "Anmelden",
   "logout": "Abmelden",
   "search": "Suchen",
@@ -13,6 +13,7 @@
     "loggingin": "Anmeldung läuft...",
     "loading": "Lade Daten..."
   },
+  "datePlaceholder": "TT.MM.JJJJ",
   "actions": {
     "cancel": "abbrechen",
     "submit": "einreichen",
@@ -25,13 +26,15 @@
     "send": "senden",
     "approve": "genehmigen",
     "reject": "ablehnen",
+    "complete": "abschließen",
     "requestChange": "Änderung anfordern",
     "back": "zurück",
     "next": "weiter",
     "accept": "akzeptieren",
     "decline": "ablehnen",
     "download": "herunterladen",
-    "downloadAll": "alle herunterladen"
+    "downloadAll": "alle herunterladen",
+    "finishProcess": "Prozess abschließen"
   },
   "roleSelectionView": {
     "welcome": "Sie sind neu hier!",
@@ -46,6 +49,11 @@
       "student": "Anleitung zum Dashboard für Studierende",
       "supervisor": "Anleitung zum Dashboard für Vorgesetzte"
     }
+  },
+  "gdprAcceptanceDialog": {
+    "title": "Datenschutzerklärung",
+    "text": "Diese Anwendung verwendet Cookies und erhebt personenbezogene Daten. Durch die weitere Nutzung stimmen Sie unserer Verwendung von Daten gemäß unserer Datenschutzerklärung zu. Dies umfasst, ist aber nicht beschränkt auf Ihren Namen, Ihre E-Mail-Adresse und andere personenbezogene Informationen. Bitte lesen Sie unsere Datenschutzerklärung sorgfältig, um zu verstehen, wie wir Ihre Daten schützen und verwenden.",
+    "accept": "Ich habe die Datenschutzerklärung gelesen und akzeptiere sie"
   },
   "editCard": {
     "supervisor": {
@@ -66,6 +74,13 @@
     "studentDataManagementDialog": "Dialog für die Datenverwaltung"
   },
   "dataDisplayTable": {
+    "general": {
+      "title": "Datentabelle",
+      "headers": {
+        "field": "Feld",
+        "value": "Wert"
+      }
+    },
     "petition": {
       "title": "Antragstabelle",
       "headers": {
@@ -79,6 +94,23 @@
         "field": "Mitarbeiterdatenfeld",
         "value": "Wert"
       }
+    },
+    "prevEmploymentData": {
+      "title": "Daten vorheriger Anstellungen",
+      "headers": {
+        "field": "Vorherige Anstellungen",
+        "value": "Daten"
+      },
+      "subfields": {
+        "fields": {
+          "start": "Startdatum",
+          "end": "Enddatum",
+          "employer_name": "Arbeitgeber",
+          "proof": "Bescheinigung"
+        }
+      },
+      "downloadBtnText": "Nachweis anzeigen",
+      "entryNameStub": "Vorherige Anstellung {n}"
     }
   },
   "petitionsOverviewTable": {
@@ -93,7 +125,8 @@
     "showCompletedPetitions": "Abgeschlossene Anträge anzeigen"
   },
   "confirmationDialog": {
-    "PetitionDeletion": "Sind Sie sicher, dass Sie diesen Antrag löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden!"
+    "PetitionDeletion": "Sind Sie sicher, dass Sie diesen Antrag löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden!",
+    "clerkAlert": "Das Löschen ist endgültig. Bitte diese Funktion nur benutzen, wenn auf Basis der vorliegenden Daten kein rechtsgültiger Vertrag zustande kommen kann."
   },
   "petitionFormDialog": {
     "title": "Neuen Antrag stellen",
@@ -118,7 +151,17 @@
     "firstName": "Vorname",
     "lastName": "Nachname",
     "formOfAddress": "Anrede",
+    "formOfAddressSelection": {
+      "male": "Herr",
+      "female": "Frau",
+      "none": "Keine"
+    },
     "gender": "Geschlecht",
+    "genderSelection": {
+      "male": "männlich",
+      "female": "weiblich",
+      "other": "divers"
+    },
     "dateOfBirth": "Geburtsdatum",
     "cityOfBirth": "Geburtsort",
     "address": "Adresse",
@@ -136,23 +179,20 @@
     "bankName": "Bankname"
   },
   "files": {
+    "status": {
+      "selected": "Ausgewählt",
+      "existing": "Vorhanden",
+      "missing": "Fehlend",
+      "optional": "Optional",
+      "required": "Erforderlich"
+    },
     "elstam": "ELStAM Selbstauskunft",
     "studienbescheinigung": "Studienbescheinigung",
     "sozialversicherungsbogen": "Fragebogen zur Sozialversicherung",
     "versicherungsbescheinigung": "Mitgliedsbescheinigung der Krankenkasse",
-    "ba_degree": "Nachweis des Bachelor-Abschlusses"
-  },
-  "filesUploadForm": {
-    "hint": {
-      "selected": "Ausgewählt: {filename}",
-      "existing": "Vorhanden: {filename}",
-      "noFile": "Keine Datei ausgewählt"
-    },
-    "status": {
-      "newDocument": "{document}: Ein neues Dokument wurde hochgeladen.",
-      "existingDocument": "{document}: Dokument wurde bereits hochgeladen.",
-      "noDocument": "{document}: Es wurde kein Dokument hochgeladen."
-    }
+    "ba_degree": "Nachweis des Bachelor-Abschlusses",
+    "residence_permit": "Aufenthaltstitel / Visum",
+    "id_photo": "Personalausweis/ID"
   },
   "petition": {
     "statusDisplay": {
@@ -173,23 +213,27 @@
     "studentMail": "E-Mail Student*in",
     "studentAccount": "Studierenden-Account (s-Nummer)",
     "orgUnit": "Organisationseinheit",
+    "orgUnitPlaceholder": "z.B. Institut für Informatik",
     "eosNumber": "EOS-Nummer",
     "startDate": "Vertragsbeginn",
     "endDate": "Vertragsende",
-    "minutes": "Vertragsumfang (h/Monat)",
-    "baDegree": "Bachelorabschluss",
+    "hours": "Vertragsumfang (h/Monat)",
+    "baDegreeLabel": "Hochschulabschluss",
+    "baDegree": "Bachelorabschluss vorhanden",
     "budgetPositions": "Kostenstellen",
     "budgetPosition": "Kostenstelle",
     "budgetApprover": "E-Mail der*des Kostenstellenverantwortlichen",
     "budgetPositionApproved": "Kostenstelle genehmigt",
     "percentage": "Prozentsatz",
-    "timeExceCourse": "Ausnahmen vom Mindestumfang (10 h/Woche | 40 h/Monat)",
+    "timeExceCourse": "Ausnahmen vom Mindestumfang (weniger als 10 h/Woche bzw. 40 h/Monat)",
+    "timeExceReasonStudentWish": "Wunsch der Studierenden",
+    "timeExceReasonStudentCourse": "Rahmen der Veranstaltung",
     "timeExceName": "Beschreibung",
     "timeExceStart": "Startdatum der Abweichung",
     "timeExceEnd": "Enddatum der Abweichung",
     "timeExecActualTime": "Zeitlicher Umfang der Veranstaltung (h/Monat)",
     "durationExceCourse": "Abweichung von der Mindestvertragslaufzeit",
-    "durationExceName": "Bezeichnung der Abweichung",
+    "durationExceName": "Beschreibung",
     "durationExceStart": "Startdatum der Abweichung",
     "durationExceEnd": "Enddatum der Abweichung",
     "durationException": "Ausnahmedauer",
@@ -233,9 +277,11 @@
     "percentage": "Muss zwischen 0-100 liegen",
     "percentageTotal": "Die Gesamtsumme aller Anteile muss 100% betragen. Aktuelle Gesamtsumme: {totalPercentage}%",
     "positiveNumber": "Muss eine positive Zahl sein",
-    "endDateAfterStart": "Enddatum muss nach dem Startdatum liegen",
+    "endDateAfterStart": "Das Enddatum muss nach dem Startdatum liegen",
     "eosNumber": "Muss im Format 'FXXXXXX' sein, wobei 'X' eine beliebige Ziffer von 0 bis 9 ist",
-    "postalCode": "Postleitzahl muss 5-stellig sein"
+    "postalCode": "Postleitzahl muss 5-stellig sein",
+    "durationExceptionRequired": "Diese Angaben sind erforderlich, wenn die Vertragslaufzeit weniger als ein Jahr beträgt.",
+    "timeExceptionRequired": "Dieses Angaben sind erforderlich, wenn die monatliche Arbeitszeit weniger als 40 Stunden beträgt."
   },
   "footer": {
     "links": {
@@ -288,6 +334,10 @@
       "NoAccessToken": "Kein Zugriffstoken in der Rückgabe vom Authentifizierungsdienst",
       "generic": "Ein Fehler ist während des Anmeldevorgangs aufgetreten. Bitte versuchen Sie es erneut."
     },
+    "refreshToken": {
+      "failed": "Token konnte nicht aktualisiert werden",
+      "missing": "Refresh Token fehlt"
+    },
     "buttonGoethe": {
       "UrlFetch": "Fehler beim Abrufen der Autorisierungs-URL. Bitte versuchen Sie es erneut."
     },
@@ -328,14 +378,15 @@
       "uploadDocument": "Bitte laden Sie die erforderlichen Daten und Dokumente hoch"
     },
     "approverView": {
+      "missingSignature": "Fehlende Signaturparameter",
       "loadPetitionError": "Fehler beim Laden des Antrags zur Überprüfung",
       "approveError": "Fehler beim Genehmigen des Antrags",
       "rejectError": "Fehler beim Ablehnen des Antrags"
     },
-    "clerkView": {
-      "unauthorized": "Sie sind nicht berechtigt, die Sachbearbeitenden-Ansicht zu öffnen."
+    "gdprAcceptanceDialog": {
+      "updateFailed": "Die Aktualisierung der Benutzervereinbarung ist fehlgeschlagen. Bitte versuchen Sie es erneut."
     },
-    "RoleDashboardView": {
+    "roles": {
       "unauthorized": "Sie sind nicht berechtigt, diese Ansicht zu öffnen. Bitte wählen Sie eine gültige Rolle aus."
     }
   },

@@ -23,7 +23,13 @@
         </tr>
       </thead>
       <tbody role="rowgroup">
-        <tr v-for="(row, index) in rows" :key="index" role="row" tabindex="0">
+        <tr
+          v-for="(row, index) in rows"
+          :key="index"
+          role="row"
+          tabindex="0"
+          :style="{ display: row.hide ? 'none' : undefined }"
+        >
           <td class="key-cell" role="cell">
             {{ row.key }}
           </td>
@@ -43,6 +49,9 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
 const props = defineProps({
   rows: {
     type: Array,
@@ -52,24 +61,30 @@ const props = defineProps({
     type: String,
     default: 'Data Display Table',
   },
-  // Header text for the 'Key' column
   headerKey: {
     type: String,
-    default: 'Field',
+    required: false,
+    default: '',
   },
-  // Header text for the 'Value' column
   headerValue: {
     type: String,
-    default: 'Value',
+    required: false,
+    default: '',
   },
 });
+const { t } = useI18n();
+const headerKey = computed(
+  () => props.headerKey || t('dataDisplayTable.general.headers.field')
+);
+const headerValue = computed(
+  () => props.headerValue || t('dataDisplayTable.general.headers.value')
+);
 </script>
 
 <style scoped>
 .styled-table {
   border-collapse: collapse;
   border: 1px solid #d6d3d3;
-  cursor: pointer;
 }
 .styled-table th,
 .styled-table td {

@@ -86,12 +86,14 @@ import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
+import { isStudent, isClerk, isApprover } from '@/utils/roleUtils';
 import ContentApiService from '@/services/contentApiService.js';
 import CustomDialog from '@/components/dialogs/base/CustomDialog.vue';
+import Petition from '@/models/Petition';
 
 const props = defineProps({
   petition: {
-    type: Object,
+    type: [Petition, null],
     required: true,
   },
 });
@@ -122,22 +124,20 @@ const isValid = ref(false);
 const reportSubject = ref('');
 const reportText = ref('');
 
-const userRole = computed(() => store.getters['auth/userRole']);
-const isApprover = computed(() => route.name === 'approver');
 const recipientMail = computed(() => {
-  return userRole.value === 2
+  return isClerk.value
     ? props.petition.student_mail
     : props.petition.supervisor_mail;
 });
 
 const recipientRole = computed(() => {
-  return userRole.value === 2 ? 'student' : 'supervisor';
+  return isClerk.value ? 'student' : 'supervisor';
 });
 
 const subjects = computed(() => {
-  if (userRole.value === 2) {
+  if (isClerk.value) {
     return clerkSubjects;
-  } else if (userRole.value === 0) {
+  } else if (isStudent.value) {
     return studentSubjects;
   }
   return [];
@@ -146,9 +146,9 @@ const subjects = computed(() => {
 const RevisionDialogInstruction = computed(() => {
   if (isApprover.value) {
     return t('PetitionRevisionDialog.instruction.approver');
-  } else if (userRole.value === 2) {
+  } else if (isClerk.value) {
     return t('PetitionRevisionDialog.instruction.clerk');
-  } else if (userRole.value === 0) {
+  } else if (isStudent.value) {
     return t('PetitionRevisionDialog.instruction.student');
   }
   return '';
@@ -204,7 +204,8 @@ const handleStudentRevision = async () => {
   const petitionId = props.petition.id;
   const apiEndpoint = `/students/petitions/${petitionId}/request-revision`;
   const apiData = {
-    body: reportText.value,
+    subject: reportSubject.value,
+    message: reportText.value,
   };
 
   try {
@@ -225,14 +226,11 @@ const handleStudentRevision = async () => {
 const handleRevision = async () => {
   if (isApprover.value) {
     await handleApproverRevision();
-  } else if (userRole.value === 2) {
+  } else if (isClerk.value) {
     await handleClerkRevision();
-  } else if (userRole.value === 0) {
+  } else if (isStudent.value) {
     await handleStudentRevision();
   } else {
-    console.error(
-      `User with role ${userRole.value} has no permission to revision`
-    );
     store.dispatch('snackbar/setErrorSnacks', {
       message: t('errors.PetitionRevisionDialog.unhandledRole'),
     });

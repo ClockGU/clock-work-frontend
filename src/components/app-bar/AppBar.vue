@@ -18,27 +18,18 @@
       </v-app-bar-nav-icon>
 
       <v-toolbar-title>
-        <router-link
-          v-slot="{ navigate }"
-          custom
-          :to="redirectTo"
-          :aria-label="
-            redirectTo === '/roles'
-              ? $t('ariaLabel.navigation.roles')
-              : $t('ariaLabel.navigation.dashboard')
-          "
-        >
+        <router-link v-slot="{ navigate }" custom :to="redirectTo">
           <a
             style="display: inline-block; cursor: pointer"
+            :aria-label="
+              redirectTo === '/roles'
+                ? $t('ariaLabel.navigation.roles')
+                : $t('ariaLabel.navigation.dashboard')
+            "
             @click="navigate"
             @keypress.enter="navigate"
           >
-            <v-img
-              width="96px"
-              height="32px"
-              :src="imgSrc"
-              :alt="'clock Logo'"
-            />
+            <ClockWorkIcon height="64" width="250" />
           </a>
         </router-link>
       </v-toolbar-title>
@@ -87,13 +78,13 @@
 </template>
 
 <script setup>
-import svg from '@/assets/clock_full.svg';
 import { mdiChevronDown, mdiMenu, mdiLogout } from '@mdi/js';
 import { useDisplay } from 'vuetify';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import { computed } from 'vue';
 import LanguageSwitcher from '@/components/app-bar/LanguageSwitcher.vue';
+import ClockWorkIcon from '@/icons/ClockWorkIcon.vue';
 
 const icons = {
   mdiMenu,
@@ -101,7 +92,6 @@ const icons = {
   mdiLogout,
 };
 const bgColor = '#FFFFFF';
-const imgSrc = svg;
 const { mdAndUp } = useDisplay();
 const store = useStore();
 const route = useRoute();
@@ -135,6 +125,7 @@ const toggleNavigationdrawer = () => {
 };
 const logout = () => {
   store.dispatch('auth/logout');
-  window.location = 'https://cas.rz.uni-frankfurt.de/cas/logout';
+  window.location =
+    'https://idp.ub.uni-frankfurt.de/idp/profile/oidc/end-session';
 };
 </script>

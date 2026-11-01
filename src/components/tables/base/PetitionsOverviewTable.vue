@@ -2,7 +2,7 @@
   <v-data-table
     role="table"
     :headers="headers"
-    :items="formattedItems"
+    :items="petitions"
     item-selectable
     hover
     :no-data-text="$t('petitionsOverviewTable.noPetitions')"
@@ -45,19 +45,19 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
-import { format, parseISO } from 'date-fns';
 import PetitionStatusIcon from '@/components/ui/PetitionStatusIcon.vue';
 import StatusIndicator from '@/components/ui/StatusIndicator.vue';
+import Petition from '@/models/Petition';
 
 const props = defineProps({
   headers: {
     type: Array,
     required: true,
   },
-  items: {
+  petitions: {
     type: Array,
     required: true,
+    validator: (arr, props) => arr.every((item) => item instanceof Petition),
   },
   selectedItem: {
     type: Object,
@@ -66,33 +66,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['row-click']);
-
-const formattedItems = computed(() => {
-  return props.items.map((item) => {
-    const formattedItem = { ...item };
-    // Format dates in items to dd.mm.yyyy
-    const dateFields = [
-      'start_date',
-      'end_date',
-      'time_exce_start',
-      'time_exce_end',
-      'duration_exce_start',
-      'duration_exce_end',
-    ];
-
-    dateFields.forEach((field) => {
-      if (formattedItem[field] && typeof formattedItem[field] === 'string') {
-        formattedItem[field] = format(
-          parseISO(formattedItem[field]),
-          'dd.MM.yyyy'
-        );
-      }
-    });
-    formattedItem['student_mail'] =
-      `${formattedItem['student_username']}@stud.uni-frankfurt.de`;
-    return formattedItem;
-  });
-});
 
 // This function generates a comprehensive label for the screen reader
 const getAriaLabel = (item) => {

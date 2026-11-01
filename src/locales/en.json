@@ -13,6 +13,7 @@
     "loggingin": "Logging in...",
     "loading": "Loading..."
   },
+  "datePlaceholder": "DD.MM.YYYY",
   "actions": {
     "cancel": "cancel",
     "submit": "submit",
@@ -25,13 +26,15 @@
     "send": "send",
     "approve": "approve",
     "reject": "reject",
+    "complete": "complete",
     "requestChange": "request change",
     "back": "back",
     "next": "next",
     "accept": "accept",
     "decline": "decline",
     "download": "download",
-    "downloadAll": "download all"
+    "downloadAll": "download all",
+    "finishProcess": "finish process"
   },
   "roleSelectionView": {
     "welcome": "You are new here!",
@@ -46,6 +49,11 @@
       "student": "Student Dashboard Instructions",
       "supervisor": "Supervisor Dashboard Instructions"
     }
+  },
+  "gdprAcceptanceDialog": {
+    "title": "Privacy Agreement",
+    "text": "This application uses cookies and collects personal data. By continuing, you agree to our use of data as outlined in our Privacy Policy. This includes but is not limited to your name, email address, and other personal information. Please read our Privacy Policy carefully to understand how we protect and use your data.",
+    "accept": "I have read and accept the Privacy Policy"
   },
   "editCard": {
     "supervisor": {
@@ -66,6 +74,13 @@
     "studentDataManagementDialog": "Student Data Management Dialog"
   },
   "dataDisplayTable": {
+    "general": {
+      "title": "Data tabel",
+      "headers": {
+        "field": "Field",
+        "value": "Value"
+      }
+    },
     "petition": {
       "title": "Application Table",
       "headers": {
@@ -79,6 +94,23 @@
         "field": "Employee data field",
         "value": "Value"
       }
+    },
+    "prevEmploymentData": {
+      "title": "Previous Employment Data",
+      "headers": {
+        "field": "Previous Employment",
+        "value": "Data"
+      },
+      "subfields": {
+        "fields": {
+          "start": "Start date",
+          "end": "End date",
+          "employer_name": "Employer",
+          "proof": "Proof"
+        }
+      },
+      "downloadBtnText": " View Proof",
+      "entryNameStub": "Previous Employment {n}"
     }
   },
   "petitionsOverviewTable": {
@@ -93,7 +125,8 @@
     "showCompletedPetitions": "Show completed applications"
   },
   "confirmationDialog": {
-    "PetitionDeletion": "Are you sure you want to delete this application? This action cannot be undone."
+    "PetitionDeletion": "Are you sure you want to delete this application? This action cannot be undone.",
+    "clerkAlert": "This action cannot be undone. Delete this petition only if it contains errors that prevent a valid legal contract."
   },
   "petitionFormDialog": {
     "title": "Create new application",
@@ -118,7 +151,17 @@
     "firstName": "First Name",
     "lastName": "Last Name",
     "formOfAddress": "Form of Address",
+    "formOfAddressSelection": {
+      "male": "Mr.",
+      "female": "Mrs.",
+      "none": "None"
+    },
     "gender": "Gender",
+    "genderSelection": {
+      "male": "male",
+      "female": "female",
+      "other": "other"
+    },
     "dateOfBirth": "Date of Birth",
     "cityOfBirth": "City of Birth",
     "address": "Address",
@@ -136,23 +179,20 @@
     "bankName": "Bank Name"
   },
   "files": {
+    "status": {
+      "selected": "Selected",
+      "existing": "Existing",
+      "missing": "Missing",
+      "optional": "Optional",
+      "required": "Required"
+    },
     "elstam": "ELStAM Self-Disclosure Form",
     "studienbescheinigung": "Enrolment Certificate",
     "sozialversicherungsbogen": "Social Security Questionnaire",
     "versicherungsbescheinigung": "Health Insurance Membership Certificate",
-    "ba_degree": "Bachelor's Degree Certificate"
-  },
-  "filesUploadForm": {
-    "hint": {
-      "selected": "Selected: {filename}",
-      "existing": "Existing: {filename}",
-      "noFile": "No file selected"
-    },
-    "status": {
-      "newDocument": "{document}: A new document has been uploaded",
-      "existingDocument": "{document}: Document has already been uploaded",
-      "noDocument": "{document}: No document was uploaded"
-    }
+    "ba_degree": "Bachelor's Degree Certificate",
+    "residence_permit": "Residence Permit / Visa",
+    "id_photo": "ID card"
   },
   "petition": {
     "statusDisplay": {
@@ -173,21 +213,25 @@
     "studentMail": "Student Mail Address",
     "studentAccount": "Student Account (s-Number)",
     "orgUnit": "Org Unit",
+    "orgUnitPlaceholder": "e.g. Institute of Computer Science",
     "eosNumber": "EOS Number",
     "startDate": "Contract Start Date",
     "endDate": "Contract End Date",
-    "minutes": "Contract hours (h/Month)",
-    "baDegree": "Bachelor Degree",
+    "hours": "Contract hours (h/Month)",
+    "baDegreeLabel": "Higher Education Degree",
+    "baDegree": "Bachelor Degree obtained",
     "budgetPositions": "Budget Positions",
     "budgetPosition": "Budget Position",
     "budgetApprover": "Budget Approver Email",
-    "budgetPositionApproved": " Budgetposition Approved",
+    "budgetPositionApproved": " Budget Position Approved",
     "percentage": "Percentage",
-    "timeExceCourse": "Minimum Contract Term Deviation (10 h/week | 40 h/month)",
+    "timeExceCourse": "Minimum Contract Term Deviation (less than 10 h/week or 40 h/month)",
+    "timeExceReasonStudentWish": "Students wish",
+    "timeExceReasonStudentCourse": "Scope of course",
     "timeExceName": "Description",
     "timeExceStart": "Deviation from",
     "timeExceEnd": "Deviation until",
-    "timeExecActualTime": "Duration of the event (h/month)",
+    "timeExecActualTime": "Course hours (h/month)",
     "durationExceCourse": "Minimum Hours Deviation",
     "durationExceName": "Description",
     "durationExceStart": "Deviation from",
@@ -235,7 +279,9 @@
     "positiveNumber": "Must be a positive number",
     "endDateAfterStart": "End date must be after start date",
     "eosNumber": "Must be in the format 'FXXXXXX' where 'X' is any digit from 0 to 9",
-    "postalCode": "Postal code must be 5 digits"
+    "postalCode": "Postal code must be 5 digits",
+    "durationExceptionRequired": "This field is required if the contract duration is less than one year.",
+    "timeExceptionRequired": "This field is required if working hours are fewer than 40 hours per month."
   },
   "footer": {
     "links": {
@@ -266,7 +312,7 @@
     },
     "instruction": {
       "approver": "You can request a change to the budget position of an application to the applicant. Please write your changes in the message box below. The applicant will receive an email with your requested changes.",
-      "clerk": "You can request a change of an application to a student assistant.Please select the subject in the dropdown menu and write your changes in the message box below. The student will receive an email with your requested changes.",
+      "clerk": "You can request a change of an application to a student assistant. Please select the subject in the dropdown menu and write your changes in the message box below. The student will receive an email with your requested changes.",
       "student": "You can request a change of an application to the supervisor. Please select a subject in the dropdown menu and then write your changes in the message box below. The supervisor will receive an email with your requested changes."
     },
     "studentSubjects": {
@@ -287,6 +333,10 @@
       "NoCasToken": "No CAS token found in URL parameters",
       "NoAccessToken": "No access token in authentication response",
       "generic": "An error occurred during login. Please try again."
+    },
+    "refreshToken": {
+      "failed": "failed to refresh token",
+      "missing": "refresh token is missing"
     },
     "buttonGoethe": {
       "UrlFetch": "Error fetching authorisation URL. Please try again."
@@ -329,14 +379,18 @@
       "uploadDocument": "Please upload the required data and documents."
     },
     "approverView": {
-      "loadPetitionError": "Failed to load application for review",
-      "approveError": "Error approving application",
-      "rejectError": "Error rejecting application"
+      "missingSignature": "missing signature parameters",
+      "loadPetitionError": "Failed to load petition for review",
+      "approveError": "Error approving petition",
+      "rejectError": "Error rejecting petition"
+    },
+    "gdprAcceptanceDialog": {
+      "updateFailed": "The update of the user agreement failed. Please try again."
     },
     "clerkView": {
       "unauthorized": "You are not authorized to access the HR administration view."
     },
-    "RoleDashboardView": {
+    "roles": {
       "unauthorized": "You are not authorized to access this view. Please select a valid role."
     }
   },

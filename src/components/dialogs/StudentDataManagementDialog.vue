@@ -19,17 +19,34 @@
             </v-card>
           </v-window-item>
           <v-window-item :value="2">
+            <v-card>
+              <v-card-text>
+                <h2 class="sr-only">
+                  {{ $t('studentDataManagementDialog.tabs.prevEmploymens') }}
+                </h2>
+                <p>
+                  {{ $t('studentDataManagementDialog.content.prevEmploymens') }}
+                </p>
+                <PriorEmploymentForm
+                  ref="employmentDataFormRef"
+                  :initial-employment-data="employmentData"
+                ></PriorEmploymentForm>
+              </v-card-text>
+            </v-card>
+          </v-window-item>
+          <v-window-item :value="3">
             <v-card flat>
               <v-card-text>
                 <h2 class="sr-only">
                   {{ $t('studentDataManagementDialog.tabs.files') }}
                 </h2>
                 <p>{{ $t('studentDataManagementDialog.content.files') }}</p>
-                <FilesUploadForm
-                  ref="filesUploadFormRef"
+                <StudentFilesUploadForm
+                  ref="StudentFilesUploadFormRef"
                   class="mt-6"
                   :initial-documents="documentData"
-                  :showBaDegreeField="showBaDegreeField"
+                  :show-ba-degree-field="showBaDegreeField"
+                  :show-residence-permit-field="requiresResidencePermitUpload"
                 />
               </v-card-text>
             </v-card>
@@ -40,42 +57,31 @@
 
     <template #actions>
       <v-spacer></v-spacer>
-      <!-- Next button for student data form (first step) -->
-      <v-btn
-        v-if="step === 1"
-        color="primary"
-        :disabled="!isPersonalFormValid || isSaving"
-        :loading="isSaving"
-        @click="saveAndContinue"
-      >
-        {{ $t('actions.next') }}
-      </v-btn>
-      <!-- Back  and save button for document upload form (second step)   -->
-      <v-btn v-if="step === 2" text @click="step = 1">
+      <v-btn v-if="step !== 1" text @click="step -= 1">
         {{ $t('actions.back') }}
       </v-btn>
       <v-btn
-        v-if="step === 2"
         color="primary"
-        :disabled="!isFilesFormValid || isSaving"
+        :disabled="!isCurrentFormValid || isSaving"
         :loading="isSaving"
-        @click="saveDocuments"
+        @click="handleNextBtn"
       >
-        {{ $t('actions.save') }}
+        {{ step.value !== 3 ? $t('actions.next') : $t('actions.save') }}
       </v-btn>
     </template>
   </CustomDialog>
 </template>
 
 <script setup>
-import { PETITION_STATUS } from '@/utils/statusUtils';
 import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import ContentApiService from '@/services/contentApiService';
 import EmployeeDataForm from '@/components/forms/EmployeeDataForm.vue';
-import FilesUploadForm from '@/components/forms/StudentFilesUploadForm.vue';
+import StudentFilesUploadForm from '@/components/forms/documents/StudentFilesUploadForm.vue';
 import CustomDialog from '@/components/dialogs/base/CustomDialog.vue';
+import PriorEmploymentForm from '@/components/forms/fields/PriorEmploymentForm.vue';
+import { format } from 'date-fns';
 
 const props = defineProps({
   petitions: {
@@ -90,18 +96,28 @@ const props = defineProps({
     type: Object,
     default: null,
   },
+  employmentData: {
+    type: Array,
+    default: null,
+  },
   showBaDegreeField: {
     type: Boolean,
     default: false,
   },
 });
-const emit = defineEmits(['close', 'refresh']);
+const emit = defineEmits([
+  'close',
+  'refresh-employee-data',
+  'refresh-prev-emp',
+  'refresh-documents',
+]);
 
 const store = useStore();
 const { t } = useI18n();
 
 const employeeDataFormRef = ref(null);
-const filesUploadFormRef = ref(null);
+const StudentFilesUploadFormRef = ref(null);
+const employmentDataFormRef = ref(null);
 const step = ref(1);
 const isSaving = ref(false);
 
@@ -109,7 +125,26 @@ const isPersonalFormValid = computed(() => {
   return employeeDataFormRef.value?.isFormValid ?? false;
 });
 const isFilesFormValid = computed(() => {
-  return filesUploadFormRef.value?.isFormValid ?? false;
+  return StudentFilesUploadFormRef.value?.isFormValid ?? false;
+});
+const isEmploymentFormValid = computed(() => {
+  return employmentDataFormRef.value?.isFormValid ?? false;
+});
+
+// eslint-disable-next-line vue/return-in-computed-property
+const isCurrentFormValid = computed(() => {
+  switch (step.value) {
+    case 1:
+      return isPersonalFormValid.value;
+    case 2:
+      return isEmploymentFormValid.value;
+    case 3:
+      return isFilesFormValid.value;
+  }
+});
+
+const requiresResidencePermitUpload = computed(() => {
+  return employeeDataFormRef.value?.requiresResidencePermitUpload ?? false;
 });
 
 const saveEmployeeData = async () => {
@@ -117,7 +152,10 @@ const saveEmployeeData = async () => {
     isSaving.value = true;
     const employeeData = employeeDataFormRef.value.formData;
     const formattedData = employeeData.toBackendFormat();
-    await ContentApiService.patch('/employees', formattedData);
+    await ContentApiService.patch(
+      `/employees/${props.employeeData.id}`,
+      formattedData
+    );
     return true; // Success
   } catch (error) {
     console.error('Error saving employee data:', error);
@@ -130,72 +168,131 @@ const saveEmployeeData = async () => {
   }
 };
 
-const saveAndContinue = async () => {
-  const success = await saveEmployeeData();
-  if (success) {
-    step.value = 2; // Only proceed to next step if save was successful
-  }
-};
-
 const saveDocuments = async () => {
   try {
     isSaving.value = true;
+
     const formData = new FormData();
-    const { files } = filesUploadFormRef.value;
+    const { files } = StudentFilesUploadFormRef.value;
 
-    if (files.elstam.length) formData.append('elstam', files.elstam[0]);
-    if (files.studienbescheinigung.length)
-      formData.append('studienbescheinigung', files.studienbescheinigung[0]);
-    if (files.versicherungsbescheinigung.length)
-      formData.append(
-        'versicherungsbescheinigung',
-        files.versicherungsbescheinigung[0]
-      );
-    if (files.sozialversierungsbogen.length)
-      formData.append(
-        'sozialversicherungsbogen',
-        files.sozialversierungsbogen[0]
-      );
-    if (files.ba_degree.length)
-      formData.append('ba_degree', files.ba_degree[0]);
+    // backend field and files keys mapping
+    const docMap = {
+      elstam: 'elstam',
+      studienbescheinigung: 'studienbescheinigung',
+      versicherungsbescheinigung: 'versicherungsbescheinigung',
+      sozialversicherungsbogen: 'sozialversicherungsbogen',
+      ba_degree: 'ba_degree',
+      residence_permit: 'residence_permit',
+      id_photo: 'id_photo',
+    };
 
-    await ContentApiService.patch('/documents', formData);
+    for (const [backendField, filesKey] of Object.entries(docMap)) {
+      const arr = files?.[filesKey];
+      if (Array.isArray(arr) && arr.length > 0 && arr[0]) {
+        formData.append(backendField, arr[0]);
+      }
+    }
+
+    await ContentApiService.patch(`/documents/${props.documentData.id}`, formData);
     store.dispatch('snackbar/setSnack', {
       message: t('studentDataManagementDialog.saveSuccess'),
     });
-    await notifyClerkOfChanges();
-    // this refresh handles both the document update and clerk notification updates
-    emit('refresh');
-    emit('close');
+    return true; // Success
   } catch (error) {
     console.error('Error saving files:', error);
     store.dispatch('snackbar/setErrorSnacks', {
       message: t('errors.studentData.savingFiles'),
     });
+    return false; // Failure
   } finally {
     isSaving.value = false;
   }
 };
-// Notify clerk about changes in petitions that were under clerk revision
-const notifyClerkOfChanges = async () => {
-  try {
-    const petitionsUnderClerkRevision = props.petitions.filter(
-      (petition) => petition.status === PETITION_STATUS.CLERK_REVISION
-    );
-    if (petitionsUnderClerkRevision.length === 0) return;
 
-    await Promise.all(
-      petitionsUnderClerkRevision.map((petition) =>
-        ContentApiService.patch(
-          `/students/petitions/${petition.id}/revision-done`
-        )
-      )
-    );
+const saveEmploymentData = async () => {
+  try {
+    isSaving.value = true;
+    const { prevEmployments, allFieldsProvided, hasEntryChanged } =
+      employmentDataFormRef.value;
+    // IF no employments were provided the Array consists of one default object
+    if (
+      prevEmployments.length === 1 &&
+      !allFieldsProvided(prevEmployments[0])
+    ) {
+      isSaving.value = false;
+      return true;
+    }
+
+    for (const entry of prevEmployments) {
+      // strip id and user_account as we dont want it to be sent for patches
+      let { proof, id, user_account, ...fields } = entry;
+      fields.start = format(fields.start, 'yyyy-MM-dd');
+      fields.end = format(fields.end, 'yyyy-MM-dd');
+      if (!id) {
+        const fieldSaveResponse = await ContentApiService.post(
+          '/prev_employments',
+          fields
+        );
+        id = fieldSaveResponse.data.id;
+      } else if (hasEntryChanged(entry)) {
+        await ContentApiService.patch(`/prev_employments/${id}`, fields);
+      }
+
+      if (typeof proof !== 'string') {
+        const formData = new FormData();
+        formData.append('proof', proof);
+        await ContentApiService.patch(
+          `/prev_employments/${id}/proof`,
+          formData
+        );
+      }
+    }
+    return true;
   } catch (error) {
-    console.error('Error informing clerk about student changes:', error);
+    console.error('Error saving files:', error);
     store.dispatch('snackbar/setErrorSnacks', {
-      message: t('errors.studentData.notifyingClerk'),
+      message: t('errors.employmentData.savingFiles'),
     });
+    return false; // Failure
+  } finally {
+    isSaving.value = false;
   }
 };
+
+async function handleNextBtn() {
+  let saveFn;
+  switch (step.value) {
+    case 1:
+      saveFn = async () => {
+        return saveEmployeeData().then((retVal) => {
+          emit('refresh-employee-data');
+          return retVal;
+        });
+      };
+      break;
+    case 2:
+      saveFn = async () => {
+        return saveEmploymentData().then((retVal) => {
+          emit('refresh-prev-emp');
+          return retVal;
+        });
+      };
+      break;
+    case 3:
+      saveFn = async () => {
+        return saveDocuments().then((retVal) => {
+          emit('refresh-documents');
+          return retVal;
+        });
+      };
+      break;
+  }
+  const success = await saveFn();
+  if (success) {
+    step.value += 1;
+    if (step.value > 3) {
+      emit('close');
+    }
+  }
+}
 </script>

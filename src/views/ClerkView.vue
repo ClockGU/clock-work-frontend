@@ -5,7 +5,6 @@
         <ClerkDataDisplay
           :petition="selectedPetition"
           @close="selectPetition(null)"
-          @refresh="handleRefresh"
           @approve="handleApproval"
         />
       </v-col>
@@ -31,11 +30,11 @@
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
+import { log } from '@/utils/log';
+import Petition from '@/models/Petition';
 import ContentApiService from '@/services/contentApiService';
 import ClerkDataDisplay from '@/components/clerk/ClerkDataDisplay.vue';
 import ClerkPetitionTable from '@/components/tables/ClerkPetitionTable.vue';
-import loginErrorHandler from '@/utils/loginErrorHandler';
-import { log } from '@/utils/log';
 
 const store = useStore();
 const { t } = useI18n();
@@ -44,17 +43,24 @@ let socket = null;
 const selectedPetition = ref(null);
 const petitions = ref([]);
 
-const userRole = computed(() => store.getters['auth/userRole']);
 const user = computed(() => store.getters['auth/user']);
 
 const connectWebSocket = () => {
   const clerkId = user.value.id;
-  const wsUrl = `ws://localhost:8030/ws/${clerkId}`;
+  const baseUri = import.meta.env.VITE_WEBSOCKET_URI;
+
+  const isLocal = baseUri.includes('localhost');
+  const protocol = isLocal ? 'ws' : 'wss';
+
+  const wsUrl = `${protocol}://${baseUri}/ws/${clerkId}`;
 
   socket = new WebSocket(wsUrl);
 
   socket.onopen = () => {
     log('WebSocket connected');
+    socket.send(
+      JSON.stringify({ type: 'auth', token: store.getters['auth/accessToken'] })
+    );
   };
 
   socket.onmessage = (event) => {
@@ -65,7 +71,7 @@ const connectWebSocket = () => {
       message.type === 'new_petition' ||
       message.type === 'updated_petitions'
     ) {
-      const incomingPetitions = message.data;
+      const incomingPetitions = message.data.map((item) => new Petition(item));
       petitions.value = incomingPetitions;
     }
   };
@@ -86,12 +92,6 @@ const disconnectWebSocket = () => {
   }
 };
 
-const checkClerkAuthorization = (role) => {
-  if (role !== 2) {
-    loginErrorHandler.setLoginError(t('errors.clerkView.unauthorized'));
-  }
-};
-
 const selectPetition = (petition) => {
   selectedPetition.value = petition;
 };
@@ -102,8 +102,6 @@ const handleApproval = async (petitionId) => {
       approved: true,
     });
     selectedPetition.value = null;
-    // Force refresh the data after approval
-    await handleRefresh();
   } catch (error) {
     console.error('Error accepting petition:', error);
     store.dispatch('snackbar/setErrorSnacks', {
@@ -111,35 +109,7 @@ const handleApproval = async (petitionId) => {
     });
   }
 };
-//refresh by fetching all petitions
-const handleRefresh = async () => {
-  try {
-    const response = await ContentApiService.get('/clerk/petitions');
-    petitions.value = response.data;
-  } catch (error) {
-    if (error.response?.status === 404) {
-      petitions.value = [];
-    } else {
-      console.error('Error fetching petitions:', error);
-      store.dispatch('snackbar/setErrorSnacks', {
-        message: t('errors.petition.fetching'),
-      });
-    }
-  }
-};
 
-watch(
-  userRole,
-  (newRole) => {
-    checkClerkAuthorization(newRole);
-    if (newRole === 2) {
-      connectWebSocket();
-    } else {
-      disconnectWebSocket();
-    }
-  },
-  { immediate: true }
-);
 // sync selectedPetition with petitions
 watch(petitions, (newPetitions) => {
   const updatedSelectedPetition = newPetitions.find(
@@ -153,10 +123,7 @@ watch(petitions, (newPetitions) => {
 });
 
 onMounted(() => {
-  checkClerkAuthorization(userRole.value);
-  if (userRole.value === 2) {
-    connectWebSocket();
-  }
+  connectWebSocket();
 });
 
 onUnmounted(() => {

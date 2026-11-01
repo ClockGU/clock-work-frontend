@@ -18,12 +18,20 @@ import {
 } from 'vuetify/labs/VStepperVertical';
 import * as components from 'vuetify/components';
 
+// Date
+import { createVueI18nAdapter } from 'vuetify/locale/adapters/vue-i18n';
+import i18n from '@/plugins/i18n';
+import { useI18n } from 'vue-i18n';
+
 export default createVuetify({
   components: {
     VDateInput,
     VStepperVertical,
     VStepperVerticalItem,
     ...components,
+  },
+  locale:{
+    adapter: createVueI18nAdapter({i18n, useI18n}),
   },
   icons: {
     defaultSet: 'mdi',

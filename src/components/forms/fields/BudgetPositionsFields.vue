@@ -1,6 +1,6 @@
 <template>
   <v-label class="text-subtitle-1 font-weight-medium">
-    {{ $t('petition.budgetPositions') }}:
+    {{ $t('petition.budgetPositions') }}
   </v-label>
 
   <div

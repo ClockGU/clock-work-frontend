@@ -10,28 +10,18 @@
     @update:model-value="closeDrawer"
   >
     <v-row class="mt-4 mb-4" justify="center">
-      <router-link
-        v-slot="{ navigate }"
-        :to="redirectTo"
-        custom
-        :aria-label="
-          redirectTo === '/roles'
-            ? $t('ariaLabel.navigation.roles')
-            : $t('ariaLabel.navigation.dashboard')
-        "
-      >
+      <router-link v-slot="{ navigate }" :to="redirectTo" custom>
         <a
           style="display: inline-block; cursor: pointer"
+          :aria-label="
+            redirectTo === '/roles'
+              ? $t('ariaLabel.navigation.roles')
+              : $t('ariaLabel.navigation.dashboard')
+          "
           @click="navigate"
           @keypress.enter="navigate"
         >
-          <v-img
-            width="240px"
-            height="36px"
-            :src="svg"
-            alt="clock Logo"
-            aria-hidden="false"
-          />
+          <ClockWorkIcon height="64" width="250" />
         </a>
       </router-link>
     </v-row>
@@ -121,7 +111,7 @@ import {
 import { ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-import svg from '@/assets/clock_full.svg';
+import ClockWorkIcon from '@/icons/ClockWorkIcon.vue';
 
 const props = defineProps({
   drawer: {

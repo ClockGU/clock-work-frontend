@@ -48,10 +48,10 @@ const emit = defineEmits(['close', 'refresh']);
 
 const employeeData = ref({});
 
-const fetchEmployeeData = async (petitionId) => {
+const fetchEmployeeData = async (student_username) => {
   try {
     const response = await ContentApiService.get(
-      `/employees/petition/${petitionId}`
+      `/employees/${student_username}`
     );
     employeeData.value = response.data;
   } catch (error) {
@@ -66,7 +66,7 @@ watch(
   () => props.petition,
   (newPetition) => {
     if (newPetition) {
-      fetchEmployeeData(newPetition.id);
+      fetchEmployeeData(newPetition.student_username);
     } else {
       employeeData.value = {};
     }

@@ -1,4 +1,5 @@
-import { parse, format, isValid } from 'date-fns';
+import { localizedFormat } from '@/utils/date';
+import { parse, isValid } from 'date-fns';
 
 const DATE_KEYS = [
   'start_date',
@@ -14,18 +15,25 @@ class Petition {
     this.id = data.id || '';
     this.user_account = data.user_account || '';
     this.supervisor_mail = data.supervisor_mail || '';
+    this.student_mail = data.student_mail || '';
     this.student_username = data.student_username || '';
     this.org_unit = data.org_unit || '';
     this.eos_number = data.eos_number || '';
-    this.minutes = data.minutes || 0;
+    this.minutes = data.minutes ? Number(data.minutes) : 0;
     this.ba_degree = data.ba_degree ?? false;
     this.status = data.status || '';
+
     this.time_exce_student = data.time_exce_student ?? false;
     this.time_exce_course = data.time_exce_course ?? false;
     this.time_exce_time = data.time_exce_time || '';
-    this.duration_exce_course = data.duration_exce_course ?? false;
     this.time_exce_name = data.time_exce_name || '';
+
+    this.duration_exce_student = data.duration_exce_student ?? false;
+    this.duration_exce_course = data.duration_exce_course ?? false;
     this.duration_exce_name = data.duration_exce_name || '';
+    this.duration_exce_start = data.duration_exce_start || undefined;
+    this.duration_exce_end = data.duration_exce_end || undefined;
+
     this.budget_positions = data.budget_positions || [
       {
         id: '',
@@ -38,28 +46,28 @@ class Petition {
 
     DATE_KEYS.forEach((key) => {
       if (data[key]) {
-        this[key] = this.parseDate(data[key]);
+        const d = this.parseDate(data[key]);
+        this[key] = d ? localizedFormat(d, 'dd.MM.yyyy') : null;
       } else {
         this[key] = null;
       }
     });
   }
+  get hours() {
+    return this.minutes / 60;
+  }
+  parseDate(value) {
+    if (!value) return null;
+    if (value instanceof Date) return isValid(value) ? value : null;
 
-  parseDate(dateValue) {
-    if (!dateValue) return null;
-
-    if (dateValue instanceof Date && isValid(dateValue)) {
-      return dateValue;
-    }
-    if (typeof dateValue === 'string') {
-      const dateObj = new Date(dateValue);
-      if (isValid(dateObj)) return dateObj;
-
-      const parsedDate = parse(dateValue, 'dd.MM.yyyy', new Date());
-      if (isValid(parsedDate)) return parsedDate;
-    }
-
-    return null;
+    const s = String(value).trim();
+    // Return the first valid date found from our supported formats
+    return (
+      [
+        parse(s, 'yyyy-MM-dd', new Date()),
+        parse(s, 'dd.MM.yyyy', new Date()),
+      ].find(isValid) || null
+    );
   }
 
   static fromBackendResponse(data) {
@@ -70,11 +78,8 @@ class Petition {
     const formattedData = { ...this };
 
     DATE_KEYS.forEach((key) => {
-      if (formattedData[key] && isValid(formattedData[key])) {
-        formattedData[key] = format(formattedData[key], 'yyyy-MM-dd');
-      } else {
-        formattedData[key] = null;
-      }
+      const d = this.parseDate(formattedData[key]);
+      formattedData[key] = d ? localizedFormat(d, 'yyyy-MM-dd') : null;
     });
 
     // Exclude 'status' and any empty or null fields
