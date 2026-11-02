@@ -193,7 +193,10 @@ const saveDocuments = async () => {
       }
     }
 
-    await ContentApiService.patch(`/documents/${props.documentData.id}`, formData);
+    await ContentApiService.patch(
+      `/documents/${props.documentData.id}`,
+      formData
+    );
     store.dispatch('snackbar/setSnack', {
       message: t('studentDataManagementDialog.saveSuccess'),
     });

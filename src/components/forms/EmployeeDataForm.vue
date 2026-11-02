@@ -272,7 +272,6 @@ const phoneRule = (v) =>
 const ibanRule = (v) =>
   /^[A-Z]{2}\d{20}$/.test(v) || t('validationRule.invalidIban');
 
-
 const requiresResidencePermitUpload = computed(() =>
   isVisaUploadRequired(formData.value.nationality)
 );

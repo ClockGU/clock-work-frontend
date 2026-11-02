@@ -85,7 +85,6 @@ export function makeDisplayDate({
   };
 }
 
-
 export const displayDate = makeDisplayDate({
   displayFormat: 'dd.MM.yyyy',
   primaryParseFormat: 'dd-MM-yyyy',

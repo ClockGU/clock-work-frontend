@@ -106,7 +106,7 @@ const exceptionRules = computed(() => [
 async function handleReselect(value) {
   if (value === exception.value) {
     emit('update:exception', null);
-    await radio.value.reset()
+    await radio.value.reset();
     await radio.value.validate();
     return;
   }

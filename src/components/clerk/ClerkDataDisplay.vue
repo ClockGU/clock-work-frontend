@@ -132,7 +132,7 @@ const fetchPrevEmploymentData = async () => {
 
 watch(
   () => props.petition,
-  (petition) => petition ? fetchPrevEmploymentData() : null,
+  (petition) => (petition ? fetchPrevEmploymentData() : null),
   { immediate: true }
 );
 </script>

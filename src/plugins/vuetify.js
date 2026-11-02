@@ -30,8 +30,8 @@ export default createVuetify({
     VStepperVerticalItem,
     ...components,
   },
-  locale:{
-    adapter: createVueI18nAdapter({i18n, useI18n}),
+  locale: {
+    adapter: createVueI18nAdapter({ i18n, useI18n }),
   },
   icons: {
     defaultSet: 'mdi',

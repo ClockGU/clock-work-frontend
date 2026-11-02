@@ -230,7 +230,9 @@ watch(
   () => props.petition,
   (newPetition) => {
     if (newPetition) {
-      formData.value = Petition.fromBackendResponse(newPetition.toBackendFormat());
+      formData.value = Petition.fromBackendResponse(
+        newPetition.toBackendFormat()
+      );
     } else {
       formData.value = new Petition();
     }
@@ -249,7 +251,7 @@ const parseContractDate = (value) => {
   return isValid(parsed) ? parsed : null;
 };
 
-const MIN_WORKING_HOURS_MINUTES = 40*60;
+const MIN_WORKING_HOURS_MINUTES = 40 * 60;
 
 // Worktime (< 40h/month) requires a time exception
 const worktimeRequiresTimeException = computed(() => {

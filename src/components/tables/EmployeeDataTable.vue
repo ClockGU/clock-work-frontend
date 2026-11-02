@@ -109,7 +109,7 @@ const tableRows = computed(() => {
     'health_insurance',
     'previously_employeed',
     'prev_emp_duration',
-    'iban'
+    'iban',
   ];
 
   fieldOrder.forEach((key) => {

@@ -117,7 +117,7 @@ const update = async () => {
             JSON.stringify(value) !== JSON.stringify(originalData[key])
         )
       );
-      console.log(JSON.stringify(changedData))
+      console.log(JSON.stringify(changedData));
       if (Object.keys(changedData).length === 0) {
         closeDialog();
         return;
