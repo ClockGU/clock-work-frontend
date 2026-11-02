@@ -2,7 +2,7 @@ import { de, enUS as en } from 'date-fns/locale';
 import { createI18n } from 'vue-i18n';
 import deLocale from '../locales/de.json';
 import enLocale from '../locales/en.json';
-import {en as vuetifyEN, de as vuetifyDE} from 'vuetify/locale';
+import { en as vuetifyEN, de as vuetifyDE } from 'vuetify/locale';
 
 const LOCALES = {
   de: {
@@ -26,7 +26,7 @@ const i18n = createI18n({
   fallbackLocale: 'de',
   messages: {
     de: { $vuetify: vuetifyDE, ...deLocale },
-    en: { $vuetify:  vuetifyEN, ...enLocale },
+    en: { $vuetify: vuetifyEN, ...enLocale },
   },
   allowComposition: true,
 });

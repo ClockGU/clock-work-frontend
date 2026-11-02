@@ -43,8 +43,10 @@ const isFormValid = computed(() =>
 
 // Check if all employments provided exceed the legal maximum of 72 months of employment.
 const maxEmploymentExceeded = computed(() => {
-  const durations = prevEmployments.value.map((item) => differenceInMonths(item.end, item.start));
-  const totalMonths = durations.reduce((sum, curr)=> sum + curr);
+  const durations = prevEmployments.value.map((item) =>
+    differenceInMonths(item.end, item.start)
+  );
+  const totalMonths = durations.reduce((sum, curr) => sum + curr);
   return totalMonths >= 72;
 });
 
@@ -257,8 +259,8 @@ defineExpose({
         <v-alert type="warning">
           Your maximum employment time as as scientific worker has exceeded 72
           months. You can proceed but the employment petition will be declined
-          by a clerk later on due to the maximum of 72 months of employment at German
-          universities.
+          by a clerk later on due to the maximum of 72 months of employment at
+          German universities.
         </v-alert>
       </v-col>
     </v-row>

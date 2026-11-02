@@ -133,7 +133,7 @@
 
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue';
-import { addYears, isAfter, isBefore, isValid, parse } from 'date-fns';
+import { addYears, isAfter, isBefore, isValid, parse, subDays } from 'date-fns';
 import {
   mdiAccount,
   mdiEmail,
@@ -230,7 +230,9 @@ watch(
   () => props.petition,
   (newPetition) => {
     if (newPetition) {
-      formData.value = Petition.fromBackendResponse(newPetition.toBackendFormat());
+      formData.value = Petition.fromBackendResponse(
+        newPetition.toBackendFormat()
+      );
     } else {
       formData.value = new Petition();
     }
@@ -249,13 +251,13 @@ const parseContractDate = (value) => {
   return isValid(parsed) ? parsed : null;
 };
 
-const MIN_WORKING_HOURS = 40;
+const MIN_WORKING_HOURS_MINUTES = 40 * 60;
 
 // Worktime (< 40h/month) requires a time exception
 const worktimeRequiresTimeException = computed(() => {
-  const workingHours = Number(formData.value.minutes);
-  if (!Number.isFinite(workingHours)) return false;
-  return workingHours > 0 && workingHours < MIN_WORKING_HOURS;
+  const worktimeMinutes = Number(formData.value.minutes);
+  if (!Number.isFinite(worktimeMinutes)) return false;
+  return worktimeMinutes > 0 && worktimeMinutes < MIN_WORKING_HOURS_MINUTES;
 });
 
 // Contract duration (< 1 year) requires a duration exception
@@ -264,7 +266,7 @@ const durationRequiresException = computed(() => {
   const end = parseContractDate(formData.value.end_date);
   if (!start || !end) return false;
   if (!isAfter(end, start)) return false;
-  return isBefore(end, addYears(start, 1));
+  return isBefore(end, subDays(addYears(start, 1), 1));
 });
 // Validation rules
 const requiredRule = (v) => !!v || t('validationRule.required');

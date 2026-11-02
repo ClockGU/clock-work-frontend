@@ -1,0 +1,29 @@
+name: Prettier
+
+on:
+  pull_request:
+    # opened + reopened + synchronize (= new commits pushed to the PR branch)
+    types: [opened, synchronize, reopened]
+
+# Cancel an older run if new commits arrive while it's still going
+concurrency:
+  group: prettier-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm }
+      - run: yarn install --frozen-lockfile
+      - run: yarn run format
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "style: apply prettier"
