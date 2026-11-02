@@ -76,8 +76,10 @@ const { mdAndDown } = useDisplay();
               <p>&#8594; Antragsteller muss handeln.</p>
             </li>
             <li>
-              <p>Sachbearbeitung-Revision: Studierendendaten unvollständig oder
-                fehlerhaft (Details in Mail)</p>
+              <p>
+                Sachbearbeitung-Revision: Studierendendaten unvollständig oder
+                fehlerhaft (Details in Mail)
+              </p>
               <p>&#8594; Studierend*e muss handeln.</p>
             </li>
           </ul>
@@ -139,18 +141,24 @@ const { mdAndDown } = useDisplay();
           </span>
           <ul class="shift-lists">
             <li>
-              <p>Budget approver revision: Budget request not acceptable for the
-                specified budget position (details in email)</p>
+              <p>
+                Budget approver revision: Budget request not acceptable for the
+                specified budget position (details in email)
+              </p>
               <p>&#8594; Supervisor must act.</p>
             </li>
             <li>
-              <p>Student revision: Request not acceptable due to duration or number
-                of hours (details in email)</p>
+              <p>
+                Student revision: Request not acceptable due to duration or
+                number of hours (details in email)
+              </p>
               <p>&#8594; Supervisor must act.</p>
             </li>
             <li>
-              <p>Clerk revision: Student data incorrect or incomplete (details in
-                email)</p>
+              <p>
+                Clerk revision: Student data incorrect or incomplete (details in
+                email)
+              </p>
               <p>&#8594; Student must act.</p>
             </li>
           </ul>
@@ -168,6 +176,6 @@ const { mdAndDown } = useDisplay();
 
 <style scoped>
 p {
-  margin-bottom: 0.25rem
+  margin-bottom: 0.25rem;
 }
 </style>

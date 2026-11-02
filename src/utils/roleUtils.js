@@ -53,7 +53,9 @@ export const currentRole = computed(() => {
 export function filterForClerkResponsibility(items, filterName) {
   const filterCriteria = clerkResponsibilities[filterName];
   if (!filterCriteria) {
-    console.error(`Filter criteria ${filterName} does not exist in clerkResponsibilities.`);
+    console.error(
+      `Filter criteria ${filterName} does not exist in clerkResponsibilities.`
+    );
     return items;
   }
   return items.filter((item) =>

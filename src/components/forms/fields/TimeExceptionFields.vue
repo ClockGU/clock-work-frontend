@@ -84,7 +84,7 @@ const positiveNumberRule = (v) =>
 async function handleReselect(value) {
   if (value === exception.value) {
     emit('update:exception', null);
-    await radio.value.reset()
+    await radio.value.reset();
     await radio.value.validate();
 
     return;
@@ -93,8 +93,7 @@ async function handleReselect(value) {
 }
 
 const exceptionRules = computed(() => [
-  (v) =>
-    !props.required || !!v || t('validationRule.timeExceptionRequired'),
+  (v) => !props.required || !!v || t('validationRule.timeExceptionRequired'),
 ]);
 
 // Reset fields when unchecked

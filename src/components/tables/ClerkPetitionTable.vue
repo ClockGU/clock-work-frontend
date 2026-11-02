@@ -34,7 +34,12 @@
       </v-row>
       <v-row>
         <v-col cols="12" class="d-flex align-center">
-          <v-radio-group v-model="filterName" label="Personenfilter" inline hide-details>
+          <v-radio-group
+            v-model="filterName"
+            label="Personenfilter"
+            inline
+            hide-details
+          >
             <v-radio
               :value="''"
               class="mr-4"
@@ -124,7 +129,10 @@ const filteredItems = computed(() => {
   }
   // 2. If a clerk responsibility specific filter is selected.
   if (filterName.value) {
-    itemsToFilter = filterForClerkResponsibility(itemsToFilter, filterName.value);
+    itemsToFilter = filterForClerkResponsibility(
+      itemsToFilter,
+      filterName.value
+    );
   }
   // 3. If there's no search term, return the list .
   if (!searchTerm.value) {
