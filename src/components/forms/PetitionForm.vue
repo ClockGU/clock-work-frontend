@@ -249,13 +249,13 @@ const parseContractDate = (value) => {
   return isValid(parsed) ? parsed : null;
 };
 
-const MIN_WORKING_HOURS = 40;
+const MIN_WORKING_HOURS_MINUTES = 40*60;
 
 // Worktime (< 40h/month) requires a time exception
 const worktimeRequiresTimeException = computed(() => {
-  const workingHours = Number(formData.value.minutes);
-  if (!Number.isFinite(workingHours)) return false;
-  return workingHours > 0 && workingHours < MIN_WORKING_HOURS;
+  const worktimeMinutes = Number(formData.value.minutes);
+  if (!Number.isFinite(worktimeMinutes)) return false;
+  return worktimeMinutes > 0 && worktimeMinutes < MIN_WORKING_HOURS_MINUTES;
 });
 
 // Contract duration (< 1 year) requires a duration exception
