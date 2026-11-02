@@ -133,7 +133,7 @@
 
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue';
-import { addYears, isAfter, isBefore, isValid, parse } from 'date-fns';
+import { addYears, isAfter, isBefore, isValid, parse, subDays } from 'date-fns';
 import {
   mdiAccount,
   mdiEmail,
@@ -264,7 +264,7 @@ const durationRequiresException = computed(() => {
   const end = parseContractDate(formData.value.end_date);
   if (!start || !end) return false;
   if (!isAfter(end, start)) return false;
-  return isBefore(end, addYears(start, 1));
+  return isBefore(end, subDays(addYears(start, 1), 1));
 });
 // Validation rules
 const requiredRule = (v) => !!v || t('validationRule.required');
