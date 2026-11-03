@@ -71,8 +71,8 @@ const AuthApiService = {
    * Refresh the access token.
    */
   refreshToken(token) {
-    return axios.get(`${import.meta.env.VITE_AUTH_API}/auth/refresh`, {
-      params: { token },
+    return axios.post(`${import.meta.env.VITE_AUTH_API}/auth/refresh`, {
+      refresh_token: token
     });
   },
   /**

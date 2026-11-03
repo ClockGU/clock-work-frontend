@@ -41,8 +41,8 @@ const actions = {
     try {
       const response = await AuthApiService.refreshToken(getters.refreshToken);
       await dispatch('setTokens', {
-        access_token: response.data.access,
-        refresh_token: response.data.refresh,
+        access_token: response.data.access_token,
+        refresh_token: response.data.refresh_token,
       });
       return Promise.resolve(response);
     } catch (error) {
