@@ -37,6 +37,16 @@ const actions = {
     AuthApiService.logout();
   },
   setUser: ({ commit }, payload) => commit('setUser', payload),
+  async updateUser({ dispatch, getters }, data) {
+    const response = await AuthApiService.updateUserPartially(
+      data,
+      getters.user.id
+    );
+    // Refresh JWT in case data that is accessed by ContentAPI has changed
+    await dispatch('setUser', response.data);
+    await dispatch('refreshTokens');
+    return response;
+  },
   async refreshTokens({ dispatch, getters }) {
     try {
       const response = await AuthApiService.refreshToken(getters.refreshToken);
