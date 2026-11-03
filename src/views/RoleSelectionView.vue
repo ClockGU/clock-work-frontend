@@ -65,13 +65,8 @@ const redirectToDashboard = async (role) => {
       { user_role: roleValue },
       user.value.id
     );
-    const newAccessToken = response.data.new_jwt_token;
-    if (newAccessToken) {
-      AuthApiService.setAccessToken(newAccessToken);
-      store.dispatch('auth/setTokens', { access_token: newAccessToken });
-    }
-    store.dispatch('auth/setUser', response.data);
-    router.push({ path: `/dashboard/${role}` });
+    await store.dispatch('auth/setUser', response.data);
+    await router.push({ path: `/dashboard/${role}` });
   } catch (error) {
     console.error('Error updating user role:', error);
     if (error.response?.status === 401) {
@@ -89,13 +84,8 @@ const redirectToClerk = async () => {
       { user_role: 2 },
       user.value.id
     );
-    const newAccessToken = response.data.new_jwt_token;
-    if (newAccessToken) {
-      AuthApiService.setAccessToken(newAccessToken);
-      store.dispatch('auth/setTokens', { access_token: newAccessToken });
-    }
-    store.dispatch('auth/setUser', response.data);
-    router.push({ path: `/clerk` });
+    await store.dispatch('auth/setUser', response.data);
+    await router.push({ path: `/clerk` });
   } catch (error) {
     console.error('Error updating user role:', error);
     if (error.response?.status === 401) {
