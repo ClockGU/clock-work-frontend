@@ -32,7 +32,6 @@
 
 <script setup>
 import CustomDialog from '@/components/dialogs/base/CustomDialog.vue';
-import AuthApiService from '@/services/authApiService';
 import { computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
@@ -51,11 +50,7 @@ const agreeToPrivacyPolicy = async () => {
 
   isSaving.value = true;
   try {
-    await AuthApiService.updateUserPartially({ dsgvo_accepted: true }, user.value.id);
-    await store.dispatch('auth/setUser', {
-      ...user.value,
-      dsgvo_accepted: true,
-    });
+    await store.dispatch('auth/updateUser', { dsgvo_accepted: true });
 
     // Close only on success
     model.value = false;

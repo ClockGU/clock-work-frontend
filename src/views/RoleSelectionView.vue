@@ -54,18 +54,13 @@ const router = useRouter();
 const store = useStore();
 const { t } = useI18n();
 
-const user = computed(() => store.getters['auth/user']);
 const showClerkCard = computed(() => {
   return import.meta.env.VITE_SHOW_CLERK_CARD === 'true';
 });
 const redirectToDashboard = async (role) => {
   try {
     const roleValue = role === 'supervisor' ? 1 : 0;
-    const response = await AuthApiService.updateUserPartially(
-      { user_role: roleValue },
-      user.value.id
-    );
-    await store.dispatch('auth/setUser', response.data);
+    await store.dispatch('auth/updateUser', { user_role: roleValue });
     await router.push({ path: `/dashboard/${role}` });
   } catch (error) {
     console.error('Error updating user role:', error);
@@ -80,11 +75,7 @@ const redirectToDashboard = async (role) => {
 
 const redirectToClerk = async () => {
   try {
-    const response = await AuthApiService.updateUserPartially(
-      { user_role: 2 },
-      user.value.id
-    );
-    await store.dispatch('auth/setUser', response.data);
+    await store.dispatch('auth/updateUser', { user_role: 2 });
     await router.push({ path: `/clerk` });
   } catch (error) {
     console.error('Error updating user role:', error);
