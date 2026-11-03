@@ -45,7 +45,7 @@ onMounted(async () => {
     // Step 2: Store authentication tokens in Vuex
     await store.dispatch('auth/setTokens', {
       access_token: loginResponse.data.access_token,
-      refresh_token: null,
+      refresh_token: loginResponse.data.refresh_token,
     });
 
     // Step 3: Fetch user profile data and set language

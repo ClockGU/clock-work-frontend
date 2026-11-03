@@ -34,7 +34,6 @@ import { mdiChevronDown, mdiTranslate } from '@mdi/js';
 import { useDisplay } from 'vuetify';
 import { useStore } from 'vuex';
 import { getCurrentLocale, setLocale } from '@/plugins/i18n';
-import AuthApiService from '@/services/authApiService';
 
 const { smAndUp } = useDisplay();
 const store = useStore();
@@ -57,9 +56,8 @@ const switchLocale = async (newLocale) => {
   if (currentLocale === newLocale) return;
   try {
     setLocale(newLocale);
-    const userId = user.value?.id;
-    if (userId) {
-      await AuthApiService.updateUserPartially({ language: newLocale }, userId);
+    if (user.value?.id) {
+      await store.dispatch('auth/updateUser', { language: newLocale });
     }
   } catch (error) {
     console.error('Failed to update language:', error);
