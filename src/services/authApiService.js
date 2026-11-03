@@ -72,7 +72,7 @@ const AuthApiService = {
    */
   refreshToken(token) {
     return axios.post(`${import.meta.env.VITE_AUTH_API}/auth/refresh`, {
-      refresh_token: token
+      refresh_token: token,
     });
   },
   /**
