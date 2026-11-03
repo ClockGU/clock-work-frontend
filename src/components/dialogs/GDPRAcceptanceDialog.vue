@@ -51,7 +51,7 @@ const agreeToPrivacyPolicy = async () => {
 
   isSaving.value = true;
   try {
-    await AuthApiService.updateUser({ dsgvo_accepted: true }, user.value.id);
+    await AuthApiService.updateUserPartially({ dsgvo_accepted: true }, user.value.id);
     await store.dispatch('auth/setUser', {
       ...user.value,
       dsgvo_accepted: true,

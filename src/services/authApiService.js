@@ -75,17 +75,6 @@ const AuthApiService = {
       params: { token },
     });
   },
-
-  /**
-   * Update the current user's information.
-   */
-  updateUser(userData, userId) {
-    return axios.put(
-      `${import.meta.env.VITE_AUTH_API}/users/${userId}`,
-      userData
-    );
-  },
-
   /**
    * Partially update the current user's information.
    */
