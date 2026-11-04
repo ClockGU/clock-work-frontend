@@ -46,7 +46,10 @@ const setupInterceptors = () => {
 
       if (error.response?.status === 401 && !originalRequest._retry) {
         log('Handling 401 error - attempting token refresh');
-
+        // Reject if refresh attempt fails --> Logout
+        if (originalRequest.url.endsWith('/auth/refresh')) {
+          return Promise.reject(error);
+        }
         if (isRefreshing) {
           log('Token refresh already in progress - queuing request');
           return new Promise((resolve, reject) => {
@@ -71,15 +74,7 @@ const setupInterceptors = () => {
           }
 
           log('Refreshing token...');
-          const response = await AuthApiService.refreshToken(refreshToken);
-          const newToken = response.data.access;
-
-          log('Token refresh successful');
-          store.dispatch('auth/setAccessToken', newToken);
-          AuthApiService.setAccessToken(newToken);
-
-          processQueue(null, newToken);
-          originalRequest.headers.Authorization = `Bearer ${newToken}`;
+          await store.dispatch('auth/refreshTokens');
           return axios(originalRequest);
         } catch (refreshError) {
           log('Token refresh failed:', refreshError);

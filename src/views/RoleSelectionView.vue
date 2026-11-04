@@ -54,24 +54,14 @@ const router = useRouter();
 const store = useStore();
 const { t } = useI18n();
 
-const user = computed(() => store.getters['auth/user']);
 const showClerkCard = computed(() => {
   return import.meta.env.VITE_SHOW_CLERK_CARD === 'true';
 });
 const redirectToDashboard = async (role) => {
   try {
     const roleValue = role === 'supervisor' ? 1 : 0;
-    const response = await AuthApiService.updateUserPartially(
-      { user_role: roleValue },
-      user.value.id
-    );
-    const newAccessToken = response.data.new_jwt_token;
-    if (newAccessToken) {
-      AuthApiService.setAccessToken(newAccessToken);
-      store.dispatch('auth/setTokens', { access_token: newAccessToken });
-    }
-    store.dispatch('auth/setUser', response.data);
-    router.push({ path: `/dashboard/${role}` });
+    await store.dispatch('auth/updateUser', { user_role: roleValue });
+    await router.push({ path: `/dashboard/${role}` });
   } catch (error) {
     console.error('Error updating user role:', error);
     if (error.response?.status === 401) {
@@ -85,17 +75,8 @@ const redirectToDashboard = async (role) => {
 
 const redirectToClerk = async () => {
   try {
-    const response = await AuthApiService.updateUserPartially(
-      { user_role: 2 },
-      user.value.id
-    );
-    const newAccessToken = response.data.new_jwt_token;
-    if (newAccessToken) {
-      AuthApiService.setAccessToken(newAccessToken);
-      store.dispatch('auth/setTokens', { access_token: newAccessToken });
-    }
-    store.dispatch('auth/setUser', response.data);
-    router.push({ path: `/clerk` });
+    await store.dispatch('auth/updateUser', { user_role: 2 });
+    await router.push({ path: `/clerk` });
   } catch (error) {
     console.error('Error updating user role:', error);
     if (error.response?.status === 401) {

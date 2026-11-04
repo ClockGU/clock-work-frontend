@@ -71,21 +71,10 @@ const AuthApiService = {
    * Refresh the access token.
    */
   refreshToken(token) {
-    return axios.get(`${import.meta.env.VITE_AUTH_API}/auth/refresh`, {
-      params: { token },
+    return axios.post(`${import.meta.env.VITE_AUTH_API}/auth/refresh`, {
+      refresh_token: token,
     });
   },
-
-  /**
-   * Update the current user's information.
-   */
-  updateUser(userData, userId) {
-    return axios.put(
-      `${import.meta.env.VITE_AUTH_API}/users/${userId}`,
-      userData
-    );
-  },
-
   /**
    * Partially update the current user's information.
    */
